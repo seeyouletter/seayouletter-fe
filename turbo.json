@@ -10,6 +10,14 @@
     },
     "dev": {
       "cache": false
+    },
+    "build-storybook": {
+      "outputs": ["dist/**"]
+    },
+    "storybook": {
+      "outputs": ["dist/**"],
+      "dependsOn": ["build-storybook"],
+      "cache": false
     }
   },
   "remoteCache": {
