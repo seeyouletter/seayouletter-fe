@@ -9,10 +9,16 @@ module.exports = {
     "@storybook/addon-links",
     "@storybook/addon-essentials",
     "@storybook/addon-interactions",
+    /**
+     * @inner
+     * 현재 애드온에 대한 빌드 에러가 발생합니다.
+     * 
+     * @see
+     * https://github.com/chakra-ui/chakra-ui/issues/6433
+     */
     // "@chakra-ui/storybook-addon",
   ],
   "framework": "@storybook/react",
-  // NOTE: https://github.com/chakra-ui/chakra-ui/issues/6433
   "core": {
     "builder": "@storybook/builder-vite"
   },
@@ -20,9 +26,11 @@ module.exports = {
     "storyStoreV7": true,
     "emotionAlias": false,
   },
-  
+
+  /**
+   * @see: https://chakra-ui.com/getting-started/with-storybook#troubleshooting-storybook
+   */
   async viteFinal(config, { configType }) {
-    // return the customized config
     return mergeConfig(config, {
       module: {
         rules: [

@@ -11,13 +11,13 @@
     "build": "tsc && vite build",
     "preview": "vite preview",
     "storybook": "start-storybook -p 6006",
-    "build-storybook": "build-storybook"
+    "build-storybook": "build-storybook",
+    "lint": "eslint \"**/*.{js,jsx,ts,tsx,cjs,mjs}\" \".storybook/*.{js,jsx,ts,tsx,cjs,mjs}\""
   },
   "dependencies": {
     "@chakra-ui/icon": "^3.0.13",
     "@emotion/react": "^11.10.5",
     "@emotion/styled": "^11.10.5",
-    "eslint-config-custom": "workspace:^0.0.0",
     "framer-motion": "^7.7.2",
     "react": "^18.2.0",
     "ui": "workspace:^0.0.0"
@@ -49,6 +49,7 @@
     "@vitejs/plugin-react-swc": "^3.0.0",
     "babel-loader": "^8.3.0",
     "eslint": "^8.29.0",
+    "eslint-config-custom": "workspace:^0.0.0",
     "react-dom": "^18.2.0",
     "typescript": "^4.9.3",
     "vite": "^4.0.0",
