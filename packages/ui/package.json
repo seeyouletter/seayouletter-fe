@@ -1,11 +1,12 @@
 {
   "name": "ui",
   "version": "0.0.0",
-  "main": "./index.tsx",
-  "types": "./index.tsx",
+  "main": "./index.ts",
+  "types": "./index.ts",
   "license": "MIT",
   "scripts": {
     "lint": "eslint \"**/*.{js,jsx,ts,tsx,cjs,mjs}\"",
+    "stylelint": "stylelint \"**/*.{tsx,ts}\"",
     "stylelint:fix": "stylelint --fix \"**/*.{tsx,ts}\""
   },
   "devDependencies": {

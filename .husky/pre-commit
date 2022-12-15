@@ -4,3 +4,7 @@
 echo "🚦 PRE-COMMIT | lint-staged check..."
 
 pnpm lint-staged
+
+echo "💄 Almost done! stylelint check"
+
+pnpm stylelint
