@@ -11,9 +11,10 @@
     "build": "turbo run build",
     "dev": "turbo run dev --parallel",
     "lint": "turbo run lint",
-    "stylelint:fix": "turbo run stylelint:fix",
+    "stylelint": "turbo run stylelint",
     "format": "prettier --write \"**/*.{ts,tsx,md}\"",
     "ci:version": "changeset version",
+    "prettier:all": "prettier --write **/*.{js,json,md,html} --ignore-unknown --no-error-on-unmatched-pattern && prettier --write **/*.{tsx,ts} --ignore-unknown --no-error-on-unmatched-pattern",
     "prepare": "husky install"
   },
   "devDependencies": {
@@ -41,8 +42,7 @@
     ],
     "*.{tsx,ts}": [
       "prettier --write **/*.{tsx,ts} --ignore-unknown --no-error-on-unmatched-pattern",
-      "turbo run lint --fix",
-      "turbo run stylelint:fix"
+      "eslint \"**/*.{js,jsx,ts,tsx,cjs,mjs}\""
     ]
   }
 }

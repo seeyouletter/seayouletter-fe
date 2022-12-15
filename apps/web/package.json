@@ -7,7 +7,7 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
-    "stylelint:fix": "stylelint --fix \"**/*.{tsx,ts}\""
+    "stylelint": "stylelint \"**/*.{tsx,ts}\""
   },
   "dependencies": {
     "@chakra-ui/react": "^2.4.3",
