@@ -12,7 +12,8 @@
     "preview": "vite preview",
     "storybook": "start-storybook -p 6006",
     "build-storybook": "build-storybook",
-    "lint": "eslint \"**/*.{js,jsx,ts,tsx,cjs,mjs}\" \".storybook/*.{js,jsx,ts,tsx,cjs,mjs}\""
+    "lint": "eslint \"**/*.{js,jsx,ts,tsx,cjs,mjs}\" \".storybook/*.{js,jsx,ts,tsx,cjs,mjs}\"",
+    "stylelint:fix": "stylelint --fix \"**/*.{tsx,ts}\""
   },
   "dependencies": {
     "@chakra-ui/icon": "^3.0.13",
@@ -50,6 +51,7 @@
     "babel-loader": "^8.3.0",
     "eslint": "^8.29.0",
     "eslint-config-custom": "workspace:^0.0.0",
+    "prettier-config": "workspace:^1.0.0",
     "react-dom": "^18.2.0",
     "typescript": "^4.9.3",
     "vite": "^4.0.0",

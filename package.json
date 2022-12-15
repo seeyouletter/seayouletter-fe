@@ -11,18 +11,38 @@
     "build": "turbo run build",
     "dev": "turbo run dev --parallel",
     "lint": "turbo run lint",
-    "format": "prettier --write \"**/*.{ts,tsx,md}\""
+    "stylelint:fix": "turbo run stylelint:fix",
+    "format": "prettier --write \"**/*.{ts,tsx,md}\"",
+    "ci:version": "changeset version",
+    "prepare": "husky install"
   },
   "devDependencies": {
+    "@changesets/cli": "^2.25.2",
+    "@commitlint/cli": "^17.3.0",
+    "@commitlint/config-conventional": "^17.3.0",
+    "commitizen": "^4.2.6",
+    "cz-customizable": "^7.0.0",
     "eslint-config-custom": "workspace:*",
+    "husky": "^8.0.0",
+    "lint-staged": "^13.1.0",
     "prettier": "latest",
     "turbo": "latest"
   },
   "engines": {
-    "node": ">=14.0.0"
+    "node": ">=16.0.0"
   },
   "dependencies": {
     "next": "13.0.0"
   },
-  "packageManager": "pnpm@7.15.0"
+  "packageManager": "pnpm@7.15.0",
+  "lint-staged": {
+    "*.{js,json,md,html}": [
+      "prettier --write **/*.{js,json,md,html} --ignore-unknown --no-error-on-unmatched-pattern"
+    ],
+    "*.{tsx,ts}": [
+      "prettier --write **/*.{tsx,ts} --ignore-unknown --no-error-on-unmatched-pattern",
+      "turbo run lint --fix",
+      "turbo run stylelint:fix"
+    ]
+  }
 }

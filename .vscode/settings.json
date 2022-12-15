@@ -3,5 +3,17 @@
   "eslint.workingDirectories": [
     { "pattern": "apps/*/" },
     { "pattern": "packages/*/" }
-  ]
+  ],
+  "eslint.validate": [
+    "typescript",
+    "typescriptreact"
+  ],
+  "stylelint.validate": [
+    "css",
+    "less",
+    "postcss",
+    "typescriptreact",
+    "typescript"
+  ],
+  "editor.defaultFormatter": "esbenp.prettier-vscode",
 }
