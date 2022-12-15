@@ -2,3 +2,4 @@ dist
 .out
 build
 storybook-static
+node_modules
