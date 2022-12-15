@@ -13,7 +13,6 @@ jobs:
 
     steps:
       - uses: actions/checkout@v2
-      - run: rm -rf .git
 
       - name: install pnpm
         run: npm i pnpm@latest -g
@@ -23,7 +22,8 @@ jobs:
 
       - name: Check build for deploy in stable 
         run: pnpm build
-
+      
+      - run: rm -rf .git
       - name: Pushes to another repository
         uses: cpina/github-action-push-to-another-repository@main
         env:
