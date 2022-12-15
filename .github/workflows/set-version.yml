@@ -39,3 +39,4 @@ jobs:
           createGithubReleases: false
         env:
           GITHUB_TOKEN: ${{ secrets.API_TOKEN_GITHUB }}
+          
