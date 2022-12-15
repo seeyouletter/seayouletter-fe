@@ -1,7 +1,7 @@
 # Vercel cannot support organization repo deploy in hobby account.
 # So I make workflow to push another repo to deploy to Vercel
 
-name: Deploy
+name: PushAnotherRepo
 
 on:
   push:
