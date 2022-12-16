@@ -39,6 +39,9 @@ module.exports = {
 
     "README",
     "CHANGELOG",
+
+    "skip-ci"
   ],
   allowCustomScopes: true,
+  skipQuestions: ['footer']
 };
