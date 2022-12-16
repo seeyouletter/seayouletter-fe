@@ -1,5 +1,3 @@
-import React from 'react';
-
 import { StackProps, VStack } from '@chakra-ui/react';
 
 interface DefaultHStackInterface extends Omit<StackProps, 'inline'> {
@@ -10,7 +8,8 @@ interface DefaultHStackInterface extends Omit<StackProps, 'inline'> {
  * @params { inline: StakcsProps['isInline'] } & Omit<StackProps, 'inline'>
  * @description inline이라는 용어가 주는 직관적인 느낌이 더 좋아서 바꾸었습니다.
  */
-const DefaultHStack = ({
+const DefaultVStack = ({
+  children,
   direction,
 
   justify,
@@ -34,9 +33,9 @@ const DefaultHStack = ({
       wrap={wrap}
       divider={divider}
     >
-      HStack
+      {children}
     </VStack>
   );
 };
 
-export default DefaultHStack;
+export default DefaultVStack;

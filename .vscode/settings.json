@@ -8,10 +8,9 @@
     { "pattern": "apps/*/" },
     { "pattern": "packages/*/" },
   ],
-  "eslint.enable": true,
   "eslint.validate": [
     "typescript",
-    "typescriptreact"
+    "typescriptreact",
   ],
   "stylelint.validate": [
     "css",
