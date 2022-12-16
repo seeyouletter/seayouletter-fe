@@ -20,6 +20,7 @@ module.exports = {
       extends: ['plugin:@typescript-eslint/recommended'],
 
       rules: {
+        '@typescript-eslint/no-unused-vars': 'error',
         'react/no-unused-prop-types': 'error',
       },
     },

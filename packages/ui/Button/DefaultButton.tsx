@@ -1,7 +1,5 @@
 import React from 'react';
 
-import styled from '@emotion/styled';
-
 import { Button, VStack } from '@chakra-ui/react';
 
 interface ButtonPropsInterface {
@@ -9,11 +7,6 @@ interface ButtonPropsInterface {
   isLoading: boolean;
   children: React.ReactNode;
 }
-
-const Div = styled.div`
-  width: 2px;
-  height: 1px;
-`;
 
 export const DefaultButton = ({ size, isLoading = false, children }: ButtonPropsInterface) => {
   return (
