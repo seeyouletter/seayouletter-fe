@@ -10,7 +10,7 @@
   ],
   "eslint.validate": [
     "typescript",
-    "typescriptreact",
+    "typescriptreact"
   ],
   "stylelint.validate": [
     "css",
