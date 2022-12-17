@@ -1,30 +1,42 @@
 import React from 'react';
 
-import { ChakraProvider } from "@chakra-ui/react";
-const theme = {};
+import { CustomThemeProvider } from 'ui';
+
+import { viewports } from './viewPortsMap';
 
 export const parameters = {
-  actions: { argTypesRegex: "^on[A-Z].*" },
+  actions: { argTypesRegex: '^on[A-Z].*' },
+  viewport: {
+    viewports,
+    defaultViewport: 'responsive',
+  },
   controls: {
     matchers: {
       color: /(background|color)$/i,
       date: /Date$/,
     },
   },
-}
+};
 
 /**
  * @description
  * don't use addon @chakra-ui/storybook-addon.
  * It cannot use in builder-vite now. (22.12.15)
- * 
+ *
  * @see: https://github.com/chakra-ui/chakra-ui/issues/6433
  */
 // add chakra provider in storybook
 export const decorators = [
-  (Story) => 
-    <ChakraProvider theme={theme}>
+  (Story) => (
+    // <ChakraProvider theme={extendTheme({
+    //   colors: {
+    //     ...globalTheme.color
+    //   }
+    // })}>
+    //   <Story />
+    // </ChakraProvider>
+    <CustomThemeProvider>
       <Story />
-    </ChakraProvider>
-  ,
+    </CustomThemeProvider>
+  ),
 ];
