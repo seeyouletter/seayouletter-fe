@@ -5,6 +5,7 @@ import { Button, VStack } from '@chakra-ui/react';
 import { DefaultButtonPropsInterface } from './types';
 
 export const DefaultButton = ({
+  shape = 'solid',
   size = 'md',
   colorScheme,
   width,
@@ -25,6 +26,7 @@ export const DefaultButton = ({
       loadingText={loadingText}
       isDisabled={disabled}
       onClick={onClick}
+      variant={shape}
     >
       {children}
       <VStack>wefewwe</VStack>

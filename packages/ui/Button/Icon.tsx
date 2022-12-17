@@ -1,22 +1,23 @@
 import React from 'react';
 
-import { IconButton as ChakraIconButton } from '@chakra-ui/react';
+import { IconButton as ChakraIconButton, Spinner } from '@chakra-ui/react';
 
 import { IconButtonPropsInterface } from './types';
 
 export const IconButton = ({
+  shape = 'solid',
   ariaLabel,
   icon,
   isLoading,
   disabled,
   isRound = true,
   size = 'md',
-  shape = 'solid',
   colorScheme = 'primary',
   onClick,
 }: IconButtonPropsInterface) => {
   return (
     <ChakraIconButton
+      spinner={<Spinner size={'sm'} />}
       icon={icon}
       isLoading={isLoading}
       isDisabled={disabled}

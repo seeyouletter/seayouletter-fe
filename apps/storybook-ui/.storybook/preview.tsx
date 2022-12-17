@@ -2,12 +2,16 @@ import React from 'react';
 
 import { CustomThemeProvider } from 'ui';
 
-import { viewports } from './viewPortsMap';
+import { viewports, MINIMAL_VIEWPORTS, DEFAULT_VIEWPORT } from './viewPortsMap';
 
 export const parameters = {
   actions: { argTypesRegex: '^on[A-Z].*' },
   viewport: {
-    viewports,
+    viewports: {
+      ...DEFAULT_VIEWPORT,
+      ...viewports,
+      ...MINIMAL_VIEWPORTS
+    },
     defaultViewport: 'responsive',
   },
   controls: {

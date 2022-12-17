@@ -27,6 +27,7 @@ export interface IconWithTextButtonPropsInterface extends DefaultButtonPropsInte
   leftIcon?: React.ReactElement;
   rightIcon?: React.ReactElement;
   shape: ButtonType;
+  colorScheme: string;
 }
 
 export interface IconButtonPropsInterface extends ButtonInterface {

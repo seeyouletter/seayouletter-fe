@@ -5,6 +5,8 @@ import { Button } from '@chakra-ui/react';
 import { IconWithTextButtonPropsInterface } from './types';
 
 export const IconWithTextButton = ({
+  shape = 'solid',
+  colorScheme,
   iconSpacing,
   isLoading,
   disabled,
@@ -12,11 +14,12 @@ export const IconWithTextButton = ({
   rightIcon,
   loadingText,
   size = 'md',
-  shape = 'solid',
   onClick,
+  children,
 }: IconWithTextButtonPropsInterface) => {
   return (
     <Button
+      colorScheme={colorScheme}
       iconSpacing={iconSpacing}
       isLoading={isLoading}
       isDisabled={disabled}
@@ -28,7 +31,7 @@ export const IconWithTextButton = ({
       loadingText={loadingText}
       onClick={onClick}
     >
-      IconButton
+      {children}
     </Button>
   );
 };
