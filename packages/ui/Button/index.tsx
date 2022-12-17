@@ -1,1 +1,2 @@
-export { DefaultButton } from './DefaultButton';
+export { DefaultButton } from './Default';
+export { IconWithTextButton } from './IconWithText';
