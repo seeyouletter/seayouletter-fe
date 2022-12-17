@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { Button, VStack } from '@chakra-ui/react';
+import { Button } from '@chakra-ui/react';
 
 import { DefaultButtonPropsInterface } from './types';
 
@@ -29,7 +29,6 @@ export const DefaultButton = ({
       variant={shape}
     >
       {children}
-      <VStack>wefewwe</VStack>
     </Button>
   );
 };

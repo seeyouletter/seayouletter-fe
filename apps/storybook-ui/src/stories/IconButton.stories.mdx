@@ -1,0 +1,46 @@
+import { ArgsTable, Canvas, Meta, Story } from '@storybook/addon-docs';
+
+import { IconButton } from 'ui';
+import { KakaoIcon, NaverIcon } from 'ui';
+
+## IconButton
+
+순수 `Icon`만으로 이루어진 버튼을 만들 수 있어요. 다음과 같이 말이죠!  
+이때, <strong>`Icon`은 `React.ReactElement`여야 함</strong>에 주의합시다.
+
+<Meta title="components/Button/Icon" component={IconButton} />
+
+<Canvas>
+  <Story name="설명">
+    <IconButton size="lg" icon={<KakaoIcon size="48px" />} colorScheme="kakao"></IconButton>
+    <IconButton size="lg" icon={<NaverIcon size="48px" />} colorScheme="naver"></IconButton>
+    <IconButton
+      size="lg"
+      icon={<KakaoIcon size="48px" />}
+      colorScheme="kakao"
+      isLoading
+    ></IconButton>
+    <IconButton
+      size="lg"
+      icon={<NaverIcon size="48px" />}
+      colorScheme="naver"
+      isLoading
+    ></IconButton>
+    <IconButton size="md" icon={<KakaoIcon size="32px" />} colorScheme="kakao"></IconButton>
+    <IconButton size="md" icon={<NaverIcon size="32px" />} colorScheme="naver"></IconButton>
+    <IconButton
+      size="md"
+      icon={<KakaoIcon size="32px" />}
+      colorScheme="kakao"
+      isLoading
+    ></IconButton>
+    <IconButton
+      size="md"
+      icon={<NaverIcon size="32px" />}
+      colorScheme="naver"
+      isLoading
+    ></IconButton>
+  </Story>
+</Canvas>
+
+<ArgsTable story={IconButton} />
