@@ -50,7 +50,7 @@ jobs:
           title: "chore: update versions"
           createGithubReleases: false
         env:
-          GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}
+          GITHUB_TOKEN: ${{ secrets.API_TOKEN_GITHUB }}
       - run: echo "${{ steps.changesets.outputs.publish }}"
       - run: echo "${{ steps.changesets.outputs.hasChangesets }}"
 

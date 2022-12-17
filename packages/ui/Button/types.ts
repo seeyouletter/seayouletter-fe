@@ -7,16 +7,16 @@ import { SizeType } from '../common/types';
 export type ButtonType = 'ghost' | 'outline' | 'solid' | 'link' | 'unstyled';
 
 export interface ButtonInterface extends PropsWithChildren {
-  colorScheme: string;
+  colorScheme?: string;
   size?: SizeType;
-  shape: ButtonType;
-  disabled: boolean;
-  isLoading: boolean;
+  shape?: ButtonType;
+  disabled?: boolean;
+  isLoading?: boolean;
   onClick: () => void;
 }
 
 export interface DefaultButtonPropsInterface extends ButtonInterface {
-  colorScheme: string;
+  colorScheme?: string;
   width?: string;
   height?: string;
   loadingText?: string;

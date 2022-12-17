@@ -5,7 +5,8 @@
   "types": "./index.ts",
   "license": "MIT",
   "scripts": {
-    "lint": "eslint \"**/*.{js,jsx,ts,tsx,cjs,mjs}\"",
+    "check-types": "tsc --noemit",
+    "lint": "eslint \"**/*.{js,jsx,ts,tsx,cjs,mjs}\" && pnpm check-types",
     "stylelint": "stylelint \"**/*.{tsx,ts}\"",
     "stylelint:fix": "stylelint --fix \"**/*.{tsx,ts}\""
   },

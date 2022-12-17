@@ -12,7 +12,8 @@
     "preview": "vite preview",
     "storybook": "start-storybook -p 6006",
     "build-storybook": "build-storybook",
-    "lint": "eslint \"**/*.{js,jsx,ts,tsx,cjs,mjs}\" \"**/*.mdx\" \".storybook/*.{js,jsx,ts,tsx,mjs}\""
+    "check-types": "tsc --noemit",
+    "lint": "eslint \"**/*.{js,jsx,ts,tsx,cjs,mjs}\" \"**/*.mdx\" \".storybook/*.{js,jsx,ts,tsx,mjs}\" && pnpm check-types"
   },
   "dependencies": {
     "@chakra-ui/icon": "^3.0.13",

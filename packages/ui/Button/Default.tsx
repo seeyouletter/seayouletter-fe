@@ -7,7 +7,7 @@ import { DefaultButtonPropsInterface } from './types';
 export const DefaultButton = ({
   shape = 'solid',
   size = 'md',
-  colorScheme,
+  colorScheme = 'primary',
   width,
   height,
   loadingText = '',
