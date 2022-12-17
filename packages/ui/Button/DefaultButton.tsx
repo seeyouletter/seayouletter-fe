@@ -2,18 +2,30 @@ import React from 'react';
 
 import { Button, VStack } from '@chakra-ui/react';
 
-interface ButtonPropsInterface {
-  size: 'xs' | 'sm' | 'md' | 'lg';
-  isLoading: boolean;
-  children: React.ReactNode;
-}
+import { DefaultButtonPropsInterface } from './types';
 
-export const DefaultButton = ({ size, isLoading = false, children }: ButtonPropsInterface) => {
+export const DefaultButton = ({
+  size = 'md',
+  colorScheme,
+  width,
+  height,
+  loadingText = '',
+  isLoading = false,
+  children,
+  disabled = false,
+}: DefaultButtonPropsInterface) => {
   return (
-    <Button isLoading={isLoading} size={size}>
+    <Button
+      size={size}
+      colorScheme={colorScheme}
+      width={width}
+      height={height}
+      isLoading={isLoading}
+      loadingText={loadingText}
+      isDisabled={disabled}
+    >
       {children}
       <VStack>wefewwe</VStack>
-      <div></div>
     </Button>
   );
 };
