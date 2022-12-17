@@ -1,6 +1,0 @@
-#!/usr/bin/env sh
-. "$(dirname -- "$0")/_/husky.sh"
-
-echo "🚦 PRE-COMMIT | lint-staged check..."
-
-pnpm lint-staged
