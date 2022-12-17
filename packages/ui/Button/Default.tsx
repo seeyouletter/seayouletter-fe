@@ -13,6 +13,7 @@ export const DefaultButton = ({
   isLoading = false,
   children,
   disabled = false,
+  onClick,
 }: DefaultButtonPropsInterface) => {
   return (
     <Button
@@ -23,6 +24,7 @@ export const DefaultButton = ({
       isLoading={isLoading}
       loadingText={loadingText}
       isDisabled={disabled}
+      onClick={onClick}
     >
       {children}
       <VStack>wefewwe</VStack>

@@ -13,6 +13,7 @@ export const IconWithTextButton = ({
   loadingText,
   size = 'md',
   shape = 'solid',
+  onClick,
 }: IconWithTextButtonPropsInterface) => {
   return (
     <Button
@@ -25,6 +26,7 @@ export const IconWithTextButton = ({
       rightIcon={rightIcon}
       size={size}
       loadingText={loadingText}
+      onClick={onClick}
     >
       IconButton
     </Button>

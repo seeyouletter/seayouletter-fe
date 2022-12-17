@@ -13,6 +13,7 @@ export const IconButton = ({
   size = 'md',
   shape = 'solid',
   colorScheme = 'primary',
+  onClick,
 }: IconButtonPropsInterface) => {
   return (
     <ChakraIconButton
@@ -24,6 +25,7 @@ export const IconButton = ({
       size={size}
       aria-label={ariaLabel}
       colorScheme={colorScheme}
+      onClick={onClick}
     />
   );
 };

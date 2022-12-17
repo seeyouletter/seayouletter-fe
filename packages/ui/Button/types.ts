@@ -6,15 +6,19 @@ import { SizeType } from '../common/types';
 
 export type ButtonType = 'ghost' | 'outline' | 'solid' | 'link' | 'unstyled';
 
-export interface DefaultButtonPropsInterface extends PropsWithChildren {
+export interface ButtonInterface extends PropsWithChildren {
   colorScheme: string;
-
   size?: SizeType;
-  width?: string;
-  height?: string;
-
+  shape: ButtonType;
   disabled: boolean;
   isLoading: boolean;
+  onClick: () => void;
+}
+
+export interface DefaultButtonPropsInterface extends ButtonInterface {
+  colorScheme: string;
+  width?: string;
+  height?: string;
   loadingText?: string;
 }
 
@@ -25,13 +29,9 @@ export interface IconWithTextButtonPropsInterface extends DefaultButtonPropsInte
   shape: ButtonType;
 }
 
-export interface IconButtonPropsInterface {
+export interface IconButtonPropsInterface extends ButtonInterface {
   ariaLabel: string;
-  colorScheme: string;
   icon: React.ReactElement;
-  disabled: boolean;
-  isLoading: boolean;
   isRound?: boolean;
   size: SizeType;
-  shape: ButtonType;
 }
