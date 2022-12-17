@@ -8,7 +8,11 @@ on:
     branches: [ main ]
 jobs:
   push_another_repository:
-    if: github.repository == 'seeyouletter/seeyouletter-fe'
+    if: >-
+      ${{
+        !contains(github.event.head_commit.message, '(skip ci)') &&
+        github.repository == 'seeyouletter/seeyouletter-fe'
+      }}
     runs-on: ubuntu-latest
 
     steps:

@@ -5,12 +5,14 @@
     "source.fixAll.stylelint": true
   },
   "eslint.workingDirectories": [
-    { "pattern": "apps/*/" },
-    { "pattern": "packages/*/" },
+    { "pattern": "apps/*" },
+    { "pattern": "apps/web/*/" },
+    { "pattern": "packages/*" }
   ],
   "eslint.validate": [
     "typescript",
     "typescriptreact",
+    "mdx"
   ],
   "stylelint.validate": [
     "css",

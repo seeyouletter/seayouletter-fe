@@ -14,7 +14,7 @@ module.exports = {
   },
   overrides: [
     {
-      files: '**/*.+(ts|tsx)',
+      files: ['**/*.tsx'],
       parser: '@typescript-eslint/parser',
       plugins: ['react', '@typescript-eslint'],
       extends: ['plugin:@typescript-eslint/recommended'],
@@ -22,6 +22,7 @@ module.exports = {
       rules: {
         '@typescript-eslint/no-unused-vars': 'error',
         'react/no-unused-prop-types': 'error',
+        '@typescript-eslint/explicit-member-accessibility': 'error',
       },
     },
   ],

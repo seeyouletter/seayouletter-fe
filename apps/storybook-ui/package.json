@@ -12,7 +12,8 @@
     "preview": "vite preview",
     "storybook": "start-storybook -p 6006",
     "build-storybook": "build-storybook",
-    "lint": "eslint \"**/*.{js,jsx,ts,tsx,cjs,mjs}\" \".storybook/*.{js,jsx,ts,tsx,cjs,mjs}\""
+    "check-types": "tsc --noemit",
+    "lint": "eslint \"**/*.{js,jsx,ts,tsx,cjs,mjs}\" \"**/*.mdx\" \".storybook/*.{js,jsx,ts,tsx,mjs}\" && pnpm check-types"
   },
   "dependencies": {
     "@chakra-ui/icon": "^3.0.13",
@@ -50,6 +51,10 @@
     "babel-loader": "^8.3.0",
     "eslint": "^8.29.0",
     "eslint-config-custom": "workspace:^0.0.0",
+    "eslint-mdx": "^2.0.5",
+    "eslint-plugin-mdx": "^2.0.5",
+    "eslint-plugin-react": "7.31.11",
+    "eslint-plugin-storybook": "^0.6.8",
     "prettier": "^2.8.1",
     "react-dom": "^18.2.0",
     "typescript": "^4.9.3",

@@ -6,7 +6,8 @@
     "dev": "next dev --port 3001",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint",
+    "check-types": "tsc --noemit",
+    "lint": "eslint \"**/*.{js,jsx,ts,tsx,cjs,mjs}\"  && pnpm check-types",
     "stylelint": "stylelint \"**/*.{tsx,ts}\""
   },
   "dependencies": {

@@ -25,21 +25,44 @@ export const globalTheme = {
     /**
      * @inner
      * 사용성이 편하도록 기본값은 idx 0으로 설정합니다.(이러면 보통 중간값인 5가 디폴트임을 쉽게 알 수 있습니다.)
+     * NOTE: 수정 - chakra-ui에서 버튼의 색상 키는 고정되어 있습니다. (light: 500, dark: 200)
+     *
+     * @see: https://github.com/chakra-ui/chakra-ui/blob/main/packages/components/theme/src/components/button.ts
      */
-    primary: [
-      '#009B9F',
-
-      '#C8FAEA',
-      '#93F5DE',
-      '#5AE2CE',
-      '#31C5BC',
-      '#009B9F',
-      '#007988',
-      '#005C72',
-      '#00425C',
-      '#00304C',
-    ],
-    sub: ['#DDDDDD', '#FAFAFA', '#EEEEEE', '#DDDDDD', '#CCCCCC', '#BBBBBB', '#AAAAAA'],
+    primary: {
+      0: '#009B9F',
+      100: '#C8FAEA',
+      200: '#93F5DE',
+      300: '#5AE2CE',
+      400: '#31C5BC',
+      500: '#009B9F',
+      600: '#007988',
+      700: '#005C72',
+      800: '#00425C',
+      900: '#00304C',
+    },
+    sub: {
+      0: '#DDDDDD',
+      100: '#FAFAFA',
+      200: '#EFEFEF',
+      300: '#EAEAEA',
+      400: '#DFDFDF',
+      500: '#DDDDDD',
+      600: '#CCCCCC',
+      700: '#BBBBBB',
+      800: '#AAAAAA',
+      900: '#999999',
+    },
+    kakao: {
+      200: '#F7E600',
+      500: '#F7E600',
+      icon: '#3A1D1D',
+    },
+    naver: {
+      200: '#00C73C',
+      500: '#00C73C',
+      icon: '#FFFFFF',
+    },
   },
 
   border: {

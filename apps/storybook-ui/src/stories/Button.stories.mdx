@@ -1,0 +1,186 @@
+import { Canvas, Meta, Story } from '@storybook/addon-docs';
+
+import { DefaultButton, IconButton, IconWithTextButton } from 'ui';
+import { KakaoIcon, NaverIcon } from 'ui';
+
+<style>
+  {`
+      html, body {
+        font-weight: 400;
+      }
+      strong {
+        font-weight: 700;
+      }
+      span {
+        display: block;
+      }
+    `}
+</style>
+
+# Button
+
+버튼 컴포넌트는 씨유레터의 핵심 컴포넌트 중 하나입니다.
+
+> 현재는 `chakra-ui`를 통해 기능별로 분화시키고 있으며, 이를 조만간 빠르게 업데이트할 예정입니다.
+
+<Meta title="Components/Buttons" component={DefaultButton} />
+
+## 기본
+
+<Canvas>
+  <Story name="소개">
+    <DefaultButton isLoading={false} size="lg" colorScheme="primary">
+      안녕하세요
+    </DefaultButton>
+  </Story>
+</Canvas>
+
+## IconButton
+
+순수 `Icon`만으로 이루어진 버튼을 만들 수 있어요. 다음과 같이 말이죠!
+이때, <strong>`Icon`은 `React.ReactElement`여야 함</strong>에 주의합시다.
+
+<Canvas>
+  <Story name="button | Icon">
+    <IconButton size="lg" icon={<KakaoIcon size="48px" />} colorScheme="kakao"></IconButton>
+    <IconButton size="lg" icon={<NaverIcon size="48px" />} colorScheme="naver"></IconButton>
+    <IconButton
+      size="lg"
+      icon={<KakaoIcon size="48px" />}
+      colorScheme="kakao"
+      isLoading
+    ></IconButton>
+    <IconButton
+      size="lg"
+      icon={<NaverIcon size="48px" />}
+      colorScheme="naver"
+      isLoading
+    ></IconButton>
+    <IconButton size="md" icon={<KakaoIcon size="32px" />} colorScheme="kakao"></IconButton>
+    <IconButton size="md" icon={<NaverIcon size="32px" />} colorScheme="naver"></IconButton>
+    <IconButton
+      size="md"
+      icon={<KakaoIcon size="32px" />}
+      colorScheme="kakao"
+      isLoading
+    ></IconButton>
+    <IconButton
+      size="md"
+      icon={<NaverIcon size="32px" />}
+      colorScheme="naver"
+      isLoading
+    ></IconButton>
+  </Story>
+</Canvas>
+
+## IconWithText
+
+<Canvas>
+  <Story name="button | IconWithText">
+    <IconWithTextButton size="lg" leftIcon={<KakaoIcon size="48px" />} colorScheme="kakao">
+      카카오로 로그인하기
+    </IconWithTextButton>
+    <IconWithTextButton size="lg" leftIcon={<NaverIcon size="48px" />} colorScheme="naver">
+      네이버로 로그인하기
+    </IconWithTextButton>
+    <IconWithTextButton
+      size="lg"
+      leftIcon={<KakaoIcon size="48px" />}
+      loadingText="카카오로 로그인하기"
+      colorScheme="kakao"
+      isLoading
+    >
+      카카오로 로그인하기
+    </IconWithTextButton>
+    <IconWithTextButton size="lg" icon={<NaverIcon size="48px" />} colorScheme="naver" isLoading>
+      네이버로 로그인하기
+    </IconWithTextButton>
+    <div>
+      <IconWithTextButton size="md" rightIcon={<KakaoIcon size="32px" />} colorScheme="kakao">
+        카카오로 로그인하기
+      </IconWithTextButton>
+      <IconWithTextButton size="md" rightIcon={<NaverIcon size="32px" />} colorScheme="naver">
+        네이버로 로그인하기
+      </IconWithTextButton>
+      <IconWithTextButton size="md" icon={<KakaoIcon size="32px" />} colorScheme="kakao" isLoading>
+        카카오로 로그인하기
+      </IconWithTextButton>
+      <IconWithTextButton size="md" icon={<NaverIcon size="32px" />} colorScheme="naver" isLoading>
+        네이버로 로그인하기
+      </IconWithTextButton>
+    </div>
+  </Story>
+</Canvas>
+
+## 로딩 기능
+
+유저에게 로딩 중임을 알려주는 방법에는 2가지 방법이 있어요.
+
+- 로딩할 때 스피너만 보이도록 하는 방법이 있고,
+- 로딩할 때 텍스트도 같이 보이도록 하는 방법이 있죠.
+
+#### 씨유레터에서는 UX를 고려하여 Context에 따라 둘 다 사용합니다 🙆🏻
+
+<Canvas>
+  <Story name="props | isLoading">
+    <DefaultButton size="lg" isLoading={false} colorScheme="primary">
+      안녕하세요
+    </DefaultButton>
+    <DefaultButton size="lg" colorScheme="primary" isLoading loadingText="로딩 중이에요">
+      안녕하세요
+    </DefaultButton>
+    <DefaultButton size="lg" colorScheme="primary" isLoading>
+      안녕하세요
+    </DefaultButton>
+  </Story>
+</Canvas>
+
+## 버튼 비활성화
+
+`disabled`에 `boolean`값을 입력해주면, 상태를 비활성화시킬 수도 있어요.
+
+<Canvas>
+  <Story name="props | disabled">
+    <DefaultButton size="lg" colorScheme="primary" disabled>
+      안녕하세요
+    </DefaultButton>
+  </Story>
+</Canvas>
+
+## ButtonType
+
+버튼 타입의 경우 `buttonType`으로 설정이 가능해요!
+다양한 종류가 있지만, 특이한 경우가 아닌 이상 `solid`와 `ghost`를 사용합니다.
+
+<Canvas>
+  <Story name="props | buttonType">
+    <div>
+      <p>다음 타입들을 사용합니다.</p>
+      <DefaultButton size="lg" colorScheme="primary" shape="solid">
+        solid
+      </DefaultButton>
+      <DefaultButton size="lg" colorScheme="primary" shape="ghost">
+        ghost
+      </DefaultButton>
+    </div>
+    <div>
+      <p>다음 타입들은 사용하지 않습니다.</p>
+      <DefaultButton size="lg" colorScheme="primary" shape="outline">
+        solid
+      </DefaultButton>
+      <DefaultButton size="lg" colorScheme="primary" shape="link">
+        ghost
+      </DefaultButton>
+    </div>
+  </Story>
+</Canvas>
+
+## 주의사항
+
+### GlobalTheme 수정 시 `color` key 설정에 주의해주세요.
+
+현재 [chakra-ui Button defaultTheme]에서 색상에 대해서 자유롭게 정할 수 있도록 지원하지 않습니다.<br/>
+이를 지원하기 위해 `globalTheme`을`100~900`으로 맞춘 상황입니다. (기본값은 `0`, `500`이에요!)
+
+그렇지만 이 역시 워낙 잘 알려진 전역 스타일 지정 컨벤션이므로 그냥 이를 따르기로 하였습니다.  
+버튼의 기본 색상은 큰 디자인 변경이 없는 한, `primary`로 해주시길 바랍니다.
