@@ -6,8 +6,7 @@
   },
   "eslint.workingDirectories": [
     { "pattern": "apps/*/" },
-    { "pattern": "apps/storybook-ui/*/.storybook/*" },
-    { "pattern": "packages/*/" },
+    { "pattern": "packages/*/" }
   ],
   "eslint.validate": [
     "typescript",
