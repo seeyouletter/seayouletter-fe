@@ -39,7 +39,7 @@ jobs:
 
       - name: Install Dependencies
         run: |
-          pnpm install --no-frozen-lockfile
+          pnpm install
 
       - name: Create Release Pull Request
         id: changesets
