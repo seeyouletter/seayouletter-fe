@@ -1,0 +1,156 @@
+import { ArgsTable, Canvas, Meta, Story } from '@storybook/addon-docs';
+
+import { TabGroup } from 'ui';
+
+<style>
+  {`
+      h5 {
+        font-size: 24px;
+        font-weight: 700;
+      }
+    `}
+</style>
+
+# Tabs
+
+여러 개의 Tab들을 `TabsGroup`에서 받으면, Tab을 생성해요!  
+카테고리에 따른 분류를 선택할 때 사용하기 위한 용도입니다.
+
+<Meta
+  title="Components/Tabs"
+  component={TabGroup}
+  argTypes={{
+    tabs: {
+      name: 'tabs',
+      description: '렌더링할 탭에 관한 정보들입니다.',
+      control: {
+        type: 'array',
+      },
+      table: {
+        type: {
+          summary: 'TabInterface[]',
+          detail: `
+{
+  id: string;
+  label: string | React.ReactNode;
+  onClick: () => void;
+}
+          `,
+        },
+        defaultValue: {
+          summary: '[]',
+        },
+      },
+    },
+    tabWidth: {
+      name: 'tabWidth',
+      description: '탭의 너비를 받습니다.',
+      control: {
+        type: 'text',
+      },
+      table: {
+        type: {
+          summary: 'string',
+        },
+        defaultValue: {
+          summary: '120px',
+        },
+      },
+    },
+    tabHeight: {
+      name: 'tabHeight',
+      description: '탭의 높이를 받습니다.',
+      control: {
+        type: 'text',
+      },
+      table: {
+        type: {
+          summary: 'string',
+        },
+        defaultValue: {
+          summary: '48px',
+        },
+      },
+    },
+  }}
+/>
+
+export const TemplateName = (args) => <TabGroup {...args} />;
+
+<Canvas>
+  <Story
+    name="소개"
+    args={{
+      tabs: [
+        {
+          id: '1',
+          label: '탭1',
+          onClick: () => {
+            alert('선택한 인덱스: 1');
+          },
+        },
+        {
+          id: '2',
+          label: '탭2',
+          onClick: () => {
+            alert('선택한 인덱스: 2');
+          },
+        },
+        {
+          id: '3',
+          label: '탭3',
+          onClick: () => {
+            alert('선택한 인덱스: 3');
+          },
+        },
+      ],
+      tabWidth: '120px',
+      tabHeight: '48px',
+    }}
+  >
+    {TemplateName.bind({})}
+  </Story>
+</Canvas>
+
+<ArgsTable story="소개" />
+
+## `tabs`의 `label`은 자유입니다.
+
+만약 `label`을 `HOC` 방식으로 전달하고 싶다면, 가능하도록 지원했어요! 🙆🏻
+
+<Canvas>
+  <Story
+    name="props | tab.label"
+    args={{
+      tabs: [
+        {
+          id: '1',
+          label: <h5>탭1</h5>,
+          onClick: () => {
+            alert('선택한 인덱스: 1');
+          },
+        },
+        {
+          id: '2',
+          label: <h5>탭2</h5>,
+          onClick: () => {
+            alert('선택한 인덱스: 2');
+          },
+        },
+        {
+          id: '3',
+          label: <h5>탭3</h5>,
+          onClick: () => {
+            alert('선택한 인덱스: 3');
+          },
+        },
+      ],
+      tabWidth: '120px',
+      tabHeight: '48px',
+    }}
+  >
+    {TemplateName.bind({})}
+  </Story>
+</Canvas>
+
+<ArgsTable story="props | tab.label" />

@@ -1,6 +1,7 @@
 import React from 'react';
 
-import { CustomThemeProvider } from 'ui';
+import {ThemeProvider} from '@emotion/react';
+import { CustomThemeProvider, globalTheme } from 'ui';
 
 import { viewports, MINIMAL_VIEWPORTS, DEFAULT_VIEWPORT } from './viewPortsMap';
 
@@ -39,8 +40,10 @@ export const decorators = [
     // })}>
     //   <Story />
     // </ChakraProvider>
-    <CustomThemeProvider>
-      <Story />
-    </CustomThemeProvider>
+    <ThemeProvider theme={globalTheme}>
+      <CustomThemeProvider>
+        <Story />
+      </CustomThemeProvider>
+    </ThemeProvider>
   ),
 ];
