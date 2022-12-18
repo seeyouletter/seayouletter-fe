@@ -7,13 +7,12 @@ import { InputPropsInterface } from './types';
 export const DefaultInput = ({
   size = 'md',
   color,
-  shape = 'Outline',
-  placeholder,
+  placeholder = '',
   isInvalid = false,
 }: InputPropsInterface) => {
   return (
     <Input
-      variant={shape}
+      variant={'outline'}
       size={size}
       color={color}
       placeholder={placeholder}
@@ -21,8 +20,6 @@ export const DefaultInput = ({
       focusBorderColor="primary.400"
       _placeholder={{ color: 'inherit', opacity: 0.5 }}
       isInvalid={isInvalid}
-    >
-      DefaultInput
-    </Input>
+    ></Input>
   );
 };

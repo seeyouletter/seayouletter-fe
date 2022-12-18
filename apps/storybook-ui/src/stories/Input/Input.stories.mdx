@@ -1,0 +1,79 @@
+import { ArgsTable, Canvas, Meta, Story } from '@storybook/addon-docs';
+
+import { DefaultInput } from 'ui';
+
+# Input
+
+사용자의 입력을 받는 컴포넌트에요 🙆🏻
+기본 인풋의 경우 폼보다는 독립된 기능에서 사용하기 위한 용도로 쓰입니다.  
+`Form`에서 쓰일 때는 `FormInput`을 사용합니다.
+
+<Meta
+  title="Components/Input"
+  component={DefaultInput}
+  argTypes={{
+    size: {
+      name: 'size',
+      description: '사이즈를 입력합니다.',
+      control: {
+        type: 'radio',
+        options: ['lg', 'md', 'sm', 'xs'],
+      },
+      table: {
+        type: {
+          summary: 'lg | md | sm | xs',
+        },
+        defaultValue: {
+          summary: 'md',
+        },
+      },
+    },
+    color: {
+      name: 'color',
+      description: '글자 색에 대한 색상을 설정할 수 있어요.',
+      control: {
+        type: 'text',
+      },
+      table: {
+        type: {
+          summary: 'string(color)',
+        },
+        defaultValue: {
+          summary: 'primary.400',
+        },
+      },
+    },
+    placeholder: {
+      name: 'placeholder',
+      description: '빈 칸일 때 나올 값이에요.',
+      control: {
+        type: 'text',
+      },
+      table: {
+        type: {
+          summary: 'string',
+        },
+        defaultValue: {
+          summary: '',
+        },
+      },
+    },
+  }}
+/>
+
+export const Template = (args) => <DefaultInput {...args} />;
+
+<Canvas>
+  <Story
+    name="소개"
+    args={{
+      placeholder: '값을 입력하세요.',
+      color: 'primary.500',
+      size: 'md',
+    }}
+  >
+    {Template.bind({})}
+  </Story>
+</Canvas>
+
+<ArgsTable story="소개" />

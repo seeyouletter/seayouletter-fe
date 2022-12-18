@@ -7,7 +7,7 @@
     "packages/*"
   ],
   "scripts": {
-    "storybook": "turbo run storybook",
+    "storybook": "turbo run storybook --filter storybook-ui",
     "build": "turbo run build",
     "dev": "turbo run dev --parallel",
     "lint": "turbo run lint",
