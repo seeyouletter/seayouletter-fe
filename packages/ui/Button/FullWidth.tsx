@@ -7,7 +7,7 @@ import { DefaultButtonPropsInterface } from './types';
 export const FullWidthButton = ({
   shape = 'solid',
   size = 'md',
-  colorScheme,
+  colorScheme = 'primary',
   height,
   loadingText = '',
   isLoading = false,

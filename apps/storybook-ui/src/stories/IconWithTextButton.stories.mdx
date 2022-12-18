@@ -1,0 +1,54 @@
+import { Canvas, Meta, Story } from '@storybook/addon-docs';
+
+import { IconWithTextButton } from 'ui';
+import { KakaoIcon, NaverIcon } from 'ui';
+
+## IconWithText
+
+Icon과 Text를 함께 사용할 수 있어요.
+
+<Meta title="components/Button/IconWithText" component={IconWithTextButton} />
+
+<Canvas>
+  <Story name="설명">
+    <h1>size: lg의 경우 다음과 같습니다.</h1>
+    <br />
+    <div>
+      <IconWithTextButton size="lg" leftIcon={<KakaoIcon size="48px" />} colorScheme="kakao">
+        카카오로 로그인하기
+      </IconWithTextButton>
+      <IconWithTextButton size="lg" leftIcon={<NaverIcon size="48px" />} colorScheme="naver">
+        네이버로 로그인하기
+      </IconWithTextButton>
+      <IconWithTextButton
+        size="lg"
+        leftIcon={<KakaoIcon size="48px" />}
+        loadingText="카카오로 로그인하기"
+        colorScheme="kakao"
+        isLoading
+      >
+        카카오로 로그인하기
+      </IconWithTextButton>
+      <IconWithTextButton size="lg" icon={<NaverIcon size="48px" />} colorScheme="naver" isLoading>
+        네이버로 로그인하기
+      </IconWithTextButton>
+    </div>
+    <br />
+    <h1>size: md의 경우 다음과 같습니다.</h1>
+    <br />
+    <div>
+      <IconWithTextButton size="md" rightIcon={<KakaoIcon size="32px" />} colorScheme="kakao">
+        카카오로 로그인하기
+      </IconWithTextButton>
+      <IconWithTextButton size="md" rightIcon={<NaverIcon size="32px" />} colorScheme="naver">
+        네이버로 로그인하기
+      </IconWithTextButton>
+      <IconWithTextButton size="md" icon={<KakaoIcon size="32px" />} colorScheme="kakao" isLoading>
+        카카오로 로그인하기
+      </IconWithTextButton>
+      <IconWithTextButton size="md" icon={<NaverIcon size="32px" />} colorScheme="naver" isLoading>
+        네이버로 로그인하기
+      </IconWithTextButton>
+    </div>
+  </Story>
+</Canvas>

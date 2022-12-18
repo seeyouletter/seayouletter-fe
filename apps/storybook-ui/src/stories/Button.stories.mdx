@@ -1,7 +1,6 @@
-import { Canvas, Meta, Story } from '@storybook/addon-docs';
+import { ArgsTable, Canvas, Meta, Story } from '@storybook/addon-docs';
 
-import { DefaultButton, IconButton, IconWithTextButton } from 'ui';
-import { KakaoIcon, NaverIcon } from 'ui';
+import { DefaultButton } from 'ui';
 
 <style>
   {`
@@ -14,6 +13,10 @@ import { KakaoIcon, NaverIcon } from 'ui';
       span {
         display: block;
       }
+      h1 {
+        font-weight: 900;
+        font-size: 24px;
+      }
     `}
 </style>
 
@@ -23,94 +26,147 @@ import { KakaoIcon, NaverIcon } from 'ui';
 
 > 현재는 `chakra-ui`를 통해 기능별로 분화시키고 있으며, 이를 조만간 빠르게 업데이트할 예정입니다.
 
-<Meta title="Components/Buttons" component={DefaultButton} />
+<Meta
+  title="Components/Button"
+  component={DefaultButton}
+  argTypes={{
+    size: {
+      name: 'size',
+      description: 'md, sm, lg, xs 중 하나를 입력할 수 있어요.',
+      control: {
+        type: 'radio',
+        options: ['md', 'sm', 'lg', 'xs'],
+      },
+      table: {
+        type: {
+          summary: 'lg | md | sm | xs',
+        },
+        defaultValue: {
+          summary: 'md',
+        },
+      },
+    },
+    colorScheme: {
+      name: 'colorScheme',
+      description: '색상을 지정합니다.',
+      control: {
+        type: 'radio',
+        options: ['primary', 'sub', 'naver', 'kakao'],
+      },
+      table: {
+        type: {
+          summary: 'primary를 가급적이면 써주세요!',
+        },
+        defaultValue: {
+          summary: 'primary',
+        },
+      },
+    },
+    isLoading: {
+      name: 'isLoading',
+      description: '로딩 여부를 나타냅니다.',
+      table: {
+        type: {
+          summary: 'boolean',
+        },
+        defaultValue: {
+          summary: 'false',
+        },
+      },
+    },
+    loadingText: {
+      name: 'loadingText',
+      description: '로딩 시 나타나는 글을 정할 수 있어요.',
+      control: {
+        type: 'text',
+      },
+      table: {
+        type: {
+          summary: 'string',
+        },
+        defaultValue: {
+          summary: '',
+        },
+      },
+    },
+    children: {
+      name: 'children',
+      description: '텍스트를 입력합니다.',
+      table: {
+        type: {
+          summary: 'loadingText와 구별해줄 수 있어요!',
+        },
+        defaultValue: {
+          summary: '',
+        },
+      },
+    },
+    shape: {
+      name: 'shape',
+      description: '버튼 타입을 입력합니다.',
+      control: {
+        type: 'radio',
+        options: ['solid', 'ghost'],
+      },
+      table: {
+        type: {
+          summary: 'solid | ghost',
+          detail: `타입은 위 두 가지만 사용해요!`,
+        },
+        defaultValue: {
+          summary: 'solid',
+        },
+      },
+    },
+    width: {
+      name: 'width 🚨',
+      description: '너비를 입력합니다.',
+      table: {
+        type: {
+          summary: 'undefined | string',
+          detail: '일관성을 해치므로 가급적 하지 않기를 바랍니다!',
+        },
+        defaultValue: {
+          summary: '',
+        },
+      },
+    },
+    height: {
+      name: 'height 🚨',
+      description: '높이를 입력합니다.',
+      table: {
+        type: {
+          summary: 'undefined | string',
+          detail: `일관성을 해치므로 가급적 하지 않기를 바랍니다!`,
+        },
+        defaultValue: {
+          summary: '',
+        },
+      },
+    },
+  }}
+/>
 
 ## 기본
 
+export const Template = (args) => <DefaultButton {...args} />;
+
 <Canvas>
-  <Story name="소개">
-    <DefaultButton isLoading={false} size="lg" colorScheme="primary">
-      안녕하세요
-    </DefaultButton>
+  <Story
+    name="소개"
+    args={{
+      isLoading: false,
+      size: 'lg',
+      colorScheme: 'primary',
+      children: '안녕하세요',
+      loadingText: '',
+    }}
+  >
+    {Template.bind({})}
   </Story>
 </Canvas>
 
-## IconButton
-
-순수 `Icon`만으로 이루어진 버튼을 만들 수 있어요. 다음과 같이 말이죠!
-이때, <strong>`Icon`은 `React.ReactElement`여야 함</strong>에 주의합시다.
-
-<Canvas>
-  <Story name="button | Icon">
-    <IconButton size="lg" icon={<KakaoIcon size="48px" />} colorScheme="kakao"></IconButton>
-    <IconButton size="lg" icon={<NaverIcon size="48px" />} colorScheme="naver"></IconButton>
-    <IconButton
-      size="lg"
-      icon={<KakaoIcon size="48px" />}
-      colorScheme="kakao"
-      isLoading
-    ></IconButton>
-    <IconButton
-      size="lg"
-      icon={<NaverIcon size="48px" />}
-      colorScheme="naver"
-      isLoading
-    ></IconButton>
-    <IconButton size="md" icon={<KakaoIcon size="32px" />} colorScheme="kakao"></IconButton>
-    <IconButton size="md" icon={<NaverIcon size="32px" />} colorScheme="naver"></IconButton>
-    <IconButton
-      size="md"
-      icon={<KakaoIcon size="32px" />}
-      colorScheme="kakao"
-      isLoading
-    ></IconButton>
-    <IconButton
-      size="md"
-      icon={<NaverIcon size="32px" />}
-      colorScheme="naver"
-      isLoading
-    ></IconButton>
-  </Story>
-</Canvas>
-
-## IconWithText
-
-<Canvas>
-  <Story name="button | IconWithText">
-    <IconWithTextButton size="lg" leftIcon={<KakaoIcon size="48px" />} colorScheme="kakao">
-      카카오로 로그인하기
-    </IconWithTextButton>
-    <IconWithTextButton size="lg" leftIcon={<NaverIcon size="48px" />} colorScheme="naver">
-      네이버로 로그인하기
-    </IconWithTextButton>
-    <IconWithTextButton
-      size="lg"
-      leftIcon={<KakaoIcon size="48px" />}
-      loadingText="카카오로 로그인하기"
-      colorScheme="kakao"
-      isLoading
-    >
-      카카오로 로그인하기
-    </IconWithTextButton>
-    <IconWithTextButton size="lg" icon={<NaverIcon size="48px" />} colorScheme="naver" isLoading>
-      네이버로 로그인하기
-    </IconWithTextButton>
-    <div>
-      <IconWithTextButton size="md" rightIcon={<KakaoIcon size="32px" />} colorScheme="kakao">
-        카카오로 로그인하기
-      </IconWithTextButton>
-      <IconWithTextButton size="md" rightIcon={<NaverIcon size="32px" />} colorScheme="naver">
-        네이버로 로그인하기
-      </IconWithTextButton>
-      <IconWithTextButton size="md" icon={<KakaoIcon size="32px" />} colorScheme="kakao" isLoading>
-        카카오로 로그인하기
-      </IconWithTextButton>
-      <IconWithTextButton size="md" icon={<NaverIcon size="32px" />} colorScheme="naver" isLoading>
-        네이버로 로그인하기
-      </IconWithTextButton>
-    </div>
-  </Story>
-</Canvas>
+<ArgsTable story="소개" />
 
 ## 로딩 기능
 
@@ -147,15 +203,16 @@ import { KakaoIcon, NaverIcon } from 'ui';
   </Story>
 </Canvas>
 
-## ButtonType
+## shape
 
-버튼 타입의 경우 `buttonType`으로 설정이 가능해요!
+버튼 타입의 경우 `buttonType`으로 설정이 가능해요!  
 다양한 종류가 있지만, 특이한 경우가 아닌 이상 `solid`와 `ghost`를 사용합니다.
 
 <Canvas>
-  <Story name="props | buttonType">
+  <Story name="props | shape">
     <div>
       <p>다음 타입들을 사용합니다.</p>
+      <br />
       <DefaultButton size="lg" colorScheme="primary" shape="solid">
         solid
       </DefaultButton>
@@ -163,13 +220,18 @@ import { KakaoIcon, NaverIcon } from 'ui';
         ghost
       </DefaultButton>
     </div>
+    <br />
+    <br />
     <div>
-      <p>다음 타입들은 사용하지 않습니다.</p>
+      <p>
+        다음 타입들은 <u>사용하지 않습니다.</u>
+      </p>
+      <br />
       <DefaultButton size="lg" colorScheme="primary" shape="outline">
-        solid
+        outline
       </DefaultButton>
       <DefaultButton size="lg" colorScheme="primary" shape="link">
-        ghost
+        link
       </DefaultButton>
     </div>
   </Story>
@@ -177,10 +239,14 @@ import { KakaoIcon, NaverIcon } from 'ui';
 
 ## 주의사항
 
+<Story name="주의사항">
+  <div></div>
+</Story>
+
 ### GlobalTheme 수정 시 `color` key 설정에 주의해주세요.
 
-현재 [chakra-ui Button defaultTheme]에서 색상에 대해서 자유롭게 정할 수 있도록 지원하지 않습니다.<br/>
+현재 [chakra-ui Button defaultTheme]에서 색상에 대해서 자유롭게 정할 수 있도록 지원하지 않습니다.  
 이를 지원하기 위해 `globalTheme`을`100~900`으로 맞춘 상황입니다. (기본값은 `0`, `500`이에요!)
 
-그렇지만 이 역시 워낙 잘 알려진 전역 스타일 지정 컨벤션이므로 그냥 이를 따르기로 하였습니다.  
+그렇지만 이 역시 워낙 잘 알려진 전역 스타일 지정 컨벤션이므로 그냥 이를 따르기로 하였습니다. <br/>
 버튼의 기본 색상은 큰 디자인 변경이 없는 한, `primary`로 해주시길 바랍니다.
