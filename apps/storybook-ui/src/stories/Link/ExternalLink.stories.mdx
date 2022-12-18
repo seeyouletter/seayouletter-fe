@@ -1,0 +1,79 @@
+import Link from 'next/link';
+
+# ExternalLink
+
+`ExternalLink`는 외부 링크로 이동할 때 사용합니다.  
+다른 사이트로 이동 시 새 창을 띄워줌으로써, 유저의 이탈을 막는 역할을 합니다.
+
+import { ArgsTable, Canvas, Meta, Story } from '@storybook/addon-docs';
+
+import { ExternalLink } from 'ui';
+
+<Meta
+  title="Components/Link/ExternalLink"
+  component={ExternalLink}
+  argTypes={{
+    href: {
+      name: 'href',
+      description: '이동할 주소에요.',
+      control: {
+        type: 'text',
+      },
+      table: {
+        type: {
+          summary: 'string',
+        },
+        defaultValue: {
+          summary: '""',
+        },
+      },
+    },
+    color: {
+      name: 'color',
+      description: '색상 역시 지정 가능하나, 가급적 primary.500을 사용합니다.',
+      control: {
+        type: 'text',
+      },
+      table: {
+        type: {
+          summary: 'string',
+        },
+        defaultValue: {
+          summary: 'primary.500',
+        },
+      },
+    },
+    children: {
+      name: 'children',
+      description: '링크를 표시할 내용이에요',
+      control: {
+        type: 'text',
+      },
+      table: {
+        type: {
+          summary: 'string',
+        },
+        defaultValue: {
+          summary: '""',
+        },
+      },
+    },
+  }}
+/>
+
+export const Template = (args) => <ExternalLink {...args} />;
+
+<Canvas>
+  <Story
+    name="소개"
+    args={{
+      href: '/?path=/story/components-externallink--%EC%86%8C%EA%B0%9C',
+      children: '링크입니다.',
+      color: 'primary.500',
+    }}
+  >
+    {Template.bind({})}
+  </Story>
+</Canvas>
+
+<ArgsTable story="소개" />

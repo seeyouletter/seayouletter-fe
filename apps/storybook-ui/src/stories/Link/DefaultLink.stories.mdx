@@ -1,0 +1,79 @@
+import Link from 'next/link';
+
+# Link
+
+`Next.js` 13버전을 지원하는 링크입니다.  
+`Chakra-ui`로 링크를 커스터마이징 가능해요!
+
+import { ArgsTable, Canvas, Meta, Story } from '@storybook/addon-docs';
+
+import { DefaultLink } from 'ui';
+
+<Meta
+  title="Components/Link"
+  component={DefaultLink}
+  argTypes={{
+    href: {
+      name: 'href',
+      description: '이동할 주소에요.',
+      control: {
+        type: 'text',
+      },
+      table: {
+        type: {
+          summary: 'string',
+        },
+        defaultValue: {
+          summary: '""',
+        },
+      },
+    },
+    color: {
+      name: 'color',
+      description: '색상 역시 지정 가능하나, 가급적 primary.500을 사용합니다.',
+      control: {
+        type: 'text',
+      },
+      table: {
+        type: {
+          summary: 'string',
+        },
+        defaultValue: {
+          summary: 'primary.500',
+        },
+      },
+    },
+    children: {
+      name: 'children',
+      description: '링크를 표시할 내용이에요',
+      control: {
+        type: 'text',
+      },
+      table: {
+        type: {
+          summary: 'string',
+        },
+        defaultValue: {
+          summary: '""',
+        },
+      },
+    },
+  }}
+/>
+
+export const Template = (args) => <DefaultLink {...args} />;
+
+<Canvas>
+  <Story
+    name="소개"
+    args={{
+      href: '/?path=/story/components-defaultlink--%EC%86%8C%EA%B0%9C',
+      children: '링크입니다.',
+      color: 'primary.500',
+    }}
+  >
+    {Template.bind({})}
+  </Story>
+</Canvas>
+
+<ArgsTable story="소개" />
