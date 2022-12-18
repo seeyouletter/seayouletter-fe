@@ -8,39 +8,118 @@ import { KakaoIcon, NaverIcon } from 'ui';
 순수 `Icon`만으로 이루어진 버튼을 만들 수 있어요. 다음과 같이 말이죠!  
 이때, <strong>`Icon`은 `React.ReactElement`여야 함</strong>에 주의합시다.
 
-<Meta title="components/Button/Icon" component={IconButton} />
+사실 `Icon` 컴포넌트가 중요한데요. 결과적으로 크기는 아이콘에 의해 결정되기 때문입니다.  
+`svg`를 직접 컴포넌트로 만들어야 하는 과정을 거치기 때문에 사용하기 까다로워요.  
+[공식문서](https://chakra-ui.com/docs/components/icon/usage#creating-your-custom-icons)를 참고해주세요!
+
+<Meta
+  title="components/Button/Icon"
+  component={IconButton}
+  argTypes={{
+    icon: {
+      name: 'icon',
+      description: '아이콘 컴포넌트를 넣어줘요.',
+      table: {
+        type: {
+          summary: 'React.ReactElement',
+        },
+        defaultValue: {
+          summary: 'undefined',
+        },
+      },
+    },
+    isLoading: {
+      name: 'isLoading',
+      description: '로딩 여부를 나타냅니다.',
+      table: {
+        type: {
+          summary: 'boolean',
+        },
+        defaultValue: {
+          summary: 'false',
+        },
+      },
+    },
+    colorScheme: {
+      description: '뒷 배경으로 나올 색상을 지정합니다.',
+      control: {
+        type: 'radio',
+        options: ['primary', 'sub', 'naver', 'kakao'],
+      },
+      table: {
+        type: {
+          summary: 'primary | sub | naver | kakao',
+        },
+        defaultValue: {
+          summary: 'primary',
+          detail: '큰 이유가 없으면 고정합니다!',
+        },
+      },
+    },
+    size: {
+      name: 'size 🚨',
+      description:
+        '주의: 항상 아이콘의 원래 크기에 유념해주세요. 로딩 시 spinner로 인해 다른 결과가 나타날 수 있어요.',
+      control: {
+        type: 'radio',
+        options: ['lg', 'md', 'sm', 'xs'],
+      },
+      table: {
+        type: {
+          summary: 'string',
+        },
+        defaultValue: {
+          summary: 'md',
+        },
+      },
+    },
+  }}
+/>
+
+export const NaverIconTemplate = (args) => (
+  <IconButton {...args} icon={<NaverIcon size="48px" />} />
+);
+export const KakaoIconTemplate = (args) => (
+  <IconButton icon={<KakaoIcon size="48px" />} {...args} />
+);
 
 <Canvas>
-  <Story name="설명">
-    <IconButton size="lg" icon={<KakaoIcon size="48px" />} colorScheme="kakao"></IconButton>
-    <IconButton size="lg" icon={<NaverIcon size="48px" />} colorScheme="naver"></IconButton>
-    <IconButton
-      size="lg"
-      icon={<KakaoIcon size="48px" />}
-      colorScheme="kakao"
-      isLoading
-    ></IconButton>
-    <IconButton
-      size="lg"
-      icon={<NaverIcon size="48px" />}
-      colorScheme="naver"
-      isLoading
-    ></IconButton>
-    <IconButton size="md" icon={<KakaoIcon size="32px" />} colorScheme="kakao"></IconButton>
-    <IconButton size="md" icon={<NaverIcon size="32px" />} colorScheme="naver"></IconButton>
-    <IconButton
-      size="md"
-      icon={<KakaoIcon size="32px" />}
-      colorScheme="kakao"
-      isLoading
-    ></IconButton>
-    <IconButton
-      size="md"
-      icon={<NaverIcon size="32px" />}
-      colorScheme="naver"
-      isLoading
-    ></IconButton>
+  <Story
+    name="예제) 네이버 아이콘"
+    args={{
+      size: 'lg',
+      colorScheme: 'naver',
+    }}
+  >
+    {NaverIconTemplate.bind({})}
+  </Story>
+  <Story
+    name="예제) 카카오 아이콘"
+    args={{
+      size: 'lg',
+      colorScheme: 'kakao',
+    }}
+  >
+    {KakaoIconTemplate.bind({})}
   </Story>
 </Canvas>
 
-<ArgsTable story={IconButton} />
+## 로딩, 사이즈 조절 기능
+
+로딩과 사이즈를 조절할 수 있는 기능이 탑재되어 있어요.  
+사실상 다른 버튼들과 다른 기능이 없어서, 설명 및 조정은 생략합니다!
+
+<Canvas>
+  <Story name="props | loading, size">
+    <IconButton size="lg" icon={<NaverIcon size="48px" />} colorScheme="naver" />
+    <IconButton size="lg" icon={<KakaoIcon size="48px" />} colorScheme="kakao" isLoading />
+    <IconButton size="lg" icon={<NaverIcon size="48px" />} colorScheme="naver" isLoading />
+    <IconButton size="lg" icon={<KakaoIcon size="48px" />} colorScheme="kakao" isLoading />
+    <IconButton size="md" icon={<KakaoIcon size="32px" />} colorScheme="kakao" />
+    <IconButton size="md" icon={<NaverIcon size="32px" />} colorScheme="naver" />
+    <IconButton size="md" icon={<KakaoIcon size="32px" />} colorScheme="kakao" isLoading />
+    <IconButton size="md" icon={<NaverIcon size="32px" />} colorScheme="naver" isLoading />
+  </Story>
+</Canvas>
+
+<ArgsTable story="props | loading, size" />

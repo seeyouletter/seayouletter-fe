@@ -39,7 +39,7 @@ import { DefaultButton } from 'ui';
       },
       table: {
         type: {
-          summary: '기본값: md',
+          summary: 'lg | md | sm | xs',
         },
         defaultValue: {
           summary: 'md',
@@ -49,6 +49,10 @@ import { DefaultButton } from 'ui';
     colorScheme: {
       name: 'colorScheme',
       description: '색상을 지정합니다.',
+      control: {
+        type: 'radio',
+        options: ['primary', 'sub', 'naver', 'kakao'],
+      },
       table: {
         type: {
           summary: 'primary를 가급적이면 써주세요!',
@@ -63,7 +67,7 @@ import { DefaultButton } from 'ui';
       description: '로딩 여부를 나타냅니다.',
       table: {
         type: {
-          summary: 'true/false',
+          summary: 'boolean',
         },
         defaultValue: {
           summary: 'false',
@@ -145,6 +149,8 @@ import { DefaultButton } from 'ui';
 
 ## 기본
 
+export const Template = (args) => <DefaultButton {...args} />;
+
 <Canvas>
   <Story
     name="소개"
@@ -161,8 +167,6 @@ import { DefaultButton } from 'ui';
 </Canvas>
 
 <ArgsTable story="소개" />
-
-export const Template = (args) => <DefaultButton {...args} />;
 
 ## 로딩 기능
 

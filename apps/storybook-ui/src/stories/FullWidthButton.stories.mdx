@@ -1,0 +1,199 @@
+import { ArgsTable, Canvas, Meta, Story } from '@storybook/addon-docs';
+
+import { FullWidthButton } from 'ui';
+
+## FullWidth
+
+높이를 조절할 수 있으며, 항상 컨테이너에 맞춰 너비가 생성되는 버튼이에요.  
+`height`를 조정할 수 있지만, 건드리지 않는 것을 추천해요!  
+나머지는 다른 버튼들과 기능이 거의 비슷합니다 🙆🏻
+
+<Meta
+  title="components/Button/FullWidth"
+  component={FullWidthButton}
+  argTypes={{
+    size: {
+      description: 'md, sm, lg, xs 중 하나를 입력할 수 있어요.',
+      control: {
+        type: 'radio',
+        options: ['lg', 'md', 'sm', 'xs'],
+      },
+      table: {
+        type: {
+          summary: 'lg | md | sm | xs',
+        },
+        defaultValue: {
+          summary: 'md',
+        },
+      },
+    },
+    shape: {
+      description: '버튼 타입을 입력합니다.',
+      control: {
+        type: 'radio',
+        options: ['solid', 'ghost'],
+      },
+      table: {
+        type: {
+          summary: 'solid | ghost',
+        },
+        defaultValue: {
+          summary: 'solid',
+        },
+      },
+    },
+    colorScheme: {
+      description: '색상을 지정합니다.',
+      control: {
+        type: 'radio',
+        options: ['primary', 'sub', 'naver', 'kakao'],
+      },
+      table: {
+        type: {
+          summary: 'primary | sub | naver | kakao',
+        },
+        defaultValue: {
+          summary: 'primary',
+          detail: '큰 이유가 없으면 고정합니다!',
+        },
+      },
+    },
+    height: {
+      name: 'height 🚨',
+      description: 'optional한 값이에요. size로 인한 height 변경보다 우선하니 조심히 다뤄야 해요!',
+      table: {
+        type: {
+          summary: 'undefined | string',
+        },
+        defaultValue: {
+          summary: 'undefined | string',
+        },
+      },
+    },
+    isLoading: {
+      description: '로딩 여부를 나타냅니다.',
+      table: {
+        type: {
+          summary: 'boolean',
+        },
+        defaultValue: {
+          summary: false,
+        },
+      },
+    },
+    loadingText: {
+      description: '로딩 시 나타나는 글을 정할 수 있어요.',
+      table: {
+        type: {
+          summary: 'string',
+        },
+        defaultValue: {
+          summary: '',
+        },
+      },
+    },
+    children: {
+      description: '텍스트를 입력합니다.',
+      table: {
+        type: {
+          summary: 'string',
+        },
+        defaultValue: {
+          summary: '',
+        },
+      },
+    },
+    disabled: {
+      table: {
+        type: {
+          summary: 'boolean',
+        },
+        defaultValue: {
+          summary: false,
+        },
+      },
+    },
+  }}
+/>
+
+export const Template = (args) => <FullWidthButton {...args} />;
+
+## 로딩
+
+로딩을 하면 자연스럽게 스피너가 움직여요.
+이때, 문구를 추가할 수도 있어요!
+
+<Canvas>
+  <Story
+    name="설명"
+    args={{
+      children: '안녕하세요. FullWidthButton입니다.',
+    }}
+  >
+    {Template.bind({})}
+  </Story>
+</Canvas>
+
+<ArgsTable story="설명" />
+
+## 로딩
+
+기존 버튼처럼 로딩을 지원해요.
+
+export const Loading = (args) => <FullWidthButton {...args} />;
+
+<Canvas>
+  <Story
+    name="props | loading"
+    args={{
+      isLoading: true,
+      children: '로딩 버튼이에요!',
+      loadingText: '로딩 중입니다...',
+    }}
+  >
+    {Loading.bind({})}
+  </Story>
+</Canvas>
+
+<ArgsTable story="props | loading" />
+
+## 버튼 비활성화
+
+마찬가지로 버튼이 비활성화 가능해요.
+
+<Canvas>
+  <Story
+    name="props | disabled"
+    args={{
+      disabled: true,
+      children: 'disabled 되었어요!',
+    }}
+  >
+    {Template.bind({})}
+  </Story>
+</Canvas>
+
+<ArgsTable story="props | disabled" />
+
+## 사이즈, 높이 조정
+
+이 친구는 너비 조정이 불가능합니다.  
+이유는 기능 자체가 width를 최대한 주는 버튼이기 때문입니다.
+
+주의할 것은, 이 친구는 `height`를 지정할 수 있는데요.  
+사이즈보다 우선 순위가 높으니 주의합시다.
+
+<Canvas>
+  <Story
+    name="props | size, height"
+    args={{
+      size: 'xs',
+      height: '28px',
+      children: 'size: xs, height: 28px',
+    }}
+  >
+    {Template.bind({})}
+  </Story>
+</Canvas>
+
+<ArgsTable story="props | size, height" />

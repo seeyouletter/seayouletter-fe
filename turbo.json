@@ -10,14 +10,11 @@
       "inputs": []
     },
     "build": {
-      "dependsOn": ["^build", "build-storybook"],
-      "outputs": ["dist/**", ".next/**"]
+      "dependsOn": ["^build"],
+      "outputs": ["dist/**", ".next/**", "storybook-static/**"]
     },
     "dev": {
       "cache": false
-    },
-    "build-storybook": {
-      "outputs": ["storybook-static/**"]
     },
     "storybook": {
       "dependsOn": ["build-storybook"],
