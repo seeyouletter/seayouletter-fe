@@ -33,17 +33,8 @@ export const parameters = {
 // add chakra provider in storybook
 export const decorators = [
   (Story) => (
-    // <ChakraProvider theme={extendTheme({
-    //   colors: {
-    //     ...globalTheme.color
-    //   }
-    // })}>
-    //   <Story />
-    // </ChakraProvider>
-    <ThemeProvider theme={globalTheme}>
-      <CustomThemeProvider>
-        <Story />
-      </CustomThemeProvider>
-    </ThemeProvider>
+    <CustomThemeProvider>
+      <Story />
+    </CustomThemeProvider>
   ),
 ];

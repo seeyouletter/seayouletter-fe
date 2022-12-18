@@ -1,2 +1,2 @@
 export { CustomThemeProvider } from './CustomThemeProvider';
-export { globalTheme } from './globalTheme';
+export { type CustomTheme, globalTheme } from './globalTheme';
