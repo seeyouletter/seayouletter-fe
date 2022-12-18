@@ -1,0 +1,77 @@
+import { ArgsTable, Canvas, Meta, Story } from '@storybook/addon-docs';
+
+import { DateInput } from 'ui';
+
+# Input
+
+날짜를 입력할 때 사용하는 컴포넌트에요.
+
+<Meta
+  title="Components/Input/Date"
+  component={DateInput}
+  argTypes={{
+    size: {
+      name: 'size',
+      description: '사이즈를 입력합니다.',
+      control: {
+        type: 'radio',
+        options: ['lg', 'md', 'sm', 'xs'],
+      },
+      table: {
+        type: {
+          summary: 'lg | md | sm | xs',
+        },
+        defaultValue: {
+          summary: 'md',
+        },
+      },
+    },
+    color: {
+      name: 'color',
+      description: '글자 색에 대한 색상을 설정할 수 있어요.',
+      control: {
+        type: 'text',
+      },
+      table: {
+        type: {
+          summary: 'string(color)',
+        },
+        defaultValue: {
+          summary: 'primary.400',
+        },
+      },
+    },
+    placeholder: {
+      name: 'placeholder',
+      description: '빈 칸일 때 나올 값이에요.',
+      control: {
+        type: 'text',
+      },
+      table: {
+        type: {
+          summary: 'string',
+        },
+        defaultValue: {
+          summary: '',
+        },
+      },
+    },
+  }}
+/>
+
+export const Template = (args) => <DateInput {...args} />;
+
+<Canvas>
+  <Story
+    name="예시"
+    args={{
+      placeholder: '값을 입력하세요.',
+      color: 'primary.500',
+      size: 'md',
+    }}
+  >
+    {Template.bind({})}
+  </Story>
+</Canvas>
+
+<ArgsTable story="예시" />

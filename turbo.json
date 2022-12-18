@@ -16,6 +16,9 @@
     "dev": {
       "cache": false
     },
+    "build-storybook": {
+      "outputs": ["storybook-static/**"]
+    },
     "storybook": {
       "dependsOn": ["build-storybook"],
       "cache": false

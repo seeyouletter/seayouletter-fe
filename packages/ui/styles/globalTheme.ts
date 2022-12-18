@@ -63,6 +63,8 @@ export const globalTheme = {
       500: '#00C73C',
       icon: '#FFFFFF',
     },
+    error: '#FF9D9D',
+    warning: '#FFBD98',
   },
 
   border: {
