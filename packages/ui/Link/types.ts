@@ -4,4 +4,5 @@ export interface LinkInterface extends PropsWithChildren {
   href: string;
   children?: string | React.ReactNode;
   color?: string;
+  noUnderline?: boolean;
 }

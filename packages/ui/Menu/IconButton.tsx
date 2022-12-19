@@ -32,7 +32,8 @@ const StyledMenuButton = styled(MenuButton)`
     transition: all 0.2s;
   }
 
-  &:hover:after {
+  &:focus::after,
+  &:hover::after {
     background: rgba(0, 0, 0, 0.25);
   }
 `;

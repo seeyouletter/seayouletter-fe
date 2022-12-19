@@ -16,11 +16,11 @@ export const pageLinksData = [
     children: '청첩장 찾기',
   },
   {
-    href: '/about',
+    href: '/create',
     children: '청첩장 제작',
   },
   {
-    href: '/about',
+    href: '/lists',
     children: '청첩장 모음',
   },
 ];
