@@ -130,4 +130,15 @@ export const globalStyle = css`
     border-spacing: 0;
     border-collapse: collapse;
   }
+
+  /*********************************
+   *NOTE:    customized styles     *
+   *********************************/
+
+  /* stylelint-disable-next-line no-duplicate-selectors */
+  body {
+    display: flex;
+    flex-direction: column;
+    min-height: 100%;
+  }
 `;

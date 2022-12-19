@@ -6,3 +6,4 @@ export * from './Input';
 export * from './Link';
 export * from './Tabs';
 export * from './Select';
+export * from './Layouts';
