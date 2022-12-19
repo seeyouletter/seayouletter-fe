@@ -1,7 +1,6 @@
 import React from 'react';
 
-import {ThemeProvider} from '@emotion/react';
-import { CustomThemeProvider, globalTheme } from 'ui';
+import { CustomThemeProvider } from 'ui';
 
 import { viewports, MINIMAL_VIEWPORTS, DEFAULT_VIEWPORT } from './viewPortsMap';
 
