@@ -1,7 +1,11 @@
 import React from 'react';
 
-import { StyledBaseMain } from './styles';
+import { StyledBaseMainContainer, StyledBaseMainInner } from './styles';
 
 export const BaseMain = ({ children }: React.PropsWithChildren) => {
-  return <StyledBaseMain className="layout__main">{children}</StyledBaseMain>;
+  return (
+    <StyledBaseMainContainer className="layout__main">
+      <StyledBaseMainInner>{children}</StyledBaseMainInner>
+    </StyledBaseMainContainer>
+  );
 };
