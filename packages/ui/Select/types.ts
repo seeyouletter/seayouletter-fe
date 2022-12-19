@@ -1,4 +1,4 @@
-import { SizeType } from 'common/types';
+import { SizeType } from '../common/types';
 
 export interface OptionInterface {
   label: string;

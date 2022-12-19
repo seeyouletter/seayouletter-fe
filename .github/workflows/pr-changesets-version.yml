@@ -7,8 +7,6 @@ on:
       - closed
     paths:
       - '**/CHANGELOG.md'
-      - '.changeset/**.md'
-      - '**/package.json'
 
 concurrency: ${{ github.workflow }}-${{ github.ref }}
 
