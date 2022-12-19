@@ -1,9 +1,14 @@
+import { SizeType } from 'common/types';
+
 export interface OptionInterface {
   label: string;
   value: string;
 }
 
 export interface SelectPropsInterface {
+  width?: string;
+  height?: string;
+  size?: SizeType;
   options: OptionInterface[];
   placeholder?: string;
   activeOption?: OptionInterface;

@@ -20,7 +20,15 @@ import { SelectPropsInterface } from './types';
  * @see: 또다른 데스크톱에서 쓸만한 컴포넌트를 찾았습니다.
  * https://github.com/csandman/chakra-react-select
  */
-export const Mobile = ({ options, placeholder, onChange, activeOption }: SelectPropsInterface) => {
+export const Mobile = ({
+  width,
+  height,
+  size,
+  options,
+  placeholder,
+  onChange,
+  activeOption,
+}: SelectPropsInterface) => {
   const selectRef = useRef<HTMLSelectElement | null>(null);
   const selectedOption = useRef(placeholder ? null : options[0]);
 
@@ -56,6 +64,10 @@ export const Mobile = ({ options, placeholder, onChange, activeOption }: SelectP
 
   return (
     <Select
+      width={width}
+      height={height}
+      size={size}
+      borderRadius="10px"
       ref={selectRef}
       placeholder={placeholder}
       variant="outline"

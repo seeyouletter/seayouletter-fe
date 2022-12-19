@@ -34,6 +34,52 @@ import { DefaultSelect } from 'ui';
   title="Components/Select"
   component={DefaultSelect}
   argTypes={{
+    width: {
+      name: 'width',
+      description: '너비를 지정해줍니다.',
+      control: {
+        type: 'text',
+      },
+      table: {
+        type: {
+          summary: 'string',
+        },
+        defaultValue: {
+          summary: '84px',
+        },
+      },
+    },
+    height: {
+      name: 'height',
+      description: '높이를 지정해줍니다.',
+      control: {
+        type: 'text',
+      },
+      table: {
+        type: {
+          summary: 'string',
+        },
+        defaultValue: {
+          summary: '32px',
+        },
+      },
+    },
+    size: {
+      name: 'size',
+      description: '폰트 사이즈를 지정할 수 있어요.',
+      control: {
+        type: 'radio',
+        options: ['lg', 'md', 'sm', 'xs'],
+      },
+      table: {
+        type: {
+          summary: ['lg', 'md', 'sm', 'xs'],
+        },
+        defaultValue: {
+          summary: 'md',
+        },
+      },
+    },
     options: {
       name: 'options',
       description:
@@ -117,6 +163,8 @@ export const SelectTemplate = (args) => <DefaultSelect {...args} />;
   <Story
     name="설명"
     args={{
+      width: '84px',
+      height: '32px',
       options: [
         {
           label: '셀렉트 옵션 1입니다.',
@@ -160,6 +208,9 @@ export const SelectTemplate = (args) => <DefaultSelect {...args} />;
   <Story
     name="props | placeholder"
     args={{
+      width: '84px',
+      height: '32px',
+      size: 'sm',
       options: [
         {
           label: '셀렉트 옵션 1입니다.',
@@ -202,6 +253,9 @@ export const SelectTemplate = (args) => <DefaultSelect {...args} />;
     style="display: block;"
     name="props | activeOption"
     args={{
+      width: '84px',
+      height: '32px',
+      size: 'sm',
       options: [
         {
           label: '셀렉트 옵션 1입니다.',
