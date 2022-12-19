@@ -1,42 +1,23 @@
-import { LinkInterface } from 'Link/types';
+import Image from 'next/image';
 
-import { KakaoIcon } from '../../../../Icon';
+import { css } from '@emotion/react';
+import styled from '@emotion/styled';
+
+import { Menu, MenuItem, MenuList } from '@chakra-ui/react';
+
 import { DefaultLink, FullLogoLink } from '../../../../Link';
-import {
-  BaseHeaderContainer,
-  BaseHeaderInner,
-  StyledPageLinks,
-  StyledUserMenuButton,
-} from './styles';
-
-const logoLinkData = {
-  href: '/',
-};
-
-const pageLinksData = [
-  {
-    href: '/about',
-    children: '씨유레터는',
-  },
-  {
-    href: '/find',
-    children: '청첩장 찾기',
-  },
-  {
-    href: '/about',
-    children: '청첩장 제작',
-  },
-  {
-    href: '/about',
-    children: '청첩장 모음',
-  },
-];
+import { LinkInterface } from '../../../../Link/types';
+import { MenuIconButton } from '../../../../Menu';
+import { BaseHeaderContainer, BaseHeaderInner, StyledPageLinks } from './styles';
 
 interface PageLinksPropsInterface {
   pageLinks: LinkInterface[];
 }
 interface BaseHeaderPropsInterface extends PageLinksPropsInterface {
   logoLink: LinkInterface;
+  user: {
+    profileUrl: string;
+  };
 }
 
 export const BasePageLinks = ({ pageLinks }: PageLinksPropsInterface) => {
@@ -51,18 +32,39 @@ export const BasePageLinks = ({ pageLinks }: PageLinksPropsInterface) => {
   );
 };
 
-export const BaseHeader = ({
-  logoLink = logoLinkData,
-  pageLinks = pageLinksData,
-}: BaseHeaderPropsInterface) => {
+const UserProfile = styled(Image)`
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+`;
+
+export const BaseHeader = ({ logoLink, pageLinks, user }: BaseHeaderPropsInterface) => {
   return (
     <BaseHeaderContainer className="layout__header header">
       <BaseHeaderInner className="header__inner">
         <FullLogoLink href={logoLink.href} />
         <BasePageLinks pageLinks={pageLinks}></BasePageLinks>
-        <StyledUserMenuButton>
-          <KakaoIcon size="28px" />
-        </StyledUserMenuButton>
+
+        <Menu>
+          <MenuIconButton>
+            <UserProfile
+              css={css`
+                border-radius: 50%;
+              `}
+              loader={() => user.profileUrl}
+              src={user.profileUrl}
+              alt="user"
+              width={32}
+              height={32}
+            />
+          </MenuIconButton>
+
+          <MenuList>
+            <MenuItem>내 정보 보기</MenuItem>
+            <MenuItem>로그아웃</MenuItem>
+          </MenuList>
+        </Menu>
       </BaseHeaderInner>
     </BaseHeaderContainer>
   );

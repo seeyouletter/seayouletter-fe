@@ -42,6 +42,7 @@ export const StyledUserMenuButton = styled.button`
 
   width: 32px;
   height: 32px;
+  background-color: white;
 
   border: ${(props) => props.theme.border.default};
 

@@ -1,6 +1,6 @@
 import React from 'react';
 
-import Logo from '../Icon/Logo';
+import { Logo } from '../Icon/Logo';
 import { TextLogo } from '../Icon/TextLogo';
 import { DefaultLink } from '../Link';
 import { StyledLogoContainer } from './styles';

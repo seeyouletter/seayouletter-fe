@@ -12,7 +12,11 @@ export const IconButton = ({
   disabled,
   isRound = true,
   size = 'md',
+  bg,
+  hoverBg = 'primary.200',
+  activeBg = 'primary.500',
   colorScheme = 'primary',
+  isBoxShadow = false,
   onClick,
 }: IconButtonPropsInterface) => {
   return (
@@ -27,6 +31,14 @@ export const IconButton = ({
       aria-label={ariaLabel}
       colorScheme={colorScheme}
       onClick={onClick}
+      bg={bg}
+      _hover={{
+        bg: hoverBg,
+      }}
+      _active={{
+        bg: activeBg,
+      }}
+      boxShadow={isBoxShadow ? '0px 2px 2px 1px rgba(0,0,0,0.25)' : undefined}
     />
   );
 };
