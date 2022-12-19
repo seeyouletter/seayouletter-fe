@@ -1,13 +1,10 @@
 import Image from 'next/image';
 
-import { css } from '@emotion/react';
 import styled from '@emotion/styled';
-
-import { Menu, MenuItem, MenuList } from '@chakra-ui/react';
 
 import { DefaultLink, FullLogoLink } from '../../../../Link';
 import { LinkInterface } from '../../../../Link/types';
-import { MenuIconButton } from '../../../../Menu';
+import { Menu, MenuIconButton, MenuItem, MenuList } from '../../../../Menu';
 import { BaseHeaderContainer, BaseHeaderInner, StyledPageLinks } from './styles';
 
 interface PageLinksPropsInterface {
@@ -37,6 +34,7 @@ const UserProfile = styled(Image)`
   display: flex;
   align-items: center;
   justify-content: center;
+  border-radius: 50%;
 `;
 
 export const BaseHeader = ({ logoLink, pageLinks, user }: BaseHeaderPropsInterface) => {
@@ -49,9 +47,6 @@ export const BaseHeader = ({ logoLink, pageLinks, user }: BaseHeaderPropsInterfa
         <Menu>
           <MenuIconButton>
             <UserProfile
-              css={css`
-                border-radius: 50%;
-              `}
               loader={() => user.profileUrl}
               src={user.profileUrl}
               alt="user"
