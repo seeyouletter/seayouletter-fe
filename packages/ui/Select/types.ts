@@ -4,6 +4,13 @@ export interface OptionInterface {
 }
 
 export interface SelectPropsInterface {
-  placeholder?: string;
   options: OptionInterface[];
+  placeholder?: string;
+  activeOption?: OptionInterface;
+  /**
+   *
+   * @param option
+   * @inner 만약 placeholder가 있다면 null이 나올 수 있습니다.
+   */
+  onChange: (option: OptionInterface | null) => void;
 }

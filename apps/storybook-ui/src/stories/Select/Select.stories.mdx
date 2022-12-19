@@ -1,0 +1,233 @@
+import { ArgsTable, Canvas, Meta, Story } from '@storybook/addon-docs';
+
+import { DefaultSelect } from 'ui';
+
+<style>
+  {`
+  h2,
+  h6 {
+    font-weight: 700;
+    display: block;
+  }
+  code {
+    line-height: 1;
+    margin: 0 2px;
+    padding: 3px 5px;
+    white-space: nowrap;
+    border-radius: 3px;
+    font-size: 13px;
+    border: 1px solid #EEEEEE;
+    color: rgba(51,51,51,0.9);
+    background-color: #F8F8F8;
+  }
+`}
+</style>
+
+# Select
+
+옵션을 받아서 사용할 수 있는, 선택할 수 있는 컴포넌트입니다.  
+웹 표준 시멘틱 태그로 지원하기 때문에 모바일에서 사용할 때에도 UI/UX가 표준으로 유지될 수 있어요! 🙆🏻🙆🏻‍♀️
+
+> 추후 여유 시간이 존재한다면 직접 구현하거나 써드파티 라이브러리를 도입할 예정입니다.
+
+<Meta
+  title="Components/Select"
+  component={DefaultSelect}
+  argTypes={{
+    options: {
+      name: 'options',
+      description:
+        '옵션을 지정해줄 수 있어요. label과 실제 들어갈 value를 별도로 구분해줄 수 있어요.',
+      control: {
+        type: 'array',
+      },
+      table: {
+        type: {
+          summary: 'OptionInterface[]',
+          detail: `
+interface OptionInterface {
+  label: string;
+  value: string;
+}
+          `,
+        },
+        defaultValue: {
+          summary: '[]',
+        },
+      },
+    },
+    placeholder: {
+      name: 'placeholder 🚨',
+      description:
+        '옵션이 선택되지 않은 것을 원할 수 있어요. 그럴 때에는 placeholder을 통해 선택을 요청할 수 있어요. <br/> 만약 이 값이 없다면, 옵션의 맨 첫 번째 것이 defaultValue로 선택되어 있어요!',
+      control: {
+        type: 'text',
+      },
+      table: {
+        type: {
+          summary: 'string',
+          detail: '만약 이 값이 없다면, 옵션의 맨 첫 번째 것이 defaultValue로 선택되어 있어요!',
+        },
+        defaultValue: {
+          summary: '',
+        },
+      },
+    },
+    activeOption: {
+      name: 'activeOption',
+      description: 'optional한 값이며, 초기에 어떤 옵션을 선택되게 할 것인지 지정 가능해요.',
+      control: {
+        type: 'object',
+      },
+      table: {
+        type: {
+          summary: 'undefined | OptionInterface',
+          detail: `
+interface OptionInterface {
+  label: string;
+  value: string;
+}
+          `,
+        },
+        defaultValue: {
+          summary: undefined,
+        },
+      },
+    },
+    onChange: {
+      action: 'changed',
+      table: {
+        type: {
+          summary: '(option: OptionInterface) => void',
+          detail: `
+interface OptionInterface {
+  label: string;
+  value: string;
+}          
+          `,
+        },
+      },
+    },
+  }}
+/>
+
+export const SelectTemplate = (args) => <DefaultSelect {...args} />;
+
+<Canvas>
+  <Story
+    name="설명"
+    args={{
+      options: [
+        {
+          label: '셀렉트 옵션 1입니다.',
+          value: 'option 1',
+        },
+        {
+          label: '셀렉트 옵션 2입니다.',
+          value: 'option 2',
+        },
+        {
+          label: '셀렉트 옵션 3입니다.',
+          value: 'option 3',
+        },
+      ],
+      placeholder: '',
+      activeOption: undefined,
+    }}
+  >
+    {SelectTemplate.bind({})}
+  </Story>
+</Canvas>
+
+<ArgsTable story="설명" />
+
+<br />
+<br />
+<br />
+
+# props
+
+<br />
+
+## placeholder
+
+씨유레터는 초기에 값을 지정해주지 않을 수 있어요.  
+대신 선택을 유도할 수 있도록 `placeholder`을 지원해주기로 했습니다.
+
+> 이는 단지 선택 사항이며, UX를 고려해서 사용을 선택해주세요!
+
+<Canvas>
+  <Story
+    name="props | placeholder"
+    args={{
+      options: [
+        {
+          label: '셀렉트 옵션 1입니다.',
+          value: 'option 1',
+        },
+        {
+          label: '셀렉트 옵션 2입니다.',
+          value: 'option 2',
+        },
+        {
+          label: '셀렉트 옵션 3입니다.',
+          value: 'option 3',
+        },
+      ],
+      placeholder: '옵션을 선택해주세요 🙆🏻',
+      activeOption: undefined,
+    }}
+  >
+    {SelectTemplate.bind({})}
+  </Story>
+</Canvas>
+
+<ArgsTable story="props | placeholder" />
+
+<br />
+<br />
+<br />
+
+## activeOption
+
+씨유레터의 셀렉트는 `activeOption`을 추가로 지원해요.  
+만약 초기에 로컬스토리지나 서버에서 사용자가 설정했던 옵션이 초기화되면, 기분이 좋지 않겠죠?  
+따라서 이를 충분히 지원할 수 있도록, activeOption을 지정해줄 수 있어요 🙆🏻🙆🏻‍♀️
+
+> 주의사항: 반드시 `options` 안에 포함되어 있어야 해요.  
+> 또한, `value`에는 JSON의 직렬화를 이용한 간단한 비교만 수행되어 옵션이 활성화 되므로, 이를 주의합니다.
+
+<Canvas>
+  <Story
+    style="display: block;"
+    name="props | activeOption"
+    args={{
+      options: [
+        {
+          label: '셀렉트 옵션 1입니다.',
+          value: 'option 1',
+        },
+        {
+          label: '셀렉트 옵션 2입니다.',
+          value: 'option 2',
+        },
+        {
+          label: '셀렉트 옵션 3입니다.',
+          value: 'option 3',
+        },
+      ],
+      placeholder: '카테고리를 선택해주세요.',
+      activeOption: {
+        label: '셀렉트 옵션 2입니다.',
+        value: 'option 2',
+      },
+    }}
+  >
+    {SelectTemplate.bind({})}
+  </Story>
+  <h4>
+    <code>placeholder</code>가 있어도 걱정 마세요. <code>activeOption</code>이 우선합니다.
+  </h4>
+</Canvas>
+
+<ArgsTable story="props | activeOption" />

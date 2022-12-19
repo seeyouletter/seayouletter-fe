@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { BaseSyntheticEvent, useEffect, useRef } from 'react';
 
 import { Select } from '@chakra-ui/react';
 
@@ -20,9 +20,52 @@ import { SelectPropsInterface } from './types';
  * @see: 또다른 데스크톱에서 쓸만한 컴포넌트를 찾았습니다.
  * https://github.com/csandman/chakra-react-select
  */
-export const Mobile = ({ options, placeholder }: SelectPropsInterface) => {
+export const Mobile = ({ options, placeholder, onChange, activeOption }: SelectPropsInterface) => {
+  const selectRef = useRef<HTMLSelectElement | null>(null);
+  const selectedOption = useRef(placeholder ? null : options[0]);
+
+  const handleSelect = (e: BaseSyntheticEvent) => {
+    const { selectedIndex } = e.target;
+
+    const nextSelectedOption = placeholder
+      ? options[selectedIndex - 1] ?? null
+      : options[selectedIndex];
+
+    selectedOption.current = nextSelectedOption;
+    onChange(selectedOption.current);
+  };
+
+  useEffect(() => {
+    if (!selectRef.current || !activeOption) return;
+
+    const selectedOptionIndex = options.findIndex(
+      (option) =>
+        JSON.stringify(activeOption.value) === JSON.stringify(option.value) &&
+        activeOption.label === option.label
+    );
+
+    if (selectedOptionIndex < 0) return;
+
+    const nextSelectedOptionIndex = selectedOptionIndex + +!!placeholder;
+
+    selectedOption.current = options[nextSelectedOptionIndex];
+    selectRef.current.selectedIndex = nextSelectedOptionIndex;
+
+    /* eslint-disable-next-line react-hooks/exhaustive-deps */
+  }, []);
+
   return (
-    <Select placeholder={placeholder} variant="outline" color="sub.500" borderColor="sub.500">
+    <Select
+      ref={selectRef}
+      placeholder={placeholder}
+      variant="outline"
+      color="primary.900"
+      borderColor="sub.500"
+      focusBorderColor="primary.500"
+      onChange={(e) => {
+        handleSelect(e);
+      }}
+    >
       {options.map((option) => (
         <option key={option.value} value={option.value}>
           {option.label}
