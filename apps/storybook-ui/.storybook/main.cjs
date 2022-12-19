@@ -1,5 +1,7 @@
 const { mergeConfig } = require('vite');
+const path = require('path');
 
+const nextConfigPath = path.resolve(__dirname, '../next.config.js');
 module.exports = {
   stories: ['../src/**/*.stories.mdx', '../src/**/*.stories.@(js|jsx|ts|tsx)'],
   addons: [
@@ -14,6 +16,12 @@ module.exports = {
      * https://github.com/chakra-ui/chakra-ui/issues/6433
      */
     // "@chakra-ui/storybook-addon",
+    {
+      name: 'storybook-addon-next',
+      options: {
+        nextConfigPath
+      }
+    }
   ],
   framework: '@storybook/react',
   core: {
