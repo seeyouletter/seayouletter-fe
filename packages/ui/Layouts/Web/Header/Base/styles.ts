@@ -12,10 +12,6 @@ export const BaseHeaderContainer = styled.header`
 
   z-index: 1000;
 
-  display: flex;
-  align-items: center;
-
-  width: 100%;
   height: 60px;
   background-color: ${(props) => props.theme.color.white};
   box-shadow: 0px 0px 10px 2px rgba(0, 0, 0, 0.1);
@@ -23,4 +19,31 @@ export const BaseHeaderContainer = styled.header`
 
 export const BaseHeaderInner = styled.div`
   ${CommonBaseInnerCSS}
+
+  display: flex;
+  align-items: center;
+
+  height: 100%;
+`;
+
+export const StyledPageLinks = styled.nav`
+  display: flex;
+  justify-content: space-between;
+
+  width: 540px;
+
+  margin: 0 auto;
+`;
+
+export const StyledUserMenuButton = styled.button`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  width: 32px;
+  height: 32px;
+
+  border: ${(props) => props.theme.border.default};
+
+  border-radius: 50%;
 `;
