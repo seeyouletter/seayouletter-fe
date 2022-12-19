@@ -7,11 +7,16 @@ import { Link as ChakraLink } from '@chakra-ui/react';
 
 import { LinkInterface } from './types';
 
-export const ExternalLink = ({ href, color = 'primary.500', children }: LinkInterface) => {
+export const ExternalLink = ({
+  className,
+  href,
+  color = 'primary.500',
+  children,
+}: LinkInterface) => {
   return (
-    <ChakraLink as={Link} color={color} href={href} isExternal>
+    <ChakraLink as={Link} className={className} color={color} href={href} isExternal>
       {children}
-      <ExternalLinkIcon mx="2px" />
+      <ExternalLinkIcon mx="4px" fontSize="12px" />
     </ChakraLink>
   );
 };

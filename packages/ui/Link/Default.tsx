@@ -28,12 +28,18 @@ const StyledLink = styled(Link)`
 
 export const DefaultLink = ({
   href,
+  className,
   color = 'primary.500',
   children,
   noUnderline = true,
 }: LinkInterface) => {
   return (
-    <ChakraLink className={noUnderline ? 'link' : ''} as={StyledLink} color={color} href={href}>
+    <ChakraLink
+      as={StyledLink}
+      color={color}
+      href={href}
+      className={noUnderline ? 'link' : '' + className}
+    >
       {children}
     </ChakraLink>
   );
