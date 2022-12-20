@@ -1,1 +1,1 @@
-export * from './Default';
+export { StyledPageContainer, StyledPageInner } from './Default';
