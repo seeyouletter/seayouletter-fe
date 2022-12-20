@@ -25,6 +25,85 @@ export const pageLinksData = [
   },
 ];
 
+const footerLinksData = [
+  {
+    name: '씨유레터',
+    links: [
+      {
+        href: '/about/culture',
+        label: '문화',
+      },
+      {
+        href: '/about/culture',
+        label: '히스토리',
+      },
+      {
+        href: '/about/culture',
+        label: '씨유레터',
+      },
+    ],
+  },
+  {
+    name: '소식',
+    links: [
+      {
+        href: '/event',
+        label: '이벤트',
+      },
+      {
+        href: '/notice',
+        label: '공지사항',
+      },
+      {
+        href: '/update',
+        label: '업데이트',
+      },
+    ],
+  },
+  {
+    name: '기술과 서비스',
+    links: [
+      {
+        href: '/terms-of-agreement',
+        label: '이용약관',
+      },
+      {
+        href: '/FAQ',
+        label: 'FAQ',
+      },
+      {
+        href: '/customer-service',
+        label: '고객센터',
+      },
+      {
+        href: '/private-info-administration',
+        label: '개인정보 처리방침',
+      },
+      {
+        href: '/report',
+        label: '권리침해 신고안내',
+      },
+    ],
+  },
+  {
+    name: '참고',
+    links: [
+      {
+        href: 'https://github.com/seeyouletter',
+        label: 'GitHub',
+      },
+      {
+        href: 'https://github.com/seeyouletter/seeyouletter-fe',
+        label: 'FE',
+      },
+      {
+        href: 'https://github.com/seeyouletter/seeyouletter-be',
+        label: 'BE',
+      },
+    ],
+  },
+];
+
 function BaseLayout({ children }: PropsWithChildren) {
   return (
     <StyledPageContainer className="layout">
@@ -37,7 +116,7 @@ function BaseLayout({ children }: PropsWithChildren) {
         }}
       />
       <BaseMain>{children}</BaseMain>
-      <BaseFooter></BaseFooter>
+      <BaseFooter footerLinks={footerLinksData}></BaseFooter>
     </StyledPageContainer>
   );
 }
