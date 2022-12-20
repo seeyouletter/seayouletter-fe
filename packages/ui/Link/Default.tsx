@@ -3,42 +3,43 @@ import React from 'react';
 import Link from 'next/link';
 
 import { css } from '@emotion/react';
-import styled from '@emotion/styled';
 
 import { Link as ChakraLink } from '@chakra-ui/react';
 
 import { LinkInterface } from './types';
 
-const activeLinkWithNoUnderlineCSS = (color: string) => css`
-  &.link {
+const activeLinkWithNoUnderlineCSS = (noUnderline: boolean) => css`
+  ${noUnderline &&
+  css`
     text-decoration: none;
 
     &:focus,
     &:hover,
     &:active {
-      color: ${color};
       text-decoration: none;
     }
-  }
-`;
-
-const StyledLink = styled(Link)`
-  ${({ theme }) => activeLinkWithNoUnderlineCSS(theme.color.primary[500])}
+  `}
 `;
 
 export const DefaultLink = ({
   href,
   className,
-  color = 'primary.500',
+  color = 'text',
+  activeColor = 'text',
   children,
-  noUnderline = true,
+  noUnderline = false,
 }: LinkInterface) => {
+  const activeStyle = { color: activeColor, textDecoration: noUnderline ? 'none' : 'underline' };
   return (
     <ChakraLink
-      as={StyledLink}
+      css={activeLinkWithNoUnderlineCSS(noUnderline)}
+      as={Link}
       color={color}
       href={href}
-      className={noUnderline ? 'link' : '' + className}
+      className={className}
+      _hover={activeStyle}
+      _active={activeStyle}
+      _focus={activeStyle}
     >
       {children}
     </ChakraLink>

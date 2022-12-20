@@ -2,10 +2,10 @@ import Image from 'next/image';
 
 import styled from '@emotion/styled';
 
-import { DefaultLink, FullLogoLink } from '../../../../Link';
+import { FullLogoLink } from '../../../../Link';
 import { LinkInterface } from '../../../../Link/types';
 import { Menu, MenuIconButton, MenuItem, MenuList } from '../../../../Menu';
-import { BaseHeaderContainer, BaseHeaderInner, StyledPageLinks } from './styles';
+import { BaseHeaderContainer, BaseHeaderInner, StyledPageLink, StyledPageLinks } from './styles';
 
 interface PageLinksPropsInterface {
   pageLinks: LinkInterface[];
@@ -21,9 +21,15 @@ export const BasePageLinks = ({ pageLinks }: PageLinksPropsInterface) => {
   return (
     <StyledPageLinks>
       {pageLinks.map((pageLink) => (
-        <DefaultLink key={pageLink.href} href={pageLink.href} color="text">
+        <StyledPageLink
+          key={pageLink.href}
+          href={pageLink.href}
+          color="text"
+          activeColor="primary.500"
+          noUnderline
+        >
           {pageLink.children}
-        </DefaultLink>
+        </StyledPageLink>
       ))}
     </StyledPageLinks>
   );

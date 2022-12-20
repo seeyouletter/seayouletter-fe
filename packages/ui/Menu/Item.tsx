@@ -2,9 +2,9 @@ import { PropsWithChildren } from 'react';
 
 import styled from '@emotion/styled';
 
-import { MenuItem as ChakramenuItem } from '@chakra-ui/react';
+import { MenuItem as ChakraMenuItem } from '@chakra-ui/react';
 
-const StyledMenuItem = styled(ChakramenuItem)`
+const StyledMenuItem = styled(ChakraMenuItem)`
   :focus,
   :active,
   :hover {
