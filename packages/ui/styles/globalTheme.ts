@@ -66,6 +66,9 @@ export const globalColor = {
   warning: '#FFBD98',
   text: '#111111',
   white: '#FFFFFF',
+  layouts: {
+    page: '#F7F7F7',
+  },
 };
 
 export const globalBorder = {

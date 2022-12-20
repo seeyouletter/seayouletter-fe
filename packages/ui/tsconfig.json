@@ -1,6 +1,9 @@
 {
   "compilerOptions": {
-    "baseUrl": "."
+    "baseUrl": ".",
+    "paths": {
+      "@packages/ui/*": ["./src/*"]
+    }
   },
   "extends": "tsconfig/react-library.json",
   "include": ["."],

@@ -1,3 +1,5 @@
+import BaseLayout from 'layouts/BaseLayout';
+
 import { useState } from 'react';
 
 import { DefaultButton } from 'ui';
@@ -19,3 +21,7 @@ export default function Web() {
     </div>
   );
 }
+
+Web.getLayout = function getLayout(page: React.ReactElement) {
+  return <BaseLayout>{page}</BaseLayout>;
+};

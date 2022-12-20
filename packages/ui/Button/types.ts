@@ -12,7 +12,7 @@ export interface ButtonInterface extends PropsWithChildren {
   shape?: ButtonType;
   disabled?: boolean;
   isLoading?: boolean;
-  onClick: () => void;
+  onClick?: () => void;
 }
 
 export interface DefaultButtonPropsInterface extends ButtonInterface {
@@ -35,4 +35,8 @@ export interface IconButtonPropsInterface extends ButtonInterface {
   icon: React.ReactElement;
   isRound?: boolean;
   size: SizeType;
+  bg?: string;
+  hoverBg?: string;
+  activeBg?: string;
+  isBoxShadow?: boolean;
 }
