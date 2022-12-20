@@ -5,6 +5,7 @@ import { CustomThemeProvider } from 'ui';
 import { viewports, MINIMAL_VIEWPORTS, DEFAULT_VIEWPORT } from './viewPortsMap';
 
 export const parameters = {
+  layout: 'fullscreen',
   actions: { argTypesRegex: '^on[A-Z].*' },
   viewport: {
     viewports: {

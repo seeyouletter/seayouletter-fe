@@ -1,6 +1,7 @@
 import { css } from '@emotion/react';
 
 export const CommonBaseContainerCSS = (color = '#ddd') => css`
+  min-width: 1024px;
   background-color: ${color};
 `;
 

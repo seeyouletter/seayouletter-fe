@@ -9,3 +9,6 @@ export {
   globalFontWeight,
   globalLayouts,
 } from './globalTheme';
+
+export * from './chakraTheme';
+export * from './globalStyle';
