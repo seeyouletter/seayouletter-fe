@@ -10,7 +10,7 @@ export const StyledBaseMainContainer = styled.main`
   padding-top: ${(props) => props.theme.layouts.header.height};
 `;
 
-export const StyledBaseMainInner = styled.main`
+export const StyledBaseMainInner = styled.div`
   ${CommonBaseInnerCSS}
 
   flex: 1;

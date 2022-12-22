@@ -14,7 +14,7 @@ module.exports = {
   },
   overrides: [
     {
-      files: ['**/*.tsx'],
+      files: ['**/*.tsx', '**/*.ts'],
       parser: '@typescript-eslint/parser',
       plugins: ['react', '@typescript-eslint'],
       extends: ['plugin:@typescript-eslint/recommended'],
@@ -23,6 +23,24 @@ module.exports = {
         '@typescript-eslint/no-unused-vars': 'error',
         'react/no-unused-prop-types': 'error',
         '@typescript-eslint/explicit-member-accessibility': 'error',
+      },
+
+      settings: {
+        'import/parsers': {
+          '@typescript-eslint/parser': ['.ts', '.tsx'],
+        },
+        'import/resolver': {
+          typescript: {
+            /**
+             * @inner
+             * always try to resolve types under `<root>@types` directory
+             * even it doesn't contain any source code, like `@types/unist`,
+             * @see: https://www.npmjs.com/package/eslint-import-resolver-typescript
+             */
+            alwaysTryTypes: true,
+          },
+          project: ['./tsconfig.json'],
+        },
       },
     },
   ],

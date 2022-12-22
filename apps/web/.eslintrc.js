@@ -1,3 +1,7 @@
 module.exports = {
-  extends: ["eslint-config-custom"]
+  env: {
+    "jest/globals": true
+  },
+  extends: ["eslint-config-custom"],
+  plugins: ["jest"]
 }

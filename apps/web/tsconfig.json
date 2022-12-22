@@ -4,10 +4,10 @@
   "exclude": ["node_modules"],
   "compilerOptions": {
     "baseUrl": ".",
-    "jsx": "preserve"
-  },
-  "paths": {
-    "@packages/ui/*": ["../../packages/ui/*"],
-    "@pages/*": ["pages/*"]
+    "jsx": "preserve",
+    "paths": {
+      "@packages/ui/*": ["../../packages/ui/*"],
+      "@pages/*": ["pages/*"]
+    }
   }
 }
