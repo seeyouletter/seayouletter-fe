@@ -6,7 +6,7 @@ import { InputPropsInterface } from './types';
 
 export const FormInput = ({
   size = 'md',
-  shape = 'Flushed',
+  shape = 'flushed',
   placeholder,
   color,
   isInvalid = false,
@@ -14,6 +14,7 @@ export const FormInput = ({
 }: InputPropsInterface) => {
   return (
     <Input
+      {...props}
       data-testid={props['data-testid']}
       aria-label={props['aria-label']}
       size={size}
@@ -22,7 +23,7 @@ export const FormInput = ({
       placeholder={placeholder}
       _placeholder={{ color: 'inherit', opacity: 0.5 }}
       errorBorderColor="error"
-      focusBorderColor="primary.400"
+      focusBorderColor="primary.500"
       isInvalid={isInvalid}
     />
   );

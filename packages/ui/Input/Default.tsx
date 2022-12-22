@@ -12,7 +12,7 @@ export const DefaultInput = ({
 }: InputPropsInterface) => {
   return (
     <Input
-      variant={'outline'}
+      variant="outline"
       size={size}
       color={color}
       placeholder={placeholder}

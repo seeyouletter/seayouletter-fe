@@ -6,6 +6,6 @@ export interface InputPropsInterface {
   size: SizeType;
   placeholder: string;
   color?: undefined | string;
-  shape?: 'Outline' | 'Filled' | 'Flushed';
+  shape?: 'outline' | 'filled' | 'flushed';
   isInvalid: boolean;
 }
