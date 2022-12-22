@@ -8,7 +8,8 @@
     "start": "next start",
     "check-types": "tsc --noemit",
     "lint": "eslint \"**/*.{js,jsx,ts,tsx,cjs,mjs}\" && pnpm check-types",
-    "stylelint": "stylelint \"**/*.{tsx,ts}\""
+    "stylelint": "stylelint \"**/*.{tsx,ts}\"",
+    "test": "jest --watch"
   },
   "dependencies": {
     "@chakra-ui/react": "^2.4.3",
@@ -26,12 +27,15 @@
   },
   "devDependencies": {
     "@babel/core": "^7.0.0",
+    "@testing-library/jest-dom": "^5.16.5",
+    "@testing-library/react": "^13.4.0",
     "@types/node": "^17.0.12",
     "@types/react": "^18.0.26",
     "@types/react-dom": "^18.0.7",
     "eslint": "^8.29.0",
     "eslint-config-custom": "workspace:0.0.0",
     "jest": "^29.3.1",
+    "jest-environment-jsdom": "^29.3.1",
     "prettier": "^2.8.1",
     "tsconfig": "workspace:*",
     "typescript": "^4.5.3"

@@ -11,6 +11,7 @@
     "build": "turbo run build",
     "dev": "turbo run dev --parallel",
     "lint": "turbo run lint",
+    "test": "turbo run test",
     "stylelint": "turbo run stylelint",
     "format": "prettier --write \"**/*.{ts,tsx,md}\"",
     "ci:version": "changeset version",

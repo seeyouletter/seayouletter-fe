@@ -3,7 +3,6 @@
 
 echo "🚦 PREPARE-COMMIT-MSG | Start cz with cz-customizable..."
 
-echo "here: "
 echo [ -z "${2}"]
 
 # $2: catch if commit msg already exist.
