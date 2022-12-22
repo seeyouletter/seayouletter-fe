@@ -2,7 +2,7 @@ import React from 'react';
 
 import { VStack } from '@chakra-ui/react';
 
-import { Logo } from '../../../../Icon';
+import { Logo } from '../../../../icon';
 import {
   StyledDefaultLink,
   StyledExternalLink,

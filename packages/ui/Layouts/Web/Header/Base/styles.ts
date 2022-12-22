@@ -1,6 +1,6 @@
 import styled from '@emotion/styled';
 
-import { DefaultLink } from '../../../../Link';
+import { DefaultLink } from '../../../../link';
 import { CommonBaseInnerCSS } from '../../common/base';
 
 export const BaseHeaderContainer = styled.header`

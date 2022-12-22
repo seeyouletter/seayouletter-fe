@@ -10,9 +10,12 @@ export const FormInput = ({
   placeholder,
   color,
   isInvalid = false,
+  ...props
 }: InputPropsInterface) => {
   return (
     <Input
+      data-testid={props['data-testid']}
+      aria-label={props['aria-label']}
       size={size}
       variant={shape}
       color={color}

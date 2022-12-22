@@ -8,6 +8,9 @@
     "test": {
       "outputs": []
     },
+    "test:coverage": {
+      "outputs": []
+    },
     "stylelint": {
       "outputs": [],
       "inputs": []

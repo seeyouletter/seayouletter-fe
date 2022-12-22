@@ -1,7 +1,7 @@
 import styled from '@emotion/styled';
 
-import { DefaultLink, ExternalLink } from '../../../../Link';
-import DefaultHStack from '../../../../Stack/HStack';
+import { DefaultLink, ExternalLink } from '../../../../link';
+import DefaultHStack from '../../../../stack/HStack';
 import { CommonBaseContainerCSS, CommonBaseInnerCSS } from '../../common/base';
 
 export const StyledFooterContainer = styled.footer`

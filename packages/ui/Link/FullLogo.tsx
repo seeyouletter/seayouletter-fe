@@ -1,8 +1,8 @@
 import React from 'react';
 
-import { Logo } from '../Icon/Logo';
-import { TextLogo } from '../Icon/TextLogo';
-import { DefaultLink } from '../Link';
+import { DefaultLink } from '.';
+import { Logo } from '../icon/Logo';
+import { TextLogo } from '../icon/TextLogo';
 import { StyledLogoContainer } from './styles';
 import { LinkInterface } from './types';
 
