@@ -41,6 +41,11 @@ module.exports = {
    * @see: https://chakra-ui.com/getting-started/with-storybook#troubleshooting-storybook
    */
   async viteFinal(config) {
+    config.resolve.alias = {
+      ...config.resolve.alias,
+      "@ui": path.resolve(__dirname, "../../../packages/ui"),
+    };
+    
     return mergeConfig(config, {
       module: {
         rules: [

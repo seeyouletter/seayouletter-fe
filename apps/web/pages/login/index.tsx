@@ -2,7 +2,13 @@ import BaseLayout from 'layouts/BaseLayout';
 
 import React from 'react';
 
-import { FormInput } from '@packages/ui/input';
+import styled from '@emotion/styled';
+
+import { FormInput, FullWidthButton } from 'ui';
+
+const StyledLoginButton = styled(FullWidthButton)`
+  margin-top: 24px;
+`;
 
 export default function LoginPage() {
   const errors = {
@@ -27,6 +33,8 @@ export default function LoginPage() {
         placeholder="비밀번호"
         isInvalid={errors.pw}
       />
+
+      <StyledLoginButton>이메일로 로그인하기</StyledLoginButton>
     </section>
   );
 }

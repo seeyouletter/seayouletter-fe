@@ -6,7 +6,7 @@
     "baseUrl": ".",
     "jsx": "preserve",
     "paths": {
-      "@packages/ui/*": ["../../packages/ui/*"],
+      "@ui/*": ["../../packages/ui/*"],
       "@pages/*": ["pages/*"]
     }
   }

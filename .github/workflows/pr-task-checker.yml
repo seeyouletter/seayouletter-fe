@@ -9,6 +9,7 @@ concurrency:
 
 jobs:
   task-check:
+    if: github.repository == 'seeyouletter/seeyouletter-fe'
     runs-on: ubuntu-latest
     steps:
       - uses: kentaro-m/task-completed-checker-action@v0.1.0

@@ -1,25 +1,26 @@
 import React from 'react';
 
-import { Button, VStack } from '@chakra-ui/react';
+import { Button } from '@chakra-ui/react';
 
 import { DefaultButtonPropsInterface } from './types';
 
-export const FullWidthButton = ({
+export function DefaultButton({
   shape = 'solid',
   size = 'md',
   colorScheme = 'primary',
+  width,
   height,
   loadingText = '',
   isLoading = false,
   children,
   disabled = false,
   onClick,
-}: DefaultButtonPropsInterface) => {
+}: DefaultButtonPropsInterface) {
   return (
     <Button
       size={size}
       colorScheme={colorScheme}
-      width="100%"
+      width={width}
       height={height}
       isLoading={isLoading}
       loadingText={loadingText}
@@ -28,7 +29,6 @@ export const FullWidthButton = ({
       variant={shape}
     >
       {children}
-      <VStack>wefewwe</VStack>
     </Button>
   );
-};
+}
