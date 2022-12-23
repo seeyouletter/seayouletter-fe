@@ -1,8 +1,8 @@
 import styled from '@emotion/styled';
 
-import { DefaultLink, ExternalLink } from '../../../../link';
-import DefaultHStack from '../../../../stack/HStack';
-import { CommonBaseContainerCSS, CommonBaseInnerCSS } from '../../common/base';
+import { CommonBaseContainerCSS, CommonBaseInnerCSS } from '@ui/layouts/web/common/base';
+import { DefaultLink, ExternalLink } from '@ui/link';
+import { DefaultHStack } from '@ui/stack/HStack';
 
 export const StyledFooterContainer = styled.footer`
   ${(props) => CommonBaseContainerCSS(props.theme.color.sub[500])};

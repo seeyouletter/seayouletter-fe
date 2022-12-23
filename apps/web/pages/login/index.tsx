@@ -1,23 +1,24 @@
 import BaseLayout from 'layouts/BaseLayout';
-import { LoginForm } from 'templates/Form/LoginForm';
 
 import React, { FormEvent, useState } from 'react';
 
 import { css } from '@emotion/react';
 import styled from '@emotion/styled';
 
-import { LinkInterface } from '@ui/link/types';
-import DefaultHStack from '@ui/stack/HStack';
+// import { LinkInterface } from '@ui/link/types';
+// import DefaultHStack from '@ui/stack/HStack';
 import {
+  DefaultHStack,
   DefaultLink,
   FormInput,
   FullWidthButton,
-  IconButton,
-  KakaoIcon,
-  NaverIcon,
+  LinkInterface,
   ScreenReaderText,
   StrongText,
 } from 'ui';
+
+import { LoginForm } from '@templates/form/LoginForm';
+import { Kakao, Naver } from '@templates/link';
 
 const idInputCSS = css`
   margin-bottom: 24px;
@@ -109,24 +110,8 @@ export default function LoginPage() {
         </DefaultHStack>
 
         <DefaultHStack spacing={4} justify="center">
-          <IconButton
-            role="link"
-            ariaLabel="카카오 로그인 링크"
-            size="lg"
-            icon={<KakaoIcon size="48px" />}
-            colorScheme="kakao"
-            hoverBg="kakao"
-            activeBg="kakao"
-          />
-          <IconButton
-            role="link"
-            ariaLabel="네이버 로그인 링크"
-            size="lg"
-            icon={<NaverIcon size="48px" />}
-            colorScheme="naver"
-            hoverBg="naver"
-            activeBg="naver"
-          />
+          <Kakao />
+          <Naver />
         </DefaultHStack>
       </LoginForm>
     </StyledPage>

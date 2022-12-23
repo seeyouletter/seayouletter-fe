@@ -10,7 +10,7 @@ export interface DefaultHStackInterface extends Omit<StackProps, 'inline'> {
  * @params { inline: StakcsProps['isInline'] } & Omit<StackProps, 'inline'>
  * @description inline이라는 용어가 주는 직관적인 느낌이 더 좋아서 바꾸었습니다.
  */
-const DefaultHStack = ({
+export const DefaultHStack = ({
   as,
   className,
 
@@ -44,5 +44,3 @@ const DefaultHStack = ({
     </HStack>
   );
 };
-
-export default DefaultHStack;
