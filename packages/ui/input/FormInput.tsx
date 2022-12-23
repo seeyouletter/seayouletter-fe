@@ -10,6 +10,7 @@ export const FormInput = ({
   placeholder,
   color,
   isInvalid = false,
+  onInput,
   ...props
 }: InputPropsInterface) => {
   return (
@@ -25,6 +26,7 @@ export const FormInput = ({
       errorBorderColor="error"
       focusBorderColor="primary.500"
       isInvalid={isInvalid}
+      onInput={onInput}
     />
   );
 };

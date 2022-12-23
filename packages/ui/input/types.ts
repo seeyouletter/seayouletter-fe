@@ -1,3 +1,5 @@
+import { FormEvent } from 'react';
+
 import { SizeType } from '../common/types';
 
 export interface InputPropsInterface {
@@ -8,4 +10,5 @@ export interface InputPropsInterface {
   color?: undefined | string;
   shape?: 'outline' | 'filled' | 'flushed';
   isInvalid: boolean;
+  onInput?: (e: FormEvent) => void;
 }

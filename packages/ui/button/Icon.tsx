@@ -5,6 +5,7 @@ import { IconButton as ChakraIconButton, Spinner } from '@chakra-ui/react';
 import { IconButtonPropsInterface } from './types';
 
 export const IconButton = ({
+  role = 'button',
   shape = 'solid',
   ariaLabel,
   icon,
@@ -28,6 +29,7 @@ export const IconButton = ({
       isRound={isRound}
       variant={shape}
       size={size}
+      role={role}
       aria-label={ariaLabel}
       colorScheme={colorScheme}
       onClick={onClick}

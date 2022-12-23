@@ -1,7 +1,7 @@
 import BaseLayout from 'layouts/BaseLayout';
 import { LoginForm } from 'templates/Form/LoginForm';
 
-import React from 'react';
+import React, { FormEvent, useState } from 'react';
 
 import { css } from '@emotion/react';
 import styled from '@emotion/styled';
@@ -15,6 +15,7 @@ import {
   IconButton,
   KakaoIcon,
   NaverIcon,
+  ScreenReaderText,
   StrongText,
 } from 'ui';
 
@@ -46,14 +47,32 @@ const SignUpLink = styled((props: LinkInterface) => <DefaultLink {...props} />)`
 `;
 
 export default function LoginPage() {
+  const [formState, setFormStates] = useState({
+    id: '',
+    pw: '',
+  });
+
   const errors = {
     id: false,
     pw: false,
   };
 
+  const isDisabled = !formState.id || !formState.pw;
+
+  const onInputChange = (type: 'id' | 'pw', value: string) => {
+    setFormStates((state) => ({
+      ...state,
+      [type]: value,
+    }));
+  };
+
   return (
     <StyledPage data-testid="page">
+      <ScreenReaderText>로그인 페이지입니다. 아이디와 비밀번호를 입력해주세요!</ScreenReaderText>
       <LoginForm>
+        <div>ID: {formState.id}</div>
+        <div>PW: {formState.pw}</div>
+        <div>{JSON.stringify(formState)}</div>
         <FormInput
           css={idInputCSS}
           data-testid="id-input"
@@ -61,6 +80,7 @@ export default function LoginPage() {
           size="md"
           placeholder="이메일 ID"
           isInvalid={errors.id}
+          onInput={(e: FormEvent) => onInputChange('id', (e.target as HTMLInputElement).value)}
         />
         <FormInput
           data-testid="password-input"
@@ -68,9 +88,12 @@ export default function LoginPage() {
           size="md"
           placeholder="비밀번호"
           isInvalid={errors.pw}
+          onInput={(e: FormEvent) => onInputChange('pw', (e.target as HTMLInputElement).value)}
         />
         <FindAccountLink href="find-account">이메일/비밀번호 찾기</FindAccountLink>
-        <FullWidthButton>이메일로 로그인하기</FullWidthButton>
+        <FullWidthButton data-testid="login-button" disabled={isDisabled}>
+          이메일로 로그인하기
+        </FullWidthButton>
 
         <DefaultHStack css={linkMarginCSS} justify="center">
           <div>씨유레터가 처음이신가요?</div>
@@ -79,7 +102,7 @@ export default function LoginPage() {
             href="/find-account"
             activeColor="primary.500"
             color="text"
-            // bold
+            bold
           >
             <StrongText color="primary">회원가입</StrongText>
           </SignUpLink>
@@ -87,7 +110,8 @@ export default function LoginPage() {
 
         <DefaultHStack spacing={4} justify="center">
           <IconButton
-            ariaLabel="카카오 로그인 버튼"
+            role="link"
+            ariaLabel="카카오 로그인 링크"
             size="lg"
             icon={<KakaoIcon size="48px" />}
             colorScheme="kakao"
@@ -95,7 +119,8 @@ export default function LoginPage() {
             activeBg="kakao"
           />
           <IconButton
-            ariaLabel="네이버 로그인 버튼"
+            role="link"
+            ariaLabel="네이버 로그인 링크"
             size="lg"
             icon={<NaverIcon size="48px" />}
             colorScheme="naver"

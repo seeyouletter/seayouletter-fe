@@ -31,6 +31,7 @@ export interface IconWithTextButtonPropsInterface extends DefaultButtonPropsInte
 }
 
 export interface IconButtonPropsInterface extends ButtonInterface {
+  role: string;
   ariaLabel: string;
   icon: React.ReactElement;
   isRound?: boolean;
