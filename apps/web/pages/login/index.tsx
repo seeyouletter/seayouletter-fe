@@ -69,6 +69,12 @@ export default function LoginPage() {
     }));
   };
 
+  const onClickKakao = () => {
+    window.Kakao.Auth.authorize({
+      redirectUri: `${process.env.NEXT_PUBLIC_WEB_REDIRECT_URI}/kakao-login`,
+    });
+  };
+
   return (
     <StyledPage data-testid="page">
       <ScreenReaderText>로그인 페이지입니다. 아이디와 비밀번호를 입력해주세요!</ScreenReaderText>
@@ -109,7 +115,7 @@ export default function LoginPage() {
         </DefaultHStack>
 
         <DefaultHStack spacing={4} justify="center">
-          <Kakao onClick={() => router.push('/')} />
+          <Kakao onClick={onClickKakao} />
           <Naver onClick={() => router.push('/')} />
         </DefaultHStack>
       </LoginForm>
