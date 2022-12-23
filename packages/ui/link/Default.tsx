@@ -21,6 +21,13 @@ const activeLinkWithNoUnderlineCSS = (noUnderline: boolean) => css`
   `}
 `;
 
+const boldCSS = (bold: boolean) => css`
+  ${bold &&
+  css`
+    font-weight: 700;
+  `}
+`;
+
 export const DefaultLink = ({
   href,
   className,
@@ -28,18 +35,27 @@ export const DefaultLink = ({
   activeColor = 'text',
   children,
   noUnderline = false,
+  bold = false,
+  ...props
 }: LinkInterface) => {
-  const activeStyle = { color: activeColor, textDecoration: noUnderline ? 'none' : 'underline' };
+  const activeStyle = {
+    color: activeColor,
+    textDecoration: noUnderline ? 'none' : 'underline',
+    textDecorationColor: 'current',
+  };
+
   return (
     <ChakraLink
-      css={activeLinkWithNoUnderlineCSS(noUnderline)}
+      {...props}
+      className={'link ' + className}
+      css={[activeLinkWithNoUnderlineCSS(noUnderline), boldCSS(bold)]}
       as={Link}
       color={color}
       href={href}
-      className={className}
       _hover={activeStyle}
       _active={activeStyle}
       _focus={activeStyle}
+      textDecorationColor="currentcolor"
     >
       {children}
     </ChakraLink>

@@ -151,4 +151,8 @@ export const globalStyle = css`
       font-weight: 700;
     }
   }
+
+  strong {
+    font-weight: 700;
+  }
 `;

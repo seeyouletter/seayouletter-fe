@@ -7,4 +7,5 @@ export interface LinkInterface extends PropsWithChildren {
   color?: string;
   noUnderline?: boolean;
   activeColor?: string;
+  bold?: boolean;
 }

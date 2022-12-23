@@ -11,6 +11,7 @@ module.exports = {
     'eol-last': ['error', 'always'],
     'no-console': 'error',
     'react/no-unused-prop-types': 'error',
+    'import/no-cycle': 'error',
   },
   overrides: [
     {
@@ -39,7 +40,6 @@ module.exports = {
              */
             alwaysTryTypes: true,
           },
-          project: ['./tsconfig.json'],
         },
       },
     },

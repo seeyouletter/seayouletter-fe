@@ -15,7 +15,7 @@ const customJestConfig = {
   testEnvironment: 'jest-environment-jsdom',
   moduleNameMapper: {
     '^@pages/(.*)$': '<rootDir>/pages/$1',
-    '^@packages/ui': path.resolve(__dirname, '../../packages/ui'),
+    '^@ui/(.*)$': '<rootDir>/../../packages/ui/$1',
   },
   // Add more setup options before each test is run
   setupFilesAfterEnv: ['<rootDir>/jest.setup.ts'],

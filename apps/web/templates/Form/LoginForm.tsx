@@ -1,24 +1,24 @@
 import React from 'react';
 
-import { css } from '@emotion/react';
+import { css, useTheme } from '@emotion/react';
 
 import { FormPropsInterface } from '@ui/form/types';
-import { Form, globalBorder, globalTheme } from 'ui';
+import { Form } from 'ui';
 
-const loginFormCSS = (color: string) => css`
+const loginFormCSS = (color: string, border: string) => css`
   width: 420px;
   height: 420px;
   padding: 2.5rem;
 
   background-color: ${color};
-  border: ${globalBorder.default};
+  border: ${border};
   border-radius: 20px;
 `;
 
 export function LoginForm({ children, ...props }: FormPropsInterface) {
-  const theme = globalTheme;
+  const theme = useTheme();
   return (
-    <Form css={loginFormCSS(theme.color.white)} {...props}>
+    <Form css={loginFormCSS(theme.color.white, theme.border.default)} {...props}>
       {children}
     </Form>
   );

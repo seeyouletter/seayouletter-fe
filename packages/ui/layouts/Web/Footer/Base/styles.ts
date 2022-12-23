@@ -7,7 +7,7 @@ import { CommonBaseContainerCSS, CommonBaseInnerCSS } from '../../common/base';
 export const StyledFooterContainer = styled.footer`
   ${(props) => CommonBaseContainerCSS(props.theme.color.sub[500])};
 
-  height: ${(props) => props.theme.layouts.footer.height};
+  height: ${(props) => props.theme.layout.footer.height};
 
   padding-top: 24px;
 

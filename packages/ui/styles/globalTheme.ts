@@ -1,4 +1,4 @@
-export const globalFontSize = {
+const globalFontSize = {
   h1: '100px',
   h2: '80px',
   h3: '64px',
@@ -13,14 +13,14 @@ export const globalFontSize = {
   xs: '12px',
 };
 
-export const globalFontWeight = {
+const globalFontWeight = {
   extrabold: 900,
   bold: 700,
   default: 400,
   light: 300,
 };
 
-export const globalColor = {
+const globalColor = {
   /**
    * @inner
    * 사용성이 편하도록 기본값은 idx 0으로 설정합니다.(이러면 보통 중간값인 5가 디폴트임을 쉽게 알 수 있습니다.)
@@ -66,16 +66,16 @@ export const globalColor = {
   warning: '#FFBD98',
   text: '#111111',
   white: '#FFFFFF',
-  layouts: {
+  layout: {
     page: '#F7F7F7',
   },
 };
 
-export const globalBorder = {
+const globalBorder = {
   default: '1px solid #DDDDDD',
 };
 
-export const globalBorderRadius = {
+const globalBorderRadius = {
   default: '10px',
   rounded: '20px',
   soft: '10px',
@@ -83,7 +83,7 @@ export const globalBorderRadius = {
   round: '50%',
 };
 
-export const globalLayouts = {
+const globalLayouts = {
   header: {
     height: '60px',
   },
@@ -101,7 +101,11 @@ export const globalTheme = {
   color: globalColor,
   border: globalBorder,
   borderRadius: globalBorderRadius,
-  layouts: globalLayouts,
-} as const;
+  layout: globalLayouts,
+};
+
+export const hi = {
+  ...globalTheme,
+};
 
 export type CustomTheme = typeof globalTheme;

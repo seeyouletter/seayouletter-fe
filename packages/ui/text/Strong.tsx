@@ -2,7 +2,7 @@ import { PropsWithChildren } from 'react';
 
 import styled from '@emotion/styled';
 
-import { globalColor } from '@ui/styles';
+import { globalTheme } from '@ui/styles';
 
 export type StrongColorType = 'primary' | 'sub' | 'black';
 
@@ -16,10 +16,10 @@ const StyledStrong = styled.strong<{ color: StrongColorType | string }>`
 
 export const StrongText = ({ color = 'black', children, ...props }: StrongTextPropsInterface) => {
   const colors = {
-    primary: globalColor.primary[500],
-    sub: globalColor.sub[500],
-    black: globalColor.text,
-    white: globalColor.white,
+    primary: globalTheme.color.primary[500],
+    sub: globalTheme.color.sub[500],
+    black: globalTheme.color.text,
+    white: globalTheme.color.white,
   };
 
   return (
