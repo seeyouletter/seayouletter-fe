@@ -2,11 +2,11 @@ import BaseLayout from 'layouts/BaseLayout';
 
 import React, { FormEvent, useState } from 'react';
 
+import { useRouter } from 'next/router';
+
 import { css } from '@emotion/react';
 import styled from '@emotion/styled';
 
-// import { LinkInterface } from '@ui/link/types';
-// import DefaultHStack from '@ui/stack/HStack';
 import {
   DefaultHStack,
   DefaultLink,
@@ -48,6 +48,8 @@ const SignUpLink = styled((props: LinkInterface) => <DefaultLink {...props} />)`
 `;
 
 export default function LoginPage() {
+  const router = useRouter();
+
   const [formState, setFormStates] = useState({
     id: '',
     pw: '',
@@ -71,9 +73,6 @@ export default function LoginPage() {
     <StyledPage data-testid="page">
       <ScreenReaderText>로그인 페이지입니다. 아이디와 비밀번호를 입력해주세요!</ScreenReaderText>
       <LoginForm>
-        <div>ID: {formState.id}</div>
-        <div>PW: {formState.pw}</div>
-        <div>{JSON.stringify(formState)}</div>
         <FormInput
           css={idInputCSS}
           data-testid="id-input"
@@ -110,8 +109,8 @@ export default function LoginPage() {
         </DefaultHStack>
 
         <DefaultHStack spacing={4} justify="center">
-          <Kakao />
-          <Naver />
+          <Kakao onClick={() => router.push('/')} />
+          <Naver onClick={() => router.push('/')} />
         </DefaultHStack>
       </LoginForm>
     </StyledPage>

@@ -1,16 +1,12 @@
-import React from 'react';
+'use client';
 
-import { useRouter } from 'next/navigation';
+import React from 'react';
 
 import { IconButton, KakaoIcon } from 'ui';
 
-export function Kakao() {
-  const router = useRouter();
+import { OAuthLinkButtonInterface } from './types';
 
-  const onClick = () => {
-    router.push('/');
-  };
-
+export function Kakao({ onClick }: OAuthLinkButtonInterface) {
   return (
     <IconButton
       role="link"

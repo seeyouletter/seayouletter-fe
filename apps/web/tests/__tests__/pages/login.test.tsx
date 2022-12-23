@@ -92,6 +92,8 @@ describe('LoginPage', () => {
       expect(link).toBeInTheDocument();
     });
 
+    it('Link: 회원가입 링크는 회원가입 페이지의 href가 주어져야 한다.', () => {});
+
     it('Button: 로그인 버튼이 존재해야 한다.', () => {
       expect(loginButton).toBeInTheDocument();
     });

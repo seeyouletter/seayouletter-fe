@@ -1,16 +1,10 @@
 import React from 'react';
 
-import { useRouter } from 'next/navigation';
-
 import { IconButton, NaverIcon } from 'ui';
 
-export function Naver() {
-  const router = useRouter();
+import { OAuthLinkButtonInterface } from './types';
 
-  const onClick = () => {
-    router.push('/');
-  };
-
+export function Naver({ onClick }: OAuthLinkButtonInterface) {
   return (
     <IconButton
       role="link"
