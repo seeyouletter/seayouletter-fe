@@ -1,6 +1,6 @@
 import BaseLayout from 'layouts/BaseLayout';
 
-import React, { FormEvent, useState } from 'react';
+import React, { FormEvent } from 'react';
 
 import { useRouter } from 'next/router';
 
@@ -19,6 +19,8 @@ import {
 
 import { LoginForm } from '@templates/form/LoginForm';
 import { Kakao, Naver } from '@templates/link';
+
+import { useForm } from '@hooks/useForm';
 
 const idInputCSS = css`
   margin-bottom: 24px;
@@ -50,23 +52,33 @@ const SignUpLink = styled((props: LinkInterface) => <DefaultLink {...props} />)`
 export default function LoginPage() {
   const router = useRouter();
 
-  const [formState, setFormStates] = useState({
-    id: '',
-    pw: '',
+  const { formState, updateFormState, errors, onSubmit, isFormValid } = useForm<string | boolean>({
+    initialState: {
+      id: {
+        value: '',
+        validator: () => true,
+      },
+      pw: {
+        value: '',
+        validator: () => true,
+      },
+    },
   });
 
-  const errors = {
-    id: false,
-    pw: false,
+  const onLogin = () => {
+    if (isFormValid) {
+      onSubmit(async () => {
+        await new Promise((resolve) => {
+          resolve(true);
+        });
+      });
+    }
   };
 
-  const isDisabled = !formState.id || !formState.pw;
+  const isDisabled = !formState.id.value || !formState.pw.value;
 
   const onInputChange = (type: 'id' | 'pw', value: string) => {
-    setFormStates((state) => ({
-      ...state,
-      [type]: value,
-    }));
+    updateFormState(type, value);
   };
 
   const onClickKakao = () => {
@@ -85,7 +97,7 @@ export default function LoginPage() {
           aria-label="이메일 아이디 입력"
           size="md"
           placeholder="이메일 ID"
-          isInvalid={errors.id}
+          isInvalid={!!errors?.id?.isError}
           onInput={(e: FormEvent) => onInputChange('id', (e.target as HTMLInputElement).value)}
         />
         <FormInput
@@ -93,11 +105,11 @@ export default function LoginPage() {
           aria-label="비밀번호 입력"
           size="md"
           placeholder="비밀번호"
-          isInvalid={errors.pw}
+          isInvalid={!!errors?.pw?.isError}
           onInput={(e: FormEvent) => onInputChange('pw', (e.target as HTMLInputElement).value)}
         />
         <FindAccountLink href="find-account">이메일/비밀번호 찾기</FindAccountLink>
-        <FullWidthButton data-testid="login-button" disabled={isDisabled}>
+        <FullWidthButton data-testid="login-button" disabled={isDisabled} onClick={onLogin}>
           이메일로 로그인하기
         </FullWidthButton>
 

@@ -8,6 +8,7 @@
     "paths": {
       "@ui/*": ["../../packages/ui/*"],
       "@pages/*": ["pages/*"],
+      "@hooks/*": ["hooks/*"],
       "@templates/*": ["templates/*"]
     }
   }
