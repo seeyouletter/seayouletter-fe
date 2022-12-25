@@ -1,10 +1,14 @@
 // __tests__/index.test.jsx
 import '@testing-library/jest-dom';
-import { cleanup, render, screen } from '@testing-library/react';
+import { cleanup, fireEvent, render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
+import { login } from 'libs/apis/login';
+import { createMockRouter } from 'tests/__mocks__/router';
 import { UserEventType } from 'tests/types';
 
-import LoginPage from '@pages/login';
+import { useRouter } from 'next/router';
+
+import LoginPage, { LoginFormButton } from '@pages/login';
 
 import { CustomThemeProvider } from '@ui/styles';
 
@@ -18,11 +22,18 @@ export const Login = () => {
   );
 };
 
+jest.mock('next/router', () => ({
+  __esModule: true,
+  useRouter: createMockRouter,
+}));
+
 describe('LoginPage', () => {
   let idInput: null | HTMLElement;
   let pwInput: null | HTMLElement;
 
-  let loginButton: null | HTMLElement;
+  let result: ReturnType<typeof render>;
+
+  let loginFormButton: null | HTMLElement;
 
   let user: UserEventType;
 
@@ -34,13 +45,18 @@ describe('LoginPage', () => {
 
   beforeEach(() => {
     user = userEvent.setup();
-    render(<Login />);
+    result = render(<Login />);
 
     idInput = screen.getByTestId('id-input');
     pwInput = screen.getByTestId('password-input');
-    loginButton = screen.getByTestId('login-button');
+    loginFormButton = screen.getByTestId('login-button');
 
     if (!user) throwUserCheckMessage(user);
+  });
+
+  afterEach(() => {
+    cleanup();
+    result.unmount();
   });
 
   it('렌더링이 완료되면 페이지 섹션이 나와야 한다.', () => {
@@ -62,7 +78,7 @@ describe('LoginPage', () => {
       expect(idInput).toHaveAttribute('placeholder', '이메일 ID');
     });
 
-    it('Inputs: 아이디 인풋에는 "패스워드 ID"라는 문구가 나와야 한다.', () => {
+    it('Inputs: 비밀번호 인풋에는 "패스워드 ID"라는 문구가 나와야 한다.', () => {
       const pwInput = screen.getByTestId('password-input');
 
       expect(pwInput).toHaveAttribute('placeholder', '비밀번호');
@@ -95,7 +111,7 @@ describe('LoginPage', () => {
     it('Link: 회원가입 링크는 회원가입 페이지의 href가 주어져야 한다.', () => {});
 
     it('Button: 로그인 버튼이 존재해야 한다.', () => {
-      expect(loginButton).toBeInTheDocument();
+      expect(loginFormButton).toBeInTheDocument();
     });
 
     it('스크린 리더에서는 아이디와 테스트를 입력하라는 문구가 나오도록 한다.', () => {
@@ -116,17 +132,17 @@ describe('LoginPage', () => {
     });
 
     // NOTE: 아직 정해진 명세가 없으므로 임의의 길이 및 이메일 형식 유효성 검사만 실시한다.
-    it('LoginButton: 아이디와 패스워드 둘 다 제대로 입력이 되지 않았다면 로그인 버튼이 비활성화되어야 한다.', async () => {
+    it('LoginFormButton: 아이디와 패스워드 둘 다 제대로 입력이 되지 않았다면 로그인 버튼이 비활성화되어야 한다.', async () => {
       if (!idInput || !pwInput) {
         expect(idInput).toThrow('ID Input이 없습니다');
         expect(pwInput).toThrow('비밀번호 Input이 없습니다.');
         return;
       }
 
-      expect(loginButton).toBeDisabled();
+      expect(loginFormButton).toBeDisabled();
     });
 
-    it('LoginButton: 모두 입력이 되었다면 버튼이 활성화되어야 한다.', async () => {
+    it('LoginFormButton: 모두 입력이 되었다면 버튼이 활성화되어야 한다.', async () => {
       try {
         if (!user) {
           throwUserCheckMessage(user);
@@ -142,14 +158,54 @@ describe('LoginPage', () => {
         await user.type(idInput, 'test@test.test');
         await user.type(pwInput, 'seeyouletter');
 
-        expect(loginButton).not.toBeDisabled();
+        expect(loginFormButton).not.toBeDisabled();
       } catch (e) {
         /* eslint-disable-next-line no-console */
         console.error(e);
       }
     });
-
-    it('Form: 로그인이 실패했다면 에러메시지가 화면 상에서 표시되어야 한다.', () => {});
-    // fit('Form: 로그인이 성공했다면 로그인 페이지로 이동되어야 한다.', () => {});
   });
+});
+
+describe('LoginFormButton: ', () => {
+  const mockRouter = useRouter();
+  const onSubmit = jest.fn(async () => {
+    try {
+      await login();
+      mockRouter.push('/');
+    } catch (e) {
+      /* eslint-disable */
+      return { isError: true, message: e };
+    }
+  });
+
+  beforeEach(() => {
+    render(
+      <>
+        <LoginFormButton data-testid="login-button" disabled={false} onSubmit={onSubmit}>
+          이메일로 로그인하기
+        </LoginFormButton>
+      </>
+    );
+  });
+
+  it('로그인 폼 버튼이 활성화 되고 클릭을 하면 onSubmit 함수가 호출되어야 한다.', () => {
+    const loginFormButton = screen.getByTestId('login-button');
+
+    fireEvent.click(loginFormButton);
+
+    expect(onSubmit).toHaveBeenCalled();
+  });
+
+  it('로그인 요청이 성공하면 페이지가 기본 페이지로 이동되어야 한다.', () => {
+    const onSubmit = jest.fn(() => mockRouter.push('/'));
+    const loginFormButton = screen.getByTestId('login-button');
+
+    fireEvent.click(loginFormButton);
+
+    // ...
+    expect(mockRouter.push).toHaveBeenCalledWith('/');
+  });
+
+  it('로그인 요청이 실페하면 에러 메시지가 화면 상에 나와야 한다.', () => {});
 });

@@ -55,6 +55,7 @@ export const useForm = <Category>({ initialState }: UseFormParamsInterface<Categ
     } catch (e) {
       /* eslint-disable-next-line no-console */
       console.error(e);
+      return { isError: true, errorMessage: e };
     }
   };
 

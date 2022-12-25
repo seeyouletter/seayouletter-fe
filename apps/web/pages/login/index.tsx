@@ -1,4 +1,5 @@
 import BaseLayout from 'layouts/BaseLayout';
+import { login } from 'libs/apis/login';
 
 import React, { FormEvent } from 'react';
 
@@ -7,6 +8,7 @@ import { useRouter } from 'next/router';
 import { css } from '@emotion/react';
 import styled from '@emotion/styled';
 
+import { DefaultButtonPropsInterface } from '@ui/button/types';
 import {
   DefaultHStack,
   DefaultLink,
@@ -49,6 +51,23 @@ const SignUpLink = styled((props: LinkInterface) => <DefaultLink {...props} />)`
   }
 `;
 
+interface LoginFormButtonPropsInterface extends React.PropsWithChildren {
+  disabled: DefaultButtonPropsInterface['disabled'];
+  onSubmit: DefaultButtonPropsInterface['onClick'];
+}
+
+export const LoginFormButton = ({
+  disabled,
+  onSubmit,
+  children,
+}: LoginFormButtonPropsInterface) => {
+  return (
+    <FullWidthButton data-testid="login-button" disabled={disabled} onClick={onSubmit}>
+      {children}
+    </FullWidthButton>
+  );
+};
+
 export default function LoginPage() {
   const router = useRouter();
 
@@ -68,9 +87,11 @@ export default function LoginPage() {
   const onLogin = () => {
     if (isFormValid) {
       onSubmit(async () => {
-        await new Promise((resolve) => {
-          resolve(true);
-        });
+        const res = await login();
+
+        if (res) {
+          router.push('/');
+        }
       });
     }
   };
@@ -108,10 +129,12 @@ export default function LoginPage() {
           isInvalid={!!errors?.pw?.isError}
           onInput={(e: FormEvent) => onInputChange('pw', (e.target as HTMLInputElement).value)}
         />
+
         <FindAccountLink href="find-account">이메일/비밀번호 찾기</FindAccountLink>
-        <FullWidthButton data-testid="login-button" disabled={isDisabled} onClick={onLogin}>
+
+        <LoginFormButton data-testid="login-button" disabled={isDisabled} onSubmit={onLogin}>
           이메일로 로그인하기
-        </FullWidthButton>
+        </LoginFormButton>
 
         <DefaultHStack css={linkMarginCSS} justify="center">
           <div>씨유레터가 처음이신가요?</div>
