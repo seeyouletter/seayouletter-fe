@@ -118,7 +118,7 @@ export default function LoginPage() {
     }
   };
 
-  const isDisabled = !errors.id.success || !errors.pw.success;
+  const isDisabled = !formState.id || !formState.pw || !errors.id.success || !errors.pw.success;
 
   useEffect(() => {
     if (formState.id) {

@@ -2,7 +2,6 @@
 import '@testing-library/jest-dom';
 import { cleanup, fireEvent, render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
-import { login } from 'libs/apis/login';
 import { createMockRouter } from 'tests/__mocks__/router';
 import { UserEventType } from 'tests/types';
 
@@ -143,32 +142,32 @@ describe('LoginPage', () => {
     });
 
     it('LoginFormButton: 모두 입력이 되었다면 버튼이 활성화되어야 한다.', async () => {
-      try {
-        if (!user) {
-          throwUserCheckMessage(user);
-          return;
-        }
-
-        if (!idInput || !pwInput) {
-          expect(idInput).toThrow('ID Input이 없습니다');
-          expect(pwInput).toThrow('비밀번호 Input이 없습니다.');
-          return;
-        }
-
-        await user.type(idInput, 'test@test.test');
-        await user.type(pwInput, 'seeyouletter');
-
-        expect(loginFormButton).not.toBeDisabled();
-      } catch (e) {
-        /* eslint-disable-next-line no-console */
-        console.error(e);
+      if (!user) {
+        throwUserCheckMessage(user);
+        return;
       }
+
+      if (!idInput || !pwInput) {
+        expect(idInput).toThrow('ID Input이 없습니다');
+        expect(pwInput).toThrow('비밀번호 Input이 없습니다.');
+        return;
+      }
+
+      await user.type(idInput, 'test@test.test');
+      await user.type(pwInput, 'seeyouletter');
+
+      expect(loginFormButton).not.toBeDisabled();
     });
+
+    it('로그인 요청이 실페하면 에러 메시지가 화면 상에 나와야 한다.', () => {});
   });
 });
 
 describe('LoginFormButton: ', () => {
   const mockRouter = useRouter();
+
+  const login = jest.fn();
+
   const onSubmit = jest.fn(async () => {
     try {
       await login();
@@ -205,6 +204,4 @@ describe('LoginFormButton: ', () => {
     // ...
     expect(mockRouter.push).toHaveBeenCalledWith('/');
   });
-
-  it('로그인 요청이 실페하면 에러 메시지가 화면 상에 나와야 한다.', () => {});
 });
