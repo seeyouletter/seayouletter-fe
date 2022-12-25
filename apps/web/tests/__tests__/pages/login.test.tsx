@@ -198,7 +198,6 @@ describe('LoginFormButton: ', () => {
   });
 
   it('로그인 요청이 성공하면 페이지가 기본 페이지로 이동되어야 한다.', () => {
-    const onSubmit = jest.fn(() => mockRouter.push('/'));
     const loginFormButton = screen.getByTestId('login-button');
 
     fireEvent.click(loginFormButton);

@@ -62,7 +62,7 @@ const globalColor = {
     500: '#00C73C',
     icon: '#FFFFFF',
   },
-  error: '#FF9D9D',
+  error: '#FF8D8D',
   warning: '#FFBD98',
   text: '#111111',
   white: '#FFFFFF',

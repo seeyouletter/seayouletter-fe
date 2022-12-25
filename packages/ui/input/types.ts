@@ -1,4 +1,4 @@
-import { FormEvent } from 'react';
+import React, { FormEvent } from 'react';
 
 import { SizeType } from '../common/types';
 
@@ -11,4 +11,5 @@ export interface InputPropsInterface {
   shape?: 'outline' | 'filled' | 'flushed';
   isInvalid: boolean;
   onInput?: (e: FormEvent) => void;
+  errorMessage?: string | React.ReactNode;
 }

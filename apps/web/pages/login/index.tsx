@@ -1,7 +1,10 @@
 import BaseLayout from 'layouts/BaseLayout';
 import { login } from 'libs/apis/login';
+import { emailSchema } from 'libs/utils/schemas';
+import { ValidateReturnType, validate } from 'libs/utils/validate';
+import { z } from 'zod';
 
-import React, { FormEvent } from 'react';
+import React, { FormEvent, useEffect, useState } from 'react';
 
 import { useRouter } from 'next/router';
 
@@ -9,6 +12,7 @@ import { css } from '@emotion/react';
 import styled from '@emotion/styled';
 
 import { DefaultButtonPropsInterface } from '@ui/button/types';
+import DefaultText from '@ui/text/Default';
 import {
   DefaultHStack,
   DefaultLink,
@@ -17,6 +21,7 @@ import {
   LinkInterface,
   ScreenReaderText,
   StrongText,
+  globalTheme,
 } from 'ui';
 
 import { LoginForm } from '@templates/form/LoginForm';
@@ -25,10 +30,14 @@ import { Kakao, Naver } from '@templates/link';
 import { useForm } from '@hooks/useForm';
 
 const idInputCSS = css`
-  margin-bottom: 24px;
+  margin-bottom: 0px;
 `;
 const linkMarginCSS = css`
-  margin: 20px 0;
+  margin-bottom: 20px;
+`;
+
+const errorMessageTextCSS = css`
+  margin: 10px 0;
 `;
 
 const StyledPage = styled.section`
@@ -68,37 +77,18 @@ export const LoginFormButton = ({
   );
 };
 
+const initialState = {
+  id: '',
+  pw: '',
+};
+
 export default function LoginPage() {
   const router = useRouter();
-
-  const { formState, updateFormState, errors, onSubmit, isFormValid } = useForm<string | boolean>({
-    initialState: {
-      id: {
-        value: '',
-        validator: () => true,
-      },
-      pw: {
-        value: '',
-        validator: () => true,
-      },
-    },
+  const { formState, updateFormState } = useForm<typeof initialState>({
+    initialState,
   });
 
-  const onLogin = () => {
-    if (isFormValid) {
-      onSubmit(async () => {
-        const res = await login();
-
-        if (res) {
-          router.push('/');
-        }
-      });
-    }
-  };
-
-  const isDisabled = !formState.id.value || !formState.pw.value;
-
-  const onInputChange = (type: 'id' | 'pw', value: string) => {
+  const onInputChange = (type: keyof typeof formState, value: typeof formState[typeof type]) => {
     updateFormState(type, value);
   };
 
@@ -107,6 +97,49 @@ export default function LoginPage() {
       redirectUri: `${process.env.NEXT_PUBLIC_WEB_REDIRECT_URI}/kakao-login`,
     });
   };
+
+  const [errors, setErrors] = useState<{
+    [idx in keyof typeof initialState | 'submit']: ValidateReturnType;
+  }>({
+    id: { success: true, error: null },
+    pw: { success: true, error: null },
+    submit: { success: true, error: null },
+  });
+
+  const onSubmit = async () => {
+    try {
+      await login();
+      router.push('/');
+    } catch (e) {
+      setErrors((state) => ({
+        ...state,
+        submit: { success: false, error: 'failed login' },
+      }));
+    }
+  };
+
+  const isDisabled = !errors.id.success || !errors.pw.success;
+
+  useEffect(() => {
+    if (formState.id) {
+      setErrors((state) => ({
+        ...state,
+        id: validate({
+          value: formState.id,
+          schema: emailSchema,
+        }),
+        pw: validate({
+          value: formState.pw,
+          schema: z.string().min(1),
+        }),
+      }));
+    }
+
+    setErrors((state) => ({
+      ...state,
+      submit: { success: true, error: null },
+    }));
+  }, [formState]);
 
   return (
     <StyledPage data-testid="page">
@@ -118,7 +151,8 @@ export default function LoginPage() {
           aria-label="이메일 아이디 입력"
           size="md"
           placeholder="이메일 ID"
-          isInvalid={!!errors?.id?.isError}
+          isInvalid={!errors.id.success}
+          errorMessage={errors.id.error ?? ''}
           onInput={(e: FormEvent) => onInputChange('id', (e.target as HTMLInputElement).value)}
         />
         <FormInput
@@ -126,15 +160,27 @@ export default function LoginPage() {
           aria-label="비밀번호 입력"
           size="md"
           placeholder="비밀번호"
-          isInvalid={!!errors?.pw?.isError}
+          isInvalid={!errors.pw.success}
           onInput={(e: FormEvent) => onInputChange('pw', (e.target as HTMLInputElement).value)}
         />
 
         <FindAccountLink href="find-account">이메일/비밀번호 찾기</FindAccountLink>
 
-        <LoginFormButton data-testid="login-button" disabled={isDisabled} onSubmit={onLogin}>
+        <LoginFormButton data-testid="login-button" disabled={isDisabled} onSubmit={onSubmit}>
           이메일로 로그인하기
         </LoginFormButton>
+
+        <DefaultText
+          css={errorMessageTextCSS}
+          as="div"
+          size={globalTheme.fontSize.sm}
+          color={globalTheme.color.error}
+          ariaLabel="error-message"
+          textAlign="center"
+          visible={!!errors.submit.error}
+        >
+          {errors.submit.error}
+        </DefaultText>
 
         <DefaultHStack css={linkMarginCSS} justify="center">
           <div>씨유레터가 처음이신가요?</div>
