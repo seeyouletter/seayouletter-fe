@@ -3,8 +3,6 @@
 
 echo "🚦 PREPARE-COMMIT-MSG | Start cz with cz-customizable..."
 
-echo [ -z "${2}"]
-
 # $2: catch if commit msg already exist.
 if [ -z "${2}" ]; then
   # exec < /dev/tty: need to exec commitizen when using git hooks

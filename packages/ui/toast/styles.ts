@@ -2,6 +2,20 @@ import styled from '@emotion/styled';
 
 import { ToastBoxInterface } from './types';
 
+/** ToastBoxList  */
+
+const StyledToastBoxListTop = styled.section`
+  position: fixed;
+
+  display: flex;
+  flex-direction: column-reverse;
+`;
+
+export const StyledToastBoxList = {
+  top: StyledToastBoxListTop,
+};
+
+/** ToastBox */
 const StyledToastContainer = styled.div<{ type: ToastBoxInterface['type'] }>`
   display: flex;
   align-items: center;

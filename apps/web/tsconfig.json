@@ -9,7 +9,8 @@
       "@ui/*": ["../../packages/ui/*"],
       "@pages/*": ["pages/*"],
       "@hooks/*": ["hooks/*"],
-      "@templates/*": ["templates/*"]
+      "@templates/*": ["templates/*"],
+      "@atoms/*": ["atoms/*"]
     }
   }
 }

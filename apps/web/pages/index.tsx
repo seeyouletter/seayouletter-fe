@@ -1,24 +1,13 @@
 import BaseLayout from 'layouts/BaseLayout';
 
-import { useState } from 'react';
-
-import { CheckIcon, DefaultButton, ExclamantationIcon, XMarkIcon } from 'ui';
+import { CheckIcon, DefaultButton, ExclamantationIcon, ToastBox, XMarkIcon } from 'ui';
 
 export default function Web() {
-  const [state, setState] = useState(false);
   return (
     <div>
       <h1>Web</h1>
-      <DefaultButton
-        size="md"
-        isLoading={false}
-        onClick={() => {
-          setState(() => true);
-        }}
-      >
-        {state}
-      </DefaultButton>
-
+      <DefaultButton size="md" isLoading={false}></DefaultButton>
+      <ToastBox type="success" title="안녕하세요!" description="내용입니다." />
       <XMarkIcon />
       <CheckIcon />
       <ExclamantationIcon />
