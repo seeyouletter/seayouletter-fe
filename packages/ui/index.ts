@@ -10,3 +10,4 @@ export * from '@ui/layouts';
 export * from '@ui/menu';
 export * from '@ui/form';
 export * from '@ui/text';
+export * from '@ui/toast';
