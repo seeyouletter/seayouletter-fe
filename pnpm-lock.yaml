@@ -104,6 +104,7 @@ importers:
       '@types/react-dom': ^18.0.9
       '@vitejs/plugin-react-swc': ^3.0.0
       babel-loader: ^8.3.0
+      babel-plugin-module-resolver: ^4.1.0
       eslint: ^8.29.0
       eslint-config-custom: workspace:*
       eslint-mdx: ^2.0.5
@@ -156,6 +157,7 @@ importers:
       '@types/react-dom': 18.0.9
       '@vitejs/plugin-react-swc': 3.0.0_vite@4.0.1
       babel-loader: 8.3.0_ztqwsvkb6z73luspkai6ilstpu
+      babel-plugin-module-resolver: 4.1.0
       eslint: 8.29.0
       eslint-config-custom: link:../../packages/eslint-config-custom
       eslint-mdx: 2.0.5_eslint@8.29.0
@@ -369,7 +371,7 @@ packages:
       convert-source-map: 1.9.0
       debug: 4.3.4
       gensync: 1.0.0-beta.2
-      json5: 2.2.1
+      json5: 2.2.2
       lodash: 4.17.21
       resolve: 1.22.1
       semver: 5.7.1
@@ -1236,6 +1238,7 @@ packages:
     dependencies:
       '@babel/core': 7.20.2
       '@babel/helper-plugin-utils': 7.20.2
+    dev: false
 
   /@babel/plugin-syntax-jsx/7.18.6_@babel+core@7.20.5:
     resolution: {integrity: sha512-6mmljtAedFGTWu2p/8WIORGwy+61PLgOMPOdazc7YoJ9ZCWUyFy3A6CpPkRKLKD1ToAesxX8KGEViAiLo9N+7Q==}
@@ -2260,7 +2263,7 @@ packages:
       '@emotion/react': '>=10.0.35'
       react: '>=18'
     dependencies:
-      '@emotion/react': 11.10.5_u5jyrclxomocs7gik2sb5ks344
+      '@emotion/react': 11.10.5_xl5my4wapvq2ctl7qwehtbgorq
       react: 18.2.0
 
   /@chakra-ui/descendant/3.0.11_react@18.2.0:
@@ -2620,8 +2623,8 @@ packages:
       '@chakra-ui/react-env': 2.0.11_react@18.2.0
       '@chakra-ui/system': 2.3.4_dovxhg2tvkkxkdnqyoum6wzcxm
       '@chakra-ui/utils': 2.0.12
-      '@emotion/react': 11.10.5_u5jyrclxomocs7gik2sb5ks344
-      '@emotion/styled': 11.10.5_sxjzpbk4jdhbaziypinpschonq
+      '@emotion/react': 11.10.5_xl5my4wapvq2ctl7qwehtbgorq
+      '@emotion/styled': 11.10.5_3djhvnr4jirfvebjqpipo7gthy
       react: 18.2.0
       react-dom: 18.2.0_react@18.2.0
 
@@ -2955,8 +2958,8 @@ packages:
       '@chakra-ui/transition': 2.0.12_mrkhslfg7naeotrize4touytum
       '@chakra-ui/utils': 2.0.12
       '@chakra-ui/visually-hidden': 2.0.13_xivvz2l3eyrkvszadds3phcwaq
-      '@emotion/react': 11.10.5_u5jyrclxomocs7gik2sb5ks344
-      '@emotion/styled': 11.10.5_sxjzpbk4jdhbaziypinpschonq
+      '@emotion/react': 11.10.5_xl5my4wapvq2ctl7qwehtbgorq
+      '@emotion/styled': 11.10.5_3djhvnr4jirfvebjqpipo7gthy
       framer-motion: 7.7.2_biqbaboplfbrettd7655fr4n2y
       react: 18.2.0
       react-dom: 18.2.0_react@18.2.0
@@ -3080,8 +3083,8 @@ packages:
       '@chakra-ui/styled-system': 2.4.0
       '@chakra-ui/theme-utils': 2.0.5
       '@chakra-ui/utils': 2.0.12
-      '@emotion/react': 11.10.5_u5jyrclxomocs7gik2sb5ks344
-      '@emotion/styled': 11.10.5_sxjzpbk4jdhbaziypinpschonq
+      '@emotion/react': 11.10.5_xl5my4wapvq2ctl7qwehtbgorq
+      '@emotion/styled': 11.10.5_3djhvnr4jirfvebjqpipo7gthy
       react: 18.2.0
       react-fast-compare: 3.2.0
 
@@ -3765,6 +3768,7 @@ packages:
       find-root: 1.1.0
       source-map: 0.5.7
       stylis: 4.1.3
+    dev: false
 
   /@emotion/babel-plugin/11.10.5_@babel+core@7.20.5:
     resolution: {integrity: sha512-xE7/hyLHJac7D2Ve9dKroBBZqBT7WuPQmWcq7HSGb84sUuP4mlOWoB8dvVfD9yk5DHkU1m6RW7xSoDtnQHNQeA==}
@@ -3875,6 +3879,7 @@ packages:
       '@types/react': 18.0.26
       hoist-non-react-statics: 3.3.2
       react: 18.2.0
+    dev: false
 
   /@emotion/react/11.10.5_xl5my4wapvq2ctl7qwehtbgorq:
     resolution: {integrity: sha512-TZs6235tCJ/7iF6/rvTaOH4oxQg2gMAcdHemjwLKIjKz4rRuYe1HJ2TQJKnAcRAfOUDdU8XoDadCe1rl72iv8A==}
@@ -3899,7 +3904,6 @@ packages:
       '@types/react': 18.0.26
       hoist-non-react-statics: 3.3.2
       react: 18.2.0
-    dev: false
 
   /@emotion/serialize/1.1.1:
     resolution: {integrity: sha512-Zl/0LFggN7+L1liljxXdsVSVlg6E/Z/olVWpfxUTxOAmi8NU7YoeWeLfi1RmnB2TATHoaWwIBRoL+FvAJiTUQA==}
@@ -3936,7 +3940,6 @@ packages:
       '@emotion/utils': 1.2.0
       '@types/react': 18.0.26
       react: 18.2.0
-    dev: false
 
   /@emotion/styled/11.10.5_otcjdfkheatawhug6fwk7ldzni:
     resolution: {integrity: sha512-8EP6dD7dMkdku2foLoruPCNkRevzdcBaY6q0l0OsbyJK+x8D9HWjX27ARiSIKNF634hY9Zdoedh8bJCiva8yZw==}
@@ -3985,6 +3988,7 @@ packages:
       '@emotion/utils': 1.2.0
       '@types/react': 18.0.26
       react: 18.2.0
+    dev: false
 
   /@emotion/unitless/0.8.0:
     resolution: {integrity: sha512-VINS5vEYAscRl2ZUDiT3uMPlrFQupiKgHz5AA4bCH1miKBg4qtwkim1qPmJj/4WG6TreYMY111rEFsjupcOKHw==}
@@ -8096,6 +8100,17 @@ packages:
       cosmiconfig: 7.1.0
       resolve: 1.22.1
 
+  /babel-plugin-module-resolver/4.1.0:
+    resolution: {integrity: sha512-MlX10UDheRr3lb3P0WcaIdtCSRlxdQsB1sBqL7W0raF070bGl1HQQq5K3T2vf2XAYie+ww+5AKC/WrkjRO2knA==}
+    engines: {node: '>= 8.0.0'}
+    dependencies:
+      find-babel-config: 1.2.0
+      glob: 7.2.3
+      pkg-up: 3.1.0
+      reselect: 4.1.7
+      resolve: 1.22.1
+    dev: true
+
   /babel-plugin-polyfill-corejs2/0.3.3_@babel+core@7.20.5:
     resolution: {integrity: sha512-8hOdmFYFSZhqg2C/JgLUQ+t52o5nirNwaWM2B9LWteozwIvM14VSwdsCAUET10qT+kmySAlseadmfeeSWFCy+Q==}
     peerDependencies:
@@ -11041,6 +11056,14 @@ packages:
       - supports-color
     dev: true
 
+  /find-babel-config/1.2.0:
+    resolution: {integrity: sha512-jB2CHJeqy6a820ssiqwrKMeyC6nNdmrcgkKWJWmpoxpE8RKciYJXCcXRq1h2AzCo5I5BJeN2tkGEO3hLTuePRA==}
+    engines: {node: '>=4.0.0'}
+    dependencies:
+      json5: 0.5.1
+      path-exists: 3.0.0
+    dev: true
+
   /find-cache-dir/2.1.0:
     resolution: {integrity: sha512-Tq6PixE0w/VMFfCgbONnkiQIVol/JJL7nRMi20fqzA4NRs9AfeqMGeRdPi3wIhYkxjeBaWh2rxwapn5Tu3IqOQ==}
     engines: {node: '>=6'}
@@ -13418,6 +13441,11 @@ packages:
   /json-stable-stringify-without-jsonify/1.0.1:
     resolution: {integrity: sha512-Bdboy+l7tA3OGW6FjyFHWkP5LuByj1Tk33Ljyq0axyzdk9//JSi2u3fP1QSmd1KNwq6VOKYGlAu87CisVir6Pw==}
 
+  /json5/0.5.1:
+    resolution: {integrity: sha512-4xrs1aW+6N5DalkqSVA8fxh458CXvR99WU8WLKmq4v8eWAL86Xo3BVqyd3SkA9wEVjCMqyvvRRkshAdOnBp5rw==}
+    hasBin: true
+    dev: true
+
   /json5/1.0.1:
     resolution: {integrity: sha512-aKS4WQjPenRxiQsC93MNfjx+nbF4PAdYzmd/1JIj8HYzqfbu86beTuNgXDzPknWk0n0uARlyewZo4s++ES36Ow==}
     hasBin: true
@@ -15542,6 +15570,13 @@ packages:
       find-up: 5.0.0
     dev: true
 
+  /pkg-up/3.1.0:
+    resolution: {integrity: sha512-nDywThFk1i4BQK4twPQ6TA4RT8bDY96yeuCVBWL3ePARCiEKDRSrNGbFIgUJpLp+XeIR65v8ra7WuJOFUBtkMA==}
+    engines: {node: '>=8'}
+    dependencies:
+      find-up: 3.0.0
+    dev: true
+
   /pnp-webpack-plugin/1.6.4_typescript@4.9.4:
     resolution: {integrity: sha512-7Wjy+9E3WwLOEL30D+m8TSTF7qJJUJLONBnwQp0518siuMxUQUbgZwssaFX+QKlZkjHZcw/IpZCt/H0srrntSg==}
     engines: {node: '>=6'}
@@ -16618,6 +16653,10 @@ packages:
 
   /requires-port/1.0.0:
     resolution: {integrity: sha512-KigOCHcocU3XODJxsu8i/j8T9tzT4adHiecwORRQ0ZZFcp7ahwXuRU1m+yuO90C5ZUyGeGfocHDI14M3L3yDAQ==}
+    dev: true
+
+  /reselect/4.1.7:
+    resolution: {integrity: sha512-Zu1xbUt3/OPwsXL46hvOOoQrap2azE7ZQbokq61BQfiXvhewsKDwhMeZjTX9sX0nvw1t/U5Audyn1I9P/m9z0A==}
     dev: true
 
   /resolve-cwd/3.0.0:
