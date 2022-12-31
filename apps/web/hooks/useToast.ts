@@ -6,8 +6,8 @@ import { useAtom } from 'jotai';
 
 import { v4 as uuidv4 } from 'uuid';
 
-export const useToastAtom = (delay = 5000) => {
-  const [toast, setToast] = useAtom(toastAtom);
+export const useToastAtom = (delay = 2000) => {
+  const [toastList, setToastList] = useAtom(toastAtom);
 
   const setTimeoutIdStore = useRef<{ [index: string]: NodeJS.Timeout }>({});
 
@@ -21,12 +21,12 @@ export const useToastAtom = (delay = 5000) => {
   const removeToast = (toastId: string) => {
     clearTimeoutToast(toastId);
 
-    setToast((state) => {
+    setToastList((state) => {
       return state.filter((t) => t.toastId !== toastId);
     });
   };
 
-  const addToast = (toastItem: toastAtomInterface) => {
+  const addToast = (toastItem: Omit<toastAtomInterface, 'toastId'>) => {
     const toastId = uuidv4();
 
     const clearToastId = setTimeout(() => {
@@ -41,15 +41,15 @@ export const useToastAtom = (delay = 5000) => {
       toastId,
     };
 
-    setToast((state) => [...state, { ...toastState }]);
+    setToastList((state) => [...state, { ...toastState }]);
   };
 
   const initializeToast = () => {
-    setToast(() => []);
+    setToastList(() => []);
   };
 
   return {
-    toast,
+    toastList,
     addToast,
     removeToast,
     initializeToast,

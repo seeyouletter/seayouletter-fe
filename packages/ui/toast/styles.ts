@@ -1,3 +1,5 @@
+import { motion } from 'framer-motion';
+
 import styled from '@emotion/styled';
 
 import { ToastBoxInterface } from './types';
@@ -6,17 +8,29 @@ import { ToastBoxInterface } from './types';
 
 const StyledToastBoxListTop = styled.section`
   position: fixed;
+  top: 0;
+  left: 50%;
+  z-index: 99999;
 
   display: flex;
   flex-direction: column-reverse;
+
+  transition: all 0.3s;
+  transform: translateX(-50%);
+
+  > * {
+    margin-top: 10px;
+  }
 `;
 
 export const StyledToastBoxList = {
   top: StyledToastBoxListTop,
 };
 
-/** ToastBox */
-const StyledToastContainer = styled.div<{ type: ToastBoxInterface['type'] }>`
+/**
+ * ToastBox
+ */
+const StyledToastContainer = motion(styled.div<{ type: ToastBoxInterface['type'] }>`
   display: flex;
   align-items: center;
 
@@ -26,7 +40,7 @@ const StyledToastContainer = styled.div<{ type: ToastBoxInterface['type'] }>`
   background-color: ${({ theme, type }) => theme.color[type]};
   filter: drop-shadow(0px 4px 4px rgba(0, 0, 0, 0.25));
   border-radius: ${({ theme }) => theme.borderRadius.default};
-`;
+`);
 
 const StyledToastIconContainer = styled.div`
   display: flex;
@@ -43,6 +57,7 @@ const StyledToastCopyBox = styled.div`
   width: 100%;
   height: 100%;
 `;
+
 const StyledToastHead = styled.strong`
   display: block;
   margin-bottom: 4px;

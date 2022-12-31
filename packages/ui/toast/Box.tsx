@@ -11,9 +11,16 @@ const Icons = {
   warning: <ExclamantationIcon size="16px" />,
 };
 
-export function ToastBox({ type, title, description }: ToastBoxInterface) {
+export function ToastBox({ toastId, type, title, description }: ToastBoxInterface) {
   return (
-    <StyledToast.Container type={type}>
+    <StyledToast.Container
+      key={toastId}
+      transition={{ duration: 0.3 }}
+      initial={{ opacity: 0, scale: 0.5 }}
+      animate={{ opacity: 1, scale: 1, translateY: '0px' }}
+      exit={{ opacity: 0, scale: 0.5 }}
+      type={type}
+    >
       <StyledToast.IconBox>{Icons[type]}</StyledToast.IconBox>
       <StyledToast.CopyBox>
         <StyledToast.Head>{title}</StyledToast.Head>
