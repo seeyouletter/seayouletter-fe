@@ -1,7 +1,7 @@
 import { PropsWithChildren } from 'react';
 
 export interface IconInterface {
-  size: string;
+  size?: string;
 }
 
 export interface DefaultIconInterface extends PropsWithChildren {

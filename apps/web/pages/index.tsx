@@ -2,7 +2,7 @@ import BaseLayout from 'layouts/BaseLayout';
 
 import { useState } from 'react';
 
-import { DefaultButton } from 'ui';
+import { CheckIcon, DefaultButton, ExclamantationIcon, XMarkIcon } from 'ui';
 
 export default function Web() {
   const [state, setState] = useState(false);
@@ -18,6 +18,10 @@ export default function Web() {
       >
         {state}
       </DefaultButton>
+
+      <XMarkIcon />
+      <CheckIcon />
+      <ExclamantationIcon />
     </div>
   );
 }

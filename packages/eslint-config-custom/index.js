@@ -24,6 +24,7 @@ module.exports = {
         '@typescript-eslint/no-unused-vars': 'error',
         'react/no-unused-prop-types': 'error',
         '@typescript-eslint/explicit-member-accessibility': 'error',
+        'react/no-unknown-property': ['error', { ignore: ['css'] }],
       },
 
       settings: {
