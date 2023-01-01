@@ -1,13 +1,26 @@
 import { toastAtom, toastAtomInterface } from '@atoms/toastAtom';
 
-import { useRef } from 'react';
+import { useEffect, useRef, useState } from 'react';
 
 import { useAtom } from 'jotai';
 
 import { v4 as uuidv4 } from 'uuid';
 
-export const useToastAtom = (delay = 2000) => {
+export const useToastAtom = ({ duration = 2000, transitionDuration = 300 }) => {
   const [toastList, setToastList] = useAtom(toastAtom);
+
+  const [toastContainerKey, setToastContainerKey] = useState('disabled');
+
+  useEffect(() => {
+    if (toastList.length) {
+      setToastContainerKey('hasToastList');
+    } else {
+      setTimeout(() => {
+        if (toastList.length) return;
+        setToastContainerKey('notHasToastList');
+      }, transitionDuration);
+    }
+  }, [toastList, transitionDuration]);
 
   const setTimeoutIdStore = useRef<{ [index: string]: NodeJS.Timeout }>({});
 
@@ -32,7 +45,7 @@ export const useToastAtom = (delay = 2000) => {
     const clearToastId = setTimeout(() => {
       clearTimeoutToast(toastId);
       removeToast(toastId);
-    }, delay);
+    }, duration);
 
     setTimeoutIdStore.current[toastId] = clearToastId;
 
@@ -50,6 +63,7 @@ export const useToastAtom = (delay = 2000) => {
 
   return {
     toastList,
+    toastContainerKey,
     addToast,
     removeToast,
     initializeToast,

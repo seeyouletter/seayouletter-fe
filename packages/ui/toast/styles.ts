@@ -1,21 +1,19 @@
-import { motion } from 'framer-motion';
-
 import styled from '@emotion/styled';
 
 import { ToastBoxInterface } from './types';
 
 /** ToastBoxList  */
 
-const StyledToastBoxListTop = styled.section`
+const StyledToastBoxListTop = styled.section<{ isHeader?: boolean }>`
   position: fixed;
-  top: 0;
+  top: ${({ isHeader, theme }) => (isHeader ? theme.layout.header.height : 0)};
   left: 50%;
   z-index: 99999;
 
   display: flex;
   flex-direction: column-reverse;
 
-  transition: all 0.3s;
+  transition: all 3s;
   transform: translateX(-50%);
 
   > * {
@@ -30,7 +28,7 @@ export const StyledToastBoxList = {
 /**
  * ToastBox
  */
-const StyledToastContainer = motion(styled.div<{ type: ToastBoxInterface['type'] }>`
+const StyledToastContainer = styled.div<{ type: ToastBoxInterface['type'] }>`
   display: flex;
   align-items: center;
 
@@ -40,7 +38,7 @@ const StyledToastContainer = motion(styled.div<{ type: ToastBoxInterface['type']
   background-color: ${({ theme, type }) => theme.color[type]};
   filter: drop-shadow(0px 4px 4px rgba(0, 0, 0, 0.25));
   border-radius: ${({ theme }) => theme.borderRadius.default};
-`);
+`;
 
 const StyledToastIconContainer = styled.div`
   display: flex;

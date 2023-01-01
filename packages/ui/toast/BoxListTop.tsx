@@ -4,21 +4,29 @@ import React from 'react';
 
 import { ToastBox } from './Box';
 import { StyledToastBoxList } from './styles';
-import { ToastBoxInterface } from './types';
+import { BoxListTopPropsInterface } from './types';
 
-export function ToastBoxListTop({ toastList }: { toastList: ToastBoxInterface[] }) {
+export function ToastBoxListTop({
+  transitionDuration = 300,
+  containerKey,
+  toastList,
+  isHeader,
+}: BoxListTopPropsInterface) {
   return (
-    <StyledToastBoxList.top>
+    <StyledToastBoxList.top isHeader={isHeader} key={containerKey}>
       <AnimatePresence>
-        {toastList.map(({ toastId, type, title, description }) => (
-          <ToastBox
-            type={type}
-            key={toastId}
-            toastId={toastId}
-            title={title}
-            description={description}
-          />
-        ))}
+        {toastList.map(({ toastId, type, description }) => {
+          return (
+            <ToastBox
+              transitionDuration={transitionDuration}
+              key={toastId}
+              type={type}
+              toastId={toastId}
+              title={toastId}
+              description={description}
+            />
+          );
+        })}
       </AnimatePresence>
     </StyledToastBoxList.top>
   );

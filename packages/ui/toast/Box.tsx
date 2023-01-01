@@ -1,3 +1,5 @@
+import { motion } from 'framer-motion';
+
 import React from 'react';
 
 import { CheckIcon, ExclamantationIcon, XMarkIcon } from '@ui/icon';
@@ -11,13 +13,19 @@ const Icons = {
   warning: <ExclamantationIcon size="16px" />,
 };
 
-export function ToastBox({ toastId, type, title, description }: ToastBoxInterface) {
+export const StyledToastContainer = motion(StyledToast.Container);
+
+export function ToastBox({
+  transitionDuration = 300,
+  type,
+  title,
+  description,
+}: ToastBoxInterface) {
   return (
-    <StyledToast.Container
-      key={toastId}
-      transition={{ duration: 0.3 }}
+    <StyledToastContainer
+      transition={{ duration: transitionDuration * 0.001 }}
       initial={{ opacity: 0, scale: 0.5 }}
-      animate={{ opacity: 1, scale: 1, translateY: '0px' }}
+      animate={{ opacity: 1, scale: 1 }}
       exit={{ opacity: 0, scale: 0.5 }}
       type={type}
     >
@@ -26,6 +34,6 @@ export function ToastBox({ toastId, type, title, description }: ToastBoxInterfac
         <StyledToast.Head>{title}</StyledToast.Head>
         <StyledToast.Description>{description}</StyledToast.Description>
       </StyledToast.CopyBox>
-    </StyledToast.Container>
+    </StyledToastContainer>
   );
 }
