@@ -1,0 +1,17 @@
+name: 'PR Tasks Completed Check'
+on: 
+  pull_request:
+    types: [opened, edited]
+
+concurrency: 
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  task-check:
+    if: github.repository == 'seeyouletter/seeyouletter-fe'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: kentaro-m/task-completed-checker-action@v0.1.0
+        with:
+          repo-token: "${{ secrets.GITHUB_TOKEN }}"

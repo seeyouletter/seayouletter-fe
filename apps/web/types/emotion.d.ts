@@ -11,5 +11,6 @@ import { CustomTheme } from 'ui';
  */
 
 declare module '@emotion/react' {
-  export interface Theme extends CustomTheme {}
+  /* eslint-disable-next-line @typescript-eslint/no-empty-interface */
+  export interface Theme extends CustomTheme, ChakraTheme {}
 }

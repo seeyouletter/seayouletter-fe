@@ -1,3 +1,5 @@
+import { extendTheme } from '@chakra-ui/react';
+
 import { globalTheme } from './globalTheme';
 
 export type PxType = string;
@@ -10,6 +12,9 @@ export interface colorInterface {
   color: colorType;
 }
 
-export const chakraTheme = {
+export const chakraTheme = extendTheme({
   colors: globalTheme.color,
-};
+  ...globalTheme,
+});
+
+export type ChakraTheme = typeof chakraTheme;

@@ -3,17 +3,19 @@ import React from 'react';
 import { ThemeProvider } from '@emotion/react';
 import { Global } from '@emotion/react';
 
-import { ChakraProvider, extendTheme } from '@chakra-ui/react';
+import { ChakraProvider } from '@chakra-ui/react';
 
-import { chakraTheme } from './chakraTheme';
-import { globalStyle } from './globalStyle';
-import { globalTheme } from './globalTheme';
+import { chakraTheme } from '@ui/styles/chakraTheme';
+import { globalStyle } from '@ui/styles/globalStyle';
+import { globalTheme } from '@ui/styles/globalTheme';
 
 export function CustomThemeProvider({ children }: { children: React.ReactNode }) {
   return (
     <ThemeProvider theme={globalTheme}>
-      <Global styles={globalStyle} />
-      <ChakraProvider theme={extendTheme(chakraTheme)}>{children}</ChakraProvider>
+      <ChakraProvider theme={chakraTheme}>
+        <Global styles={globalStyle} />
+        {children}
+      </ChakraProvider>
     </ThemeProvider>
   );
 }

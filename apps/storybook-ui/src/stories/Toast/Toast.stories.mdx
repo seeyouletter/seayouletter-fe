@@ -1,0 +1,155 @@
+import { ArgsTable, Canvas, Meta, Story } from '@storybook/addon-docs';
+
+import { ToastBox } from 'ui';
+
+<style>
+  {`
+    h5 {
+      font-size: 24px;
+      font-weight: 700;
+    }
+  `}
+</style>
+
+# Toast
+
+토스트는 기본적으로 사용자에게 메시지를 띄우는 데 사용합니다.  
+특히 사용자의 화면을 제어하는 모달과 달리, 사용자의 인터페이스를 방해하지 않으면서 메시지를 띄우기 용이한 장점이 존재합니다.
+기본적으로 직관적인 내용을 전달하기 위해 한 줄을 지향합니다.  
+하지만 때에 따라서 부가적인 설명이 필요할 때에는 짧게 두 줄로 보이도록 합니다.
+주의할 점은, 토스트는 사라지는 시간이 존재합니다.  
+따라서 너무 많은 글을 전달해야 한다면 모달을 사용하도록 합니다.
+
+<Meta
+  title="Components/Toast"
+  component={ToastBox}
+  argTypes={{
+    type: {
+      name: 'type',
+      description: '토스트의 타입에 관한 정보에요.',
+      control: {
+        type: 'radio',
+        options: ['success', 'warning', 'error'],
+      },
+      table: {
+        type: {
+          summary: "'success' | 'warning' | 'error'",
+        },
+        defaultValue: {
+          summary: 'warning',
+        },
+      },
+    },
+    title: {
+      name: 'title 🚨',
+      description: `
+토스트에서 전달할 메시지의 주제입니다.
+큰 이유가 없다면, 해당 props만 사용합니다. 
+자세한 내용은 description에서 전달해야 합니다.
+`,
+      control: {
+        type: 'text',
+      },
+      table: {
+        type: {
+          summary: 'string',
+        },
+        defaultValue: {
+          summary: '',
+          detail: `
+모든 내용은 한 줄로 요약해주세요. 
+많은 내용은 토스트와 어울리지 않아요!
+          `,
+        },
+      },
+    },
+    description: {
+      name: 'description',
+      description: '추가적으로 설명할 내용을 적습니다. 선택사항이에요.',
+      control: {
+        type: 'text',
+      },
+      table: {
+        type: {
+          summary: 'string',
+        },
+        defaultValue: {
+          summary: '',
+        },
+      },
+    },
+  }}
+/>
+
+export const TemplateToast = (args) => <ToastBox {...args} />;
+export const TemplateSuccess = (args) => <ToastBox type="success" {...args} />;
+export const TemplateError = (args) => <ToastBox type="error" {...args} />;
+export const TemplateWarning = (args) => <ToastBox type="warning" {...args} />;
+
+### 기본 (warning)
+
+<Canvas>
+  <Story
+    name="소개"
+    args={{
+      type: 'warning',
+      title: '토스트 컴포넌트 기본입니다!',
+      description: '다음과 같이 사용해요.',
+    }}
+  >
+    {TemplateToast.bind({})}
+  </Story>
+</Canvas>
+
+<ArgsTable story="소개" />
+
+### 경고 (warning)
+
+기본이며, 자칫 부정적인 의미에서 사용하는 것처럼 보이지만 아닙니다!  
+필수 값 입력 등 사용자에게 전달할 중요한 내용을 전달할 때 사용합니다.
+
+<Canvas>
+  <Story
+    name="props.type | warning"
+    args={{
+      title: '토스트 경고(기본) 컴포넌트 입니다!',
+      description: '다음과 같이 사용해요. 🙇🏻‍♂️',
+    }}
+  >
+    {TemplateWarning.bind({})}
+  </Story>
+</Canvas>
+
+<ArgsTable story="props.type | warning" />
+
+### 성공 (success)
+
+<Canvas>
+  <Story
+    name="props.type | success"
+    args={{
+      title: '토스트 성공 컴포넌트 입니다!',
+      description: '다음과 같이 사용해요.',
+    }}
+  >
+    {TemplateSuccess.bind({})}
+  </Story>
+</Canvas>
+
+<ArgsTable story="props.type | success" />
+
+### 에러 (error)
+
+<Canvas>
+  <Story
+    name="props.type | error"
+    args={{
+      title: '토스트 에러 컴포넌트 입니다!',
+      description: '다음과 같이 사용해요.',
+    }}
+  >
+    {TemplateError.bind({})}
+  </Story>
+</Canvas>
+
+<ArgsTable story="props.type | error" />
