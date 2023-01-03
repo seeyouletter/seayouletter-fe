@@ -7,6 +7,8 @@ import { StackProps } from '@chakra-ui/react';
 
 import { DefaultHStack } from '@ui/stack';
 
+import { DynamicHeaderTextType } from './types';
+
 interface StyledHeaderTextInterface extends PropsWithChildren {
   textPaddingTop: string;
 }
@@ -16,7 +18,7 @@ interface IconHeaderTextPropsInterface
     StyledHeaderTextInterface,
     Omit<StackProps, 'inline'> {
   Icon: ReactElement;
-  level: 'h1' | 'h2' | 'h3' | 'h4' | 'h5' | 'h6';
+  level: DynamicHeaderTextType;
   marginTop?: number;
   marginBottom?: number;
 }

@@ -1,1 +1,1 @@
-export * from './prevButton';
+export * from './PrevButton';

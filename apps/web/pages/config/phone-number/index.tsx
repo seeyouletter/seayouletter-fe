@@ -10,6 +10,8 @@ import { DefaultButton, DefaultHStack, FormInput, FullWidthButton, IconHeaderTex
 
 import { ConfigForm } from '@templates/index';
 
+import { useForm } from '@hooks/useForm';
+
 const StyledConfigPage = styled.section`
   display: flex;
   flex: 1;
@@ -28,30 +30,28 @@ const RequestPhoneAuthButton = styled((props: DefaultButtonPropsInterface) => (
   <DefaultButton {...props}></DefaultButton>
 ))`
   flex-shrink: 0;
-  background-color: pink !important;
 `;
 
 const marginBottomCSS = css`
   margin-bottom: 24px;
 `;
 
+const initialState = {
+  phoneNumber: '',
+  auth: '',
+};
+
 export default function ConfigPhoneNumberPage() {
   const [isRequested, setIsRequeseted] = useState(false);
 
-  const [inputValues, setInputValues] = useState({
-    phoneNumber: '',
-    auth: '',
-  });
+  const { formState, updateFormState } = useForm<typeof initialState>({ initialState });
 
   const onRequestPhoneAuthButtonClick = () => {
     setIsRequeseted(() => true);
   };
 
-  const onInput = (type: keyof typeof inputValues) => (e: FormEvent) => {
-    setInputValues((state) => ({
-      ...state,
-      [type]: (e.target as HTMLInputElement).value,
-    }));
+  const onInput = (type: keyof typeof initialState) => (e: FormEvent) => {
+    updateFormState(type, (e.target as HTMLInputElement).value);
   };
 
   return (
@@ -75,7 +75,7 @@ export default function ConfigPhoneNumberPage() {
             size="md"
             placeholder="-를 제외한 번호만 입력"
             onInput={onInput('phoneNumber')}
-            isInvalid={!inputValues.phoneNumber.length}
+            isInvalid={!formState.phoneNumber.length}
             flexShrink
           />
           <RequestPhoneAuthButton onClick={onRequestPhoneAuthButtonClick}>
@@ -89,13 +89,13 @@ export default function ConfigPhoneNumberPage() {
             size="md"
             placeholder="문자로 전송된 인증번호 입력"
             onInput={onInput('auth')}
-            isInvalid={!inputValues.auth.length}
+            isInvalid={!formState.auth.length}
             flexShrink
             errorMessage="인증번호가 일치하지 않아요."
           />
         )}
 
-        <FullWidthButton disabled={!isRequested || !inputValues.auth.length}>
+        <FullWidthButton disabled={!isRequested || !formState.auth.length}>
           인증 완료하기
         </FullWidthButton>
       </ConfigForm>
