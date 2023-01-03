@@ -1,5 +1,7 @@
 import { css } from '@emotion/react';
 
+import { globalTheme } from '@ui/styles/globalTheme';
+
 export const globalStyle = css`
   /* http://meyerweb.com/eric/tools/css/reset/ 
     v2.0 | 20110126
@@ -149,6 +151,31 @@ export const globalStyle = css`
     h5,
     h6 {
       font-weight: 700;
+    }
+
+    h1 {
+      font-size: ${globalTheme?.fontSize?.h1};
+    }
+
+    h2 {
+      font-size: ${globalTheme?.fontSize?.h2};
+    }
+
+    h3 {
+      font-size: ${globalTheme?.fontSize?.h3};
+    }
+
+    h4 {
+      font-size: ${globalTheme?.fontSize?.h4};
+    }
+
+    h5 {
+      font-size: ${globalTheme?.fontSize?.h5};
+      line-height: 1;
+    }
+
+    h6 {
+      font-size: ${globalTheme?.fontSize?.h6};
     }
   }
 

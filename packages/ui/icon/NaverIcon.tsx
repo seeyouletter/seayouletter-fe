@@ -3,7 +3,7 @@ import React from 'react';
 import { Icon } from './Default';
 import { IconInterface } from './types';
 
-export const NaverIcon = ({ size }: IconInterface) => {
+export const NaverIcon = ({ size = '48px' }: IconInterface) => {
   return (
     <Icon viewBox="0 0 48 48" width={size} height={size}>
       <path

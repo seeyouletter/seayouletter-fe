@@ -28,7 +28,7 @@ export default function Web() {
       <ToastBoxListTop containerKey={toastContainerKey} toastList={toastList}></ToastBoxListTop>
       <XMarkIcon />
       <CheckIcon />
-      <ExclamantationIcon />
+      <ExclamantationIcon size={'46px'} />
     </div>
   );
 }

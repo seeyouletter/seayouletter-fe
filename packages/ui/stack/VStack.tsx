@@ -21,6 +21,7 @@ const DefaultVStack = ({
 
   spacing = '0px',
   divider,
+  ...props
 }: DefaultHStackInterface) => {
   return (
     <VStack
@@ -32,6 +33,7 @@ const DefaultVStack = ({
       spacing={spacing}
       wrap={wrap}
       divider={divider}
+      {...props}
     >
       {children}
     </VStack>

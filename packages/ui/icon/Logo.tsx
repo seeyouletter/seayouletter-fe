@@ -1,10 +1,19 @@
 import React from 'react';
 
-import { Icon } from './Default';
+import { getIconSize } from '@ui/utils/getIconSize';
 
-export function Logo() {
+import { Icon } from './Default';
+import { IconInterface } from './types';
+
+export function Logo({ size = '24px' }: IconInterface) {
+  const { width, height } = getIconSize({
+    originalWidth: 24,
+    originalHeight: 24,
+    size: size,
+  });
+
   return (
-    <Icon viewBox="0 0 24 24" width="24px" height="24px">
+    <Icon viewBox="0 0 24 24" width={width} height={height}>
       <rect width="24" height="24" fill="url(#pattern0)" />
       <defs>
         <pattern id="pattern0" patternContentUnits="objectBoundingBox" width="1" height="1">

@@ -3,7 +3,7 @@ import React from 'react';
 import { Icon } from './Default';
 import { IconInterface } from './types';
 
-export const KakaoIcon = ({ size }: IconInterface) => {
+export const KakaoIcon = ({ size = '48px' }: IconInterface) => {
   return (
     <Icon viewBox="0 0 48 48" width={size} height={size}>
       <g clipPath="url(#clip0_113_49)">

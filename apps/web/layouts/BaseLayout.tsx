@@ -104,18 +104,23 @@ const footerLinksData = [
   },
 ];
 
-function BaseLayout({ children }: PropsWithChildren) {
+interface BaseLayoutPropsInterface extends PropsWithChildren {
+  isHeader?: boolean;
+}
+function BaseLayout({ children, isHeader = true }: BaseLayoutPropsInterface) {
   return (
     <StyledPageContainer className="layout">
-      <BaseHeader
-        logoLink={logoLinkData}
-        pageLinks={pageLinksData}
-        user={{
-          profileUrl:
-            'https://cloudflare-ipfs.com/ipfs/Qmd3W5DuhgHirLHGVixi6V76LhCkZUz6pnFt5AJBiyvHye/avatar/145.jpg',
-        }}
-      />
-      <BaseMain>{children}</BaseMain>
+      {isHeader && (
+        <BaseHeader
+          logoLink={logoLinkData}
+          pageLinks={pageLinksData}
+          user={{
+            profileUrl:
+              'https://cloudflare-ipfs.com/ipfs/Qmd3W5DuhgHirLHGVixi6V76LhCkZUz6pnFt5AJBiyvHye/avatar/145.jpg',
+          }}
+        />
+      )}
+      <BaseMain isHeader={isHeader}>{children}</BaseMain>
       <BaseFooter footerLinks={footerLinksData}></BaseFooter>
     </StyledPageContainer>
   );
