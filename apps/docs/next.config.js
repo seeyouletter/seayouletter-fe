@@ -18,4 +18,8 @@ module.exports = {
       labelFormat: '[local]',
     },
   },
+  images: {
+    loader: 'akamai',
+    path: '/',
+  },
 };

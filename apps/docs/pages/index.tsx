@@ -1,6 +1,6 @@
 import { useState } from 'react';
 
-import { DefaultButton } from 'ui';
+import { DefaultButton } from '@ui/index';
 
 export default function Docs() {
   const [state, setState] = useState(false);

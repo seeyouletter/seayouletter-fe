@@ -1,11 +1,22 @@
+import { NextPage } from 'next';
 import { AppProps } from 'next/app';
 
 import { CustomThemeProvider } from 'ui';
 
-function MyApp({ Component, pageProps }: AppProps) {
+export type NextPageWithLayout<P = object, IP = P> = NextPage<P, IP> & {
+  getLayout?: (page: React.ReactElement) => React.ReactNode;
+};
+
+export type AppPropsWithLayout = AppProps & {
+  Component: NextPageWithLayout;
+};
+
+function MyApp({ Component, pageProps }: AppPropsWithLayout) {
+  const getLayout = Component.getLayout ?? ((page) => page);
+
   return (
     <CustomThemeProvider>
-      <Component {...pageProps} />
+      {getLayout(<Component key={Component.prototype.constructor.name} {...pageProps} />)}
     </CustomThemeProvider>
   );
 }

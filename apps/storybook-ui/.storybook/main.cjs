@@ -1,7 +1,12 @@
 const { mergeConfig } = require('vite');
+const path = require('path');
 
+const nextConfigPath = path.resolve(__dirname, '../next.config.js');
 module.exports = {
   stories: ['../src/**/*.stories.mdx', '../src/**/*.stories.@(js|jsx|ts|tsx)'],
+  features: {
+    emotionAlias: false,
+  },
   addons: [
     '@storybook/addon-links',
     '@storybook/addon-essentials',
@@ -13,7 +18,15 @@ module.exports = {
      * @see
      * https://github.com/chakra-ui/chakra-ui/issues/6433
      */
-    // "@chakra-ui/storybook-addon",
+    // {
+    //   name: "@chakra-ui/storybook-addon",
+    // },
+    // {
+    //   name: 'storybook-addon-next',
+    //   options: {
+    //     nextConfigPath
+    //   }
+    // }
   ],
   framework: '@storybook/react',
   core: {
@@ -28,6 +41,11 @@ module.exports = {
    * @see: https://chakra-ui.com/getting-started/with-storybook#troubleshooting-storybook
    */
   async viteFinal(config) {
+    config.resolve.alias = {
+      ...config.resolve.alias,
+      "@ui": path.resolve(__dirname, "../../../packages/ui"),
+    };
+    
     return mergeConfig(config, {
       module: {
         rules: [

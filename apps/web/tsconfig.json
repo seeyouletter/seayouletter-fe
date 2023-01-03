@@ -4,6 +4,13 @@
   "exclude": ["node_modules"],
   "compilerOptions": {
     "baseUrl": ".",
-    "jsx": "preserve"
+    "jsx": "preserve",
+    "paths": {
+      "@ui/*": ["../../packages/ui/*"],
+      "@pages/*": ["pages/*"],
+      "@hooks/*": ["hooks/*"],
+      "@templates/*": ["templates/*"],
+      "@atoms/*": ["atoms/*"]
+    }
   }
 }

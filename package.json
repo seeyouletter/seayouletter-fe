@@ -10,7 +10,10 @@
     "storybook": "turbo run storybook --filter storybook-ui",
     "build": "turbo run build",
     "dev": "turbo run dev --parallel",
+    "dev:web": "pnpm dev --filter web",
     "lint": "turbo run lint",
+    "test": "turbo run test",
+    "test:coverage": "turbo run test:coverage",
     "stylelint": "turbo run stylelint",
     "format": "prettier --write \"**/*.{ts,tsx,md}\"",
     "ci:version": "changeset version",
@@ -18,25 +21,23 @@
     "prepare": "husky install"
   },
   "devDependencies": {
-    "@changesets/cli": "^2.25.2",
+    "@changesets/cli": "^2.26.0",
     "@commitlint/cli": "^17.3.0",
     "@commitlint/config-conventional": "^17.3.0",
     "commitizen": "^4.2.6",
     "cz-customizable": "^7.0.0",
-    "eslint-config-custom": "workspace:*",
-    "husky": "^8.0.0",
+    "eslint-config-custom": "workspace:0.0.0",
+    "husky": "^8.0.2",
     "lint-staged": "^13.1.0",
+    "next": "^13.0.7",
     "prettier": "latest",
     "prettier-config-custom": "workspace:^1.0.0",
     "stylelint": "^14.16.0",
-    "stylelint-config": "workspace:*",
+    "stylelint-config": "workspace:1.0.0",
     "turbo": "latest"
   },
   "engines": {
     "node": ">=16.0.0"
-  },
-  "dependencies": {
-    "next": "13.0.0"
   },
   "packageManager": "pnpm@7.15.0",
   "lint-staged": {
