@@ -6,3 +6,4 @@ export * from './TextLogo';
 export * from './Check';
 export * from './Xmark';
 export * from './Exclamantation';
+export * from './PrevArrow';

@@ -7,7 +7,6 @@ import { Form } from 'ui';
 
 const configFormCSS = (color: string, border: string) => css`
   width: 420px;
-  height: 420px;
   padding: 2.5rem;
 
   background-color: ${color};

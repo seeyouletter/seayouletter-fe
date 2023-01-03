@@ -1,6 +1,7 @@
 import React, { useRef, useState } from 'react';
 
 import { css } from '@emotion/react';
+import styled from '@emotion/styled';
 
 import { Input } from '@chakra-ui/react';
 
@@ -8,6 +9,22 @@ import { globalTheme } from '@ui/styles';
 import { DefaultText } from '@ui/text/Default';
 
 import { InputPropsInterface } from './types';
+
+interface StyledInputContainerInterface {
+  flexShrink?: boolean;
+}
+
+type FormInputPropsInterface = InputPropsInterface & StyledInputContainerInterface;
+
+const StyledInputContiainer = styled.div<StyledInputContainerInterface>`
+  flex: 1;
+
+  ${({ flexShrink }) =>
+    flexShrink &&
+    css`
+      flex-shrink: 0;
+    `}
+`;
 
 export const FormInput = ({
   size = 'md',
@@ -17,15 +34,16 @@ export const FormInput = ({
   isInvalid = false,
   onInput,
   errorMessage,
+  flexShrink,
   ...props
-}: InputPropsInterface) => {
+}: FormInputPropsInterface) => {
   const [focused, setFocused] = useState(false);
   const inputRef = useRef<HTMLInputElement>(null);
 
   const nowLength = (inputRef.current as HTMLInputElement)?.value.length ?? 0;
 
   return (
-    <div>
+    <StyledInputContiainer flexShrink={flexShrink}>
       <Input
         ref={inputRef}
         data-testid={props['data-testid']}
@@ -41,6 +59,7 @@ export const FormInput = ({
         onInput={onInput}
         onFocus={() => setFocused(true)}
         onBlur={() => setFocused(false)}
+        {...props}
       />
 
       <DefaultText
@@ -48,13 +67,13 @@ export const FormInput = ({
           height: ${globalTheme.fontSize.sm};
           margin-top: 8px;
         `}
-        visible={!!nowLength && !focused && !!errorMessage}
+        visible={isInvalid && !!nowLength && !focused && !!errorMessage}
         as="div"
         size={globalTheme.fontSize.sm}
         color={globalTheme.color.error}
       >
-        {errorMessage}
+        {errorMessage} {JSON.stringify(!nowLength)}
       </DefaultText>
-    </div>
+    </StyledInputContiainer>
   );
 };
