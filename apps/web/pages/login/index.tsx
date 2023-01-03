@@ -4,7 +4,7 @@ import { emailSchema } from 'libs/utils/schemas';
 import { ValidateReturnType, validate } from 'libs/utils/validate';
 import { z } from 'zod';
 
-import React, { FormEvent, useEffect, useState } from 'react';
+import { FormEvent, useEffect, useState } from 'react';
 
 import { useRouter } from 'next/router';
 
@@ -12,13 +12,14 @@ import { css } from '@emotion/react';
 import styled from '@emotion/styled';
 
 import { DefaultButtonPropsInterface } from '@ui/button/types';
-import DefaultVStack from '@ui/stack/VStack';
-import DefaultText from '@ui/text/Default';
 import {
   DefaultHStack,
   DefaultLink,
+  DefaultText,
+  DefaultVStack,
   FormInput,
   FullWidthButton,
+  IconHeaderText,
   LinkInterface,
   Logo,
   ScreenReaderText,
@@ -26,8 +27,7 @@ import {
   globalTheme,
 } from 'ui';
 
-import { LoginForm } from '@templates/form/LoginForm';
-import { Kakao, Naver } from '@templates/link';
+import { Kakao, LoginForm, Naver } from '@templates/index';
 
 import { useForm } from '@hooks/useForm';
 
@@ -66,10 +66,6 @@ const SignUpLink = styled((props: LinkInterface) => <DefaultLink {...props} />)`
     display: inline-block;
     margin-left: 4px;
   }
-`;
-
-const StyledLoginHeader = styled.h5`
-  padding-top: 4px;
 `;
 
 interface LoginFormButtonPropsInterface extends React.PropsWithChildren {
@@ -156,12 +152,19 @@ export default function LoginPage() {
   return (
     <StyledPage data-testid="page">
       <DefaultVStack css={loginTextFormContainerCSS} justifyContent="center">
-        <DefaultHStack alignItems="center" spacing={2} marginBottom={6}>
-          <Logo size={'32px'} />
-          <StyledLoginHeader>로그인</StyledLoginHeader>
-        </DefaultHStack>
+        <IconHeaderText
+          level="h5"
+          Icon={<Logo size={'32px'} />}
+          alignItems="center"
+          spacing={2}
+          marginBottom={6}
+          textPaddingTop="4px"
+        >
+          로그인
+        </IconHeaderText>
 
         <ScreenReaderText>로그인 페이지입니다. 아이디와 비밀번호를 입력해주세요!</ScreenReaderText>
+
         <LoginForm>
           <FormInput
             css={idInputCSS}

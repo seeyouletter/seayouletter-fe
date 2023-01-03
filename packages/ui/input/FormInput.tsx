@@ -5,7 +5,7 @@ import { css } from '@emotion/react';
 import { Input } from '@chakra-ui/react';
 
 import { globalTheme } from '@ui/styles';
-import DefaultText from '@ui/text/Default';
+import { DefaultText } from '@ui/text/Default';
 
 import { InputPropsInterface } from './types';
 

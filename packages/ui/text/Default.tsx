@@ -32,7 +32,7 @@ const StyledText = styled.span<StyledTextInterface>`
     `}
 `;
 
-export default function DefaultText({
+export function DefaultText({
   as = 'span',
   visible,
   size = globalTheme.fontSize.md,
