@@ -1,16 +1,16 @@
 import axios, { AxiosInstance, AxiosRequestConfig, AxiosResponse } from 'axios';
 
-export const request = axios.create({
+export const baseInstance = axios.create({
   baseURL: process.env.NEXT_PUBLIC_WEB_BASE_URL,
   timeout: 3000,
 });
 
 const requestStore = {
-  base: request,
+  base: baseInstance,
 };
 
 interface APIParamsInterface {
-  instanceType: keyof typeof requestStore;
+  instanceType?: keyof typeof requestStore;
 }
 
 export class API {
@@ -55,3 +55,5 @@ export class API {
     return this.request.patch(url, options);
   }
 }
+
+export const request = new API({});
