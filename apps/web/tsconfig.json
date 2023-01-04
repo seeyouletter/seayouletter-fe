@@ -11,6 +11,7 @@
       "@hooks/*": ["hooks/*"],
       "@templates/*": ["templates/*"],
       "@atoms/*": ["atoms/*"]
-    }
+    },
+    "jsxImportSource": "@emotion/react"
   }
 }

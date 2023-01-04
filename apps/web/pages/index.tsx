@@ -4,10 +4,10 @@ import { useRef } from 'react';
 
 import { CheckIcon, DefaultButton, ExclamantationIcon, ToastBoxListTop, XMarkIcon } from 'ui';
 
-import { useToastAtom } from '@hooks/useToast';
+import { useToast } from '@hooks/useToast';
 
 export default function Web() {
-  const { addToast, toastList, toastContainerKey } = useToastAtom({
+  const { addToast, toastList, toastContainerKey } = useToast({
     duration: 2000,
     transitionDuration: 300,
   });
