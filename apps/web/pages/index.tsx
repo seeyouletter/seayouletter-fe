@@ -3,6 +3,7 @@ import AsyncBoundary from 'libs/suspense/AsyncBoundary';
 
 import { useRef } from 'react';
 
+import { DefaultBanner } from '@ui/banner';
 import { CheckIcon, DefaultButton, ExclamantationIcon, ToastBoxListTop, XMarkIcon } from 'ui';
 
 import { TemplateCards } from '@templates/index';
@@ -30,6 +31,13 @@ export default function Web() {
 
   return (
     <div>
+      <DefaultBanner
+        type="default"
+        linkHref="/login"
+        imageSrc="/naver-login.svg"
+        imageAlt="배너 테스트"
+      ></DefaultBanner>
+
       <AsyncBoundary
         resetKeys={[]}
         pendingFallback={<div>Loading</div>}

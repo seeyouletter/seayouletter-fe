@@ -1,8 +1,8 @@
 const globalFontSize = {
-  h1: '100px',
-  h2: '80px',
-  h3: '64px',
-  h4: '48px',
+  h1: '80px',
+  h2: '64px',
+  h3: '48px',
+  h4: '40px',
   h5: '32px',
   h6: '24px',
   xxl: '24px',

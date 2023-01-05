@@ -5,23 +5,25 @@ import styled from '@emotion/styled';
 
 import { globalTheme } from '@ui/styles';
 
-interface StyledTextInterface {
-  as?: 'p' | 'span' | 'div';
+import { DynamicHeaderTextType } from './types';
+
+interface StyledHeaderTextInterface {
+  as?: DynamicHeaderTextType;
   textAlign?: 'left' | 'center' | 'right';
   size?: string;
   color?: string;
   visible?: boolean;
 }
 
-interface TextPropsInterface extends StyledTextInterface, PropsWithChildren {
+export interface TextPropsInterface extends StyledHeaderTextInterface, PropsWithChildren {
   ariaLabel?: string;
 }
 
-const TextSpacer = styled.div<{ size: StyledTextInterface['size'] }>`
+const TextSpacer = styled.div<{ size: StyledHeaderTextInterface['size'] }>`
   height: ${(props) => props.size};
 `;
 
-const StyledText = styled.span<StyledTextInterface>`
+const StyledHeaderText = styled.span<StyledHeaderTextInterface>`
   font-size: ${(props) => props.size};
   color: ${(props) => props.color};
   text-align: ${(props) => props.textAlign};
@@ -32,10 +34,9 @@ const StyledText = styled.span<StyledTextInterface>`
     `}
 `;
 
-export function DefaultText({
-  as = 'span',
+export function HeaderText({
+  as = 'h6',
   visible = true,
-  size = globalTheme.fontSize.md,
   textAlign = 'left',
   children,
   color = globalTheme.color.text,
@@ -43,18 +44,18 @@ export function DefaultText({
   ...props
 }: TextPropsInterface) {
   return !!visible ? (
-    <StyledText
+    <StyledHeaderText
       as={as}
       visible={visible}
-      size={size}
       textAlign={textAlign}
       color={color}
       aria-label={ariaLabel}
+      size={globalTheme.fontSize[as]}
       {...props}
     >
       {children}
-    </StyledText>
+    </StyledHeaderText>
   ) : (
-    <TextSpacer size={size} {...props}></TextSpacer>
+    <TextSpacer size={globalTheme.fontSize[as]} {...props}></TextSpacer>
   );
 }
