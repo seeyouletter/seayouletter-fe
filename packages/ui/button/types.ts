@@ -2,7 +2,7 @@ import React, { PropsWithChildren } from 'react';
 
 import { SystemProps } from '@chakra-ui/react';
 
-import { SizeType } from '../common/types';
+import { SizeType } from '@ui/common/types';
 
 export type ButtonType = 'ghost' | 'outline' | 'solid' | 'link' | 'unstyled';
 

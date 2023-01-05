@@ -34,5 +34,9 @@
     "signature": true
   },
   "globalDependencies": [".env.local", "tsconfig.json"],
-  "globalEnv": ["NEXT_PUBLIC_WEB_KAKAO_APP_KEY", "NEXT_PUBLIC_WEB_REDIRECT_URI"]
+  "globalEnv": [
+    "NEXT_PUBLIC_WEB_KAKAO_APP_KEY",
+    "NEXT_PUBLIC_WEB_REDIRECT_URI",
+    "NEXT_PUBLIC_WEB_BASE_URL"
+  ]
 }

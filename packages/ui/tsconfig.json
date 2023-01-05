@@ -3,7 +3,8 @@
     "baseUrl": ".",
     "paths": {
       "@ui/*": ["../../packages/ui/*"]
-    }
+    },
+    "jsxImportSource": "@emotion/react"
   },
   "extends": "tsconfig/react-library.json",
   "include": ["."],

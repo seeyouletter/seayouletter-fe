@@ -7,9 +7,11 @@ import { UserEventType } from 'tests/types';
 
 import { useRouter } from 'next/router';
 
-import LoginPage, { LoginFormButton } from '@pages/login';
+import LoginPage from '@pages/login';
 
 import { CustomThemeProvider } from '@ui/styles';
+
+import { LoginFormButton } from '@templates/form/LoginForm';
 
 afterEach(cleanup);
 

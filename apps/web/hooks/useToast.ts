@@ -6,7 +6,7 @@ import { useAtom } from 'jotai';
 
 import { v4 as uuidv4 } from 'uuid';
 
-export const useToastAtom = ({ duration = 2000, transitionDuration = 300 }) => {
+export const useToast = ({ duration = 2000, transitionDuration = 300 }) => {
   const [toastList, setToastList] = useAtom(toastAtom);
 
   const [toastContainerKey, setToastContainerKey] = useState('disabled');

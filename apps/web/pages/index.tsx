@@ -1,13 +1,20 @@
 import BaseLayout from 'layouts/BaseLayout';
+import AsyncBoundary from 'libs/suspense/AsyncBoundary';
 
 import { useRef } from 'react';
 
 import { CheckIcon, DefaultButton, ExclamantationIcon, ToastBoxListTop, XMarkIcon } from 'ui';
 
-import { useToastAtom } from '@hooks/useToast';
+import { TemplateCards } from '@templates/index';
+
+import { useToast } from '@hooks/useToast';
+
+const ErrorComponent = ({ error }: { error: Error }) => {
+  return <div>{error.message}</div>;
+};
 
 export default function Web() {
-  const { addToast, toastList, toastContainerKey } = useToastAtom({
+  const { addToast, toastList, toastContainerKey } = useToast({
     duration: 2000,
     transitionDuration: 300,
   });
@@ -23,6 +30,14 @@ export default function Web() {
 
   return (
     <div>
+      <AsyncBoundary
+        resetKeys={[]}
+        pendingFallback={<div>Loading</div>}
+        rejectFallback={({ error }) => <ErrorComponent error={error} />}
+      >
+        <TemplateCards />
+      </AsyncBoundary>
+
       <h1>Web</h1>
       <DefaultButton size="md" isLoading={false} onClick={onClick}></DefaultButton>
       <ToastBoxListTop containerKey={toastContainerKey} toastList={toastList}></ToastBoxListTop>

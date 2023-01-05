@@ -7,6 +7,7 @@
     "paths": {
       "@ui/*": ["../../packages/ui/*"]
     },
-    "jsx": "preserve"
+    "jsx": "preserve",
+    "jsxImportSource": "@emotion/react"
   }
 }

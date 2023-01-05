@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 
-function useWindow<T>(props: (keyof T)[]) {
+export const useWindow = <T>(props: (keyof T)[]) => {
   const [windowState, setWindowState] = useState<T>({} as T);
 
   useEffect(() => {
@@ -29,6 +29,4 @@ function useWindow<T>(props: (keyof T)[]) {
   }, []);
 
   return { windowState, setWindowState };
-}
-
-export default useWindow;
+};
