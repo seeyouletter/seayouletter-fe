@@ -36,6 +36,8 @@ export default function Web() {
         linkHref="/login"
         imageSrc="/naver-login.svg"
         imageAlt="배너 테스트"
+        title="청첩장 고민은 그만! 씨유레터에서 작별해요."
+        description="See you later, at seeyouletter 👋🏻"
       ></DefaultBanner>
 
       <AsyncBoundary

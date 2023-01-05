@@ -21,6 +21,9 @@ interface BannerPropsInterface extends StyledBannerPropsInterface, PropsWithChil
   linkHref: string;
   imageSrc: string;
   imageAlt?: string;
+  objectFit?: 'cover' | 'contain';
+  title: string;
+  description?: string;
 }
 
 const LinkFactory = ({
@@ -42,11 +45,11 @@ const LinkFactory = ({
 /**
  * NOTE: next13.1에서 이를 export할 때 명명할 수 없다는 에러가 난다.
  */
-const StyledBannerImage = styled(Image)`
+const StyledBannerImage = styled(Image)<{ objectStyle: BannerPropsInterface['objectFit'] }>`
   position: absolute;
   width: 100%;
   height: 100%;
-  object-fit: cover;
+  object-fit: ${({ objectStyle }) => objectStyle};
 `;
 
 const StyledCopyContainer = styled(DefaultVStack)`
@@ -64,19 +67,24 @@ export function DefaultBanner({
   height = '160px',
   imageSrc,
   imageAlt = '배너',
+  title,
+  description,
+  objectFit = 'cover',
 }: BannerPropsInterface) {
   return (
     <LinkFactory type={type} href={linkHref}>
       <StyledBannerContainer height={height}>
         <StyledCopyContainer justify="center" spacing={4}>
           <HeaderText as="h4" textAlign="center" color="white">
-            청첩장 고민은 그만! 씨유레터에서 작별해요.
+            {title}
           </HeaderText>
-          <HeaderText as="h6" textAlign="center" color="white">
-            See you later, at seeyouletter 👋🏻
-          </HeaderText>
+          {description && (
+            <HeaderText as="h6" textAlign="center" color="white">
+              {description}
+            </HeaderText>
+          )}
         </StyledCopyContainer>
-        <StyledBannerImage src={imageSrc} alt={imageAlt} fill />
+        <StyledBannerImage src={imageSrc} alt={imageAlt} fill objectStyle={objectFit} />
       </StyledBannerContainer>
     </LinkFactory>
   );
