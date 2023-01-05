@@ -5,7 +5,7 @@ import { useRef } from 'react';
 
 import { CheckIcon, DefaultButton, ExclamantationIcon, ToastBoxListTop, XMarkIcon } from 'ui';
 
-import { TemplateCard } from '@templates/Cards';
+import { TemplateCards } from '@templates/index';
 
 import { useToast } from '@hooks/useToast';
 
@@ -35,8 +35,9 @@ export default function Web() {
         pendingFallback={<div>Loading</div>}
         rejectFallback={({ error }) => <ErrorComponent error={error} />}
       >
-        <TemplateCard />
+        <TemplateCards />
       </AsyncBoundary>
+
       <h1>Web</h1>
       <DefaultButton size="md" isLoading={false} onClick={onClick}></DefaultButton>
       <ToastBoxListTop containerKey={toastContainerKey} toastList={toastList}></ToastBoxListTop>

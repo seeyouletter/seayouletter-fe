@@ -10,7 +10,9 @@
       "@pages/*": ["pages/*"],
       "@hooks/*": ["hooks/*"],
       "@templates/*": ["templates/*"],
-      "@atoms/*": ["atoms/*"]
+      "@atoms/*": ["atoms/*"],
+      "@apis/*": ["libs/apis/*"],
+      "@utils/*": ["libs/utils/*"]
     },
     "jsxImportSource": "@emotion/react"
   }

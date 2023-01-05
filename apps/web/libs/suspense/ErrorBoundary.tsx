@@ -4,7 +4,7 @@ type KeysType = unknown[];
 
 type RenderFallbackPropsType<ErrorType extends Error = Error> = {
   error: ErrorType;
-  reset: (...args: unknown[]) => void;
+  reset: () => void;
 };
 
 type RenderFallbackType = <ErrorType extends Error>(
@@ -14,6 +14,7 @@ type RenderFallbackType = <ErrorType extends Error>(
 interface Props extends PropsWithChildren {
   resetKeys: KeysType;
   renderFallback: RenderFallbackType;
+  resetCallback?: () => void;
 }
 
 interface State {
@@ -39,7 +40,7 @@ export class ErrorBoundary extends Component<Props, State> {
 
   public componentDidCatch(error: Error, errorInfo: ErrorInfo) {
     /* eslint-disable-next-line no-console */
-    console.log('🚀 what...?', error, errorInfo);
+    console.error(error, errorInfo);
   }
 
   public isKeysChanged(nowArray: KeysType, compareArray: KeysType) {
@@ -60,6 +61,10 @@ export class ErrorBoundary extends Component<Props, State> {
   public resetErrorBoundary() {
     // ErrorBoundary state를 초기화
     this.setState(initialState);
+
+    if (this.props.resetCallback) {
+      this.props.resetCallback();
+    }
   }
 
   public render() {
