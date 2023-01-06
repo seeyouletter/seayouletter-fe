@@ -11,6 +11,7 @@ interface StyledTextInterface {
   size?: string;
   color?: string;
   visible?: boolean;
+  bold?: boolean;
 }
 
 interface TextPropsInterface extends StyledTextInterface, PropsWithChildren {
@@ -30,6 +31,11 @@ const StyledText = styled.span<StyledTextInterface>`
     css`
       display: none;
     `}
+  ${({ bold }) =>
+    bold &&
+    css`
+      font-weight: 700;
+    `}
 `;
 
 export function DefaultText({
@@ -40,6 +46,7 @@ export function DefaultText({
   children,
   color = globalTheme.color.text,
   ariaLabel,
+  bold,
   ...props
 }: TextPropsInterface) {
   return !!visible ? (
@@ -50,6 +57,7 @@ export function DefaultText({
       textAlign={textAlign}
       color={color}
       aria-label={ariaLabel}
+      bold={bold}
       {...props}
     >
       {children}
