@@ -4,6 +4,7 @@ import AsyncBoundary from 'libs/suspense/AsyncBoundary';
 import { useRef } from 'react';
 
 import { DefaultBanner } from '@ui/banner';
+import Carousel from '@ui/carousel/Carousel';
 import {
   CheckIcon,
   DefaultButton,
@@ -13,6 +14,7 @@ import {
   ToastBoxListTop,
   XMarkIcon,
 } from 'ui';
+import { v4 as uuidV4 } from 'uuid';
 
 import { TemplateCards } from '@templates/index';
 
@@ -39,6 +41,14 @@ export default function Web() {
 
   return (
     <div>
+      <Carousel
+        inners={[
+          { id: uuidV4(), imageSrc: '/carousel-example.jpeg', imageAlt: '이벤트1' },
+          { id: uuidV4(), imageSrc: '/carousel-example.jpeg', imageAlt: '이벤트2' },
+          { id: uuidV4(), imageSrc: '/carousel-example.jpeg', imageAlt: '이벤트3' },
+        ]}
+      />
+
       <TemplateCard
         imageSrc="/naver-login.svg"
         imageAlt="image"
