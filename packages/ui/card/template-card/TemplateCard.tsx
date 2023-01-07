@@ -27,6 +27,7 @@ const StyledImage = styled(Image)`
   height: 260px;
   background-color: ${({ theme }) => theme.color.sub[500]};
 `;
+
 export function TemplateCard({
   imageSrc,
   imageAlt,
@@ -49,6 +50,7 @@ export function TemplateCard({
       _hover={{
         background: 'sub.200',
       }}
+      boxShadow="0px 4px 4px rgba(0, 0, 0, 0.25)"
     >
       <DefaultVStack spacing={4}>
         <StyledImage width={192} height={260} src={imageSrc} alt={imageAlt} />
