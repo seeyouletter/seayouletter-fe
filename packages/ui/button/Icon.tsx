@@ -19,6 +19,7 @@ export const IconButton = ({
   colorScheme = 'primary',
   isBoxShadow = false,
   onClick,
+  ...props
 }: IconButtonPropsInterface) => {
   return (
     <ChakraIconButton
@@ -41,6 +42,7 @@ export const IconButton = ({
         bg: activeBg,
       }}
       boxShadow={isBoxShadow ? '0px 2px 2px 1px rgba(0,0,0,0.25)' : undefined}
+      {...props}
     />
   );
 };
