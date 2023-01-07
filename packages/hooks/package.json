@@ -9,10 +9,8 @@
   "keywords": [],
   "author": "",
   "license": "ISC",
-  "dependencies": {
-    "react": "^18.2.0"
-  },
   "devDependencies": {
+    "react": "^18.2.0",
     "@types/node": "^17.0.12",
     "@types/react": "^18.0.17",
     "tsconfig": "workspace:^0.0.1",

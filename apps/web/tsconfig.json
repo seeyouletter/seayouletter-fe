@@ -8,7 +8,7 @@
     "paths": {
       "@ui/*": ["../../packages/ui/*"],
       "@pages/*": ["pages/*"],
-      "@hooks/*": ["hooks/*"],
+      "@hooks/*": ["../../packages/hooks/*"],
       "@templates/*": ["templates/*"],
       "@atoms/*": ["atoms/*"],
       "@apis/*": ["libs/apis/*"],

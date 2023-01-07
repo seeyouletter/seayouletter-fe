@@ -93,7 +93,7 @@ export function LoginForm({ ...props }: FormPropsInterface) {
     initialState,
   });
 
-  const onInputChange = (type: keyof typeof formState, value: typeof formState[typeof type]) => {
+  const onInputChange = (type: keyof typeof formState, value: (typeof formState)[typeof type]) => {
     updateFormState(type, value);
   };
 

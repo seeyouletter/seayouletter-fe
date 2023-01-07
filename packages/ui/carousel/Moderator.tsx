@@ -78,7 +78,7 @@ export function CarouselModerator({
       <StyledProgressBarContainer>
         <StyledProgressBarInner>
           <StyledProgressBarRail />
-          <StyledProgressBarTrack key={timerId as number} />
+          {timerId && <StyledProgressBarTrack key={timerId as number} />}
         </StyledProgressBarInner>
       </StyledProgressBarContainer>
     </StyledCarouselModerator>

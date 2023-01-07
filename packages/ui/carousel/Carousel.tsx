@@ -47,9 +47,9 @@ export default function Carousel({ inners }: CarouselPropsInterface) {
   const carouselId = useRef(0);
 
   useEffect(() => {
-    carouselId.current += 1;
+    if (timerId && isLoading === false) carouselId.current += 1;
     /* eslint-disable-next-line react-hooks/exhaustive-deps */
-  }, [timerId.current]);
+  }, [timerId.current, isLoading]);
 
   const onPrev = () => {
     if (isLoading) return;
