@@ -18,9 +18,12 @@ interface CarouselPropsInterface {
 
 const StyledImage = styled(Image)`
   right: 0;
+
   width: 100%;
   height: 100%;
+
   filter: brightness(0.5);
+
   object-fit: cover;
   object-position: right;
 `;
@@ -31,41 +34,31 @@ export default function Carousel({ inners }: CarouselPropsInterface) {
     [inners]
   );
 
-  const [carouselState, setCarouselState] = useState({
-    isLoading: false,
-    nowIndex: 1,
-    isTransition: true,
-  });
+  const [isLoading, setIsLoading] = useState(false);
+  const [nowIndex, setNowIndex] = useState(1);
+  const [isTransition, setIsTransition] = useState(false);
 
-  const checkIsOverIndex = () =>
-    carouselState.nowIndex === 0 || carouselState.nowIndex > inners.length;
+  const checkIsOverIndex = () => nowIndex === 0 || nowIndex > inners.length;
 
   const onPrev = () => {
-    if (carouselState.isLoading) return;
+    if (isLoading) return;
 
-    setCarouselState((state) => ({
-      isLoading: true,
-      nowIndex: state.nowIndex - 1,
-      isTransition: true,
-    }));
+    setIsLoading(() => true);
+    setNowIndex((state) => state - 1);
+    setIsTransition(() => true);
   };
 
   const onNext = () => {
-    if (carouselState.isLoading) return;
+    if (isLoading) return;
 
-    setCarouselState((state) => ({
-      isLoading: true,
-      nowIndex: state.nowIndex + 1,
-      isTransition: true,
-    }));
+    setIsLoading(() => true);
+    setNowIndex((state) => state + 1);
+    setIsTransition(() => true);
   };
 
   const onTransitionEnd = () => {
     if (checkIsOverIndex()) {
-      setCarouselState((state) => ({
-        ...state,
-        isTransition: false,
-      }));
+      setIsTransition(() => false);
     }
   };
 
@@ -74,18 +67,12 @@ export default function Carousel({ inners }: CarouselPropsInterface) {
    * setLoading을 제어합니다.
    */
   useEffect(() => {
-    if (carouselState.nowIndex === 0 || carouselState.nowIndex > inners.length) {
-      setCarouselState((state) => ({
-        ...state,
-        isLoading: true,
-      }));
+    if (nowIndex === 0 || nowIndex > inners.length) {
+      setIsLoading(() => true);
     } else {
-      setCarouselState((state) => ({
-        ...state,
-        isLoading: false,
-      }));
+      setIsLoading(() => false);
     }
-  }, [carouselState.nowIndex, inners.length]);
+  }, [nowIndex, inners.length]);
 
   /**
    * @description
@@ -93,38 +80,28 @@ export default function Carousel({ inners }: CarouselPropsInterface) {
    * 결과적으로 이 변확값은 Loading을 조정하는 useEffect에서 감지가 되어 동기적으로 다시 loading을 해제합니다.
    */
   useEffect(() => {
-    if (!carouselState.isTransition) {
-      if (carouselState.nowIndex > inners.length) {
-        setCarouselState((state) => ({
-          ...state,
-          nowIndex: 1,
-        }));
+    if (!isTransition) {
+      if (nowIndex > inners.length) {
+        setNowIndex(() => 1);
       }
-      if (carouselState.nowIndex === 0) {
-        setCarouselState((state) => ({
-          ...state,
-          nowIndex: inners.length,
-        }));
+      if (nowIndex === 0) {
+        setNowIndex(() => inners.length);
       }
     }
     /* eslint-disable-next-line react-hooks/exhaustive-deps */
-  }, [carouselState.isTransition]);
+  }, [isTransition]);
 
   return (
     <CarouselContainer>
       <CarouselInner>
         <CarouselCardList
-          style={{ transition: carouselState.isTransition ? 'all 0.3s' : 'none' }}
-          index={carouselState.nowIndex}
-          isTransition={carouselState.isLoading}
+          style={{ transition: isTransition ? 'all 0.3s' : 'none' }}
+          index={nowIndex}
+          isTransition={isLoading}
           onTransitionEnd={onTransitionEnd}
         >
           {reginedInners.map((inner, idx) => (
             <CarouselCardItem>
-              <h1>
-                {`${carouselState.isTransition}`}
-                {carouselState.nowIndex}
-              </h1>
               <StyledImage
                 key={inner.id + idx}
                 src={inner.imageSrc}
@@ -138,7 +115,7 @@ export default function Carousel({ inners }: CarouselPropsInterface) {
         </CarouselCardList>
 
         <CarouselModerator
-          nowIndex={carouselState.nowIndex}
+          nowIndex={nowIndex}
           totalLength={inners.length}
           onPrev={onPrev}
           onNext={onNext}
