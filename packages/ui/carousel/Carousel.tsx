@@ -1,10 +1,12 @@
-import React, { useEffect, useMemo, useState } from 'react';
+import React, { useEffect, useMemo, useRef, useState } from 'react';
 
 import Image from 'next/image';
 
 import styled from '@emotion/styled';
 
 import { ImageInterface } from '@ui/types/image';
+
+import { useInterval } from '@hooks/useInterval';
 
 import { CarouselModerator } from './Moderator';
 import { CarouselCardItem, CarouselCardList, CarouselContainer, CarouselInner } from './styles';
@@ -40,6 +42,15 @@ export default function Carousel({ inners }: CarouselPropsInterface) {
 
   const checkIsOverIndex = () => nowIndex === 0 || nowIndex > inners.length;
 
+  const { timerId, resetInterval } = useInterval(onNext, 5000);
+
+  const carouselId = useRef(0);
+
+  useEffect(() => {
+    carouselId.current += 1;
+    /* eslint-disable-next-line react-hooks/exhaustive-deps */
+  }, [timerId.current]);
+
   const onPrev = () => {
     if (isLoading) return;
 
@@ -48,13 +59,14 @@ export default function Carousel({ inners }: CarouselPropsInterface) {
     setIsTransition(() => true);
   };
 
-  const onNext = () => {
+  function onNext() {
     if (isLoading) return;
 
+    resetInterval();
     setIsLoading(() => true);
     setNowIndex((state) => state + 1);
     setIsTransition(() => true);
-  };
+  }
 
   const onTransitionEnd = () => {
     if (checkIsOverIndex()) {
@@ -119,6 +131,7 @@ export default function Carousel({ inners }: CarouselPropsInterface) {
           totalLength={inners.length}
           onPrev={onPrev}
           onNext={onNext}
+          timerId={carouselId.current}
         />
       </CarouselInner>
     </CarouselContainer>

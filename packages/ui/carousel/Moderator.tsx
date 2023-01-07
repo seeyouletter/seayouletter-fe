@@ -23,6 +23,7 @@ interface CarouselModeratorPropsInterface {
   totalLength: number;
   onPrev: () => void;
   onNext: () => void;
+  timerId: NodeJS.Timeout | number;
 }
 
 export function CarouselModerator({
@@ -30,6 +31,7 @@ export function CarouselModerator({
   totalLength,
   onPrev,
   onNext,
+  timerId,
 }: CarouselModeratorPropsInterface) {
   const theme = useTheme();
   return (
@@ -76,7 +78,7 @@ export function CarouselModerator({
       <StyledProgressBarContainer>
         <StyledProgressBarInner>
           <StyledProgressBarRail />
-          <StyledProgressBarTrack />
+          <StyledProgressBarTrack key={timerId as number} />
         </StyledProgressBarInner>
       </StyledProgressBarContainer>
     </StyledCarouselModerator>
