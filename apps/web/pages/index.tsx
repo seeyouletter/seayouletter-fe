@@ -4,7 +4,15 @@ import AsyncBoundary from 'libs/suspense/AsyncBoundary';
 import { useRef } from 'react';
 
 import { DefaultBanner } from '@ui/banner';
-import { CheckIcon, DefaultButton, ExclamantationIcon, ToastBoxListTop, XMarkIcon } from 'ui';
+import {
+  CheckIcon,
+  DefaultButton,
+  ExclamantationIcon,
+  MyTemplateCard,
+  TemplateCard,
+  ToastBoxListTop,
+  XMarkIcon,
+} from 'ui';
 
 import { TemplateCards } from '@templates/index';
 
@@ -31,6 +39,23 @@ export default function Web() {
 
   return (
     <div>
+      <TemplateCard
+        imageSrc="/naver-login.svg"
+        imageAlt="image"
+        title="타이틀입니다."
+        nickname="불량한 너구리12"
+        likeCount={999}
+        isLike={false}
+        authorProfileUrl="/naver-login.svg"
+      />
+
+      <MyTemplateCard
+        title="타이틀입니다."
+        createAt="22.12.01"
+        lastUpdateAt="1분전"
+        imageAlt="card"
+        imageSrc="/logo.svg"
+      />
       <DefaultBanner
         type="default"
         linkHref="/login"
