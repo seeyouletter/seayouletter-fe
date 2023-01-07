@@ -9,6 +9,7 @@ export const CarouselContainer = styled.div`
 export const CarouselInner = styled.div`
   position: relative;
   height: 100%;
+  overflow: hidden;
 `;
 
 export const CarouselCardList = styled.ul<{ isTransition: boolean; index: number }>`
