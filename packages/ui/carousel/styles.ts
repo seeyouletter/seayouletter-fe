@@ -1,3 +1,4 @@
+import { keyframes } from '@emotion/react';
 import styled from '@emotion/styled';
 
 export const CarouselContainer = styled.div`
@@ -42,12 +43,31 @@ export const StyledProgressBarContainer = styled.div`
   height: 24px;
 `;
 export const StyledProgressBarInner = styled.div`
+  position: relative;
   display: flex;
   align-items: center;
   height: 100%;
+  overflow: hidden;
 `;
+
 export const StyledProgressBarRail = styled.div`
   width: 100%;
   height: 1px;
   background: white;
+`;
+const progressBarTrackAnimation = keyframes`
+  0% {
+    transform: translateX(-100%);
+  }
+  100% {
+    transform: translateX(0%);
+  }
+`;
+
+export const StyledProgressBarTrack = styled.div`
+  position: absolute;
+  width: 100%;
+  height: 1px;
+  background: ${(props) => props.theme.color.primary[500]};
+  animation: ${progressBarTrackAnimation} 5s infinite cubic-bezier(0.215, 0.61, 0.355, 1);
 `;

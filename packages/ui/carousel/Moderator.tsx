@@ -15,6 +15,7 @@ import {
   StyledProgressBarContainer,
   StyledProgressBarInner,
   StyledProgressBarRail,
+  StyledProgressBarTrack,
 } from './styles';
 
 interface CarouselModeratorPropsInterface {
@@ -74,7 +75,8 @@ export function CarouselModerator({
 
       <StyledProgressBarContainer>
         <StyledProgressBarInner>
-          <StyledProgressBarRail></StyledProgressBarRail>
+          <StyledProgressBarRail />
+          <StyledProgressBarTrack />
         </StyledProgressBarInner>
       </StyledProgressBarContainer>
     </StyledCarouselModerator>
