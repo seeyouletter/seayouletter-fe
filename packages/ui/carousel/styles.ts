@@ -1,4 +1,4 @@
-import { keyframes } from '@emotion/react';
+import { css, keyframes } from '@emotion/react';
 import styled from '@emotion/styled';
 
 export const CarouselContainer = styled.div`
@@ -11,10 +11,25 @@ export const CarouselInner = styled.div`
   height: 100%;
 `;
 
-export const CarouselCardList = styled.ul`
+export const CarouselCardList = styled.ul<{ isTransition: boolean; index: number }>`
   display: flex;
   width: 100%;
   height: 100%;
+
+  ${({ isTransition }) =>
+    isTransition &&
+    css`
+      transition: all 0.3s;
+    `}
+
+  ${({ index }) => {
+    return (
+      index !== undefined &&
+      css`
+        transform: translateX(calc(-100% * (${index})));
+      `
+    );
+  }}
 `;
 
 export const CarouselCardItem = styled.li`
