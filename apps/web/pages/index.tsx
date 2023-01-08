@@ -6,14 +6,9 @@ import { v4 as uuidV4 } from 'uuid';
 
 import { DefaultBanner } from '@ui/banner';
 import Carousel from '@ui/carousel/Carousel';
-import {
-  DefaultButton,
-  DefaultHStack,
-  DefaultText,
-  DefaultVStack,
-  StrongText,
-  TemplateCard,
-} from 'ui';
+import { DefaultButton, DefaultText, DefaultVStack, StrongText } from 'ui';
+
+import RecommendedCardList from '@templates/card-list/RecommendedCardList';
 
 const CarouselData = [
   {
@@ -51,101 +46,23 @@ export default function Web() {
         <Carousel inners={CarouselData} />
       </DefaultVStack>
 
-      <DefaultVStack paddingLeft={8} paddingRight={8} marginBottom={16}>
-        <DefaultVStack marginBottom={8} spacing={2}>
-          <h4>이런 템플릿 어떠세요?</h4>
+      <RecommendedCardList
+        title="이런 템플릿 어떠세요?"
+        description={
           <DefaultText size={theme.fontSize.lg}>
             예랑예신님들께 핫한 템플릿을 모아봤어요. 🔥
           </DefaultText>
-        </DefaultVStack>
+        }
+      />
 
-        <DefaultHStack spacing={6}>
-          <TemplateCard
-            imageSrc="/naver-login.svg"
-            imageAlt="image"
-            title="타이틀입니다."
-            nickname="불량한 너구리12"
-            likeCount={999}
-            isLike={false}
-            authorProfileUrl="/naver-login.svg"
-          />
-          <TemplateCard
-            imageSrc="/naver-login.svg"
-            imageAlt="image"
-            title="타이틀입니다."
-            nickname="불량한 너구리12"
-            likeCount={999}
-            isLike={false}
-            authorProfileUrl="/naver-login.svg"
-          />
-          <TemplateCard
-            imageSrc="/naver-login.svg"
-            imageAlt="image"
-            title="타이틀입니다."
-            nickname="불량한 너구리12"
-            likeCount={999}
-            isLike={false}
-            authorProfileUrl="/naver-login.svg"
-          />
-          <TemplateCard
-            imageSrc="/naver-login.svg"
-            imageAlt="image"
-            title="타이틀입니다."
-            nickname="불량한 너구리12"
-            likeCount={999}
-            isLike={false}
-            authorProfileUrl="/naver-login.svg"
-          />
-        </DefaultHStack>
-      </DefaultVStack>
-
-      <DefaultVStack paddingLeft={8} paddingRight={8} marginBottom={16}>
-        <DefaultVStack marginBottom={8} spacing={2}>
-          <h4>다양한 템플릿을 만나보세요.</h4>
+      <RecommendedCardList
+        title="다양한 템플릿을 만나보세요."
+        description={
           <DefaultText size={theme.fontSize.lg}>
             누구든 <StrongText color="primary">5분</StrongText>이면 쉽게 만들 수 있어요 😉
           </DefaultText>
-        </DefaultVStack>
-
-        <DefaultHStack spacing={6}>
-          <TemplateCard
-            imageSrc="/naver-login.svg"
-            imageAlt="image"
-            title="타이틀입니다."
-            nickname="불량한 너구리12"
-            likeCount={999}
-            isLike={false}
-            authorProfileUrl="/naver-login.svg"
-          />
-          <TemplateCard
-            imageSrc="/naver-login.svg"
-            imageAlt="image"
-            title="타이틀입니다."
-            nickname="불량한 너구리12"
-            likeCount={999}
-            isLike={false}
-            authorProfileUrl="/naver-login.svg"
-          />
-          <TemplateCard
-            imageSrc="/naver-login.svg"
-            imageAlt="image"
-            title="타이틀입니다."
-            nickname="불량한 너구리12"
-            likeCount={999}
-            isLike={false}
-            authorProfileUrl="/naver-login.svg"
-          />
-          <TemplateCard
-            imageSrc="/naver-login.svg"
-            imageAlt="image"
-            title="타이틀입니다."
-            nickname="불량한 너구리12"
-            likeCount={999}
-            isLike={false}
-            authorProfileUrl="/naver-login.svg"
-          />
-        </DefaultHStack>
-      </DefaultVStack>
+        }
+      />
 
       <DefaultBanner
         type="default"
