@@ -31,42 +31,49 @@ const Buttons = [
     },
   },
 ];
-export default function TaskStartGuideLinePage() {
+export default function TaskStartGuidelinePage() {
   const theme = useTheme();
 
   return (
-    <DefaultHStack justifyContent="space-between">
-      {Buttons.map((buttonInner) => (
-        <FreeSizeButton
-          key={buttonInner.id}
-          width="300px"
-          height="240px"
-          borderRadius="rounded"
-          bg="white"
-          hoverBg="primary.500"
-          activeBg="primary.500"
-          hoverColor="white"
-          activeColor="white"
-        >
-          <DefaultVStack>
-            {buttonInner.contents.map((content, idx) => (
-              <DefaultText
-                key={idx + buttonInner.id}
-                textAlign="center"
-                bold
-                size={theme.fontSize.lg}
-                color="inherit"
-              >
-                {content}
-              </DefaultText>
-            ))}
-          </DefaultVStack>
-        </FreeSizeButton>
-      ))}
-    </DefaultHStack>
+    <DefaultVStack>
+      <DefaultVStack paddingTop={16} paddingBottom={16} spacing={2} alignItems="center">
+        {/* TODO: 추후 유저 인증 로직이 활성화되면 적용하자. */}
+        <h5>OOO님!</h5>
+        <DefaultText size={theme.fontSize.lg}>어떻게 템플릿을 제작하시겠어요?</DefaultText>
+      </DefaultVStack>
+      <DefaultHStack justifyContent="space-between">
+        {Buttons.map((buttonInner) => (
+          <FreeSizeButton
+            key={buttonInner.id}
+            width="300px"
+            height="240px"
+            borderRadius="rounded"
+            bg="white"
+            hoverBg="primary.500"
+            activeBg="primary.500"
+            hoverColor="white"
+            activeColor="white"
+          >
+            <DefaultVStack>
+              {buttonInner.contents.map((content, idx) => (
+                <DefaultText
+                  key={idx + buttonInner.id}
+                  textAlign="center"
+                  bold
+                  size={theme.fontSize.lg}
+                  color="inherit"
+                >
+                  {content}
+                </DefaultText>
+              ))}
+            </DefaultVStack>
+          </FreeSizeButton>
+        ))}
+      </DefaultHStack>
+    </DefaultVStack>
   );
 }
 
-TaskStartGuideLinePage.getLayout = function getLayout(page: React.ReactElement) {
+TaskStartGuidelinePage.getLayout = function getLayout(page: React.ReactElement) {
   return <BaseLayout isMainPadding={true}>{page}</BaseLayout>;
 };

@@ -4,13 +4,15 @@ import styled from '@emotion/styled';
 
 import { globalTheme } from '@ui/styles';
 
-export type StrongColorType = 'primary' | 'sub' | 'black';
+export type StrongColorType = 'primary' | 'sub' | 'black' | 'white' | 'inherit';
 
 interface StrongTextPropsInterface extends PropsWithChildren {
   color?: StrongColorType & string;
 }
 
-const StyledStrong = styled.strong<{ color: StrongColorType | string }>`
+const StyledStrong = styled.strong<{
+  color: StrongColorType | string;
+}>`
   color: ${(props) => props.color};
 `;
 
@@ -20,6 +22,7 @@ export const StrongText = ({ color = 'black', children, ...props }: StrongTextPr
     sub: globalTheme.color.sub[500],
     black: globalTheme.color.text,
     white: globalTheme.color.white,
+    inherit: 'inherit',
   };
 
   return (
