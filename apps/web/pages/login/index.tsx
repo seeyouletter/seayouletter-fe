@@ -1,7 +1,7 @@
-import BaseLayout from 'layouts/BaseLayout';
-
 import { css } from '@emotion/react';
 import styled from '@emotion/styled';
+
+import BaseLayout from 'layouts/BaseLayout';
 
 import { DefaultVStack, IconHeaderText, Logo, ScreenReaderText } from 'ui';
 

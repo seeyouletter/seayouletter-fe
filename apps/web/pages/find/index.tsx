@@ -1,6 +1,6 @@
-import BaseLayout from 'layouts/BaseLayout';
-
 import React from 'react';
+
+import BaseLayout from 'layouts/BaseLayout';
 
 import { DefaultSelect } from '@ui/select';
 import { DefaultHStack, DefaultVStack } from '@ui/stack';
