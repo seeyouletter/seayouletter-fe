@@ -12,4 +12,5 @@ export interface InputPropsInterface {
   isInvalid: boolean;
   onInput?: (e: FormEvent) => void;
   errorMessage?: string | React.ReactNode;
+  borderColor?: string;
 }

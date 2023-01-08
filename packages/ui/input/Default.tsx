@@ -9,6 +9,7 @@ export const DefaultInput = ({
   color,
   placeholder = '',
   isInvalid = false,
+  borderColor = 'sub.500',
 }: InputPropsInterface) => {
   return (
     <Input
@@ -16,10 +17,13 @@ export const DefaultInput = ({
       size={size}
       color={color}
       placeholder={placeholder}
+      borderColor={borderColor}
       errorBorderColor="error"
       focusBorderColor="primary.400"
       _placeholder={{ color: 'inherit', opacity: 0.5 }}
       isInvalid={isInvalid}
+      background="white"
+      opacity={0.9}
     ></Input>
   );
 };
