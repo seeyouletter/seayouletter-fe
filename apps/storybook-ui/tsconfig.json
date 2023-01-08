@@ -18,7 +18,8 @@
     "noEmit": true,
     "jsx": "react-jsx",
     "paths": {
-      "@ui/*": ["../../packages/ui/*"]
+      "@ui/*": ["../../packages/ui/*"],
+      "@common-hooks/*": ["../../packages/common-hooks/*"]
     }
   },
   "include": ["src"],

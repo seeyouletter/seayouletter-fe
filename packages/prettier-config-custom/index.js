@@ -12,6 +12,7 @@ module.exports = {
     '^@emotion/(.*)$',
     '^@pages/(.*)$',
     'chakra-ui(.*)$',
+    'uuid',
     'ui',
     '^@templates/(.*)$',
     '^@store',

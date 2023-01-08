@@ -339,11 +339,11 @@ importers:
       '@chakra-ui/react': 2.4.3_vhjkmhaovlhniuztwfeuosjmwq
       '@emotion/react': 11.10.5_kzbn2opkn2327fwg5yzwzya5o4
       '@emotion/styled': 11.10.5_qvatmowesywn4ye42qoh247szu
+      common-hooks: link:../common-hooks
       framer-motion: 7.7.2_react@18.2.0
     devDependencies:
       '@types/react': 18.0.26
       '@types/react-dom': 18.0.8
-      common-hooks: link:../common-hooks
       eslint: 8.29.0
       prettier: 2.8.1
       react: 18.2.0

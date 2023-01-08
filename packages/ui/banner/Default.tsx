@@ -57,8 +57,18 @@ const StyledCopyContainer = styled(DefaultVStack)`
   z-index: 11;
   width: 100%;
   height: 100%;
-  background-color: black;
-  opacity: 0.5;
+
+  &:after {
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    z-index: -1;
+    content: '';
+    background-color: black;
+    opacity: 0.5;
+  }
 `;
 
 export function DefaultBanner({
