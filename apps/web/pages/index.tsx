@@ -43,9 +43,30 @@ export default function Web() {
     <div>
       <Carousel
         inners={[
-          { id: uuidV4(), imageSrc: '/carousel-example.jpeg', imageAlt: '이벤트1' },
-          { id: uuidV4(), imageSrc: '/carousel-example.jpeg', imageAlt: '이벤트2' },
-          { id: uuidV4(), imageSrc: '/carousel-example.jpeg', imageAlt: '이벤트3' },
+          {
+            id: uuidV4(),
+            imageSrc: '/carousel-example.jpeg',
+            imageAlt: '이벤트1',
+            title: '테스트해봐요!',
+            details: ['안녕하세요! 1번째 슬라이드입니다.', '현재 캐러셀 테스트 중입니다.'],
+            button: <DefaultButton>템플릿 만들기 💌</DefaultButton>,
+          },
+          {
+            id: uuidV4(),
+            imageSrc: '/carousel-example.jpeg',
+            imageAlt: '이벤트2',
+            title: '테스트해봐요!',
+            details: ['안녕하세요! 2번째 슬라이드입니다.', '현재 캐러셀 테스트 중입니다.'],
+            button: <DefaultButton>템플릿 만들기 💌</DefaultButton>,
+          },
+          {
+            id: uuidV4(),
+            imageSrc: '/carousel-example.jpeg',
+            imageAlt: '이벤트3',
+            title: '테스트해봐요!',
+            details: ['안녕하세요! 3번째 슬라이드입니다.', '현재 캐러셀 테스트 중입니다.'],
+            button: <DefaultButton>템플릿 만들기 💌</DefaultButton>,
+          },
         ]}
       />
 

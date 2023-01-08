@@ -88,3 +88,15 @@ export const StyledProgressBarTrack = styled.div`
   background: ${(props) => props.theme.color.primary[500]};
   animation: ${progressBarTrackAnimation} 5s infinite cubic-bezier(0.215, 0.61, 0.355, 1);
 `;
+
+export const StyledCarouselDetail = styled.section`
+  position: relative;
+  z-index: 1;
+  margin-top: 48px;
+  margin-left: 32px;
+`;
+
+export const StyledCarouselDetailTitle = styled.h3`
+  margin-bottom: 24px;
+  color: white;
+`;

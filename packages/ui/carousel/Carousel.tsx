@@ -8,17 +8,20 @@ import styled from '@emotion/styled';
 
 import { ImageInterface } from '@ui/types/image';
 
+import CarouselDetail, { CarouselDetailPropsInterface } from './Detail';
 import { CarouselModerator } from './Moderator';
 import { CarouselCardItem, CarouselCardList, CarouselContainer, CarouselInner } from './styles';
 
-interface CarouselInnerInterface extends ImageInterface {
+interface CarouselInnerInterface extends ImageInterface, CarouselDetailPropsInterface {
   id: string;
 }
+
 interface CarouselPropsInterface {
   inners: CarouselInnerInterface[];
 }
 
 const StyledImage = styled(Image)`
+  position: absolute;
   right: 0;
 
   width: 100%;
@@ -125,6 +128,7 @@ export default function Carousel({ inners }: CarouselPropsInterface) {
                 height={0}
                 unoptimized
               />
+              <CarouselDetail title={inner.title} details={inner.details} button={inner.button} />
             </CarouselCardItem>
           ))}
         </CarouselCardList>
