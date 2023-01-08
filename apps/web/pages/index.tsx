@@ -8,7 +8,7 @@ import { DefaultBanner } from '@ui/banner';
 import Carousel from '@ui/carousel/Carousel';
 import { DefaultButton, DefaultText, DefaultVStack, StrongText } from 'ui';
 
-import RecommendedCardList from '@templates/card-list/RecommendedCardList';
+import { TemplateCardList } from '@templates/index';
 
 const CarouselData = [
   {
@@ -46,7 +46,7 @@ export default function Web() {
         <Carousel inners={CarouselData} />
       </DefaultVStack>
 
-      <RecommendedCardList
+      <TemplateCardList
         title="이런 템플릿 어떠세요?"
         description={
           <DefaultText size={theme.fontSize.lg}>
@@ -55,7 +55,7 @@ export default function Web() {
         }
       />
 
-      <RecommendedCardList
+      <TemplateCardList
         title="다양한 템플릿을 만나보세요."
         description={
           <DefaultText size={theme.fontSize.lg}>

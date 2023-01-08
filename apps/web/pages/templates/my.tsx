@@ -9,7 +9,7 @@ import { MyTemplateCard } from '@ui/card';
 import { DefaultHStack, DefaultVStack } from '@ui/stack';
 import { HeaderText } from '@ui/text';
 
-import CardListWithButton from '@templates/card-list/OverallCardList';
+import { TemplateCardList } from '@templates/index';
 
 export default function My() {
   const theme = useTheme();
@@ -65,7 +65,7 @@ export default function My() {
       </DefaultVStack>
 
       <DefaultVStack marginTop={16}>
-        <CardListWithButton title="찜한 템플릿" button={<DefaultButton>전체 보기</DefaultButton>} />
+        <TemplateCardList title="찜한 템플릿" button={<DefaultButton>전체 보기</DefaultButton>} />
       </DefaultVStack>
     </section>
   );
