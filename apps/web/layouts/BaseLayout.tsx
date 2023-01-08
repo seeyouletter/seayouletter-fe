@@ -106,8 +106,9 @@ const footerLinksData = [
 
 interface BaseLayoutPropsInterface extends PropsWithChildren {
   isHeader?: boolean;
+  isMainPadding?: boolean;
 }
-function BaseLayout({ children, isHeader = true }: BaseLayoutPropsInterface) {
+function BaseLayout({ children, isHeader = true, isMainPadding = true }: BaseLayoutPropsInterface) {
   return (
     <StyledPageContainer className="layout">
       {isHeader && (
@@ -120,7 +121,9 @@ function BaseLayout({ children, isHeader = true }: BaseLayoutPropsInterface) {
           }}
         />
       )}
-      <BaseMain isHeader={isHeader}>{children}</BaseMain>
+      <BaseMain isHeader={isHeader} isPadding={isMainPadding}>
+        {children}
+      </BaseMain>
       <BaseFooter footerLinks={footerLinksData}></BaseFooter>
     </StyledPageContainer>
   );

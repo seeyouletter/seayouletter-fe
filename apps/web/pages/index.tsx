@@ -3,6 +3,8 @@ import AsyncBoundary from 'libs/suspense/AsyncBoundary';
 
 import { useRef } from 'react';
 
+import { v4 as uuidV4 } from 'uuid';
+
 import { DefaultBanner } from '@ui/banner';
 import Carousel from '@ui/carousel/Carousel';
 import {
@@ -14,7 +16,6 @@ import {
   ToastBoxListTop,
   XMarkIcon,
 } from 'ui';
-import { v4 as uuidV4 } from 'uuid';
 
 import { TemplateCards } from '@templates/index';
 
@@ -115,5 +116,5 @@ export default function Web() {
 }
 
 Web.getLayout = function getLayout(page: React.ReactElement) {
-  return <BaseLayout>{page}</BaseLayout>;
+  return <BaseLayout isMainPadding={false}>{page}</BaseLayout>;
 };

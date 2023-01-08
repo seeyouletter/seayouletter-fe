@@ -15,6 +15,7 @@ export default function CarouselDetail({ title, details, button }: CarouselDetai
   return (
     <StyledCarouselDetail>
       <StyledCarouselDetailTitle>{title}</StyledCarouselDetailTitle>
+
       <DefaultVStack marginBottom={6} spacing={2}>
         {details.map((description, idx) => (
           <DefaultText key={idx} color="white">

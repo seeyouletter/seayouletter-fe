@@ -61,6 +61,8 @@ export default function Carousel({ inners }: CarouselPropsInterface) {
   const onPrev = () => {
     if (isLoading) return;
 
+    resetInterval();
+
     setIsLoading(() => true);
     setNowIndex((state) => state - 1);
     setIsTransition(() => true);
@@ -70,6 +72,7 @@ export default function Carousel({ inners }: CarouselPropsInterface) {
     if (isLoading) return;
 
     resetInterval();
+
     setIsLoading(() => true);
     setNowIndex((state) => state + 1);
     setIsTransition(() => true);
