@@ -9,7 +9,7 @@ export const useForm = <T>({ initialState }: UseFormParamsInterface<T>) => {
 
   const updateFormState = (
     key: keyof typeof initialState,
-    value: typeof initialState[typeof key]
+    value: (typeof initialState)[typeof key]
   ) => {
     setFormState((state) => ({
       ...state,

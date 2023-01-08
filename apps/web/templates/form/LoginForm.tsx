@@ -1,5 +1,4 @@
 import { login } from 'libs/apis/login';
-import { emailSchema } from 'libs/utils/schemas';
 import { ValidateReturnType, validate } from 'libs/utils/validate';
 import { z } from 'zod';
 
@@ -27,7 +26,9 @@ import {
 
 import { Kakao, Naver } from '@templates/link';
 
-import { useForm } from '@hooks/useForm';
+import { useForm } from '@common-hooks/useForm';
+
+import { emailSchema } from '@utils/schemas';
 
 const idInputCSS = css`
   margin-bottom: 0px;
@@ -93,7 +94,7 @@ export function LoginForm({ ...props }: FormPropsInterface) {
     initialState,
   });
 
-  const onInputChange = (type: keyof typeof formState, value: typeof formState[typeof type]) => {
+  const onInputChange = (type: keyof typeof formState, value: (typeof formState)[typeof type]) => {
     updateFormState(type, value);
   };
 

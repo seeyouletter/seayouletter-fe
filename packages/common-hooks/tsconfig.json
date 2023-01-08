@@ -3,7 +3,7 @@
     "baseUrl": ".",
     "paths": {
       "@ui/*": ["../../packages/ui/*"],
-      "@common-hooks/*": ["../common-hooks/*"]
+      "@common-hooks/*": ["./*"]
     },
     "jsxImportSource": "@emotion/react"
   },

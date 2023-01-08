@@ -45,11 +45,11 @@ const LinkFactory = ({
 /**
  * NOTE: next13.1에서 이를 export할 때 명명할 수 없다는 에러가 난다.
  */
-const StyledBannerImage = styled(Image)<{ objectStyle: BannerPropsInterface['objectFit'] }>`
+const StyledBannerImage = styled(Image)<{ objectstyle: BannerPropsInterface['objectFit'] }>`
   position: absolute;
   width: 100%;
   height: 100%;
-  object-fit: ${({ objectStyle }) => objectStyle};
+  object-fit: ${({ objectstyle }) => objectstyle};
 `;
 
 const StyledCopyContainer = styled(DefaultVStack)`
@@ -84,7 +84,7 @@ export function DefaultBanner({
             </HeaderText>
           )}
         </StyledCopyContainer>
-        <StyledBannerImage src={imageSrc} alt={imageAlt} fill objectStyle={objectFit} />
+        <StyledBannerImage src={imageSrc} alt={imageAlt} fill objectstyle={objectFit} />
       </StyledBannerContainer>
     </LinkFactory>
   );

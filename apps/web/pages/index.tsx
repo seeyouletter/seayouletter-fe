@@ -4,6 +4,7 @@ import AsyncBoundary from 'libs/suspense/AsyncBoundary';
 import { useRef } from 'react';
 
 import { DefaultBanner } from '@ui/banner';
+import Carousel from '@ui/carousel/Carousel';
 import {
   CheckIcon,
   DefaultButton,
@@ -13,6 +14,7 @@ import {
   ToastBoxListTop,
   XMarkIcon,
 } from 'ui';
+import { v4 as uuidV4 } from 'uuid';
 
 import { TemplateCards } from '@templates/index';
 
@@ -39,6 +41,35 @@ export default function Web() {
 
   return (
     <div>
+      <Carousel
+        inners={[
+          {
+            id: uuidV4(),
+            imageSrc: '/carousel-example.jpeg',
+            imageAlt: '이벤트1',
+            title: '테스트해봐요!',
+            details: ['안녕하세요! 1번째 슬라이드입니다.', '현재 캐러셀 테스트 중입니다.'],
+            button: <DefaultButton>템플릿 만들기 💌</DefaultButton>,
+          },
+          {
+            id: uuidV4(),
+            imageSrc: '/carousel-example.jpeg',
+            imageAlt: '이벤트2',
+            title: '테스트해봐요!',
+            details: ['안녕하세요! 2번째 슬라이드입니다.', '현재 캐러셀 테스트 중입니다.'],
+            button: <DefaultButton>템플릿 만들기 💌</DefaultButton>,
+          },
+          {
+            id: uuidV4(),
+            imageSrc: '/carousel-example.jpeg',
+            imageAlt: '이벤트3',
+            title: '테스트해봐요!',
+            details: ['안녕하세요! 3번째 슬라이드입니다.', '현재 캐러셀 테스트 중입니다.'],
+            button: <DefaultButton>템플릿 만들기 💌</DefaultButton>,
+          },
+        ]}
+      />
+
       <TemplateCard
         imageSrc="/naver-login.svg"
         imageAlt="image"

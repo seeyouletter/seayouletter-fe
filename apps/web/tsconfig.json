@@ -3,12 +3,14 @@
   "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx"],
   "exclude": ["node_modules"],
   "compilerOptions": {
+    "declaration": true,
     "baseUrl": ".",
     "jsx": "preserve",
     "paths": {
       "@ui/*": ["../../packages/ui/*"],
       "@pages/*": ["pages/*"],
       "@hooks/*": ["hooks/*"],
+      "@common-hooks/*": ["../../packages/common-hooks/*"],
       "@templates/*": ["templates/*"],
       "@atoms/*": ["atoms/*"],
       "@apis/*": ["libs/apis/*"],
