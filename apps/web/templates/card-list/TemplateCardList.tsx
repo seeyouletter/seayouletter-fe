@@ -3,20 +3,33 @@ import React from 'react';
 import { TemplateCard } from '@ui/card';
 import { DefaultHStack, DefaultVStack } from '@ui/stack';
 
-interface RecommendedCardListPropsInterface {
+interface TemplateCardListPropsInterface {
   title: string;
   description?: React.ReactNode;
+  button?: React.ReactNode;
 }
-export default function RecommendedCardList({
-  title,
-  description,
-}: RecommendedCardListPropsInterface) {
+
+const HeaderFactory = ({ title, description, button }: TemplateCardListPropsInterface) => {
+  return button ? (
+    <DefaultVStack marginBottom={8} spacing={4}>
+      <DefaultHStack justifyContent="space-between">
+        <h4>{title}</h4>
+        {button}
+      </DefaultHStack>
+      {description && description}
+    </DefaultVStack>
+  ) : (
+    <DefaultVStack marginBottom={8} spacing={4}>
+      <h4>{title}</h4>
+      {description && description}
+    </DefaultVStack>
+  );
+};
+
+export function TemplateCardList({ title, description, button }: TemplateCardListPropsInterface) {
   return (
     <DefaultVStack paddingLeft={8} paddingRight={8} marginBottom={16}>
-      <DefaultVStack marginBottom={8} spacing={4}>
-        <h4>{title}</h4>
-        {description && description}
-      </DefaultVStack>
+      <HeaderFactory title={title} description={description} button={button} />
 
       <DefaultHStack spacing={6}>
         <TemplateCard

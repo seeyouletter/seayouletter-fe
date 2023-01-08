@@ -21,7 +21,10 @@ interface MyTemplateCardPropsInterface {
 const StyledImage = styled(Image)`
   position: absolute;
   object-fit: cover;
-  transition: 0.3s;
+  width: 100%;
+  height: 100%;
+
+  transition: all 0.3s;
   :hover {
     filter: brightness(0.5);
   }
@@ -47,7 +50,8 @@ export function MyTemplateCard({
       borderRadius={theme.borderRadius.soft}
       background="white"
     >
-      <StyledImage width={220} height={180} src={imageSrc} alt={imageAlt} />
+      <StyledImage width={220} height={180} src={imageSrc} alt={imageAlt} unoptimized />
+
       <DefaultVStack
         css={MyTemplateCardDetailBoxCSS}
         spacing={2}
@@ -57,6 +61,7 @@ export function MyTemplateCard({
         <DefaultText bold color="white">
           {title}
         </DefaultText>
+
         <DefaultVStack spacing={1}>
           <DefaultText color="white" size="12px">
             {createAt}

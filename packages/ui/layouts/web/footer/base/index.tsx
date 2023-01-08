@@ -1,8 +1,9 @@
 import React from 'react';
 
-import { VStack } from '@chakra-ui/react';
+import { Logo } from '@ui/icon';
+import { DefaultVStack } from '@ui/stack';
+import { DefaultText } from '@ui/text';
 
-import { Logo } from '../../../../icon';
 import {
   StyledDefaultLink,
   StyledExternalLink,
@@ -29,30 +30,35 @@ export const BaseFooter = ({
 
         <StyledLinks as="ul" justify="space-between">
           {footerLinks.map((category) => (
-            <VStack key={category.name}>
-              <h6>{category.name}</h6>
-              {category.links.map((link) =>
-                checkIsDefaultLink(link.href) ? (
-                  <StyledDefaultLink
-                    key={link.label + link.href}
-                    href={link.href}
-                    color="text"
-                    noUnderline={false}
-                  >
-                    {link.label}
-                  </StyledDefaultLink>
-                ) : (
-                  <StyledExternalLink
-                    key={link.label + link.href}
-                    href={link.href}
-                    color="text"
-                    noUnderline={false}
-                  >
-                    {link.label}
-                  </StyledExternalLink>
-                )
-              )}
-            </VStack>
+            <DefaultVStack key={category.name} spacing={4}>
+              <DefaultText bold textAlign="center">
+                {category.name}
+              </DefaultText>
+
+              <DefaultVStack alignItems="center" spacing={2}>
+                {category.links.map((link) =>
+                  checkIsDefaultLink(link.href) ? (
+                    <StyledDefaultLink
+                      key={link.label + link.href}
+                      href={link.href}
+                      color="text"
+                      noUnderline={false}
+                    >
+                      {link.label}
+                    </StyledDefaultLink>
+                  ) : (
+                    <StyledExternalLink
+                      key={link.label + link.href}
+                      href={link.href}
+                      color="text"
+                      noUnderline={false}
+                    >
+                      {link.label}
+                    </StyledExternalLink>
+                  )
+                )}
+              </DefaultVStack>
+            </DefaultVStack>
           ))}
         </StyledLinks>
       </StyledFooterInner>

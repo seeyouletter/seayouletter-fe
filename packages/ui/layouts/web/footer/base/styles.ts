@@ -1,3 +1,5 @@
+import type {} from 'node_modules/@types/react';
+
 import styled from '@emotion/styled';
 
 import { CommonBaseContainerCSS, CommonBaseInnerCSS } from '@ui/layouts/web/common/base';

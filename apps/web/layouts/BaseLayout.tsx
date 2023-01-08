@@ -20,7 +20,7 @@ export const pageLinksData = [
     children: '청첩장 제작',
   },
   {
-    href: '/lists',
+    href: '/templates/my',
     children: '청첩장 모음',
   },
 ];

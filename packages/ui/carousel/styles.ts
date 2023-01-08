@@ -1,3 +1,5 @@
+import type {} from 'node_modules/@types/react';
+
 import { css, keyframes } from '@emotion/react';
 import styled from '@emotion/styled';
 
