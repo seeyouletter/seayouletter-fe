@@ -66,6 +66,7 @@ const globalColor = {
   warning: '#FF9255',
   success: '#009B9F',
   text: '#111111',
+  dark: '#111',
   white: '#FFFFFF',
   layout: {
     page: '#F7F7F7',

@@ -2,9 +2,10 @@ import Image from 'next/image';
 
 import styled from '@emotion/styled';
 
-import { FullLogoLink } from '../../../../link';
-import { LinkInterface } from '../../../../link/types';
-import { Menu, MenuIconButton, MenuItem, MenuList } from '../../../../menu';
+import { FullLogoLink } from '@ui/link';
+import { LinkInterface } from '@ui/link/types';
+import { Menu, MenuIconButton, MenuItem, MenuList } from '@ui/menu';
+
 import { BaseHeaderContainer, BaseHeaderInner, StyledPageLink, StyledPageLinks } from './styles';
 
 interface PageLinksPropsInterface {
