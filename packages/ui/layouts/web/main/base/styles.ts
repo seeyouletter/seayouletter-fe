@@ -1,3 +1,5 @@
+import type {} from 'node_modules/@types/react';
+
 import { css } from '@emotion/react';
 import styled from '@emotion/styled';
 
@@ -25,7 +27,7 @@ export const StyledBaseMainInner = styled.div<{ isPadding: boolean }>`
   background-color: ${(props) => props.theme.color.layout.page};
 
   ${({ isPadding }) =>
-    isPadding &&
+    !isPadding &&
     css`
       padding: 0;
     `};
