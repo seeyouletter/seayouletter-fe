@@ -9,7 +9,8 @@ export interface InputPropsInterface {
   placeholder: string;
   color?: undefined | string;
   shape?: 'outline' | 'filled' | 'flushed';
-  isInvalid: boolean;
+  isInvalid?: boolean;
   onInput?: (e: FormEvent) => void;
   errorMessage?: string | React.ReactNode;
+  borderColor?: string;
 }

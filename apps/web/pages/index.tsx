@@ -1,8 +1,8 @@
-import BaseLayout from 'layouts/BaseLayout';
-
 import { useTheme } from '@emotion/react';
 
 import { v4 as uuidV4 } from 'uuid';
+
+import BaseLayout from 'layouts/BaseLayout';
 
 import { DefaultBanner } from '@ui/banner';
 import Carousel from '@ui/carousel/Carousel';

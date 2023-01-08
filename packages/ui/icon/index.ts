@@ -7,3 +7,4 @@ export * from './Check';
 export * from './Xmark';
 export * from './Exclamantation';
 export * from './PrevArrow';
+export * from './SearchIcon';
