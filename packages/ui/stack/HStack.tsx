@@ -32,7 +32,6 @@ export const DefaultHStack = ({
 }: DefaultHStackInterface) => {
   return (
     <HStack
-      {...props}
       as={as}
       className={className}
       align={align}
@@ -45,6 +44,7 @@ export const DefaultHStack = ({
       spacing={spacing}
       wrap={wrap}
       divider={divider}
+      {...props}
     >
       {children}
     </HStack>

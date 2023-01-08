@@ -6,6 +6,7 @@ export interface OptionInterface {
 }
 
 export interface SelectPropsInterface {
+  selectType?: 'outline' | 'unstyled';
   width?: string;
   height?: string;
   size?: SizeType;

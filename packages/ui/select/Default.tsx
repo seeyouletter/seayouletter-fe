@@ -16,9 +16,11 @@ export const DefaultSelect = ({
   placeholder,
   onChange,
   activeOption,
+  selectType = 'outline',
 }: SelectPropsInterface) => {
   return (
     <Mobile
+      selectType={selectType}
       width={width}
       height={height}
       size={size}
@@ -26,6 +28,6 @@ export const DefaultSelect = ({
       placeholder={placeholder}
       onChange={onChange}
       activeOption={activeOption}
-    ></Mobile>
+    />
   );
 };

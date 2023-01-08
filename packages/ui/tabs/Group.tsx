@@ -2,6 +2,8 @@ import React, { useState } from 'react';
 
 import styled from '@emotion/styled';
 
+import { DefaultText } from '@ui/text';
+
 import { Tab } from './Tab';
 import { TabTrack } from './Track';
 import { TabGroupInterface } from './types';
@@ -31,7 +33,9 @@ export const TabGroup = ({ tabs, tabWidth = '120px', tabHeight = '48px' }: TabGr
             tab.onClick();
           }}
         >
-          {tab.label}
+          <DefaultText bold color="inherit">
+            {tab.label}
+          </DefaultText>
         </Tab>
       ))}
       <TabTrack tabWidth={tabWidth} tabHeight={tabHeight} index={activeTabIndex} />
