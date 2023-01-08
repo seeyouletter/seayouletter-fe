@@ -17,6 +17,7 @@ module.exports = {
     '^@store',
     '^@store/(.*)$',
     '^@hooks/(.*)$',
+    '^@common-hooks/(.*)$',
     '^@assets/(.*)$',
     '^@styles/(.*)$',
     '^@utils/(.*)$',

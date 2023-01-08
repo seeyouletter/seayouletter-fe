@@ -10,7 +10,7 @@ import { DefaultButton, DefaultHStack, FormInput, FullWidthButton, IconHeaderTex
 
 import { ConfigForm } from '@templates/index';
 
-import { useForm } from '@hooks/useForm';
+import { useForm } from '@common-hooks/useForm';
 
 const StyledConfigPage = styled.section`
   display: flex;

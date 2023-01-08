@@ -1,3 +1,5 @@
+import { useInterval } from 'common-hooks';
+
 import React, { useEffect, useMemo, useRef, useState } from 'react';
 
 import Image from 'next/image';
@@ -5,8 +7,6 @@ import Image from 'next/image';
 import styled from '@emotion/styled';
 
 import { ImageInterface } from '@ui/types/image';
-
-import { useInterval } from '@hooks/useInterval';
 
 import { CarouselModerator } from './Moderator';
 import { CarouselCardItem, CarouselCardList, CarouselContainer, CarouselInner } from './styles';
@@ -32,7 +32,11 @@ const StyledImage = styled(Image)`
 
 export default function Carousel({ inners }: CarouselPropsInterface) {
   const reginedInners = useMemo<CarouselInnerInterface[]>(
-    () => [inners.at(-1) as CarouselInnerInterface, ...inners, inners[0]],
+    () => [
+      { ...inners.at(-1), id: 'prev' } as CarouselInnerInterface,
+      ...inners,
+      { ...inners[0], id: 'next' },
+    ],
     [inners]
   );
 
@@ -113,9 +117,8 @@ export default function Carousel({ inners }: CarouselPropsInterface) {
           onTransitionEnd={onTransitionEnd}
         >
           {reginedInners.map((inner, idx) => (
-            <CarouselCardItem>
+            <CarouselCardItem key={'carousel: ' + idx}>
               <StyledImage
-                key={inner.id + idx}
                 src={inner.imageSrc}
                 alt={inner.imageAlt}
                 width={0}

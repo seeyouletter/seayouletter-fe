@@ -54,9 +54,10 @@ export function CarouselModerator({
       >
         <StyledCarouselCounter>
           <DefaultText color={theme.color.primary[200]} bold>
-            {(nowIndex < 10 ? '0' : '') + nowIndex}
+            {(nowIndex < 10 ? '0' : '') + Math.min(Math.max(nowIndex, 1), totalLength)}
           </DefaultText>
         </StyledCarouselCounter>
+
         <StyledCarouselCounter>
           <DefaultText color="white" bold>
             {(totalLength < 10 ? '0' : '') + totalLength}

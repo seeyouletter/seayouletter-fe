@@ -51,6 +51,7 @@ export const StyledCarouselModerator = styled.section`
 `;
 
 export const StyledCarouselCounter = styled.div`
+  width: 20px;
   margin: 0 8px;
 `;
 
