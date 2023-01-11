@@ -15,3 +15,4 @@ export * from '@ui/banner';
 export * from '@ui/card';
 export * from '@ui/carousel';
 export * from '@ui/divider';
+export * from '@ui/tooltip';
