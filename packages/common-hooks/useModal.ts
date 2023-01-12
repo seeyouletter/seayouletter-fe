@@ -5,7 +5,7 @@ interface UseModalPropsInterface {
   cancelCallback?: () => void;
 }
 export const useModal = ({ confirmCallback, cancelCallback }: UseModalPropsInterface) => {
-  const [visible, setVisible] = useState(false);
+  const [visible, setVisible] = useState(true);
 
   const confirmCallbackRef = useRef(confirmCallback);
   const cancelCallbackRef = useRef(cancelCallback);

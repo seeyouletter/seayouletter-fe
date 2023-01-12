@@ -44,7 +44,7 @@ export function MyTemplateCard({
       overflow="hidden"
       position="relative"
       transition={'all 0.2s'}
-      width="220px"
+      width="219px"
       height="180px"
       border={theme.border.default}
       borderRadius={theme.borderRadius.soft}
