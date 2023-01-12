@@ -16,8 +16,11 @@ const customJestConfig = {
   moduleNameMapper: {
     '^@pages/(.*)$': '<rootDir>/pages/$1',
     '^@hooks/(.*)$': '<rootDir>/hooks/$1',
+    '^@utils/(.*)$': '<rootDir>/libs/utils/$1',
+    '^@apis/(.*)$': '<rootDir>/libs/apis/$1',
     '^@templates/(.*)$': '<rootDir>/templates/$1',
     '^@ui/(.*)$': '<rootDir>/../../packages/ui/$1',
+    '^@common-hooks/(.*)$': '<rootDir>/../../packages/common-hooks/$1',
   },
   // Add more setup options before each test is run
   setupFilesAfterEnv: ['<rootDir>/jest.setup.ts'],

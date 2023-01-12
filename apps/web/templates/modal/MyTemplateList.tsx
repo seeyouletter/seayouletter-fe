@@ -2,9 +2,7 @@ import React from 'react';
 
 import { useTheme } from '@emotion/react';
 
-import { DefaultBox } from '@ui/Box';
-import { MyTemplateCard } from '@ui/card';
-import { DefaultHStack } from '@ui/stack';
+import { DefaultBox, DefaultHStack, MyTemplateCard } from 'ui';
 
 import { MytemplateListModalInnerPropsInterface } from './types';
 

@@ -2,9 +2,7 @@ import React from 'react';
 
 import BaseLayout from 'layouts/BaseLayout';
 
-import { DefaultSelect } from '@ui/select';
-import { DefaultHStack, DefaultVStack } from '@ui/stack';
-import { TabGroup } from '@ui/tabs';
+import { DefaultHStack, DefaultSelect, DefaultVStack, TabGroup } from 'ui';
 
 import { TemplateCardList } from '@templates/card-list';
 import { FindTemplateSearchForm } from '@templates/form';

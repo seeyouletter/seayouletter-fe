@@ -1,6 +1,6 @@
 import { atom } from 'jotai';
 
-import { ToastBoxInterface } from '@ui/toast/types';
+import { ToastBoxInterface } from 'ui';
 
 export interface toastAtomInterface extends ToastBoxInterface {
   toastId: string;

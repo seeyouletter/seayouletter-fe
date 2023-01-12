@@ -9,7 +9,7 @@ import { useRouter } from 'next/router';
 
 import LoginPage from '@pages/login';
 
-import { CustomThemeProvider } from '@ui/styles';
+import { CustomThemeProvider } from 'ui';
 
 import { LoginFormButton } from '@templates/form/LoginForm';
 

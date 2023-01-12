@@ -4,10 +4,7 @@ import { useTheme } from '@emotion/react';
 
 import BaseLayout from 'layouts/BaseLayout';
 
-import { DefaultButton } from '@ui/button';
-import { MyTemplateCard } from '@ui/card';
-import { DefaultHStack, DefaultVStack } from '@ui/stack';
-import { HeaderText } from '@ui/text';
+import { DefaultButton, DefaultHStack, DefaultVStack, HeaderText, MyTemplateCard } from 'ui';
 
 import { TemplateCardList } from '@templates/index';
 

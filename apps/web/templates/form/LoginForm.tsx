@@ -10,14 +10,14 @@ import { useRouter } from 'next/router';
 import { css, useTheme } from '@emotion/react';
 import styled from '@emotion/styled';
 
-import { DefaultButtonPropsInterface } from '@ui/button/types';
-import { FormPropsInterface } from '@ui/form/types';
 import {
+  DefaultButtonPropsInterface,
   DefaultHStack,
   DefaultLink,
   DefaultText,
   Form,
   FormInput,
+  FormPropsInterface,
   FullWidthButton,
   LinkInterface,
   StrongText,

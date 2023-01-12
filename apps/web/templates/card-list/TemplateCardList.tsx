@@ -2,8 +2,7 @@ import React from 'react';
 
 import styled from '@emotion/styled';
 
-import { TemplateCard } from '@ui/card';
-import { DefaultHStack, DefaultVStack } from '@ui/stack';
+import { DefaultHStack, DefaultVStack, TemplateCard } from 'ui';
 
 interface TemplateCardListPropsInterface {
   title?: string;
