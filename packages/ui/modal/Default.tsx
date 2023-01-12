@@ -1,3 +1,5 @@
+import { useMounted } from 'common-hooks';
+
 import React, { useEffect, useRef } from 'react';
 import { createPortal } from 'react-dom';
 
@@ -7,8 +9,6 @@ import styled from '@emotion/styled';
 import { ModalButtonGroup } from '@ui/buttonGroup';
 import { DefaultVStack } from '@ui/stack';
 import { DefaultText } from '@ui/text';
-
-import { useMounted } from '@common-hooks/useMounted';
 
 import {
   ModalPropsInterface,
@@ -45,7 +45,7 @@ const StyledModalContainer = styled.div<StyledModalContainerInterface>`
   opacity: 1;
 `;
 
-export default function Modal({
+export function DefaultModal({
   visible = false,
   width = 'auto',
   title,
