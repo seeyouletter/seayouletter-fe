@@ -10,7 +10,8 @@ import { DefaultText } from '@ui/text';
 
 import { MyTemplateCardDetailBoxCSS, StyledMyTemplateCardContainer } from './styles';
 
-interface MyTemplateCardPropsInterface {
+export interface MyTemplateCardPropsInterface {
+  id: string;
   imageSrc: string;
   imageAlt: string;
   title: string;
@@ -31,6 +32,7 @@ const StyledImage = styled(Image)`
 `;
 
 export function MyTemplateCard({
+  id,
   imageSrc,
   imageAlt,
   title,
@@ -40,6 +42,7 @@ export function MyTemplateCard({
   const theme = useTheme();
   return (
     <StyledMyTemplateCardContainer
+      id={id}
       padding="0"
       overflow="hidden"
       position="relative"

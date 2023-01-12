@@ -11,6 +11,41 @@ import { HeaderText } from '@ui/text';
 
 import { TemplateCardList } from '@templates/index';
 
+const templates = [
+  {
+    id: '1',
+    title: '템플릿1',
+    imageAlt: '템플릿1',
+    imageSrc: '/naver-login.svg',
+    createAt: '2022.01.08',
+    lastUpdateAt: '10분 전',
+  },
+  {
+    id: '2',
+    title: '템플릿1',
+    imageAlt: '템플릿1',
+    imageSrc: '/naver-login.svg',
+    createAt: '2022.01.08',
+    lastUpdateAt: '10분 전',
+  },
+  {
+    id: '3',
+    title: '템플릿1',
+    imageAlt: '템플릿1',
+    imageSrc: '/naver-login.svg',
+    createAt: '2022.01.08',
+    lastUpdateAt: '10분 전',
+  },
+  {
+    id: '4',
+    title: '템플릿1',
+    imageAlt: '템플릿1',
+    imageSrc: '/naver-login.svg',
+    createAt: '2022.01.08',
+    lastUpdateAt: '10분 전',
+  },
+];
+
 export default function My() {
   const theme = useTheme();
 
@@ -33,34 +68,16 @@ export default function My() {
         </DefaultHStack>
 
         <DefaultHStack justifyContent="space-between">
-          <MyTemplateCard
-            title="템플릿1"
-            imageAlt="템플릿1"
-            imageSrc="/naver-login.svg"
-            createAt="2022.01.08"
-            lastUpdateAt="10분 전"
-          />
-          <MyTemplateCard
-            title="템플릿1"
-            imageAlt="템플릿1"
-            imageSrc="/kakao-login.svg"
-            createAt="2022.01.08"
-            lastUpdateAt="10분 전"
-          />
-          <MyTemplateCard
-            title="템플릿1"
-            imageAlt="템플릿1"
-            imageSrc="/logo.svg"
-            createAt="2022.01.08"
-            lastUpdateAt="10분 전"
-          />
-          <MyTemplateCard
-            title="템플릿1"
-            imageAlt="템플릿1"
-            imageSrc="/carousel-example.webp"
-            createAt="2022.01.08"
-            lastUpdateAt="10분 전"
-          />
+          {templates.map((template) => (
+            <MyTemplateCard
+              id={template.id}
+              title={template.title}
+              imageAlt={template.imageAlt}
+              imageSrc={template.imageSrc}
+              createAt={template.createAt}
+              lastUpdateAt={template.lastUpdateAt}
+            />
+          ))}
         </DefaultHStack>
       </DefaultVStack>
 
