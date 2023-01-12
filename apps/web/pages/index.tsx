@@ -54,7 +54,6 @@ export default function Web() {
           </DefaultText>
         }
       />
-
       <TemplateCardList
         title="다양한 템플릿을 만나보세요."
         description={
