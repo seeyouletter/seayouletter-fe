@@ -4,3 +4,4 @@ export { useForm } from './useForm';
 export { useLocalStorage } from './useLocalStorage';
 export { useSessionStorage } from './useSessionStorage';
 export { useWindow } from './useWindow';
+export { useModal } from './useModal';

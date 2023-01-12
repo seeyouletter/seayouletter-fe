@@ -1,6 +1,7 @@
-import React, { ReactNode, useEffect, useRef } from 'react';
+import React, { useEffect, useRef } from 'react';
 import { createPortal } from 'react-dom';
 
+import { css } from '@emotion/react';
 import styled from '@emotion/styled';
 
 import { ModalButtonGroup } from '@ui/buttonGroup';
@@ -9,18 +10,13 @@ import { DefaultText } from '@ui/text';
 
 import { useMounted } from '@common-hooks/useMounted';
 
-interface StyledModalContainerInterface {
-  width?: string;
-}
+import {
+  ModalPropsInterface,
+  StyledBackgroundDimInterface,
+  StyledModalContainerInterface,
+} from './types';
 
-interface ModalPropsInterface extends StyledModalContainerInterface {
-  title: ReactNode;
-  descriptions: string[];
-  onConfirmButtonClick: () => void;
-  onCancelButtonClick: () => void;
-}
-
-const ModalBackgroundDim = styled.div`
+const ModalBackgroundDim = styled.div<StyledBackgroundDimInterface>`
   position: fixed;
   top: 0;
   right: 0;
@@ -31,7 +27,14 @@ const ModalBackgroundDim = styled.div`
   align-items: center;
   justify-content: center;
   background: rgba(0, 0, 0, 0.75);
+
+  ${({ visible }) =>
+    !visible &&
+    css`
+      display: none;
+    `}
 `;
+
 const StyledModalContainer = styled.div<StyledModalContainerInterface>`
   width: ${({ width }) => width};
   min-width: 304px;
@@ -43,9 +46,11 @@ const StyledModalContainer = styled.div<StyledModalContainerInterface>`
 `;
 
 export default function Modal({
+  visible = false,
   width = 'auto',
   title,
   descriptions,
+  children,
   onConfirmButtonClick,
   onCancelButtonClick,
 }: ModalPropsInterface) {
@@ -59,7 +64,7 @@ export default function Modal({
 
   return mounted
     ? createPortal(
-        <ModalBackgroundDim>
+        <ModalBackgroundDim visible={visible}>
           <StyledModalContainer width={width}>
             <DefaultVStack spacing={5}>
               <DefaultVStack textAlign="center" spacing={2}>
@@ -68,6 +73,8 @@ export default function Modal({
                   <DefaultText key={idx}>{description}</DefaultText>
                 ))}
               </DefaultVStack>
+
+              {children}
 
               <ModalButtonGroup
                 onConfirmButtonClick={onConfirmButtonClick}
