@@ -1,11 +1,10 @@
 import React, { ReactNode, useEffect, useRef } from 'react';
 import { createPortal } from 'react-dom';
 
-import { useTheme } from '@emotion/react';
 import styled from '@emotion/styled';
 
-import { DefaultButton } from '@ui/button';
-import { DefaultHStack, DefaultVStack } from '@ui/stack';
+import { ModalButtonGroup } from '@ui/buttonGroup';
+import { DefaultVStack } from '@ui/stack';
 import { DefaultText } from '@ui/text';
 
 import { useMounted } from '@common-hooks/useMounted';
@@ -17,6 +16,8 @@ interface StyledModalContainerInterface {
 interface ModalPropsInterface extends StyledModalContainerInterface {
   title: ReactNode;
   descriptions: string[];
+  onConfirmButtonClick: () => void;
+  onCancelButtonClick: () => void;
 }
 
 const ModalBackgroundDim = styled.div`
@@ -41,8 +42,13 @@ const StyledModalContainer = styled.div<StyledModalContainerInterface>`
   opacity: 1;
 `;
 
-export default function Modal({ width = 'auto', title, descriptions }: ModalPropsInterface) {
-  const theme = useTheme();
+export default function Modal({
+  width = 'auto',
+  title,
+  descriptions,
+  onConfirmButtonClick,
+  onCancelButtonClick,
+}: ModalPropsInterface) {
   const mounted = useMounted();
 
   const root = useRef<HTMLElement | null>(null);
@@ -63,12 +69,10 @@ export default function Modal({ width = 'auto', title, descriptions }: ModalProp
                 ))}
               </DefaultVStack>
 
-              <DefaultHStack width="240px" justifyContent="space-between">
-                <DefaultButton width="108px">네</DefaultButton>
-                <DefaultButton width="108px" bg={theme.color.error}>
-                  아니요
-                </DefaultButton>
-              </DefaultHStack>
+              <ModalButtonGroup
+                onConfirmButtonClick={onConfirmButtonClick}
+                onCancelButtonClick={onCancelButtonClick}
+              />
             </DefaultVStack>
           </StyledModalContainer>
         </ModalBackgroundDim>,
