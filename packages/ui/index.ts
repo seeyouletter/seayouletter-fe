@@ -16,3 +16,4 @@ export * from '@ui/card';
 export * from '@ui/carousel';
 export * from '@ui/divider';
 export * from '@ui/tooltip';
+export * from '@ui/modal';

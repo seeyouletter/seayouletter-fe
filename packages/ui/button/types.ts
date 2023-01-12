@@ -20,6 +20,7 @@ export interface DefaultButtonPropsInterface extends ButtonInterface {
   width?: string;
   height?: string;
   loadingText?: string;
+  bg?: string;
 }
 
 export interface IconWithTextButtonPropsInterface extends DefaultButtonPropsInterface {
