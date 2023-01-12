@@ -4,9 +4,7 @@ import { useTheme } from '@emotion/react';
 
 import BaseLayout from 'layouts/BaseLayout';
 
-import { FreeSizeButton } from '@ui/button';
-import { DefaultHStack, DefaultVStack } from '@ui/stack';
-import { DefaultText } from '@ui/text';
+import { DefaultHStack, DefaultText, DefaultVStack, FreeSizeButton } from 'ui';
 
 const Buttons = [
   {

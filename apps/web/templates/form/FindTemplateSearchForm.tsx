@@ -2,11 +2,14 @@ import React from 'react';
 
 import { useTheme } from '@emotion/react';
 
-import { IconButton } from '@ui/button';
-import { SearchIcon } from '@ui/icon';
-import { DefaultInput } from '@ui/input';
-import { DefaultHStack, DefaultVStack } from '@ui/stack';
-import { DefaultText } from '@ui/text';
+import {
+  DefaultHStack,
+  DefaultInput,
+  DefaultText,
+  DefaultVStack,
+  IconButton,
+  SearchIcon,
+} from 'ui';
 
 export function FindTemplateSearchForm() {
   const theme = useTheme();

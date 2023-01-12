@@ -5,8 +5,15 @@ import styled from '@emotion/styled';
 
 import ConfigLayout from 'layouts/ConfigLayout';
 
-import { DefaultButtonPropsInterface } from '@ui/button/types';
-import { DefaultButton, DefaultHStack, FormInput, FullWidthButton, IconHeaderText, Logo } from 'ui';
+import {
+  DefaultButton,
+  DefaultButtonPropsInterface,
+  DefaultHStack,
+  FormInput,
+  FullWidthButton,
+  IconHeaderText,
+  Logo,
+} from 'ui';
 
 import { ConfigForm } from '@templates/index';
 

@@ -2,8 +2,7 @@ import React from 'react';
 
 import { css, useTheme } from '@emotion/react';
 
-import { FormPropsInterface } from '@ui/form/types';
-import { Form } from 'ui';
+import { Form, FormPropsInterface } from 'ui';
 
 const configFormCSS = (color: string, border: string) => css`
   width: 420px;

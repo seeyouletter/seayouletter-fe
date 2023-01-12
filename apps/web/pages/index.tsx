@@ -4,9 +4,14 @@ import { v4 as uuidV4 } from 'uuid';
 
 import BaseLayout from 'layouts/BaseLayout';
 
-import { DefaultBanner } from '@ui/banner';
-import Carousel from '@ui/carousel/Carousel';
-import { DefaultButton, DefaultText, DefaultVStack, StrongText } from 'ui';
+import {
+  DefaultBanner,
+  DefaultButton,
+  DefaultCarousel,
+  DefaultText,
+  DefaultVStack,
+  StrongText,
+} from 'ui';
 
 import { TemplateCardList } from '@templates/index';
 
@@ -36,14 +41,13 @@ const CarouselData = [
     button: <DefaultButton>템플릿 만들기 💌</DefaultButton>,
   },
 ];
-
 export default function Web() {
   const theme = useTheme();
 
   return (
     <div>
       <DefaultVStack marginBottom={8}>
-        <Carousel inners={CarouselData} />
+        <DefaultCarousel inners={CarouselData} />
       </DefaultVStack>
 
       <TemplateCardList

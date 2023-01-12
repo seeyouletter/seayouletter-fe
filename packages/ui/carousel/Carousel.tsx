@@ -33,7 +33,7 @@ const StyledImage = styled(Image)`
   object-position: right;
 `;
 
-export default function Carousel({ inners }: CarouselPropsInterface) {
+export function DefaultCarousel({ inners }: CarouselPropsInterface) {
   const reginedInners = useMemo<CarouselInnerInterface[]>(
     () => [
       { ...inners.at(-1), id: 'prev' } as CarouselInnerInterface,

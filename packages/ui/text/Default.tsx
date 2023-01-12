@@ -7,7 +7,7 @@ import { globalTheme } from '@ui/styles';
 
 interface StyledTextInterface {
   as?: 'p' | 'span' | 'div';
-  textAlign?: 'left' | 'center' | 'right';
+  textAlign?: 'left' | 'center' | 'right' | 'inherit';
   size?: string;
   color?: string;
   visible?: boolean;
@@ -42,7 +42,7 @@ export function DefaultText({
   as = 'span',
   visible = true,
   size = globalTheme.fontSize.md,
-  textAlign = 'left',
+  textAlign = 'inherit',
   children,
   color = globalTheme.color.text,
   ariaLabel,
