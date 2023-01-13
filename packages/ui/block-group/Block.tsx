@@ -16,6 +16,7 @@ const StyledBlockContainer = styled.div<CommonStyledBlockInterface>`
   ${({ actived, theme }) =>
     actived &&
     css`
+      font-weight: ${theme.fontWeight.bold};
       background-color: ${theme.color.layout.blockGroupToggle.activeBg};
     `}
   &:hover {

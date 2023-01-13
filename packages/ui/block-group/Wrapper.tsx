@@ -36,13 +36,19 @@ const StyledBlockGroupToggleTitle = styled.div<StyledBlockGroupToggleTitleInterf
   width: 100%;
   margin-left: 20px;
   font-size: ${(props) => props.theme.fontSize.sm};
+
+  ${({ actived, theme }) =>
+    actived &&
+    css`
+      font-weight: ${theme.fontWeight.bold};
+    `}
 `;
 
 export function BlockGroupWrapper({
   id,
+  title,
   activeId,
   toggled = true,
-  toggleColor,
   onGroupClick,
   onBlockClick,
   blocks,
@@ -62,7 +68,7 @@ export function BlockGroupWrapper({
         _hover={{
           background: theme.color.layout.blockGroupToggle.activeBg,
         }}
-        color={toggled ? theme.color.white : toggleColor ?? theme.color.white}
+        color={theme.color.white}
         display="flex"
         alignItems="center"
         height="24px"
@@ -75,7 +81,7 @@ export function BlockGroupWrapper({
           toggled={toggled}
         />
 
-        <StyledBlockGroupToggleTitle>안뇽하세용...</StyledBlockGroupToggleTitle>
+        <StyledBlockGroupToggleTitle actived={activeId === id}>{title}</StyledBlockGroupToggleTitle>
       </DefaultBox>
 
       {toggled && (

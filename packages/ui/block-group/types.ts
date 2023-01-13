@@ -22,6 +22,7 @@ export interface BlockInterface {
 }
 
 export interface StyledBlockGroupToggleTitleInterface {
+  actived: boolean;
   toggleColor?: string;
 }
 
@@ -33,7 +34,6 @@ export interface StyledBlockGroupToggleMarkerInterface {
 
 export interface BlockGroupWrapperPropsInterface
   extends StyledBlockGroupToggleMarkerInterface,
-    StyledBlockGroupToggleTitleInterface,
     GroupInterface {
   blocks: BlockMembersType;
   activeId: ActiveIdType;
