@@ -38,11 +38,8 @@ export function BlockGroupMemberList({
     <StyledBlockGroupMemberList parentActived={actived}>
       {members.map((member) => (
         <MemberFactory
-          type={member.type}
+          member={member}
           activeId={activeId}
-          id={member.id}
-          title={member.title}
-          blocks={members}
           onGroupClick={onGroupClick}
           onBlockClick={onBlockClick}
         />

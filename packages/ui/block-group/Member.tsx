@@ -3,29 +3,30 @@ import React from 'react';
 import { BlockGroupWrapper } from '@ui/block-group/Wrapper';
 
 import Block from './Block';
-import { BlockGroupWrapperPropsInterface, BlockPropsInterface } from './types';
+import { BlockMemberType, ClickEvent, IdType } from './types';
 
-interface BlockGroupMemberPropsInterface
-  extends BlockPropsInterface,
-    BlockGroupWrapperPropsInterface {}
+interface BlockGroupMemberPropsInterface {
+  member: BlockMemberType;
+  activeId: IdType;
+  onGroupClick: ClickEvent;
+  onBlockClick: ClickEvent;
+}
 
 export function MemberFactory({
-  type,
-  id,
-  title,
+  member,
   onBlockClick,
   onGroupClick,
   activeId,
-  blocks,
 }: BlockGroupMemberPropsInterface) {
-  if (type === 'group') {
+  if (member.type === 'group') {
     return (
       <BlockGroupWrapper
+        parent={member.parent}
         type="group"
-        id={id}
+        id={member.id}
         activeId={activeId}
-        title={title}
-        blocks={blocks}
+        title={member.title}
+        blocks={member.blocks}
         onGroupClick={onGroupClick}
         onBlockClick={onBlockClick}
       />
@@ -34,9 +35,9 @@ export function MemberFactory({
     return (
       <Block
         type="block"
-        id={id}
+        id={member.id}
         activeId={activeId}
-        title={title}
+        title={member.title}
         onBlockClick={onBlockClick}
       ></Block>
     );

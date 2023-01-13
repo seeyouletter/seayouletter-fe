@@ -45,6 +45,7 @@ const StyledBlockGroupToggleTitle = styled.div<StyledBlockGroupToggleTitleInterf
 `;
 
 export function BlockGroupWrapper({
+  parent,
   id,
   title,
   activeId,
@@ -56,6 +57,11 @@ export function BlockGroupWrapper({
   const isActive = activeId === id;
 
   const theme = useTheme();
+
+  const onTitleDoubleClick = () => {
+    return;
+  };
+  onTitleDoubleClick();
 
   return (
     <DefaultVStack fontSize={theme.fontSize.sm}>
@@ -86,6 +92,7 @@ export function BlockGroupWrapper({
 
       {toggled && (
         <BlockGroupMemberList
+          parent={parent}
           activeId={activeId}
           actived={activeId === id}
           members={blocks}
