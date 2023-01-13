@@ -1,7 +1,7 @@
 import { css, useTheme } from '@emotion/react';
 import styled from '@emotion/styled';
 
-// import { BlockGroupMemberList } from '@ui/block-group/MemberList';
+import { BlockGroupMemberList } from '@ui/block-group/MemberList';
 import { DefaultBox } from '@ui/box';
 import { DefaultVStack } from '@ui/stack';
 
@@ -44,9 +44,9 @@ export function BlockGroupWrapper({
   toggled = true,
   toggleColor,
   onGroupClick,
-}: // onBlockClick,
-// blocks,
-BlockGroupWrapperPropsInterface) {
+  onBlockClick,
+  blocks,
+}: BlockGroupWrapperPropsInterface) {
   const isActive = activeId === id;
 
   const theme = useTheme();
@@ -78,7 +78,7 @@ BlockGroupWrapperPropsInterface) {
         <StyledBlockGroupToggleTitle>안뇽하세용...</StyledBlockGroupToggleTitle>
       </DefaultBox>
 
-      {/* {toggled && (
+      {toggled && (
         <BlockGroupMemberList
           activeId={activeId}
           actived={activeId === id}
@@ -86,7 +86,7 @@ BlockGroupWrapperPropsInterface) {
           onBlockClick={onBlockClick}
           onGroupClick={onGroupClick}
         />
-      )} */}
+      )}
     </DefaultVStack>
   );
 }
