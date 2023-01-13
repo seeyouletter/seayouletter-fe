@@ -2,7 +2,7 @@ import React from 'react';
 
 import { useTheme } from '@emotion/react';
 
-import { DefaultBox } from '@ui/Box';
+import { DefaultBox } from '@ui/box';
 import { DefaultButton } from '@ui/button/Default';
 import { DefaultHStack } from '@ui/stack';
 

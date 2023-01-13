@@ -17,4 +17,5 @@ export * from '@ui/carousel';
 export * from '@ui/divider';
 export * from '@ui/tooltip';
 export * from '@ui/modal';
-export * from '@ui/Box';
+export * from '@ui/box';
+export * from '@ui/block-group';
