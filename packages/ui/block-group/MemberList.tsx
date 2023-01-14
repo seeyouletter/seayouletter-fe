@@ -1,12 +1,15 @@
 import { css } from '@emotion/react';
 import styled from '@emotion/styled';
 
-import { MemberFactory } from '@ui/block-group/Member';
-
+/* eslint-disable-next-line import/no-cycle */
+import { MemberFactory } from './Member';
 import { BlockGroupWrapperPropsInterface, BlockMembersType } from './types';
 
 export interface BlockGroupMemberListPropsInterface
-  extends Omit<BlockGroupWrapperPropsInterface, 'type' | 'id' | 'title' | 'blocks'> {
+  extends Omit<
+    BlockGroupWrapperPropsInterface,
+    'type' | 'id' | 'title' | 'blocks' | 'toggled' | 'order'
+  > {
   members: BlockMembersType;
   actived: boolean;
 }
@@ -33,15 +36,18 @@ export function BlockGroupMemberList({
   members,
   onBlockClick,
   onGroupClick,
+  onUpdateTitle,
 }: BlockGroupMemberListPropsInterface) {
   return (
     <StyledBlockGroupMemberList parentActived={actived}>
       {members.map((member) => (
         <MemberFactory
+          key={member.id}
           member={member}
           activeId={activeId}
           onGroupClick={onGroupClick}
           onBlockClick={onBlockClick}
+          onUpdateTitle={onUpdateTitle}
         />
       ))}
     </StyledBlockGroupMemberList>

@@ -1,15 +1,17 @@
 import React from 'react';
 
-import { BlockGroupWrapper } from '@ui/block-group/Wrapper';
+import { Block } from './Block';
 
-import Block from './Block';
-import { BlockMemberType, ClickEvent, IdType } from './types';
+/* eslint-disable-next-line import/no-cycle */
+import { BlockGroupWrapper } from './Wrapper';
+import { BlockMemberType, ClickEvent, IdType, UpdateTitleEvent } from './types';
 
 interface BlockGroupMemberPropsInterface {
   member: BlockMemberType;
   activeId: IdType;
   onGroupClick: ClickEvent;
   onBlockClick: ClickEvent;
+  onUpdateTitle: UpdateTitleEvent;
 }
 
 export function MemberFactory({
@@ -17,6 +19,7 @@ export function MemberFactory({
   onBlockClick,
   onGroupClick,
   activeId,
+  onUpdateTitle,
 }: BlockGroupMemberPropsInterface) {
   if (member.type === 'group') {
     return (
@@ -29,17 +32,21 @@ export function MemberFactory({
         blocks={member.blocks}
         onGroupClick={onGroupClick}
         onBlockClick={onBlockClick}
+        toggled={member.toggled}
+        onUpdateTitle={onUpdateTitle}
       />
     );
   } else {
     return (
       <Block
+        parent={member.parent}
         type="block"
         id={member.id}
         activeId={activeId}
         title={member.title}
         onBlockClick={onBlockClick}
-      ></Block>
+        onUpdateTitle={onUpdateTitle}
+      />
     );
   }
 }
