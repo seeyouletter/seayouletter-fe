@@ -5,3 +5,4 @@ export { useLocalStorage } from './useLocalStorage';
 export { useSessionStorage } from './useSessionStorage';
 export { useWindow } from './useWindow';
 export { useModal } from './useModal';
+export { useContentEditable } from './useContentEditable';

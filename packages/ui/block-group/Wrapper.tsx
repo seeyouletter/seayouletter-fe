@@ -1,10 +1,15 @@
+import { FocusEvent, FormEvent, MouseEvent } from 'react';
+
 import { css, useTheme } from '@emotion/react';
 import styled from '@emotion/styled';
 
-import { BlockGroupMemberList } from '@ui/block-group/MemberList';
 import { DefaultBox } from '@ui/box';
 import { DefaultVStack } from '@ui/stack';
 
+import { useContentEditable } from '@common-hooks/useContentEditable';
+
+/* eslint-disable-next-line import/no-cycle */
+import { BlockGroupMemberList } from './MemberList';
 import {
   BlockGroupWrapperPropsInterface,
   StyledBlockGroupToggleMarkerInterface,
@@ -53,15 +58,34 @@ export function BlockGroupWrapper({
   onGroupClick,
   onBlockClick,
   blocks,
+  onUpdateTitle,
 }: BlockGroupWrapperPropsInterface) {
   const isActive = activeId === id;
+
+  const { editText, titleEditable, onEdit, onCloseEdit, onInputEditText } = useContentEditable({
+    defaultValue: title,
+  });
 
   const theme = useTheme();
 
   const onTitleDoubleClick = () => {
-    return;
+    onEdit();
   };
-  onTitleDoubleClick();
+
+  const onWrapperClick = (e: MouseEvent) => {
+    if (titleEditable) return;
+    onGroupClick(e, id);
+  };
+
+  const onBlurTitle = (e: FocusEvent) => {
+    if (titleEditable) {
+      onCloseEdit(() => onUpdateTitle(e, { type: 'block', id, title: editText }));
+    }
+  };
+
+  const onInputTitle = (e: FormEvent) => {
+    onInputEditText(e);
+  };
 
   return (
     <DefaultVStack fontSize={theme.fontSize.sm}>
@@ -79,7 +103,7 @@ export function BlockGroupWrapper({
         alignItems="center"
         height="24px"
         position="relative"
-        onClick={(e) => onGroupClick(e, '1')}
+        onClick={onWrapperClick}
       >
         <StyledBlockGroupToggleMarker
           toggleMarkerBg={theme.color.white}
@@ -87,7 +111,16 @@ export function BlockGroupWrapper({
           toggled={toggled}
         />
 
-        <StyledBlockGroupToggleTitle actived={activeId === id}>{title}</StyledBlockGroupToggleTitle>
+        <StyledBlockGroupToggleTitle
+          actived={activeId === id}
+          contentEditable={titleEditable}
+          onDoubleClickCapture={onTitleDoubleClick}
+          onInput={onInputTitle}
+          onBlur={onBlurTitle}
+          suppressContentEditableWarning
+        >
+          {title}
+        </StyledBlockGroupToggleTitle>
       </DefaultBox>
 
       {toggled && (
@@ -98,6 +131,7 @@ export function BlockGroupWrapper({
           members={blocks}
           onBlockClick={onBlockClick}
           onGroupClick={onGroupClick}
+          onUpdateTitle={onUpdateTitle}
         />
       )}
     </DefaultVStack>

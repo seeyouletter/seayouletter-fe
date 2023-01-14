@@ -32,9 +32,9 @@ export function Block({ id, title, onBlockClick, activeId, onUpdateTitle }: Bloc
   const { editText, titleEditable, onEdit, onCloseEdit, onInputEditText } = useContentEditable({
     defaultValue: title,
   });
-  ``;
+
   const onBlurTitle = (e: FocusEvent) => {
-    onCloseEdit(() => onUpdateTitle(e, { type: 'block', id, title }));
+    onCloseEdit(() => onUpdateTitle(e, { type: 'block', id, title: editText }));
   };
 
   return (
