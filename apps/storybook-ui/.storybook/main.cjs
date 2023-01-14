@@ -44,6 +44,7 @@ module.exports = {
     config.resolve.alias = {
       ...config.resolve.alias,
       "@ui": path.resolve(__dirname, "../../../packages/ui"),
+      "@common-hooks":  path.resolve(__dirname, "../../../packages/common-hooks"),
     };
     
     return mergeConfig(config, {
