@@ -1,11 +1,50 @@
-import { blockGroupStateAtom } from '@atoms/blockGroupAtom';
+import { blocksStateAtom } from '@atoms/blockGroupsAtom';
+
+import { useEffect } from 'react';
 
 import { useAtom } from 'jotai';
 
-import { GroupInterface } from 'ui';
+import { BlockInterface, GroupInterface } from 'ui';
 
-export const useBlockGroups = () => {
-  const [blockGroupState, setBlockGroupState] = useAtom(blockGroupStateAtom);
+export const useBlockGroups = (blockGroupsData: (BlockInterface | GroupInterface)[]) => {
+  const [blockGroupState, setBlockGroupState] = useAtom(blocksStateAtom);
+
+  useEffect(() => {
+    const groups: Record<string, GroupInterface> = {};
+    const blocks: Record<string, BlockInterface> = {};
+
+    blockGroupsData.forEach((blockGroup) => {
+      if (blockGroup.type === 'group') {
+        groups[blockGroup.id] = { ...blockGroup };
+      } else {
+        blocks[blockGroup.id] = { ...blockGroup };
+      }
+    });
+
+    setBlockGroupState((state) => ({
+      ...state,
+      groups,
+      blocks,
+    }));
+
+    return () => {
+      setBlockGroupState(() => ({ activeId: null, groups: {}, blocks: {} }));
+    };
+  }, [blockGroupsData, setBlockGroupState]);
+
+  const setBlocks = (blocks: Record<string, BlockInterface>) => {
+    setBlockGroupState((state) => ({
+      ...state,
+      blocks,
+    }));
+  };
+
+  const setGroups = (groups: Record<string, GroupInterface>) => {
+    setBlockGroupState((state) => ({
+      ...state,
+      groups,
+    }));
+  };
 
   const setActiveId = (id: string) => {
     setBlockGroupState((state) => ({
@@ -14,29 +53,57 @@ export const useBlockGroups = () => {
     }));
   };
 
-  const setToggleStore = (id: string) => {
-    /**
-     * @todo
-     * 이게 어렵겠다. 결국에 매순간마다 재귀적으로 탐색해야 하는데, 비용이 너무 비싸다.
-     * flat하게 구조를 가져가서, 이를 체크하는 방법을 고민해야겠다.
-     */
-    /* eslint-disable-next-line */
-    console.log(id);
-  };
+  const setTitle = (type: 'group' | 'block', id: string, title: string) => {
+    const typeProperty = {
+      group: 'groups',
+      block: 'blocks',
+    } as const;
 
-  const setBlockGroups = (blockGroups: GroupInterface[]) => {
+    const key = typeProperty[type];
+
     setBlockGroupState((state) => ({
       ...state,
-      blockGroups,
+      [key]: {
+        ...state[key],
+        [id]: {
+          ...state[key][id],
+          title,
+        },
+      },
     }));
+  };
+
+  const setToggle = (id: string) => {
+    setBlockGroupState((state) => ({
+      ...state,
+      groups: {
+        ...state.groups,
+        [id]: {
+          ...state.groups[id],
+          toggled: !state.groups[id].toggled,
+        },
+      },
+    }));
+  };
+
+  const setOrder = (groups: GroupInterface[]) => {
+    const nextGroups: Record<string, GroupInterface> = {};
+
+    groups.forEach((group, idx) => {
+      nextGroups[group.id] = {
+        ...group,
+        order: idx,
+      };
+    });
   };
 
   return {
     activeId: blockGroupState.activeId,
-    toggleStore: blockGroupState.toggleStore,
-    blockGroups: blockGroupState.blockGroups,
+    setBlocks,
+    setGroups,
     setActiveId,
-    setToggleStore,
-    setBlockGroups,
+    setTitle,
+    setToggle,
+    setOrder,
   };
 };
