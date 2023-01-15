@@ -1,4 +1,4 @@
-import React, { FocusEvent, MouseEvent } from 'react';
+import React, { FocusEvent, FormEvent, MouseEvent, useEffect, useRef } from 'react';
 
 import { css } from '@emotion/react';
 import styled from '@emotion/styled';
@@ -12,7 +12,7 @@ const StyledBlockContainer = styled.div<CommonStyledBlockInterface>`
   align-items: center;
   width: 100%;
   height: 24px;
-  padding-left: 20px;
+  margin-left: 20px;
   cursor: pointer;
 
   ${({ actived, theme }) =>
@@ -29,6 +29,8 @@ const StyledBlockContainer = styled.div<CommonStyledBlockInterface>`
 export function Block({ id, title, onBlockClick, activeId, onUpdateTitle }: BlockPropsInterface) {
   const actived = activeId === id;
 
+  const contentEditableRef = useRef<HTMLDivElement | null>(null);
+
   const { editText, titleEditable, onEdit, onCloseEdit, onInputEditText } = useContentEditable({
     defaultValue: title,
   });
@@ -37,16 +39,23 @@ export function Block({ id, title, onBlockClick, activeId, onUpdateTitle }: Bloc
     onCloseEdit(() => onUpdateTitle(e, { type: 'block', id, title: editText }));
   };
 
+  const onInputTitle = (e: FormEvent) => {
+    onInputEditText((e.target as HTMLDivElement).textContent ?? '');
+  };
+
+  useEffect(() => {
+    (contentEditableRef.current as HTMLDivElement).textContent = editText;
+  }, [editText]);
+
   return (
     <StyledBlockContainer
+      ref={contentEditableRef}
       onClick={(e: MouseEvent) => onBlockClick(e, id)}
       actived={actived}
       contentEditable={titleEditable}
       onDoubleClick={onEdit}
       onBlur={onBlurTitle}
-      onInput={onInputEditText}
-    >
-      {editText}
-    </StyledBlockContainer>
+      onInput={onInputTitle}
+    />
   );
 }

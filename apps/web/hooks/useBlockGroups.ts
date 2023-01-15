@@ -54,12 +54,12 @@ export const useBlockGroups = (blockGroupsData: (BlockInterface | GroupInterface
   };
 
   const setTitle = (type: 'group' | 'block', id: string, title: string) => {
-    const typeProperty = {
+    const typeProperties = {
       group: 'groups',
       block: 'blocks',
     } as const;
 
-    const key = typeProperty[type];
+    const key = typeProperties[type];
 
     setBlockGroupState((state) => ({
       ...state,

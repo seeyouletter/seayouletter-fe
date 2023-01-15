@@ -1,4 +1,4 @@
-import { FormEvent, useState } from 'react';
+import { useState } from 'react';
 
 export const useContentEditable = ({ defaultValue = '' }) => {
   const [editText, setEditText] = useState(defaultValue);
@@ -14,8 +14,8 @@ export const useContentEditable = ({ defaultValue = '' }) => {
     }
   };
 
-  const onInputEditText = (e: FormEvent) => {
-    setEditText(() => (e.target as HTMLInputElement).value);
+  const onInputEditText = (value: string) => {
+    setEditText(() => value);
   };
 
   return {

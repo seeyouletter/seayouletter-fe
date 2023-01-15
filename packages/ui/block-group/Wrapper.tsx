@@ -1,4 +1,4 @@
-import { FocusEvent, FormEvent, MouseEvent } from 'react';
+import { FocusEvent, FormEvent, MouseEvent, useEffect, useRef } from 'react';
 
 import { css, useTheme } from '@emotion/react';
 import styled from '@emotion/styled';
@@ -38,7 +38,10 @@ const StyledBlockGroupToggleMarker = styled.div<StyledBlockGroupToggleMarkerInte
 `;
 
 const StyledBlockGroupToggleTitle = styled.div<StyledBlockGroupToggleTitleInterface>`
+  display: flex;
+  align-items: center;
   width: 100%;
+  height: 100%;
   margin-left: 20px;
   font-size: ${(props) => props.theme.fontSize.sm};
 
@@ -66,11 +69,13 @@ export function BlockGroupWrapper({
     defaultValue: title,
   });
 
-  const theme = useTheme();
+  const contentEditableRef = useRef<HTMLDivElement | null>(null);
+  useEffect(() => {
+    if (contentEditableRef.current === null) return;
+    (contentEditableRef.current as HTMLDivElement).textContent = editText;
+  }, [editText]);
 
-  const onTitleDoubleClick = () => {
-    onEdit();
-  };
+  const theme = useTheme();
 
   const onWrapperClick = (e: MouseEvent) => {
     if (titleEditable) return;
@@ -79,12 +84,12 @@ export function BlockGroupWrapper({
 
   const onBlurTitle = (e: FocusEvent) => {
     if (titleEditable) {
-      onCloseEdit(() => onUpdateTitle(e, { type: 'block', id, title: editText }));
+      onCloseEdit(() => onUpdateTitle(e, { type: 'group', id, title: editText }));
     }
   };
 
   const onInputTitle = (e: FormEvent) => {
-    onInputEditText(e);
+    onInputEditText((e.target as HTMLDivElement).textContent ?? '');
   };
 
   return (
@@ -110,17 +115,14 @@ export function BlockGroupWrapper({
           toggleMarkerToggleBg={theme.color.white}
           toggled={toggled}
         />
-
         <StyledBlockGroupToggleTitle
+          ref={contentEditableRef}
           actived={activeId === id}
-          contentEditable={titleEditable}
-          onDoubleClickCapture={onTitleDoubleClick}
+          onDoubleClickCapture={onEdit}
           onInput={onInputTitle}
           onBlur={onBlurTitle}
-          suppressContentEditableWarning
-        >
-          {title}
-        </StyledBlockGroupToggleTitle>
+          contentEditable={titleEditable}
+        />
       </DefaultBox>
 
       {toggled && (

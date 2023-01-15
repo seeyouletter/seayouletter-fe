@@ -1,4 +1,8 @@
-import React, { MouseEvent, useState } from 'react';
+import { blockGroupsTree } from '@atoms/blockGroupsAtom';
+
+import React, { FocusEvent, MouseEvent } from 'react';
+
+import { useAtomValue } from 'jotai';
 
 import { useTheme } from '@emotion/react';
 
@@ -7,17 +11,21 @@ import { v4 as uuidV4 } from 'uuid';
 import BaseLayout from 'layouts/BaseLayout';
 
 import {
+  Block,
   BlockGroupWrapper,
-  BlockMembersType,
+  BlockInterface,
   DefaultBanner,
   DefaultButton,
   DefaultCarousel,
   DefaultText,
   DefaultVStack,
+  GroupInterface,
   StrongText,
 } from 'ui';
 
 import { TemplateCardList } from '@templates/index';
+
+import { useBlockGroups } from '@hooks/useBlockGroups';
 
 const CarouselData = [
   {
@@ -46,50 +54,111 @@ const CarouselData = [
   },
 ];
 
-const blockGroups = [
+// const blockGroupsDataTree = [
+//   {
+//     parent: null,
+//     id: '1',
+//     type: 'group',
+//     title: '안녕하세용...',
+//     blocks: [
+//       {
+//         parent: '1',
+//         id: '컴포넌트1',
+//         type: 'block',
+//         title: '컴포넌트 1',
+//       },
+//       {
+//         parent: '1',
+//         id: '컴포넌트2',
+//         type: 'block',
+//         title: '컴포넌트 2',
+//       },
+//       {
+//         parent: '1',
+//         id: '컴포넌트3',
+//         type: 'block',
+//         title: '컴포넌트 3',
+//       },
+//     ],
+//   },
+// ];
+
+/*
+ * 20페이지만 되어도 1페이지당 1000개의 컴포넌트가 있다고 주어질 시
+ * 시그마 20 * 1000 = 200000000
+ *
+ * 1. 하지만 컴포넌트를 하나의 객체로 관리하고, 1
+ * 2. 그 객체에 따라 블록을 추가하고 1
+ * 3. 블록에 해당하는 컴포넌트를 일일이 달아주고 1
+ * 4. 맨 위에 해당하는 루트를 렌더링하면 2
+ * 20000 => 20000 => 20000 = 60000
+ *
+ * 1번 순회
+ * - groupStore 생성
+ * - blockStore 생성
+ *
+ * 2번 순회
+ * - groupStore blocks 추가
+ * - group blocks에 block 추가
+ */
+
+const blockGroupsData: (BlockInterface | GroupInterface)[] = [
   {
     parent: null,
     id: '1',
+    order: 0,
+    toggled: true,
     type: 'group',
     title: '안녕하세용...',
-    blocks: [
-      {
-        id: '컴포넌트1',
-        type: 'block',
-        title: '컴포넌트 1',
-      },
-      {
-        id: '컴포넌트2',
-        type: 'block',
-        title: '컴포넌트 2',
-      },
-      {
-        id: '컴포넌트3',
-        type: 'block',
-        title: '컴포넌트 3',
-      },
-    ],
+    blocks: [],
+  },
+  {
+    parent: '1',
+    order: 0,
+    id: '컴포넌트1',
+    type: 'block',
+    title: '컴포넌트 1',
+  },
+  {
+    parent: '1',
+    order: 1,
+    id: '컴포넌트2',
+    type: 'block',
+    title: '컴포넌트 2',
+  },
+  {
+    parent: '1',
+    order: 2,
+    id: '컴포넌트3',
+    type: 'block',
+    title: '컴포넌트 3',
   },
 ];
+
 export default function Web() {
   const theme = useTheme();
-  const [toggleGroups, setToggleGroups] = useState<Record<string, boolean>>({
-    '1': false,
-  });
 
-  const [activeId, setActiveId] = useState<string | null>(null);
+  const { activeId, setActiveId, setTitle, setToggle } = useBlockGroups(blockGroupsData);
 
-  const onBlockClick = (e: MouseEvent, id: string) => {
-    e.stopPropagation();
-
-    setActiveId(() => id);
-  };
+  const tree = useAtomValue(blockGroupsTree);
 
   const onBlockGroupWrapperClick = (e: MouseEvent, id: string) => {
     e.stopPropagation();
+    setToggle(id);
+    setActiveId(id);
+  };
 
-    setToggleGroups((state) => ({ ...state, [id]: !state[id] }));
-    setActiveId(() => id);
+  const onBlockClick = (e: MouseEvent, id: string) => {
+    e.stopPropagation();
+    setActiveId(id);
+  };
+
+  const onUpdateTitle = (
+    e: FocusEvent,
+    { type, id, title }: { type: 'block' | 'group'; id: string; title: string }
+  ) => {
+    e.stopPropagation();
+    setTitle(type, id, title);
   };
 
   return (
@@ -100,20 +169,34 @@ export default function Web() {
 
       <div style={{ backgroundColor: 'black', color: 'white' }}>
         {JSON.stringify(activeId)}
-        {blockGroups.map((blockGroup) => (
-          <BlockGroupWrapper
-            parent={blockGroup.parent}
-            key={blockGroup.id}
-            type={blockGroup.type as 'group'}
-            id={blockGroup.id}
-            title={blockGroup.title}
-            blocks={blockGroup.blocks as BlockMembersType}
-            activeId={activeId}
-            onGroupClick={onBlockGroupWrapperClick}
-            onBlockClick={onBlockClick}
-            toggled={toggleGroups['1']}
-          ></BlockGroupWrapper>
-        ))}
+        {tree.map((blockGroup) =>
+          blockGroup.type === 'group' ? (
+            <BlockGroupWrapper
+              parent={blockGroup.parent}
+              key={blockGroup.id}
+              type={blockGroup.type as 'group'}
+              id={blockGroup.id}
+              title={blockGroup.title}
+              blocks={blockGroup.blocks}
+              activeId={activeId}
+              onGroupClick={onBlockGroupWrapperClick}
+              onBlockClick={onBlockClick}
+              onUpdateTitle={onUpdateTitle}
+              toggled={blockGroup.toggled}
+            />
+          ) : (
+            <Block
+              key={blockGroup.id}
+              parent={blockGroup.parent}
+              type="block"
+              id={blockGroup.id}
+              title={blockGroup.title}
+              activeId={activeId}
+              onBlockClick={onBlockClick}
+              onUpdateTitle={onUpdateTitle}
+            ></Block>
+          )
+        )}
       </div>
 
       <TemplateCardList
