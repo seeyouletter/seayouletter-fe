@@ -67,6 +67,7 @@ export default function My() {
         <DefaultHStack justifyContent="space-between">
           {templates.map((template) => (
             <MyTemplateCard
+              key={template.id}
               id={template.id}
               title={template.title}
               imageAlt={template.imageAlt}

@@ -1,4 +1,4 @@
-import { FocusEvent, FormEvent, MouseEvent, useEffect, useRef } from 'react';
+import { FocusEvent, FormEvent, MouseEvent } from 'react';
 
 import { css, useTheme } from '@emotion/react';
 import styled from '@emotion/styled';
@@ -65,15 +65,16 @@ export function BlockGroupWrapper({
 }: BlockGroupWrapperPropsInterface) {
   const isActive = activeId === id;
 
-  const { editText, titleEditable, onEdit, onCloseEdit, onInputEditText } = useContentEditable({
+  const {
+    ref: contentEditableRef,
+    editText,
+    titleEditable,
+    onEdit,
+    onCloseEdit,
+    onInputEditText,
+  } = useContentEditable({
     defaultValue: title,
   });
-
-  const contentEditableRef = useRef<HTMLDivElement | null>(null);
-  useEffect(() => {
-    if (contentEditableRef.current === null) return;
-    (contentEditableRef.current as HTMLDivElement).textContent = editText;
-  }, [editText]);
 
   const theme = useTheme();
 

@@ -1,6 +1,7 @@
-import { useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 
 export const useContentEditable = ({ defaultValue = '' }) => {
+  const ref = useRef<HTMLDivElement | null>(null);
   const [editText, setEditText] = useState(defaultValue);
   const [titleEditable, setTitleEditable] = useState(false);
 
@@ -18,7 +19,14 @@ export const useContentEditable = ({ defaultValue = '' }) => {
     setEditText(() => value);
   };
 
+  useEffect(() => {
+    if (ref.current === null) return;
+
+    ref.current.textContent = editText;
+  }, [editText]);
+
   return {
+    ref,
     editText,
     titleEditable,
     onEdit,

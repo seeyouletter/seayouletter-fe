@@ -1,4 +1,4 @@
-import React, { FocusEvent, FormEvent, MouseEvent, useEffect, useRef } from 'react';
+import React, { FocusEvent, FormEvent, MouseEvent } from 'react';
 
 import { css } from '@emotion/react';
 import styled from '@emotion/styled';
@@ -29,9 +29,14 @@ const StyledBlockContainer = styled.div<CommonStyledBlockInterface>`
 export function Block({ id, title, onBlockClick, activeId, onUpdateTitle }: BlockPropsInterface) {
   const actived = activeId === id;
 
-  const contentEditableRef = useRef<HTMLDivElement | null>(null);
-
-  const { editText, titleEditable, onEdit, onCloseEdit, onInputEditText } = useContentEditable({
+  const {
+    ref: contentEditableRef,
+    editText,
+    titleEditable,
+    onEdit,
+    onCloseEdit,
+    onInputEditText,
+  } = useContentEditable({
     defaultValue: title,
   });
 
@@ -42,10 +47,6 @@ export function Block({ id, title, onBlockClick, activeId, onUpdateTitle }: Bloc
   const onInputTitle = (e: FormEvent) => {
     onInputEditText((e.target as HTMLDivElement).textContent ?? '');
   };
-
-  useEffect(() => {
-    (contentEditableRef.current as HTMLDivElement).textContent = editText;
-  }, [editText]);
 
   return (
     <StyledBlockContainer
