@@ -1,3 +1,5 @@
+import React from 'react';
+
 import { useTheme } from '@emotion/react';
 
 import { v4 as uuidV4 } from 'uuid';
@@ -41,6 +43,7 @@ const CarouselData = [
     button: <DefaultButton>템플릿 만들기 💌</DefaultButton>,
   },
 ];
+
 export default function Web() {
   const theme = useTheme();
 
@@ -74,7 +77,7 @@ export default function Web() {
         imageAlt="배너 테스트"
         title="청첩장 고민은 그만! 씨유레터에서 작별해요."
         description="See you later, at seeyouletter 👋🏻"
-      ></DefaultBanner>
+      />
     </div>
   );
 }

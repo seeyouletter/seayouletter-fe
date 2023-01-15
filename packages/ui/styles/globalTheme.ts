@@ -67,10 +67,17 @@ const globalColor = {
   success: '#009B9F',
   text: '#111111',
   dark: '#111',
+  semiDark: '#333',
   white: '#FFFFFF',
   layout: {
     page: '#F7F7F7',
+    blockGroupToggle: {
+      bg: 'transparent',
+      activeBg: '#444',
+      childrenBg: '#333',
+    },
   },
+  transparent: 'transparent',
 };
 
 const globalBorder = {

@@ -2,6 +2,8 @@ import styled from '@emotion/styled';
 
 import { ToastBoxInterface } from './types';
 
+export type {} from 'node_modules/@types/react';
+
 /** ToastBoxList  */
 
 const StyledToastBoxListTop = styled.section<{ isHeader?: boolean }>`
