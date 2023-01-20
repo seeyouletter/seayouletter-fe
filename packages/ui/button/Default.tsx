@@ -16,6 +16,7 @@ export function DefaultButton({
   disabled = false,
   onClick,
   bg,
+  ...props
 }: DefaultButtonPropsInterface) {
   return (
     <Button
@@ -29,6 +30,7 @@ export function DefaultButton({
       onClick={onClick}
       variant={shape}
       bg={bg}
+      {...props}
     >
       {children}
     </Button>

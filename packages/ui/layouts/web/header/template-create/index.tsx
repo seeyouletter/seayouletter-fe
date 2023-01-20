@@ -1,5 +1,11 @@
-import React from 'react';
+import React, { PropsWithChildren } from 'react';
 
-export default function TemplateCreateHeader() {
-  return <div>TemplateCreateHeader</div>;
+import { CommonHeaderContainer, CommonHeaderInner } from '../styles';
+
+export function TemplateCreateHeader({ children }: PropsWithChildren) {
+  return (
+    <CommonHeaderContainer>
+      <CommonHeaderInner>{children}</CommonHeaderInner>
+    </CommonHeaderContainer>
+  );
 }

@@ -6,12 +6,8 @@ import { FullLogoLink } from '@ui/link';
 import { LinkInterface } from '@ui/link/types';
 import { Menu, MenuIconButton, MenuItem, MenuList } from '@ui/menu';
 
-import {
-  CommonHeaderContainer,
-  CommonHeaderInner,
-  StyledPageLink,
-  StyledPageLinks,
-} from '../styles';
+import { CommonHeaderContainer, CommonHeaderInner } from '../styles';
+import { StyledPageLink, StyledPageLinks } from './styles';
 
 interface PageLinksPropsInterface {
   pageLinks: LinkInterface[];
