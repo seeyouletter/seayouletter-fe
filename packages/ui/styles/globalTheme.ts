@@ -96,6 +96,9 @@ const globalLayouts = {
   header: {
     height: '60px',
   },
+  templateCreateToolbar: {
+    height: '40px',
+  },
   footer: {
     height: '250px',
   },
