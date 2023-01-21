@@ -10,21 +10,21 @@ interface TextMenuButtonPropsInterface extends PropsWithChildren {
   borderRadius: string;
   color: string;
 }
-export default function TextMenuButton({
-  borderRadius,
-  color,
-  children,
-}: TextMenuButtonPropsInterface) {
+export function TextMenuButton({ borderRadius, color, children }: TextMenuButtonPropsInterface) {
   const theme = useTheme();
   return (
     <IconWithTextButton
-      fontSize={theme.fontSize.sm}
+      padding="12px"
+      fontSize={theme.fontSize.xs}
       shape="ghost"
       borderRadius={borderRadius}
       iconSpacing={1}
       rightIcon={<ChevronDownIcon />}
       colorScheme=""
       color={color}
+      _hover={{
+        backgroundColor: theme.color.primary[500],
+      }}
     >
       {children}
     </IconWithTextButton>
