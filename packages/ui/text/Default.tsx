@@ -12,6 +12,7 @@ interface StyledTextInterface {
   color?: string;
   visible?: boolean;
   bold?: boolean;
+  flexShrink?: boolean;
 }
 
 interface TextPropsInterface extends StyledTextInterface, PropsWithChildren {
@@ -26,15 +27,23 @@ const StyledText = styled.span<StyledTextInterface>`
   font-size: ${(props) => props.size};
   color: ${(props) => props.color};
   text-align: ${(props) => props.textAlign};
+
   ${(props) =>
     !props.visible &&
     css`
       display: none;
     `}
+
   ${({ bold }) =>
     bold &&
     css`
       font-weight: 700;
+    `}
+
+  ${({ flexShrink }) =>
+    flexShrink &&
+    css`
+      flex-shrink: 0;
     `}
 `;
 
@@ -47,6 +56,7 @@ export function DefaultText({
   color = globalTheme.color.text,
   ariaLabel,
   bold,
+  flexShrink = false,
   ...props
 }: TextPropsInterface) {
   return !!visible ? (
@@ -58,6 +68,7 @@ export function DefaultText({
       color={color}
       aria-label={ariaLabel}
       bold={bold}
+      flexShrink={flexShrink}
       {...props}
     >
       {children}

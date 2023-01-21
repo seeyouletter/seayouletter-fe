@@ -10,12 +10,16 @@ export const DefaultInput = ({
   placeholder = '',
   isInvalid = false,
   borderColor = 'sub.500',
+  width,
+  bgColor,
 }: InputPropsInterface) => {
   return (
     <Input
+      width={width}
       variant="outline"
       size={size}
       color={color}
+      backgroundColor={bgColor}
       placeholder={placeholder}
       borderColor={borderColor}
       errorBorderColor="error"

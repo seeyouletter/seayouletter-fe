@@ -13,4 +13,6 @@ export interface InputPropsInterface {
   onInput?: (e: FormEvent) => void;
   errorMessage?: string | React.ReactNode;
   borderColor?: string;
+  width?: string;
+  bgColor?: string;
 }
