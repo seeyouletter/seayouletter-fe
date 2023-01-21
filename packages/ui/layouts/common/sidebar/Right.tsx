@@ -7,7 +7,7 @@ import { DefaultBox } from '@ui/box';
 interface LeftSidebarPropsInterface extends PropsWithChildren {
   actived: boolean;
 }
-export function LeftSidebar({ actived, children }: LeftSidebarPropsInterface) {
+export function RightSidebar({ actived, children }: LeftSidebarPropsInterface) {
   const theme = useTheme();
 
   return (
@@ -18,7 +18,7 @@ export function LeftSidebar({ actived, children }: LeftSidebarPropsInterface) {
         +theme.layout.templateCreateToolbar.height.replace(/[^0-9]/g, '') +
         'px'
       }
-      left="0"
+      right="0"
       width="260px"
       height={`calc(100% - ${theme.layout.header.height})`}
       zIndex="1000"
