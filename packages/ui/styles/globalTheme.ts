@@ -68,7 +68,9 @@ const globalColor = {
   text: '#111111',
   dark: '#111',
   semiDark: '#333',
+  darkGray: '#555',
   white: '#FFFFFF',
+
   layout: {
     page: '#F7F7F7',
     blockGroupToggle: {
@@ -77,11 +79,13 @@ const globalColor = {
       childrenBg: '#333',
     },
   },
+
   transparent: 'transparent',
 };
 
 const globalBorder = {
   default: '1px solid #DDDDDD',
+  darkGray: '1px solid #555555',
 };
 
 const globalBorderRadius = {
@@ -104,6 +108,10 @@ const globalLayouts = {
   },
   banner: {
     height: '160px',
+  },
+  templateCreateSidebar: {
+    width: '260px',
+    bg: '#222222',
   },
 };
 

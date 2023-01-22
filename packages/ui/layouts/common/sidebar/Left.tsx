@@ -19,12 +19,12 @@ export function LeftSidebar({ actived, children }: LeftSidebarPropsInterface) {
         'px'
       }
       left="0"
-      width="260px"
+      width={theme.layout.templateCreateSidebar.width}
       height={`calc(100% - ${theme.layout.header.height})`}
       zIndex="1000"
       transform={`translateX(${actived ? '0' : '-100%'})`}
       transition="all 0.3s"
-      backgroundColor={theme.color.dark}
+      backgroundColor={theme.layout.templateCreateSidebar.bg}
     >
       {children}
     </DefaultBox>
