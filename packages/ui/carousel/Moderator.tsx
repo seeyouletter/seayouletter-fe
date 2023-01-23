@@ -48,7 +48,7 @@ export function CarouselModerator({
       />
 
       <DefaultHStack
-        divider={<DefaultDivider borderColor="sub.500" height="16px" />}
+        divider={<DefaultDivider borderColor="sub.500" size="16px" />}
         spacing={12}
         alignItems="center"
       >
