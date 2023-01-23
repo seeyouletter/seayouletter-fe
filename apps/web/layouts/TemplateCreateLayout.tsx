@@ -26,6 +26,8 @@ import {
   TextMenuButton,
 } from 'ui';
 
+import { ActivedGroupColorsModifier, ActivedGroupPositionModifier } from '@templates/index';
+
 import { useBlockGroups } from '@hooks/useBlockGroups';
 
 const blockGroups: (GroupInterface | BlockInterface)[] = [
@@ -210,7 +212,10 @@ export default function TemplateCreateLayout({ children }: PropsWithChildren) {
                   type={v.type}
                   blocks={v.blocks}
                   activeId={activeId}
-                  onGroupClick={(e, id) => setToggle(id)}
+                  onGroupClick={(e, id) => {
+                    setActiveId(id);
+                    setToggle(id);
+                  }}
                   onUpdateTitle={(e, { type, id, title }) => setTitle(type, id, title)}
                   onBlockClick={(e, id) => setActiveId(id)}
                   toggled={v.toggled}
@@ -234,6 +239,7 @@ export default function TemplateCreateLayout({ children }: PropsWithChildren) {
           </DefaultVStack>
 
           <DefaultVStack spacing={1} paddingLeft="16px" paddingRight="16px">
+            <DefaultText color="white">{JSON.stringify(activeId)}</DefaultText>
             <DefaultText size={theme.fontSize.xs} color="white" textAlign="center">
               블록을 간편하게 만들고 싶나요?
             </DefaultText>
@@ -241,7 +247,12 @@ export default function TemplateCreateLayout({ children }: PropsWithChildren) {
           </DefaultVStack>
         </DefaultVStack>
       </LeftSidebar>
-      <RightSidebar actived={true} />
+      <RightSidebar actived={true} padding="24px 16px">
+        <DefaultVStack spacing={5}>
+          <ActivedGroupPositionModifier />
+          <ActivedGroupColorsModifier />
+        </DefaultVStack>
+      </RightSidebar>
 
       <FullSizeMain backgroundColor="black" isHeader={true}>
         {children}
