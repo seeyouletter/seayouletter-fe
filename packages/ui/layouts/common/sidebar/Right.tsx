@@ -6,8 +6,9 @@ import { DefaultBox } from '@ui/box';
 
 interface LeftSidebarPropsInterface extends PropsWithChildren {
   actived: boolean;
+  padding?: string;
 }
-export function RightSidebar({ actived, children }: LeftSidebarPropsInterface) {
+export function RightSidebar({ actived, children, padding }: LeftSidebarPropsInterface) {
   const theme = useTheme();
 
   return (
@@ -25,6 +26,7 @@ export function RightSidebar({ actived, children }: LeftSidebarPropsInterface) {
       transform={`translateX(${actived ? '0' : '-100%'})`}
       transition="all 0.3s"
       backgroundColor={theme.layout.templateCreateSidebar.bg}
+      padding={padding}
     >
       {children}
     </DefaultBox>
