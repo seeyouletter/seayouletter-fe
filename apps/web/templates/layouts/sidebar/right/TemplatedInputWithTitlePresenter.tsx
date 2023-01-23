@@ -7,11 +7,13 @@ import { InputWithTitle, InputWithTitlePropsInterface } from 'ui';
 interface TemplatedInputWithTitlePresenterPropsInterface {
   title: InputWithTitlePropsInterface['title']['children'];
   placeholder: InputWithTitlePropsInterface['input']['placeholder'];
+  inputWidth?: string;
   onInput: InputWithTitlePropsInterface['input']['onInput'];
 }
 
 export function TemplatedInputWithTitlePresenter({
   title,
+  inputWidth,
   placeholder,
   onInput,
 }: TemplatedInputWithTitlePresenterPropsInterface) {
@@ -30,13 +32,14 @@ export function TemplatedInputWithTitlePresenter({
         children: title,
       }}
       input={{
-        width: '60px',
+        width: inputWidth ?? '60px',
         size: 'xs',
         placeholder,
         onInput,
         bgColor: theme.color.darkGray,
         borderColor: theme.color.darkGray,
         padding: '4px',
+        color: theme.color.white,
       }}
     />
   );

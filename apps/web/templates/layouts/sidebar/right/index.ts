@@ -1,2 +1,2 @@
-export * from './ActivedGroupPositionModifier';
+export * from './ActivedPositionModifier';
 export * from './ActivedGroupColorsModifier';

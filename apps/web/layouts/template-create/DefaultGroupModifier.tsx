@@ -2,12 +2,12 @@ import React from 'react';
 
 import { DefaultVStack } from 'ui';
 
-import { ActivedGroupColorsModifier, ActivedGroupPositionModifier } from '@templates/index';
+import { ActivedGroupColorsModifier, ActivedPositionModifier } from '@templates/index';
 
 export function DefaultGroupModifier() {
   return (
     <DefaultVStack spacing={5}>
-      <ActivedGroupPositionModifier />
+      <ActivedPositionModifier />
       <ActivedGroupColorsModifier />
     </DefaultVStack>
   );

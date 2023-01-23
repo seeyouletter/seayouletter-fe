@@ -247,8 +247,9 @@ export default function TemplateCreateLayout({ children }: PropsWithChildren) {
           </DefaultVStack>
         </DefaultVStack>
       </LeftSidebar>
+
       <RightSidebar actived={true} padding="24px 16px">
-        <BlockGroupModifier type="group" subType="animator" />
+        <BlockGroupModifier type="block" subType="text" />
       </RightSidebar>
 
       <FullSizeMain backgroundColor="black" isHeader={true}>

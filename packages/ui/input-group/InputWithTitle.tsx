@@ -9,7 +9,7 @@ import { InputWithTitlePropsInterface } from './types';
 export function InputWithTitle({ container, title, input }: InputWithTitlePropsInterface) {
   return (
     <DefaultHStack {...container}>
-      <DefaultText {...title} />
+      <DefaultText flexShrink {...title} />
       <DefaultInput {...input} />
     </DefaultHStack>
   );
