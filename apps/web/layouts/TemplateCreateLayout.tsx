@@ -26,9 +26,9 @@ import {
   TextMenuButton,
 } from 'ui';
 
-import { ActivedGroupColorsModifier, ActivedGroupPositionModifier } from '@templates/index';
-
 import { useBlockGroups } from '@hooks/useBlockGroups';
+
+import { BlockGroupModifier } from './template-create/BlockGroupModifier';
 
 const blockGroups: (GroupInterface | BlockInterface)[] = [
   {
@@ -248,10 +248,7 @@ export default function TemplateCreateLayout({ children }: PropsWithChildren) {
         </DefaultVStack>
       </LeftSidebar>
       <RightSidebar actived={true} padding="24px 16px">
-        <DefaultVStack spacing={5}>
-          <ActivedGroupPositionModifier />
-          <ActivedGroupColorsModifier />
-        </DefaultVStack>
+        <BlockGroupModifier type="group" subType="animator" />
       </RightSidebar>
 
       <FullSizeMain backgroundColor="black" isHeader={true}>
