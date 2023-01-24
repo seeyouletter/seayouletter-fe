@@ -3,3 +3,4 @@ export * from './ActivedGroupColorsModifier';
 export * from './ActivedBlockFillModifier';
 export * from './ActivedBlockBorderModifier';
 export * from './ActivedTextModifier';
+export * from './ActivedImageModifier';

@@ -1,9 +1,8 @@
 import React from 'react';
 
-import { DefaultVStack } from '@ui/stack';
+import { DefaultVStack } from 'ui';
 
-import { ActivedPositionModifier } from '@templates/layouts';
-import ActivedTextModifier from '@templates/layouts/sidebar/right/ActivedTextModifier';
+import { ActivedPositionModifier, ActivedTextModifier } from '@templates/index';
 
 export function TextBlockModifier() {
   return (

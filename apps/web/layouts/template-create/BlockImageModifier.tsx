@@ -4,20 +4,17 @@ import { useTheme } from '@emotion/react';
 
 import { DefaultButton, DefaultVStack, StrongText } from 'ui';
 
-import { ActivedImageModifier } from '@templates/layouts/sidebar/right/ActivedImageModifier';
+import { ActivedImageModifier } from '@templates/index';
 
-import { BlockSubType } from './types';
+import { BlockImageDecoratorPropsInterface } from './types';
 
-interface BlockImageDecoratorPropsInterface {
-  subType: BlockSubType;
-}
 export function BlockImageModifier({ subType }: BlockImageDecoratorPropsInterface) {
   const theme = useTheme();
 
   return (
     <>
       <DefaultVStack spacing={5}>
-        <DefaultVStack spacing={1}>
+        <DefaultVStack spacing={4}>
           <StrongText size={theme.fontSize.sm} color="white">
             이미지 채우기
           </StrongText>

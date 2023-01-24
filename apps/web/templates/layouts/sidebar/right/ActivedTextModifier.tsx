@@ -7,7 +7,7 @@ import { DefaultDivider, DefaultHStack, DefaultVStack, StrongText } from 'ui';
 import { TemplatedInputWithTitlePresenter } from './TemplatedInputWithTitlePresenter';
 
 /* eslint-disable no-console */
-export default function ActivedTextModifier() {
+export function ActivedTextModifier() {
   const theme = useTheme();
 
   return (
