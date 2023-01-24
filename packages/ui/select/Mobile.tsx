@@ -29,6 +29,8 @@ export const Mobile = ({
   onChange,
   activeOption,
   selectType,
+  borderRadius = '10px',
+  color = 'primary.900',
 }: SelectPropsInterface) => {
   const selectRef = useRef<HTMLSelectElement | null>(null);
   const selectedOption = useRef(placeholder ? null : options[0]);
@@ -68,11 +70,11 @@ export const Mobile = ({
       width={width}
       height={height}
       size={size}
-      borderRadius="10px"
+      borderRadius={borderRadius}
       ref={selectRef}
       placeholder={placeholder}
       variant={selectType}
-      color="primary.900"
+      color={color}
       borderColor={selectType === 'outline' ? 'sub.500' : undefined}
       focusBorderColor="primary.500"
       onChange={(e) => {
