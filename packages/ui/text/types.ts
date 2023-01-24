@@ -28,4 +28,5 @@ export interface StrongTextPropsInterface
 export interface StyledStrongInterface {
   color: string;
   size: string;
+  flexShrink: boolean;
 }
