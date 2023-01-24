@@ -17,7 +17,7 @@ export function ActivedGroupColorsModifier() {
 
   return (
     <>
-      <DefaultVStack spacing={3}>
+      <DefaultVStack spacing={4}>
         <StrongText size={theme.fontSize.sm} color="white">
           그룹 내 색상
         </StrongText>
@@ -88,7 +88,7 @@ export function ActivedGroupColorsModifier() {
               />
             </DefaultBox>
           </DefaultHStack>
-          <DefaultHStack spacing={1}>
+          <DefaultHStack spacing={2}>
             <ColorInput width="48px" size="xs" value="red" />
             <DefaultBox width="60px">
               <DefaultInput
@@ -100,7 +100,7 @@ export function ActivedGroupColorsModifier() {
                 color="white"
               />
             </DefaultBox>
-            <DefaultBox width="40px">
+            <DefaultBox width="48px">
               <DefaultInput
                 size="xs"
                 placeholder="입력"

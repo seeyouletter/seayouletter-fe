@@ -239,7 +239,6 @@ export default function TemplateCreateLayout({ children }: PropsWithChildren) {
           </DefaultVStack>
 
           <DefaultVStack spacing={1} paddingLeft="16px" paddingRight="16px">
-            <DefaultText color="white">{JSON.stringify(activeId)}</DefaultText>
             <DefaultText size={theme.fontSize.xs} color="white" textAlign="center">
               블록을 간편하게 만들고 싶나요?
             </DefaultText>
@@ -249,7 +248,7 @@ export default function TemplateCreateLayout({ children }: PropsWithChildren) {
       </LeftSidebar>
 
       <RightSidebar actived={true} padding="24px 16px">
-        <BlockGroupModifier type="block" subType="text" />
+        <BlockGroupModifier type="block" subType="image" />
       </RightSidebar>
 
       <FullSizeMain backgroundColor="black" isHeader={true}>

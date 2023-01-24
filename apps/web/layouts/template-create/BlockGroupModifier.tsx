@@ -1,13 +1,17 @@
 import React from 'react';
 
+import { DefaultDivider } from '@ui/divider';
+import { DefaultVStack } from '@ui/stack';
+
 import { AnimatorGroupModifier } from './AnimatorGroupModifier';
+import { BlockImageModifier } from './BlockImageModifier';
 import { DefaultBlockModifier } from './DefaultBlockModifier';
 import { DefaultGroupModifier } from './DefaultGroupModifier';
-import { ImageBlockModifier } from './ImageBlockModifier';
 import { TextBlockModifier } from './TextBlockModifier';
+import { BlockSubType } from './types';
 
 export interface BlockModifierFactoryPropsInterface {
-  subType: 'text' | 'shape' | 'image';
+  subType: BlockSubType;
 }
 
 export interface BlockModifierPropsInterface extends BlockModifierFactoryPropsInterface {
@@ -28,7 +32,7 @@ export type BlockGroupModifierPropsInterface =
 
 /**
  * @description
- * 아직 그룹에 대한 명세가 많이 없지만,
+ * 아직 그룹에 대한 명세가 많이 없지만,s
  * 추후 확장 가능성이 있어 미리 수정하기 용이하도록 만듣다.
  */
 function GroupModifierFactory({ subType }: GroupModifierFactoryPropsInterface) {
@@ -38,10 +42,14 @@ function GroupModifierFactory({ subType }: GroupModifierFactoryPropsInterface) {
 function BlockModifierFactory({ subType }: BlockModifierFactoryPropsInterface) {
   if (subType === 'text') {
     return <TextBlockModifier />;
-  } else if (subType === 'image') {
-    return <ImageBlockModifier />;
   } else {
-    return <DefaultBlockModifier />;
+    return (
+      <DefaultVStack spacing={5}>
+        <DefaultBlockModifier />
+        <BlockImageModifier subType={subType} />
+        <DefaultDivider horizontal borderColor="white" />
+      </DefaultVStack>
+    );
   }
 }
 
