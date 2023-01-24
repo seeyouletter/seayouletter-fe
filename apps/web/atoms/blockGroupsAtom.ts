@@ -18,7 +18,7 @@ export const blocksStateAtom = atom<BlockGroupsAtomInterface>({
   blocks: {},
 });
 
-export const blockGroupsTree = atom((get) => {
+export const getBlockGroups = atom((get) => {
   const blocksState = get(blocksStateAtom);
 
   const result: (BlockInterface | GroupInterface)[] = [];

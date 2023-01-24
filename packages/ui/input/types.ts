@@ -2,6 +2,10 @@ import React, { FormEvent } from 'react';
 
 import { SizeType } from '../common/types';
 
+export interface ColorPropsInterface extends Omit<InputPropsInterface, 'placeholder'> {
+  value: string;
+}
+
 export interface InputPropsInterface {
   'data-testid'?: string;
   'aria-label'?: string;
@@ -13,4 +17,7 @@ export interface InputPropsInterface {
   onInput?: (e: FormEvent) => void;
   errorMessage?: string | React.ReactNode;
   borderColor?: string;
+  width?: string;
+  bgColor?: string;
+  padding?: string;
 }

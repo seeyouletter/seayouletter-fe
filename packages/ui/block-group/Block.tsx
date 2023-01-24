@@ -12,7 +12,7 @@ const StyledBlockContainer = styled.div<CommonStyledBlockInterface>`
   align-items: center;
   width: 100%;
   height: 24px;
-  margin-left: 20px;
+  padding-left: 20px;
   cursor: pointer;
 
   ${({ actived, theme }) =>

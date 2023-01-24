@@ -1,12 +1,12 @@
 import React, { PropsWithChildren } from 'react';
 
-import { SystemProps } from '@chakra-ui/react';
+import { ButtonProps, SystemProps } from '@chakra-ui/react';
 
 import { SizeType } from '@ui/common/types';
 
 export type ButtonType = 'ghost' | 'outline' | 'solid' | 'link' | 'unstyled';
 
-export interface ButtonInterface extends PropsWithChildren {
+export interface ButtonInterface extends ButtonProps, PropsWithChildren {
   colorScheme?: string;
   size?: SizeType;
   shape?: ButtonType;

@@ -25,8 +25,6 @@ export const DefaultHStack = ({
   shouldWrapChildren = false,
 
   spacing = '0px',
-  marginTop,
-  marginBottom,
   divider,
   ...props
 }: DefaultHStackInterface) => {
@@ -39,8 +37,6 @@ export const DefaultHStack = ({
       isInline={inline}
       justify={justify}
       shouldWrapChildren={shouldWrapChildren}
-      marginTop={marginTop}
-      marginBottom={marginBottom}
       spacing={spacing}
       wrap={wrap}
       divider={divider}

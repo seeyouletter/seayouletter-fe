@@ -1,40 +1,37 @@
-import React, { PropsWithChildren } from 'react';
+import React from 'react';
 
 import { css } from '@emotion/react';
 import styled from '@emotion/styled';
 
 import { globalTheme } from '@ui/styles';
 
-interface StyledTextInterface {
-  as?: 'p' | 'span' | 'div';
-  textAlign?: 'left' | 'center' | 'right' | 'inherit';
-  size?: string;
-  color?: string;
-  visible?: boolean;
-  bold?: boolean;
-}
+import { DefaultTextPropsInterface, StyledDefaultTextInterface } from './types';
 
-interface TextPropsInterface extends StyledTextInterface, PropsWithChildren {
-  ariaLabel?: string;
-}
-
-const TextSpacer = styled.div<{ size: StyledTextInterface['size'] }>`
+const TextSpacer = styled.div<{ size: StyledDefaultTextInterface['size'] }>`
   height: ${(props) => props.size};
 `;
 
-const StyledText = styled.span<StyledTextInterface>`
+const StyledText = styled.span<StyledDefaultTextInterface>`
   font-size: ${(props) => props.size};
   color: ${(props) => props.color};
   text-align: ${(props) => props.textAlign};
+
   ${(props) =>
     !props.visible &&
     css`
       display: none;
     `}
+
   ${({ bold }) =>
     bold &&
     css`
       font-weight: 700;
+    `}
+
+  ${({ flexShrink }) =>
+    flexShrink &&
+    css`
+      flex-shrink: 0;
     `}
 `;
 
@@ -47,8 +44,9 @@ export function DefaultText({
   color = globalTheme.color.text,
   ariaLabel,
   bold,
+  flexShrink = false,
   ...props
-}: TextPropsInterface) {
+}: DefaultTextPropsInterface) {
   return !!visible ? (
     <StyledText
       as={as}
@@ -58,6 +56,7 @@ export function DefaultText({
       color={color}
       aria-label={ariaLabel}
       bold={bold}
+      flexShrink={flexShrink}
       {...props}
     >
       {children}

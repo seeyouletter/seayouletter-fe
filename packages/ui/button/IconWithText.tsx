@@ -16,9 +16,11 @@ export const IconWithTextButton = ({
   size = 'md',
   onClick,
   children,
+  ...props
 }: IconWithTextButtonPropsInterface) => {
   return (
     <Button
+      {...props}
       colorScheme={colorScheme}
       iconSpacing={iconSpacing}
       isLoading={isLoading}

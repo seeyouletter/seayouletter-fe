@@ -17,6 +17,8 @@ export const DefaultSelect = ({
   onChange,
   activeOption,
   selectType = 'outline',
+  borderRadius,
+  color,
 }: SelectPropsInterface) => {
   return (
     <Mobile
@@ -28,6 +30,8 @@ export const DefaultSelect = ({
       placeholder={placeholder}
       onChange={onChange}
       activeOption={activeOption}
+      borderRadius={borderRadius}
+      color={color}
     />
   );
 };

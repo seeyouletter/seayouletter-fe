@@ -6,7 +6,8 @@ import { FullLogoLink } from '@ui/link';
 import { LinkInterface } from '@ui/link/types';
 import { Menu, MenuIconButton, MenuItem, MenuList } from '@ui/menu';
 
-import { BaseHeaderContainer, BaseHeaderInner, StyledPageLink, StyledPageLinks } from './styles';
+import { CommonHeaderContainer, CommonHeaderInner } from '../styles';
+import { StyledPageLink, StyledPageLinks } from './styles';
 
 interface PageLinksPropsInterface {
   pageLinks: LinkInterface[];
@@ -46,8 +47,8 @@ const UserProfile = styled(Image)`
 
 export const BaseHeader = ({ logoLink, pageLinks, user }: BaseHeaderPropsInterface) => {
   return (
-    <BaseHeaderContainer className="layout__header header">
-      <BaseHeaderInner className="header__inner">
+    <CommonHeaderContainer className="layout__header header">
+      <CommonHeaderInner className="header__inner">
         <FullLogoLink href={logoLink.href} />
         <BasePageLinks pageLinks={pageLinks}></BasePageLinks>
 
@@ -67,7 +68,7 @@ export const BaseHeader = ({ logoLink, pageLinks, user }: BaseHeaderPropsInterfa
             <MenuItem>로그아웃</MenuItem>
           </MenuList>
         </Menu>
-      </BaseHeaderInner>
-    </BaseHeaderContainer>
+      </CommonHeaderInner>
+    </CommonHeaderContainer>
   );
 };

@@ -3,6 +3,7 @@ export * from '@ui/styles';
 export * from '@ui/stack';
 export * from '@ui/icon';
 export * from '@ui/input';
+export * from '@ui/input-group';
 export * from '@ui/link';
 export * from '@ui/tabs';
 export * from '@ui/select';
