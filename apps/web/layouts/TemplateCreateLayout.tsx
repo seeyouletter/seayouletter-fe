@@ -7,8 +7,7 @@ import { useAtomValue } from 'jotai';
 import { useTheme } from '@emotion/react';
 
 import {
-  Block,
-  BlockGroupWrapper,
+  BlockGroupMemberList,
   BlockInterface,
   DefaultBox,
   DefaultButton,
@@ -60,6 +59,62 @@ const blockGroups: (GroupInterface | BlockInterface)[] = [
         title: '블록3',
         order: 2,
       },
+
+      {
+        type: 'group',
+        parent: 'component1',
+        id: 'subcomponent1',
+        title: '서브그룹 1',
+        order: 0,
+        toggled: false,
+        blocks: [
+          {
+            type: 'block',
+            parent: 'subcomponent1',
+            id: 'subblock1',
+            title: '서브블록1',
+            order: 0,
+          },
+          {
+            type: 'block',
+            parent: 'subcomponent1',
+            id: 'subblock2',
+            title: '서브블록2',
+            order: 1,
+          },
+          {
+            type: 'block',
+            parent: 'subcomponent1',
+            id: 'subblock3',
+            title: '서브블록3',
+            order: 2,
+          },
+          {
+            type: 'group',
+            parent: 'subcomponent1',
+            id: 'subsubcomponent1',
+            title: '서브서브그룹 1',
+            order: 0,
+            toggled: false,
+            blocks: [
+              {
+                type: 'block',
+                parent: 'subsubcomponent1',
+                id: 'subsubblock1',
+                title: '서브서브블록1',
+                order: 0,
+              },
+              {
+                type: 'block',
+                parent: 'subsubcomponent1',
+                id: 'subsubblock2',
+                title: '서브서브블록2',
+                order: 1,
+              },
+            ],
+          },
+        ],
+      },
     ],
   },
   {
@@ -85,6 +140,14 @@ const blockGroups: (GroupInterface | BlockInterface)[] = [
         order: 1,
       },
     ],
+  },
+
+  {
+    type: 'block',
+    parent: null,
+    id: 'rootblock',
+    title: '루트블록',
+    order: 0,
   },
 ];
 
@@ -206,8 +269,21 @@ export default function TemplateCreateLayout({ children }: PropsWithChildren) {
                 생성된 블록
               </DefaultText>
             </DefaultBox>
-
-            {blockGroupData &&
+            {
+              <BlockGroupMemberList
+                activeId={activeId}
+                actived={false}
+                parent={null}
+                members={blockGroupData ?? []}
+                onGroupClick={(e, id) => {
+                  setActiveId(id);
+                  setToggle(id);
+                }}
+                onUpdateTitle={(e, { type, id, title }) => setTitle(type, id, title)}
+                onBlockClick={(e, id) => setActiveId(id)}
+              />
+            }
+            {/* {blockGroupData &&
               blockGroupData.map((v) => {
                 return v.type === 'group' ? (
                   <BlockGroupWrapper
@@ -238,7 +314,7 @@ export default function TemplateCreateLayout({ children }: PropsWithChildren) {
                     parent={v.parent}
                   />
                 );
-              })}
+              })} */}
           </DefaultVStack>
 
           <DefaultVStack spacing={1} paddingLeft="16px" paddingRight="16px">

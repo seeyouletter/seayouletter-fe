@@ -21,17 +21,17 @@ const StyledBlockGroupToggleMarker = styled.div<StyledBlockGroupToggleMarkerInte
 
   margin-left: 8px;
 
-  border-top: 6px solid transparent;
-  border-right: 6px solid transparent;
-  border-bottom: 6px solid transparent;
-  border-left: 6px solid ${({ toggleMarkerBg }) => toggleMarkerBg};
+  border-top: 4px solid transparent;
+  border-right: 4px solid transparent;
+  border-bottom: 4px solid transparent;
+  border-left: 4px solid ${({ toggleMarkerBg }) => toggleMarkerBg};
 
   transition: all 0.3s;
 
   ${({ toggled, toggleMarkerToggleBg }) =>
     toggled &&
     css`
-      border-left: 6px solid ${toggleMarkerToggleBg};
+      border-left: 4px solid ${toggleMarkerToggleBg};
       transform: rotate(90deg);
       transform-origin: 25% 50%;
     `}
@@ -43,7 +43,7 @@ const StyledBlockGroupToggleTitle = styled.div<StyledBlockGroupToggleTitleInterf
   width: 100%;
   height: 100%;
   margin-left: 20px;
-  font-size: ${(props) => props.theme.fontSize.sm};
+  font-size: ${(props) => props.theme.fontSize.xs};
 
   ${({ actived, theme }) =>
     actived &&
@@ -77,6 +77,9 @@ export function BlockGroupWrapper({
   });
 
   const theme = useTheme();
+
+  if (id === 'subcomponent1') {
+  }
 
   const onWrapperClick = (e: MouseEvent) => {
     if (titleEditable) return;

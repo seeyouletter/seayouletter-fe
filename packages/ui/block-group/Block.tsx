@@ -10,9 +10,14 @@ import { BlockPropsInterface, CommonStyledBlockInterface } from './types';
 const StyledBlockContainer = styled.div<CommonStyledBlockInterface>`
   display: flex;
   align-items: center;
+
   width: 100%;
-  height: 24px;
+  height: 28px;
+
   padding-left: 20px;
+
+  font-size: ${(props) => props.theme.fontSize.xs};
+
   cursor: pointer;
 
   ${({ actived, theme }) =>
