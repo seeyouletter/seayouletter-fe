@@ -4,7 +4,10 @@ import { useEffect } from 'react';
 
 import { useAtom } from 'jotai';
 
+import { IdType } from './../../../packages/ui/block-group/types';
 import { BlockInterface, GroupInterface } from 'ui';
+
+// [ ] 원인: 지금 부모의 blocks에서의 데이터가 변경이 되지 않고, groupsStore에서만 변경이 일어났으므로 데이터가 불일치함.
 
 export const useBlockGroups = (blockGroupsData: (BlockInterface | GroupInterface)[]) => {
   const [blockGroupState, setBlockGroupState] = useAtom(blocksStateAtom);
@@ -26,12 +29,14 @@ export const useBlockGroups = (blockGroupsData: (BlockInterface | GroupInterface
     const recursiveRegisterComponentStore = (components: (BlockInterface | GroupInterface)[]) => {
       if (!components.length) return;
 
-      components.forEach((blockGroupComponent) => {
-        if (blockGroupComponent.type === 'group') {
-          groupsStore[blockGroupComponent.id] = blockGroupComponent;
-          recursiveRegisterComponentStore(blockGroupComponent.blocks);
+      components.forEach((blockGroupStyle) => {
+        const deepCopiedBlockGroupStyleObj = blockGroupStyle;
+        if (deepCopiedBlockGroupStyleObj.type === 'group') {
+          groupsStore[deepCopiedBlockGroupStyleObj.id] = deepCopiedBlockGroupStyleObj;
+
+          recursiveRegisterComponentStore(deepCopiedBlockGroupStyleObj.blocks);
         } else {
-          blocksStore[blockGroupComponent.id] = blockGroupComponent;
+          blocksStore[deepCopiedBlockGroupStyleObj.id] = deepCopiedBlockGroupStyleObj;
         }
       });
     };
@@ -40,13 +45,12 @@ export const useBlockGroups = (blockGroupsData: (BlockInterface | GroupInterface
 
     setBlockGroupState((state) => ({
       ...state,
-      data: [...blockGroupsData],
       groupsStore,
       blocksStore,
     }));
 
     return () => {
-      setBlockGroupState(() => ({ data: null, activeId: null, groupsStore: {}, blocksStore: {} }));
+      setBlockGroupState(() => ({ activeId: null, groupsStore: {}, blocksStore: {} }));
     };
   }, [blockGroupsData, setBlockGroupState]);
 
@@ -92,15 +96,39 @@ export const useBlockGroups = (blockGroupsData: (BlockInterface | GroupInterface
   };
 
   const setToggle = (id: string) => {
+    const parentId = blockGroupState.groupsStore[id].parent;
+
+    const nextState = {
+      ...blockGroupState.groupsStore[id],
+      toggled: !blockGroupState.groupsStore[id].toggled,
+    };
+
+    syncWithParentGroupBlocksState({ parentId, id, nextState });
+  };
+
+  const syncWithParentGroupBlocksState = ({
+    parentId,
+    id,
+    nextState,
+  }: {
+    parentId: IdType;
+    id: string;
+    nextState: GroupInterface;
+  }) => {
+    const nextGroupsStoreState = {
+      ...blockGroupState.groupsStore,
+      [id]: nextState,
+    };
+
+    if (parentId) {
+      nextGroupsStoreState[parentId].blocks = nextGroupsStoreState[parentId].blocks.map((v) =>
+        v.id === id ? nextState : v
+      );
+    }
+
     setBlockGroupState((state) => ({
       ...state,
-      groupsStore: {
-        ...state.groupsStore,
-        [id]: {
-          ...state.groupsStore[id],
-          toggled: !state.groupsStore[id].toggled,
-        },
-      },
+      groupsStore: nextGroupsStoreState,
     }));
   };
 

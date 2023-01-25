@@ -29,12 +29,17 @@ export const assembledBlockGroups = atom((get): (GroupInterface | BlockInterface
   );
 
   const groupsArr = Object.values(groups);
+  const blocksArr = Object.values(blocksState.blocksStore);
 
   groupsArr.forEach((group) => {
     if (group.parent === null) {
       result.push(group);
-    } else {
-      groups[group.parent].blocks.push(group);
+    }
+  });
+
+  blocksArr.forEach((block) => {
+    if (block.parent === null) {
+      result.push(block);
     }
   });
 
