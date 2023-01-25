@@ -1,4 +1,4 @@
-import { getBlockGroups } from '@atoms/blockGroupsAtom';
+import { assembledBlockGroups } from '@atoms/blockGroupsAtom';
 
 import React, { PropsWithChildren } from 'react';
 
@@ -38,28 +38,29 @@ const blockGroups: (GroupInterface | BlockInterface)[] = [
     title: '그룹 1',
     order: 0,
     toggled: false,
-    blocks: [],
-  },
-  {
-    type: 'block',
-    parent: 'component1',
-    id: 'block1',
-    title: '블록1',
-    order: 0,
-  },
-  {
-    type: 'block',
-    parent: 'component1',
-    id: 'block2',
-    title: '블록2',
-    order: 1,
-  },
-  {
-    type: 'block',
-    parent: 'component1',
-    id: 'block3',
-    title: '블록3',
-    order: 2,
+    blocks: [
+      {
+        type: 'block',
+        parent: 'component1',
+        id: 'block1',
+        title: '블록1',
+        order: 0,
+      },
+      {
+        type: 'block',
+        parent: 'component1',
+        id: 'block2',
+        title: '블록2',
+        order: 1,
+      },
+      {
+        type: 'block',
+        parent: 'component1',
+        id: 'block3',
+        title: '블록3',
+        order: 2,
+      },
+    ],
   },
   {
     type: 'group',
@@ -68,21 +69,22 @@ const blockGroups: (GroupInterface | BlockInterface)[] = [
     title: '그룹 2',
     order: 0,
     toggled: false,
-    blocks: [],
-  },
-  {
-    type: 'block',
-    parent: 'component2',
-    id: 'block4',
-    title: '블록4',
-    order: 0,
-  },
-  {
-    type: 'block',
-    parent: 'component2',
-    id: 'block5',
-    title: '블록5',
-    order: 1,
+    blocks: [
+      {
+        type: 'block',
+        parent: 'component2',
+        id: 'block4',
+        title: '블록4',
+        order: 0,
+      },
+      {
+        type: 'block',
+        parent: 'component2',
+        id: 'block5',
+        title: '블록5',
+        order: 1,
+      },
+    ],
   },
 ];
 
@@ -90,7 +92,7 @@ export default function TemplateCreateLayout({ children }: PropsWithChildren) {
   const theme = useTheme();
 
   const { activeId, setActiveId, setTitle, setToggle } = useBlockGroups(blockGroups);
-  const computedBlockGroupsData = useAtomValue(getBlockGroups);
+  const blockGroupData = useAtomValue(assembledBlockGroups);
 
   return (
     <StyledPageContainer>
@@ -205,37 +207,38 @@ export default function TemplateCreateLayout({ children }: PropsWithChildren) {
               </DefaultText>
             </DefaultBox>
 
-            {computedBlockGroupsData.map((v) =>
-              v.type === 'group' ? (
-                <BlockGroupWrapper
-                  key={v.id}
-                  type={v.type}
-                  blocks={v.blocks}
-                  activeId={activeId}
-                  onGroupClick={(e, id) => {
-                    setActiveId(id);
-                    setToggle(id);
-                  }}
-                  onUpdateTitle={(e, { type, id, title }) => setTitle(type, id, title)}
-                  onBlockClick={(e, id) => setActiveId(id)}
-                  toggled={v.toggled}
-                  title={v.title}
-                  id={v.id}
-                  parent={v.parent}
-                />
-              ) : (
-                <Block
-                  key={v.id}
-                  type={v.type}
-                  activeId={activeId}
-                  onUpdateTitle={(e, { type, id, title }) => setTitle(type, id, title)}
-                  onBlockClick={(e, id) => setActiveId(id)}
-                  title={v.title}
-                  id={v.id}
-                  parent={v.parent}
-                />
-              )
-            )}
+            {blockGroupData &&
+              blockGroupData.map((v) => {
+                return v.type === 'group' ? (
+                  <BlockGroupWrapper
+                    key={v.id}
+                    type={v.type}
+                    blocks={v.blocks}
+                    activeId={activeId}
+                    onGroupClick={(e, id) => {
+                      setActiveId(id);
+                      setToggle(id);
+                    }}
+                    onUpdateTitle={(e, { type, id, title }) => setTitle(type, id, title)}
+                    onBlockClick={(e, id) => setActiveId(id)}
+                    toggled={v.toggled}
+                    title={v.title}
+                    id={v.id}
+                    parent={v.parent}
+                  />
+                ) : (
+                  <Block
+                    key={v.id}
+                    type={v.type}
+                    activeId={activeId}
+                    onUpdateTitle={(e, { type, id, title }) => setTitle(type, id, title)}
+                    onBlockClick={(e, id) => setActiveId(id)}
+                    title={v.title}
+                    id={v.id}
+                    parent={v.parent}
+                  />
+                );
+              })}
           </DefaultVStack>
 
           <DefaultVStack spacing={1} paddingLeft="16px" paddingRight="16px">

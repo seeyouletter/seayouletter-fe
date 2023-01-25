@@ -1,3 +1,3 @@
-export { getBlockGroups, blocksStateAtom } from './blockGroupsAtom';
+export { assembledBlockGroups, blocksStateAtom } from './blockGroupsAtom';
 
 export { toastAtom } from './toastAtom';

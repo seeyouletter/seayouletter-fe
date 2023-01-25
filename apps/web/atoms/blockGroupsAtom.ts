@@ -8,39 +8,33 @@ export interface BlockGroupToggleStoreInterface {
 
 export interface BlockGroupsAtomInterface {
   activeId: string | null;
-  groups: Record<string, GroupInterface>;
-  blocks: Record<string, BlockInterface>;
+  groupsStore: Record<string, GroupInterface>;
+  blocksStore: Record<string, BlockInterface>;
 }
 
 export const blocksStateAtom = atom<BlockGroupsAtomInterface>({
   activeId: null,
-  groups: {},
-  blocks: {},
+  groupsStore: {},
+  blocksStore: {},
 });
 
-export const getBlockGroups = atom((get) => {
+export const assembledBlockGroups = atom((get): (GroupInterface | BlockInterface)[] | null => {
   const blocksState = get(blocksStateAtom);
+  if (!Object.keys(blocksState.blocksStore)) return null;
 
   const result: (BlockInterface | GroupInterface)[] = [];
 
-  const groups: Record<string, GroupInterface> = JSON.parse(JSON.stringify(blocksState.groups));
+  const groups: Record<string, GroupInterface> = JSON.parse(
+    JSON.stringify(blocksState.groupsStore)
+  );
 
   const groupsArr = Object.values(groups);
-  const blocksArr = Object.values(blocksState.blocks);
 
   groupsArr.forEach((group) => {
     if (group.parent === null) {
       result.push(group);
     } else {
       groups[group.parent].blocks.push(group);
-    }
-  });
-
-  blocksArr.forEach((block) => {
-    if (block.parent === null) {
-      result.push(block);
-    } else {
-      groups[block.parent].blocks.push(block);
     }
   });
 
