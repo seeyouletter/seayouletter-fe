@@ -1,20 +1,22 @@
 import { blocksStateAtom } from '@atoms/blockGroupsAtom';
+import { BlockResponseInterface, GroupResponseInterface } from '@models/index';
 
 import { useEffect } from 'react';
 
 import { useAtom } from 'jotai';
 
-import { IdType } from './../../../packages/ui/block-group/types';
-import { BlockInterface, GroupInterface } from 'ui';
+import { IdType } from 'ui';
 
 // [ ] 원인: 지금 부모의 blocks에서의 데이터가 변경이 되지 않고, groupsStore에서만 변경이 일어났으므로 데이터가 불일치함.
 
-export const useBlockGroups = (blockGroupsData: (BlockInterface | GroupInterface)[]) => {
+export const useBlockGroups = (
+  blockGroupsData: (BlockResponseInterface | GroupResponseInterface)[]
+) => {
   const [blockGroupState, setBlockGroupState] = useAtom(blocksStateAtom);
 
   useEffect(() => {
-    const groupsStore: Record<string, GroupInterface> = {};
-    const blocksStore: Record<string, BlockInterface> = {};
+    const groupsStore: Record<string, GroupResponseInterface> = {};
+    const blocksStore: Record<string, BlockResponseInterface> = {};
 
     /**
      *
@@ -26,7 +28,9 @@ export const useBlockGroups = (blockGroupsData: (BlockInterface | GroupInterface
      * 따라서 대안으로 Store를 구현했습니다. 이는 해당 컴포넌트를 해시테이블의 형태로 관리합니다. 이때 컴포넌트에는 parent의 id가 담겨있죠.
      * 따라서 O(2 x 상위 계층 개수)만큼 탐색하는 방법으로 업데이트할 수 있도록 합니다.
      */
-    const recursiveRegisterComponentStore = (components: (BlockInterface | GroupInterface)[]) => {
+    const recursiveRegisterComponentStore = (
+      components: (BlockResponseInterface | GroupResponseInterface)[]
+    ) => {
       if (!components.length) return;
 
       components.forEach((blockGroupStyle) => {
@@ -54,14 +58,14 @@ export const useBlockGroups = (blockGroupsData: (BlockInterface | GroupInterface
     };
   }, [blockGroupsData, setBlockGroupState]);
 
-  const setBlocks = (blocks: Record<string, BlockInterface>) => {
+  const setBlocks = (blocks: Record<string, BlockResponseInterface>) => {
     setBlockGroupState((state) => ({
       ...state,
       blocksStore: blocks,
     }));
   };
 
-  const setGroups = (groups: Record<string, GroupInterface>) => {
+  const setGroups = (groups: Record<string, GroupResponseInterface>) => {
     setBlockGroupState((state) => ({
       ...state,
       groupsStore: groups,
@@ -113,7 +117,7 @@ export const useBlockGroups = (blockGroupsData: (BlockInterface | GroupInterface
   }: {
     parentId: IdType;
     id: string;
-    nextState: GroupInterface;
+    nextState: GroupResponseInterface;
   }) => {
     const nextGroupsStoreState = {
       ...blockGroupState.groupsStore,
@@ -132,13 +136,12 @@ export const useBlockGroups = (blockGroupsData: (BlockInterface | GroupInterface
     }));
   };
 
-  const setOrder = (groups: GroupInterface[]) => {
-    const nextGroups: Record<string, GroupInterface> = {};
+  const setOrder = (groups: GroupResponseInterface[]) => {
+    const nextGroups: Record<string, GroupResponseInterface> = {};
 
-    groups.forEach((group, idx) => {
+    groups.forEach((group) => {
       nextGroups[group.id] = {
         ...group,
-        order: idx,
       };
     });
   };

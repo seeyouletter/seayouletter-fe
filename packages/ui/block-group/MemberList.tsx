@@ -1,9 +1,11 @@
 import { css } from '@emotion/react';
 import styled from '@emotion/styled';
 
+import { BlockMembersType } from '@ui/types';
+
 /* eslint-disable-next-line import/no-cycle */
 import { MemberFactory } from './Member';
-import { BlockGroupWrapperPropsInterface, BlockMembersType } from './types';
+import { BlockGroupWrapperPropsInterface } from './types';
 
 export interface BlockGroupMemberListPropsInterface
   extends Omit<

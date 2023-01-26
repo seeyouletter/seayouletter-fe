@@ -8,6 +8,7 @@
     "jsx": "preserve",
     "paths": {
       "@ui/*": ["../../packages/ui/*"],
+      "@models/*": ["types/models/*"],
       "@pages/*": ["pages/*"],
       "@hooks/*": ["hooks/*"],
       "@common-hooks/*": ["../../packages/common-hooks/*"],

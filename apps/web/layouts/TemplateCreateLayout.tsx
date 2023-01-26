@@ -1,4 +1,5 @@
 import { assembledBlockGroups } from '@atoms/blockGroupsAtom';
+import { BlockResponseInterface, GroupResponseInterface } from '@models/index';
 
 import React, { PropsWithChildren } from 'react';
 
@@ -10,7 +11,6 @@ import { v4 as uuidv4 } from 'uuid';
 
 import {
   BlockGroupMemberList,
-  BlockInterface,
   DefaultBox,
   DefaultButton,
   DefaultHStack,
@@ -18,7 +18,6 @@ import {
   DefaultText,
   DefaultVStack,
   FullSizeMain,
-  GroupInterface,
   LeftSidebar,
   LogoImageLink,
   RightSidebar,
@@ -31,13 +30,12 @@ import { useBlockGroups } from '@hooks/useBlockGroups';
 
 import { BlockGroupModifier } from './template-create/BlockGroupModifier';
 
-const blockGroups: (GroupInterface | BlockInterface)[] = [
+const blockGroups: (GroupResponseInterface | BlockResponseInterface)[] = [
   {
     type: 'group',
     parent: null,
     id: 'component1',
     title: '그룹 1',
-    order: 0,
     toggled: false,
     blocks: [
       {
@@ -45,21 +43,135 @@ const blockGroups: (GroupInterface | BlockInterface)[] = [
         parent: 'component1',
         id: uuidv4(),
         title: '블록1',
-        order: 0,
+        style: {
+          width: '100px',
+          height: '120px',
+          borderRadius: {
+            topLeft: '8px',
+            topRight: '8px',
+            bottomRight: '8px',
+            bottomLeft: '8px',
+          },
+          position: {
+            top: '1px',
+            right: 'auto',
+            bottom: 'auto',
+            left: '1px',
+          },
+          bg: '#ffffff',
+          border: {
+            top: {
+              width: '1px',
+              style: 'solid',
+              color: 'black',
+            },
+            right: {
+              width: '1px',
+              style: 'solid',
+              color: 'black',
+            },
+            bottom: {
+              width: '1px',
+              style: 'solid',
+              color: 'black',
+            },
+            left: {
+              width: '1px',
+              style: 'solid',
+              color: 'black',
+            },
+          },
+        },
       },
       {
         type: 'block',
         parent: 'component1',
         id: uuidv4(),
         title: '블록2',
-        order: 1,
+        style: {
+          width: '100px',
+          height: '120px',
+          borderRadius: {
+            topLeft: '8px',
+            topRight: '8px',
+            bottomRight: '8px',
+            bottomLeft: '8px',
+          },
+          position: {
+            top: '1px',
+            right: 'auto',
+            bottom: 'auto',
+            left: '1px',
+          },
+          bg: '#ffffff',
+          border: {
+            top: {
+              width: '1px',
+              style: 'solid',
+              color: 'black',
+            },
+            right: {
+              width: '1px',
+              style: 'solid',
+              color: 'black',
+            },
+            bottom: {
+              width: '1px',
+              style: 'solid',
+              color: 'black',
+            },
+            left: {
+              width: '1px',
+              style: 'solid',
+              color: 'black',
+            },
+          },
+        },
       },
       {
         type: 'block',
         parent: 'component1',
         id: uuidv4(),
         title: '블록3',
-        order: 2,
+        style: {
+          width: '100px',
+          height: '120px',
+          borderRadius: {
+            topLeft: '8px',
+            topRight: '8px',
+            bottomRight: '8px',
+            bottomLeft: '8px',
+          },
+          position: {
+            top: '1px',
+            right: 'auto',
+            bottom: 'auto',
+            left: '1px',
+          },
+          bg: '#ffffff',
+          border: {
+            top: {
+              width: '1px',
+              style: 'solid',
+              color: 'black',
+            },
+            right: {
+              width: '1px',
+              style: 'solid',
+              color: 'black',
+            },
+            bottom: {
+              width: '1px',
+              style: 'solid',
+              color: 'black',
+            },
+            left: {
+              width: '1px',
+              style: 'solid',
+              color: 'black',
+            },
+          },
+        },
       },
 
       {
@@ -67,7 +179,6 @@ const blockGroups: (GroupInterface | BlockInterface)[] = [
         parent: 'component1',
         id: 'subcomponent1',
         title: '서브그룹 1',
-        order: 0,
         toggled: false,
         blocks: [
           {
@@ -75,28 +186,141 @@ const blockGroups: (GroupInterface | BlockInterface)[] = [
             parent: 'subcomponent1',
             id: uuidv4(),
             title: '서브블록1',
-            order: 0,
+            style: {
+              width: '100px',
+              height: '120px',
+              borderRadius: {
+                topLeft: '8px',
+                topRight: '8px',
+                bottomRight: '8px',
+                bottomLeft: '8px',
+              },
+              position: {
+                top: '1px',
+                right: 'auto',
+                bottom: 'auto',
+                left: '1px',
+              },
+              bg: '#ffffff',
+              border: {
+                top: {
+                  width: '1px',
+                  style: 'solid',
+                  color: 'black',
+                },
+                right: {
+                  width: '1px',
+                  style: 'solid',
+                  color: 'black',
+                },
+                bottom: {
+                  width: '1px',
+                  style: 'solid',
+                  color: 'black',
+                },
+                left: {
+                  width: '1px',
+                  style: 'solid',
+                  color: 'black',
+                },
+              },
+            },
           },
           {
             type: 'block',
             parent: 'subcomponent1',
             id: uuidv4(),
             title: '서브블록2',
-            order: 1,
+            style: {
+              width: '100px',
+              height: '120px',
+              borderRadius: {
+                topLeft: '8px',
+                topRight: '8px',
+                bottomRight: '8px',
+                bottomLeft: '8px',
+              },
+              position: {
+                top: '1px',
+                right: 'auto',
+                bottom: 'auto',
+                left: '1px',
+              },
+              bg: '#ffffff',
+              border: {
+                top: {
+                  width: '1px',
+                  style: 'solid',
+                  color: 'black',
+                },
+                right: {
+                  width: '1px',
+                  style: 'solid',
+                  color: 'black',
+                },
+                bottom: {
+                  width: '1px',
+                  style: 'solid',
+                  color: 'black',
+                },
+                left: {
+                  width: '1px',
+                  style: 'solid',
+                  color: 'black',
+                },
+              },
+            },
           },
           {
             type: 'block',
             parent: 'subcomponent1',
             id: uuidv4(),
             title: '서브블록3',
-            order: 2,
+            style: {
+              width: '100px',
+              height: '120px',
+              borderRadius: {
+                topLeft: '8px',
+                topRight: '8px',
+                bottomRight: '8px',
+                bottomLeft: '8px',
+              },
+              position: {
+                top: '1px',
+                right: 'auto',
+                bottom: 'auto',
+                left: '1px',
+              },
+              bg: '#ffffff',
+              border: {
+                top: {
+                  width: '1px',
+                  style: 'solid',
+                  color: 'black',
+                },
+                right: {
+                  width: '1px',
+                  style: 'solid',
+                  color: 'black',
+                },
+                bottom: {
+                  width: '1px',
+                  style: 'solid',
+                  color: 'black',
+                },
+                left: {
+                  width: '1px',
+                  style: 'solid',
+                  color: 'black',
+                },
+              },
+            },
           },
           {
             type: 'group',
             parent: 'subcomponent1',
             id: 'subsubcomponent1',
             title: '서브서브그룹 1',
-            order: 0,
             toggled: false,
             blocks: [
               {
@@ -104,14 +328,90 @@ const blockGroups: (GroupInterface | BlockInterface)[] = [
                 parent: 'subsubcomponent1',
                 id: uuidv4(),
                 title: '서브서브블록1',
-                order: 0,
+                style: {
+                  width: '100px',
+                  height: '120px',
+                  borderRadius: {
+                    topLeft: '8px',
+                    topRight: '8px',
+                    bottomRight: '8px',
+                    bottomLeft: '8px',
+                  },
+                  position: {
+                    top: '1px',
+                    right: 'auto',
+                    bottom: 'auto',
+                    left: '1px',
+                  },
+                  bg: '#ffffff',
+                  border: {
+                    top: {
+                      width: '1px',
+                      style: 'solid',
+                      color: 'black',
+                    },
+                    right: {
+                      width: '1px',
+                      style: 'solid',
+                      color: 'black',
+                    },
+                    bottom: {
+                      width: '1px',
+                      style: 'solid',
+                      color: 'black',
+                    },
+                    left: {
+                      width: '1px',
+                      style: 'solid',
+                      color: 'black',
+                    },
+                  },
+                },
               },
               {
                 type: 'block',
                 parent: 'subsubcomponent1',
                 id: uuidv4(),
                 title: '서브서브블록2',
-                order: 1,
+                style: {
+                  width: '100px',
+                  height: '120px',
+                  borderRadius: {
+                    topLeft: '8px',
+                    topRight: '8px',
+                    bottomRight: '8px',
+                    bottomLeft: '8px',
+                  },
+                  position: {
+                    top: '1px',
+                    right: 'auto',
+                    bottom: 'auto',
+                    left: '1px',
+                  },
+                  bg: '#ffffff',
+                  border: {
+                    top: {
+                      width: '1px',
+                      style: 'solid',
+                      color: 'black',
+                    },
+                    right: {
+                      width: '1px',
+                      style: 'solid',
+                      color: 'black',
+                    },
+                    bottom: {
+                      width: '1px',
+                      style: 'solid',
+                      color: 'black',
+                    },
+                    left: {
+                      width: '1px',
+                      style: 'solid',
+                      color: 'black',
+                    },
+                  },
+                },
               },
             ],
           },
@@ -124,7 +424,6 @@ const blockGroups: (GroupInterface | BlockInterface)[] = [
     parent: null,
     id: 'component2',
     title: '그룹 2',
-    order: 0,
     toggled: false,
     blocks: [
       {
@@ -132,14 +431,90 @@ const blockGroups: (GroupInterface | BlockInterface)[] = [
         parent: 'component2',
         id: uuidv4(),
         title: '블록4',
-        order: 0,
+        style: {
+          width: '100px',
+          height: '120px',
+          borderRadius: {
+            topLeft: '8px',
+            topRight: '8px',
+            bottomRight: '8px',
+            bottomLeft: '8px',
+          },
+          position: {
+            top: '1px',
+            right: 'auto',
+            bottom: 'auto',
+            left: '1px',
+          },
+          bg: '#ffffff',
+          border: {
+            top: {
+              width: '1px',
+              style: 'solid',
+              color: 'black',
+            },
+            right: {
+              width: '1px',
+              style: 'solid',
+              color: 'black',
+            },
+            bottom: {
+              width: '1px',
+              style: 'solid',
+              color: 'black',
+            },
+            left: {
+              width: '1px',
+              style: 'solid',
+              color: 'black',
+            },
+          },
+        },
       },
       {
         type: 'block',
         parent: 'component2',
         id: uuidv4(),
         title: '블록5',
-        order: 1,
+        style: {
+          width: '100px',
+          height: '120px',
+          borderRadius: {
+            topLeft: '8px',
+            topRight: '8px',
+            bottomRight: '8px',
+            bottomLeft: '8px',
+          },
+          position: {
+            top: '1px',
+            right: 'auto',
+            bottom: 'auto',
+            left: '1px',
+          },
+          bg: '#ffffff',
+          border: {
+            top: {
+              width: '1px',
+              style: 'solid',
+              color: 'black',
+            },
+            right: {
+              width: '1px',
+              style: 'solid',
+              color: 'black',
+            },
+            bottom: {
+              width: '1px',
+              style: 'solid',
+              color: 'black',
+            },
+            left: {
+              width: '1px',
+              style: 'solid',
+              color: 'black',
+            },
+          },
+        },
       },
     ],
   },
@@ -149,7 +524,45 @@ const blockGroups: (GroupInterface | BlockInterface)[] = [
     parent: null,
     id: uuidv4(),
     title: '루트블록',
-    order: 0,
+    style: {
+      width: '100px',
+      height: '120px',
+      borderRadius: {
+        topLeft: '8px',
+        topRight: '8px',
+        bottomRight: '8px',
+        bottomLeft: '8px',
+      },
+      position: {
+        top: '1px',
+        right: 'auto',
+        bottom: 'auto',
+        left: '1px',
+      },
+      bg: '#ffffff',
+      border: {
+        top: {
+          width: '1px',
+          style: 'solid',
+          color: 'black',
+        },
+        right: {
+          width: '1px',
+          style: 'solid',
+          color: 'black',
+        },
+        bottom: {
+          width: '1px',
+          style: 'solid',
+          color: 'black',
+        },
+        left: {
+          width: '1px',
+          style: 'solid',
+          color: 'black',
+        },
+      },
+    },
   },
 ];
 
@@ -271,53 +684,19 @@ export default function TemplateCreateLayout({ children }: PropsWithChildren) {
                 생성된 블록
               </DefaultText>
             </DefaultBox>
-            {
-              <BlockGroupMemberList
-                depth={0}
-                activeId={activeId}
-                actived={false}
-                parent={null}
-                members={blockGroupData ?? []}
-                onGroupClick={(e, id) => {
-                  setActiveId(id);
-                  setToggle(id);
-                }}
-                onUpdateTitle={(e, { type, id, title }) => setTitle(type, id, title)}
-                onBlockClick={(e, id) => setActiveId(id)}
-              />
-            }
-            {/* {blockGroupData &&
-              blockGroupData.map((v) => {
-                return v.type === 'group' ? (
-                  <BlockGroupWrapper
-                    key={v.id}
-                    type={v.type}
-                    blocks={v.blocks}
-                    activeId={activeId}
-                    onGroupClick={(e, id) => {
-                      setActiveId(id);
-                      setToggle(id);
-                    }}
-                    onUpdateTitle={(e, { type, id, title }) => setTitle(type, id, title)}
-                    onBlockClick={(e, id) => setActiveId(id)}
-                    toggled={v.toggled}
-                    title={v.title}
-                    id={v.id}
-                    parent={v.parent}
-                  />
-                ) : (
-                  <Block
-                    key={v.id}
-                    type={v.type}
-                    activeId={activeId}
-                    onUpdateTitle={(e, { type, id, title }) => setTitle(type, id, title)}
-                    onBlockClick={(e, id) => setActiveId(id)}
-                    title={v.title}
-                    id={v.id}
-                    parent={v.parent}
-                  />
-                );
-              })} */}
+            <BlockGroupMemberList
+              depth={0}
+              activeId={activeId}
+              actived={false}
+              parent={null}
+              members={blockGroupData ?? []}
+              onGroupClick={(e, id) => {
+                setActiveId(id);
+                setToggle(id);
+              }}
+              onUpdateTitle={(e, { type, id, title }) => setTitle(type, id, title)}
+              onBlockClick={(e, id) => setActiveId(id)}
+            />
           </DefaultVStack>
 
           <DefaultVStack spacing={1} paddingLeft="16px" paddingRight="16px">

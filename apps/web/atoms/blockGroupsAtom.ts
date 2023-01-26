@@ -1,6 +1,6 @@
-import { atom } from 'jotai';
+import { BlockResponseInterface, GroupResponseInterface } from '@models/index';
 
-import { BlockInterface, GroupInterface } from 'ui';
+import { atom } from 'jotai';
 
 export interface BlockGroupToggleStoreInterface {
   [id: string]: boolean;
@@ -8,8 +8,8 @@ export interface BlockGroupToggleStoreInterface {
 
 export interface BlockGroupsAtomInterface {
   activeId: string | null;
-  groupsStore: Record<string, GroupInterface>;
-  blocksStore: Record<string, BlockInterface>;
+  groupsStore: Record<string, GroupResponseInterface>;
+  blocksStore: Record<string, BlockResponseInterface>;
 }
 
 export const blocksStateAtom = atom<BlockGroupsAtomInterface>({
@@ -18,30 +18,32 @@ export const blocksStateAtom = atom<BlockGroupsAtomInterface>({
   blocksStore: {},
 });
 
-export const assembledBlockGroups = atom((get): (GroupInterface | BlockInterface)[] | null => {
-  const blocksState = get(blocksStateAtom);
-  if (!Object.keys(blocksState.blocksStore)) return null;
+export const assembledBlockGroups = atom(
+  (get): (GroupResponseInterface | BlockResponseInterface)[] | null => {
+    const blocksState = get(blocksStateAtom);
+    if (!Object.keys(blocksState.blocksStore)) return null;
 
-  const result: (BlockInterface | GroupInterface)[] = [];
+    const result: (BlockResponseInterface | GroupResponseInterface)[] = [];
 
-  const groups: Record<string, GroupInterface> = JSON.parse(
-    JSON.stringify(blocksState.groupsStore)
-  );
+    const groups: Record<string, GroupResponseInterface> = JSON.parse(
+      JSON.stringify(blocksState.groupsStore)
+    );
 
-  const groupsArr = Object.values(groups);
-  const blocksArr = Object.values(blocksState.blocksStore);
+    const groupsArr = Object.values(groups);
+    const blocksArr = Object.values(blocksState.blocksStore);
 
-  groupsArr.forEach((group) => {
-    if (group.parent === null) {
-      result.push(group);
-    }
-  });
+    groupsArr.forEach((group) => {
+      if (group.parent === null) {
+        result.push(group);
+      }
+    });
 
-  blocksArr.forEach((block) => {
-    if (block.parent === null) {
-      result.push(block);
-    }
-  });
+    blocksArr.forEach((block) => {
+      if (block.parent === null) {
+        result.push(block);
+      }
+    });
 
-  return result;
-});
+    return result;
+  }
+);

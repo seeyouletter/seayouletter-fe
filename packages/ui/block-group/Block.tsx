@@ -1,6 +1,6 @@
 import React, { FocusEvent, FormEvent, MouseEvent } from 'react';
 
-import { css } from '@emotion/react';
+import { useTheme } from '@emotion/react';
 import styled from '@emotion/styled';
 
 import { DefaultBox } from '@ui/box';
@@ -20,16 +20,6 @@ const StyledBlockContainer = styled.div<CommonStyledBlockInterface>`
   font-size: ${(props) => props.theme.fontSize.xs};
 
   cursor: pointer;
-
-  ${({ actived, theme }) =>
-    actived &&
-    css`
-      font-weight: ${theme.fontWeight.bold};
-      background-color: ${theme.color.layout.blockGroupToggle.activeBg};
-    `}
-  &:hover {
-    background-color: ${(props) => props.theme.color.layout.blockGroupToggle.activeBg};
-  }
 `;
 
 export function Block({
@@ -40,6 +30,8 @@ export function Block({
   onUpdateTitle,
   depth,
 }: BlockPropsInterface) {
+  const theme = useTheme();
+
   const actived = activeId === id;
 
   const {
@@ -62,7 +54,14 @@ export function Block({
   };
 
   return (
-    <DefaultHStack paddingLeft={`${depth * 20}px`} borderWidth="1px">
+    <DefaultHStack
+      paddingLeft={`${depth * 20}px`}
+      borderWidth="1px"
+      backgroundColor={
+        actived ? theme.color.layout.blockGroupToggle.activeBg : theme.color.transparent
+      }
+      _hover={{ backgroundColor: theme.color.layout.blockGroupToggle.activeBg }}
+    >
       <DefaultBox
         width="20px"
         flexShrink={0}
@@ -77,7 +76,6 @@ export function Block({
         depth={depth}
         ref={contentEditableRef}
         onClick={(e: MouseEvent) => onBlockClick(e, id)}
-        actived={actived}
         contentEditable={titleEditable}
         onDoubleClick={onEdit}
         onBlur={onBlurTitle}

@@ -1,12 +1,29 @@
-import { IdType } from '@ui/block-group/types';
+export type IdType = string | null;
 
-interface Block {
+export interface GroupInterface {
+  /**
+   * @inner parent
+   * parent property는 perentGroup이 있을 수 있다면, 이를 아이디로 가리킨다.
+   * 단방향 연결리스트를 통해 Group의 계층을 flat하게 관리하여 데이터로 주고받기 위함이다.
+   */
+  type: 'group';
+  parent: IdType;
+  id: string;
+  title: string;
+  toggled: boolean;
+  blocks: BlockMembersType;
+}
+
+export interface BlockInterface {
   type: 'block';
   parent: IdType;
   id: string;
   title: string;
-  order: number;
+  style: BlockStyles;
 }
+
+export type BlockMemberType = BlockInterface | GroupInterface;
+export type BlockMembersType = BlockMemberType[];
 
 export interface Position {
   top: string;
@@ -25,9 +42,7 @@ export type Directions = 'top' | 'right' | 'bottom' | 'left';
 export type EdgeDirections = 'topLeft' | 'topRight' | 'bottomLeft' | 'bottomRight';
 
 export interface BlockStyles extends ComponentSize {
-  className: string;
-
-  blockPosition: Position;
+  position: Position;
 
   bg: string;
 
@@ -42,7 +57,7 @@ export interface ComponentSize {
   height: string;
 }
 
-export interface ImageBlock extends Block {
+export interface ImageBlock extends BlockInterface {
   subType: 'image';
   isEmbededImage: boolean;
   imageProperty: {
@@ -55,7 +70,7 @@ export interface ImageBlock extends Block {
   };
 }
 
-export interface ShapeBlock extends Block {
+export interface ShapeBlock extends BlockInterface {
   subType: 'shape';
 
   styles: BlockStyles;

@@ -26,6 +26,7 @@ module.exports = {
     "store",
     "util",
     "api",
+    "types",
 
     "assets",
     "package",

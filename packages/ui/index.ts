@@ -1,3 +1,5 @@
+export * from '@ui/types';
+
 export * from '@ui/button';
 export * from '@ui/styles';
 export * from '@ui/stack';

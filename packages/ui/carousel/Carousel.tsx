@@ -6,7 +6,7 @@ import Image from 'next/image';
 
 import styled from '@emotion/styled';
 
-import { ImageInterface } from '@ui/types/image';
+import { ImageInterface } from '@ui/types';
 
 import CarouselDetail, { CarouselDetailPropsInterface } from './Detail';
 import { CarouselModerator } from './Moderator';

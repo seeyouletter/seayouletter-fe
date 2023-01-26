@@ -1,10 +1,12 @@
 import React from 'react';
 
+import { BlockMemberType, IdType } from '@ui/types';
+
 import { Block } from './Block';
 
 /* eslint-disable-next-line import/no-cycle */
 import { BlockGroupWrapper } from './Wrapper';
-import { BlockMemberType, ClickEvent, IdType, UpdateTitleEvent } from './types';
+import { ClickEvent, UpdateTitleEvent } from './types';
 
 interface BlockGroupMemberPropsInterface {
   depth: number;

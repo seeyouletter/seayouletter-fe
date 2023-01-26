@@ -1,4 +1,4 @@
-import { BlockInterface, GroupInterface } from './../../../../packages/ui/block-group/types';
+import { BlockInterface, GroupInterface } from '@ui/types';
 
 export type GroupSubType = 'animator';
 export type BlockSubType = 'text' | 'shape' | 'image';
