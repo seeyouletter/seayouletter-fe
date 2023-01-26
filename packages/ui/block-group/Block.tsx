@@ -72,6 +72,7 @@ export function Block({
       >
         🀆
       </DefaultBox>
+
       <StyledBlockContainer
         depth={depth}
         ref={contentEditableRef}
