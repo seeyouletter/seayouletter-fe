@@ -20,4 +20,5 @@ export interface InputPropsInterface {
   width?: string;
   bgColor?: string;
   padding?: string;
+  value?: string;
 }

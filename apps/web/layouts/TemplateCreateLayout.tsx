@@ -27,7 +27,7 @@ import { assembledBlockGroups } from '@atoms/blockGroupsAtom';
 
 import { BlockResponseInterface, GroupResponseInterface } from '@models/index';
 
-import { useBlockGroups } from '@hooks/useBlockGroups';
+import { useBlockGroupsAtom, useCreateBlockGroupsStore } from '@hooks/index';
 
 import { BlockGroupModifier } from './template-create/BlockGroupModifier';
 
@@ -579,9 +579,11 @@ const blockGroups: (GroupResponseInterface | BlockResponseInterface)[] = [
 ];
 
 export default function TemplateCreateLayout({ children }: PropsWithChildren) {
+  useCreateBlockGroupsStore(blockGroups);
+  const { activeId, setActiveId, setTitle, setToggle } = useBlockGroupsAtom();
+
   const theme = useTheme();
 
-  const { activeId, setActiveId, setTitle, setToggle } = useBlockGroups(blockGroups);
   const blockGroupData = useAtomValue(assembledBlockGroups);
 
   return (

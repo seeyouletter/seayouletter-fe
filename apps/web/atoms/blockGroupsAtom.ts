@@ -49,3 +49,13 @@ export const assembledBlockGroups = atom(
     return result;
   }
 );
+
+export const activedBlockGroupAtom = atom((get) => {
+  const blockGroupState = get(blocksStateAtom);
+
+  const activeId = blockGroupState.activeId;
+
+  if (activeId === null) return null;
+
+  return blockGroupState.blocksStore[activeId] ?? blockGroupState.groupsStore[activeId];
+});
