@@ -45,7 +45,7 @@ export function TemplateCardList({ title, description, button }: TemplateCardLis
             title="타이틀입니다."
             nickname="불량한 너구리12"
             likeCount={999}
-            isLike={false}
+            liked={false}
             authorProfileUrl="/naver-login.svg"
           />
         </StyledCardWrapper>
@@ -56,7 +56,7 @@ export function TemplateCardList({ title, description, button }: TemplateCardLis
             title="타이틀입니다."
             nickname="불량한 너구리12"
             likeCount={999}
-            isLike={false}
+            liked={false}
             authorProfileUrl="/naver-login.svg"
           />
         </StyledCardWrapper>
@@ -67,7 +67,7 @@ export function TemplateCardList({ title, description, button }: TemplateCardLis
             title="타이틀입니다."
             nickname="불량한 너구리12"
             likeCount={999}
-            isLike={false}
+            liked={false}
             authorProfileUrl="/naver-login.svg"
           />
         </StyledCardWrapper>
@@ -78,7 +78,7 @@ export function TemplateCardList({ title, description, button }: TemplateCardLis
             title="타이틀입니다."
             nickname="불량한 너구리12"
             likeCount={999}
-            isLike={false}
+            liked={false}
             authorProfileUrl="/naver-login.svg"
           />
         </StyledCardWrapper>

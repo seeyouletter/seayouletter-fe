@@ -43,6 +43,7 @@ export interface ComponentSize {
 }
 
 export interface ImageBlock extends Block {
+  subType: 'image';
   isEmbededImage: boolean;
   imageProperty: {
     opacity: number;

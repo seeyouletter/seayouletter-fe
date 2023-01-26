@@ -11,10 +11,10 @@ import HeartEmptyIcon from '@ui/icon/HeartEmpty';
 import HeartFillIcon from '@ui/icon/HeartFill';
 import { DefaultHStack, DefaultVStack } from '@ui/stack';
 import { DefaultText } from '@ui/text';
-import { ImageInterface } from '@ui/types/image';
-import { LikeInfoInterface } from '@ui/types/like';
+import { ImageInterface } from '@ui/types';
+import { Like } from '@ui/types';
 
-interface TemplateCardPropsInterface extends ImageInterface, LikeInfoInterface {
+interface TemplateCardPropsInterface extends ImageInterface, Like {
   imageSrc: string;
   imageAlt: string;
   title: string;
@@ -35,7 +35,7 @@ export function TemplateCard({
   nickname,
   authorProfileUrl,
   likeCount,
-  isLike = false,
+  liked = false,
 }: TemplateCardPropsInterface) {
   const theme = useTheme();
 
@@ -69,7 +69,7 @@ export function TemplateCard({
 
             <DefaultHStack spacing={1} alignItems="center">
               <DefaultText size="12px">{likeCount}</DefaultText>
-              {isLike ? <HeartFillIcon /> : <HeartEmptyIcon />}
+              {liked ? <HeartFillIcon /> : <HeartEmptyIcon />}
             </DefaultHStack>
           </DefaultHStack>
         </DefaultVStack>
