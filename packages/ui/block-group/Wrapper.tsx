@@ -84,7 +84,7 @@ export function BlockGroupWrapper({
 
   const onWrapperClick = (e: MouseEvent) => {
     if (titleEditable) return;
-    onGroupClick(e, id);
+    onGroupClick(e, { type: 'group', id });
   };
 
   const onBlurTitle = (e: FocusEvent) => {

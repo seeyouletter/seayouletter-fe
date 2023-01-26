@@ -15,3 +15,7 @@ export interface BlockResponseInterface extends BlockInterface {
 export interface GroupResponseInterface extends GroupInterface {
   blocks: (BlockResponseInterface | GroupResponseInterface)[];
 }
+
+export interface GroupStoreValueInterface extends Omit<GroupInterface, 'blocks'> {
+  blocks: string[];
+}

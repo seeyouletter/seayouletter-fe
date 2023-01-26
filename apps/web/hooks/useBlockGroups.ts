@@ -5,14 +5,88 @@ import { useEffect } from 'react';
 
 import { useAtom } from 'jotai';
 
-import { IdType } from 'ui';
+import { Position } from './../../../packages/ui/types/models/Blocks';
+import { BlockGroupType, IdType } from 'ui';
 
-// [ ] 원인: 지금 부모의 blocks에서의 데이터가 변경이 되지 않고, groupsStore에서만 변경이 일어났으므로 데이터가 불일치함.
+const typeProperties = {
+  group: 'groupsStore',
+  block: 'blocksStore',
+} as const;
 
 export const useBlockGroups = (
   blockGroupsData: (BlockResponseInterface | GroupResponseInterface)[]
 ) => {
   const [blockGroupState, setBlockGroupState] = useAtom(blocksStateAtom);
+
+  const setGroupChildrenStore = (id: string, children: string[]) => {
+    setBlockGroupState((state) => ({
+      ...state,
+      groupChildrenStore: {
+        ...state.groupChildrenStore,
+        [id]: children,
+      },
+    }));
+  };
+
+  /**
+   * @description
+   * INFO: 이는 블록 상태를 업데이트했을 때 blocksStore 변경과 동시에 groupsStore의 해당 parentGroup의 blocks를 업데이트하기 위한 로직입니다.
+   * group의 blocks들은 결국 하위 그룹의 상태가 변화하면 서로의 값이 불일치하게 됩니다.
+   * 따라서 이를 해결해주기 위해, 등록한 상위 컴포넌트에서의 blocks에 있는 이전의 자신의 상태를 새롭게 업데이트하는 로직입니다.
+   */
+  const syncBlockStateWithParentGroupBlocks = ({
+    parentId,
+    id,
+    nextState,
+  }: {
+    parentId: IdType;
+    id: string;
+    nextState: BlockResponseInterface;
+  }) => {
+    const nextBlocksStoreState = { ...blockGroupState.blocksStore, [id]: nextState };
+    const nextGroupsStoreState = { ...blockGroupState.groupsStore };
+
+    if (parentId) {
+      nextGroupsStoreState[parentId].blocks = nextGroupsStoreState[parentId].blocks.map((v) =>
+        v.id === id ? nextState : v
+      );
+    }
+
+    setBlockGroupState((state) => ({
+      ...state,
+      blocksStore: nextBlocksStoreState,
+      groupsStore: nextGroupsStoreState,
+    }));
+  };
+
+  /**
+   * @description
+   * INFO: 이는 하위 그룹 상태를 업데이트했을 때 하위 그룹 변경과 동시에 groupsStore의 해당 parentGroup의 blocks를 업데이트하기 위한 로직입니다.
+   * group의 blocks들은 결국 하위 그룹의 상태가 변화하면 서로의 값이 불일치하게 됩니다.
+   * 따라서 이를 해결해주기 위해, 등록한 상위 컴포넌트에서의 blocks에 있는 이전의 자신의 상태를 새롭게 업데이트하는 로직입니다.
+   */
+  const syncWithParentGroupBlocksState = ({
+    parentId,
+    id,
+    nextState,
+  }: {
+    parentId: IdType;
+    id: string;
+    nextState: GroupResponseInterface;
+  }) => {
+    const nextGroupsStoreState = {
+      ...blockGroupState.groupsStore,
+      [id]: nextState,
+    };
+
+    if (parentId) {
+      nextGroupsStoreState[parentId].blocks = nextGroupsStoreState[parentId].blocks.map((v) =>
+        v.id === id ? nextState : v
+      );
+    }
+
+    setGroupsStore(nextGroupsStoreState);
+  };
 
   useEffect(() => {
     const groupsStore: Record<string, GroupResponseInterface> = {};
@@ -38,6 +112,11 @@ export const useBlockGroups = (
         if (deepCopiedBlockGroupStyleObj.type === 'group') {
           groupsStore[deepCopiedBlockGroupStyleObj.id] = deepCopiedBlockGroupStyleObj;
 
+          setGroupChildrenStore(
+            deepCopiedBlockGroupStyleObj.id,
+            deepCopiedBlockGroupStyleObj.blocks.map((v) => v.id)
+          );
+
           recursiveRegisterComponentStore(deepCopiedBlockGroupStyleObj.blocks);
         } else {
           blocksStore[deepCopiedBlockGroupStyleObj.id] = deepCopiedBlockGroupStyleObj;
@@ -54,8 +133,15 @@ export const useBlockGroups = (
     }));
 
     return () => {
-      setBlockGroupState(() => ({ activeId: null, groupsStore: {}, blocksStore: {} }));
+      setBlockGroupState(() => ({
+        activeId: null,
+        groupChildrenStore: {},
+        groupsStore: {},
+        blocksStore: {},
+      }));
     };
+
+    /* eslint-disable-next-line react-hooks/exhaustive-deps */
   }, [blockGroupsData, setBlockGroupState]);
 
   const setBlocks = (blocks: Record<string, BlockResponseInterface>) => {
@@ -65,26 +151,22 @@ export const useBlockGroups = (
     }));
   };
 
-  const setGroups = (groups: Record<string, GroupResponseInterface>) => {
+  const setGroupsStore = (groups: Record<string, GroupResponseInterface>) => {
     setBlockGroupState((state) => ({
       ...state,
       groupsStore: groups,
     }));
   };
 
-  const setActiveId = (id: string) => {
+  const setActiveId = (type: BlockGroupType, id: string) => {
     setBlockGroupState((state) => ({
       ...state,
       activeId: id,
+      detail: (type === 'block' ? blockGroupState.blocksStore : blockGroupState.groupsStore)[id],
     }));
   };
 
-  const setTitle = (type: 'group' | 'block', id: string, title: string) => {
-    const typeProperties = {
-      group: 'groupsStore',
-      block: 'blocksStore',
-    } as const;
-
+  const setTitle = (type: BlockGroupType, id: string, title: string) => {
     const key = typeProperties[type];
 
     setBlockGroupState((state) => ({
@@ -110,32 +192,6 @@ export const useBlockGroups = (
     syncWithParentGroupBlocksState({ parentId, id, nextState });
   };
 
-  const syncWithParentGroupBlocksState = ({
-    parentId,
-    id,
-    nextState,
-  }: {
-    parentId: IdType;
-    id: string;
-    nextState: GroupResponseInterface;
-  }) => {
-    const nextGroupsStoreState = {
-      ...blockGroupState.groupsStore,
-      [id]: nextState,
-    };
-
-    if (parentId) {
-      nextGroupsStoreState[parentId].blocks = nextGroupsStoreState[parentId].blocks.map((v) =>
-        v.id === id ? nextState : v
-      );
-    }
-
-    setBlockGroupState((state) => ({
-      ...state,
-      groupsStore: nextGroupsStoreState,
-    }));
-  };
-
   const setOrder = (groups: GroupResponseInterface[]) => {
     const nextGroups: Record<string, GroupResponseInterface> = {};
 
@@ -146,13 +202,40 @@ export const useBlockGroups = (
     });
   };
 
+  /**
+   * NOTE: 아직 group의 position 속성에 대해 명세가 정해지지 않은 상태이다. 추후 확정되면 업데이트한다.
+   */
+  const setPosition = ({
+    type,
+    id,
+    position,
+  }: {
+    type: BlockResponseInterface['type'];
+    id: BlockResponseInterface['id'];
+    position: Position;
+  }) => {
+    if (type === 'block') {
+      const nowState = blockGroupState.blocksStore[id];
+
+      const nextState = {
+        ...nowState,
+        style: {
+          ...nowState.style,
+          position,
+        },
+      };
+
+      syncBlockStateWithParentGroupBlocks({ parentId: nowState.parent, id, nextState });
+    }
+  };
+
   return {
     activeId: blockGroupState.activeId,
     setBlocks,
-    setGroups,
     setActiveId,
     setTitle,
     setToggle,
     setOrder,
+    setPosition,
   };
 };

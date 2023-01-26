@@ -690,12 +690,12 @@ export default function TemplateCreateLayout({ children }: PropsWithChildren) {
               actived={false}
               parent={null}
               members={blockGroupData ?? []}
-              onGroupClick={(e, id) => {
-                setActiveId(id);
+              onGroupClick={(e, { type, id }) => {
+                setActiveId(type, id);
                 setToggle(id);
               }}
               onUpdateTitle={(e, { type, id, title }) => setTitle(type, id, title)}
-              onBlockClick={(e, id) => setActiveId(id)}
+              onBlockClick={(e, { type, id }) => setActiveId(type, id)}
             />
           </DefaultVStack>
 

@@ -9,12 +9,14 @@ export interface BlockGroupToggleStoreInterface {
 export interface BlockGroupsAtomInterface {
   activeId: string | null;
   groupsStore: Record<string, GroupResponseInterface>;
+  groupChildrenStore: Record<keyof BlockGroupsAtomInterface['groupsStore'], string[]>;
   blocksStore: Record<string, BlockResponseInterface>;
 }
 
 export const blocksStateAtom = atom<BlockGroupsAtomInterface>({
   activeId: null,
   groupsStore: {},
+  groupChildrenStore: {},
   blocksStore: {},
 });
 

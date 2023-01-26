@@ -4,6 +4,11 @@ import { BlockInterface, BlockMembersType, GroupInterface, IdType } from '@ui/ty
 
 export type ClickEvent = (e: MouseEvent, id: string) => void;
 
+export type ClickEventWithType = (
+  e: MouseEvent,
+  { type, id }: { type: BlockGroupType; id: string }
+) => void;
+
 export type BlockGroupType = 'block' | 'group';
 
 export type UpdateTitleEvent = (
@@ -25,20 +30,23 @@ export interface StyledBlockGroupToggleMarkerInterface {
   toggled: boolean;
 }
 
-export interface BlockGroupWrapperPropsInterface
-  extends StyledBlockGroupToggleMarkerInterface,
-    GroupInterface {
-  depth: number;
-  blocks: BlockMembersType;
-  activeId: IdType;
-  onGroupClick: ClickEvent;
-  onBlockClick: ClickEvent;
+export interface BlockEvents {
+  onBlockClick: ClickEventWithType;
   onUpdateTitle: UpdateTitleEvent;
 }
-
-export interface BlockPropsInterface extends Omit<BlockInterface, 'style'> {
+export interface BlockGroupWrapperPropsInterface
+  extends StyledBlockGroupToggleMarkerInterface,
+    BlockEvents,
+    GroupInterface {
   depth: number;
-  onBlockClick: ClickEvent;
+
+  blocks: BlockMembersType;
   activeId: IdType;
-  onUpdateTitle: UpdateTitleEvent;
+
+  onGroupClick: ClickEventWithType;
+}
+
+export interface BlockPropsInterface extends BlockEvents, Omit<BlockInterface, 'style'> {
+  depth: number;
+  activeId: IdType;
 }

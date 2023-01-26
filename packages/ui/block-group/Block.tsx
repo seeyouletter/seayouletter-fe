@@ -75,7 +75,7 @@ export function Block({
       <StyledBlockContainer
         depth={depth}
         ref={contentEditableRef}
-        onClick={(e: MouseEvent) => onBlockClick(e, id)}
+        onClick={(e: MouseEvent) => onBlockClick(e, { type: 'block', id })}
         contentEditable={titleEditable}
         onDoubleClick={onEdit}
         onBlur={onBlurTitle}
