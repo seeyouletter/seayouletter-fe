@@ -6,6 +6,8 @@ import { useAtomValue } from 'jotai';
 
 import { useTheme } from '@emotion/react';
 
+import { v4 as uuidv4 } from 'uuid';
+
 import {
   BlockGroupMemberList,
   BlockInterface,
@@ -41,21 +43,21 @@ const blockGroups: (GroupInterface | BlockInterface)[] = [
       {
         type: 'block',
         parent: 'component1',
-        id: 'block1',
+        id: uuidv4(),
         title: '블록1',
         order: 0,
       },
       {
         type: 'block',
         parent: 'component1',
-        id: 'block2',
+        id: uuidv4(),
         title: '블록2',
         order: 1,
       },
       {
         type: 'block',
         parent: 'component1',
-        id: 'block3',
+        id: uuidv4(),
         title: '블록3',
         order: 2,
       },
@@ -71,21 +73,21 @@ const blockGroups: (GroupInterface | BlockInterface)[] = [
           {
             type: 'block',
             parent: 'subcomponent1',
-            id: 'subblock1',
+            id: uuidv4(),
             title: '서브블록1',
             order: 0,
           },
           {
             type: 'block',
             parent: 'subcomponent1',
-            id: 'subblock2',
+            id: uuidv4(),
             title: '서브블록2',
             order: 1,
           },
           {
             type: 'block',
             parent: 'subcomponent1',
-            id: 'subblock3',
+            id: uuidv4(),
             title: '서브블록3',
             order: 2,
           },
@@ -100,14 +102,14 @@ const blockGroups: (GroupInterface | BlockInterface)[] = [
               {
                 type: 'block',
                 parent: 'subsubcomponent1',
-                id: 'subsubblock1',
+                id: uuidv4(),
                 title: '서브서브블록1',
                 order: 0,
               },
               {
                 type: 'block',
                 parent: 'subsubcomponent1',
-                id: 'subsubblock2',
+                id: uuidv4(),
                 title: '서브서브블록2',
                 order: 1,
               },
@@ -128,14 +130,14 @@ const blockGroups: (GroupInterface | BlockInterface)[] = [
       {
         type: 'block',
         parent: 'component2',
-        id: 'block4',
+        id: uuidv4(),
         title: '블록4',
         order: 0,
       },
       {
         type: 'block',
         parent: 'component2',
-        id: 'block5',
+        id: uuidv4(),
         title: '블록5',
         order: 1,
       },
@@ -145,7 +147,7 @@ const blockGroups: (GroupInterface | BlockInterface)[] = [
   {
     type: 'block',
     parent: null,
-    id: 'rootblock',
+    id: uuidv4(),
     title: '루트블록',
     order: 0,
   },
@@ -271,6 +273,7 @@ export default function TemplateCreateLayout({ children }: PropsWithChildren) {
             </DefaultBox>
             {
               <BlockGroupMemberList
+                depth={0}
                 activeId={activeId}
                 actived={false}
                 parent={null}

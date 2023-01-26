@@ -10,6 +10,7 @@ export interface BlockGroupMemberListPropsInterface
     BlockGroupWrapperPropsInterface,
     'type' | 'id' | 'title' | 'blocks' | 'toggled' | 'order'
   > {
+  depth: number;
   members: BlockMembersType;
   actived: boolean;
 }
@@ -31,6 +32,7 @@ const StyledBlockGroupMemberList = styled.div<{ parentActived: boolean }>`
  * 이 컴포넌트가 active되는 시점은 parent GroupWrapper Component가 active되는 시점입니다.
  */
 export function BlockGroupMemberList({
+  depth,
   activeId,
   actived,
   members,
@@ -42,6 +44,7 @@ export function BlockGroupMemberList({
     <StyledBlockGroupMemberList parentActived={actived}>
       {members.map((member) => (
         <MemberFactory
+          depth={depth}
           key={member.id}
           member={member}
           activeId={activeId}

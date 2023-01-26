@@ -53,6 +53,7 @@ const StyledBlockGroupToggleTitle = styled.div<StyledBlockGroupToggleTitleInterf
 `;
 
 export function BlockGroupWrapper({
+  depth,
   parent,
   id,
   title,
@@ -113,6 +114,7 @@ export function BlockGroupWrapper({
         height="24px"
         position="relative"
         onClick={onWrapperClick}
+        paddingLeft={`${depth * 20}px`}
       >
         <StyledBlockGroupToggleMarker
           toggleMarkerBg={theme.color.white}
@@ -131,6 +133,7 @@ export function BlockGroupWrapper({
 
       {toggled && (
         <BlockGroupMemberList
+          depth={depth + 1}
           parent={parent}
           activeId={activeId}
           actived={activeId === id}

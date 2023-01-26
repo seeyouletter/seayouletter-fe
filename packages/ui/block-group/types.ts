@@ -11,6 +11,7 @@ export type UpdateTitleEvent = (
   { type, id, title }: { type: BlockGroupType; id: string; title: string }
 ) => void;
 export interface CommonStyledBlockInterface {
+  depth: number;
   actived?: boolean;
 }
 
@@ -51,6 +52,7 @@ export interface StyledBlockGroupToggleMarkerInterface {
 export interface BlockGroupWrapperPropsInterface
   extends StyledBlockGroupToggleMarkerInterface,
     Omit<GroupInterface, 'order'> {
+  depth: number;
   blocks: BlockMembersType;
   activeId: IdType;
   onGroupClick: ClickEvent;
@@ -59,6 +61,7 @@ export interface BlockGroupWrapperPropsInterface
 }
 
 export interface BlockPropsInterface extends Omit<BlockInterface, 'order'> {
+  depth: number;
   onBlockClick: ClickEvent;
   activeId: IdType;
   onUpdateTitle: UpdateTitleEvent;

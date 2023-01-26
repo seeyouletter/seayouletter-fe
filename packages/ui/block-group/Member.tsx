@@ -7,6 +7,7 @@ import { BlockGroupWrapper } from './Wrapper';
 import { BlockMemberType, ClickEvent, IdType, UpdateTitleEvent } from './types';
 
 interface BlockGroupMemberPropsInterface {
+  depth: number;
   member: BlockMemberType;
   activeId: IdType;
   onGroupClick: ClickEvent;
@@ -15,6 +16,7 @@ interface BlockGroupMemberPropsInterface {
 }
 
 export function MemberFactory({
+  depth,
   member,
   onBlockClick,
   onGroupClick,
@@ -24,6 +26,7 @@ export function MemberFactory({
   if (member.type === 'group') {
     return (
       <BlockGroupWrapper
+        depth={depth}
         parent={member.parent}
         type="group"
         id={member.id}
@@ -39,6 +42,7 @@ export function MemberFactory({
   } else {
     return (
       <Block
+        depth={depth}
         parent={member.parent}
         type="block"
         id={member.id}
