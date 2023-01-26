@@ -1,6 +1,3 @@
-import { assembledBlockGroups } from '@atoms/blockGroupsAtom';
-import { BlockResponseInterface, GroupResponseInterface } from '@models/index';
-
 import React, { PropsWithChildren } from 'react';
 
 import { useAtomValue } from 'jotai';
@@ -26,6 +23,10 @@ import {
   TextMenuButton,
 } from 'ui';
 
+import { assembledBlockGroups } from '@atoms/blockGroupsAtom';
+
+import { BlockResponseInterface, GroupResponseInterface } from '@models/index';
+
 import { useBlockGroups } from '@hooks/useBlockGroups';
 
 import { BlockGroupModifier } from './template-create/BlockGroupModifier';
@@ -40,6 +41,7 @@ const blockGroups: (GroupResponseInterface | BlockResponseInterface)[] = [
     blocks: [
       {
         type: 'block',
+        subType: 'shape',
         parent: 'component1',
         id: uuidv4(),
         title: '블록1',
@@ -85,6 +87,7 @@ const blockGroups: (GroupResponseInterface | BlockResponseInterface)[] = [
       },
       {
         type: 'block',
+        subType: 'shape',
         parent: 'component1',
         id: uuidv4(),
         title: '블록2',
@@ -130,6 +133,7 @@ const blockGroups: (GroupResponseInterface | BlockResponseInterface)[] = [
       },
       {
         type: 'block',
+        subType: 'shape',
         parent: 'component1',
         id: uuidv4(),
         title: '블록3',
@@ -183,6 +187,7 @@ const blockGroups: (GroupResponseInterface | BlockResponseInterface)[] = [
         blocks: [
           {
             type: 'block',
+            subType: 'shape',
             parent: 'subcomponent1',
             id: uuidv4(),
             title: '서브블록1',
@@ -228,6 +233,7 @@ const blockGroups: (GroupResponseInterface | BlockResponseInterface)[] = [
           },
           {
             type: 'block',
+            subType: 'shape',
             parent: 'subcomponent1',
             id: uuidv4(),
             title: '서브블록2',
@@ -273,6 +279,7 @@ const blockGroups: (GroupResponseInterface | BlockResponseInterface)[] = [
           },
           {
             type: 'block',
+            subType: 'shape',
             parent: 'subcomponent1',
             id: uuidv4(),
             title: '서브블록3',
@@ -325,6 +332,7 @@ const blockGroups: (GroupResponseInterface | BlockResponseInterface)[] = [
             blocks: [
               {
                 type: 'block',
+                subType: 'shape',
                 parent: 'subsubcomponent1',
                 id: uuidv4(),
                 title: '서브서브블록1',
@@ -370,6 +378,7 @@ const blockGroups: (GroupResponseInterface | BlockResponseInterface)[] = [
               },
               {
                 type: 'block',
+                subType: 'shape',
                 parent: 'subsubcomponent1',
                 id: uuidv4(),
                 title: '서브서브블록2',
@@ -428,6 +437,7 @@ const blockGroups: (GroupResponseInterface | BlockResponseInterface)[] = [
     blocks: [
       {
         type: 'block',
+        subType: 'shape',
         parent: 'component2',
         id: uuidv4(),
         title: '블록4',
@@ -473,6 +483,7 @@ const blockGroups: (GroupResponseInterface | BlockResponseInterface)[] = [
       },
       {
         type: 'block',
+        subType: 'shape',
         parent: 'component2',
         id: uuidv4(),
         title: '블록5',
@@ -521,6 +532,7 @@ const blockGroups: (GroupResponseInterface | BlockResponseInterface)[] = [
 
   {
     type: 'block',
+    subType: 'shape',
     parent: null,
     id: uuidv4(),
     title: '루트블록',

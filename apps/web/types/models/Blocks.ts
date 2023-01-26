@@ -1,4 +1,4 @@
-import { BlockInterface, BlockStyles, GroupInterface } from 'ui';
+import { GroupInterface, ImageBlock, ShapeBlock } from 'ui';
 
 /**
  * @todo
@@ -8,9 +8,7 @@ import { BlockInterface, BlockStyles, GroupInterface } from 'ui';
  *
  * 다만 아직 백엔드 응답 명세가 나오질 않아 나오면 바로 작업하기 편하게 남겨두도록 한다.
  */
-export interface BlockResponseInterface extends BlockInterface {
-  style: BlockStyles;
-}
+export type BlockResponseInterface<T = ShapeBlock | ImageBlock> = T;
 
 export interface GroupResponseInterface extends GroupInterface {
   blocks: (BlockResponseInterface | GroupResponseInterface)[];

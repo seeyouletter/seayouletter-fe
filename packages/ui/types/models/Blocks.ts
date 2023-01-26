@@ -57,21 +57,26 @@ export interface ComponentSize {
   height: string;
 }
 
+export interface ImageStyle {
+  opacity: number;
+  objectFit: ObjectFit;
+  position: {
+    top: Position['top'];
+    left: Position['left'];
+  };
+}
+
 export interface ImageBlock extends BlockInterface {
   subType: 'image';
-  isEmbededImage: boolean;
-  imageProperty: {
-    opacity: number;
-    objectFit: ObjectFit;
-    position: {
-      top: Position['top'];
-      left: Position['left'];
-    };
+  image: {
+    imageUrl: string;
+    imageName: string;
   };
+  imageStyle: ImageStyle;
 }
 
 export interface ShapeBlock extends BlockInterface {
   subType: 'shape';
 
-  styles: BlockStyles;
+  style: BlockStyles;
 }

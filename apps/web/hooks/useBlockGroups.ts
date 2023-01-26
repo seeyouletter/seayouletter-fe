@@ -1,12 +1,20 @@
-import { blocksStateAtom } from '@atoms/blockGroupsAtom';
-import { BlockResponseInterface, GroupResponseInterface } from '@models/index';
-
 import { useEffect } from 'react';
 
 import { useAtom } from 'jotai';
 
-import { Position } from './../../../packages/ui/types/models/Blocks';
-import { BlockGroupType, IdType } from 'ui';
+import { BlockGroupType, IdType, ImageBlock, ShapeBlock } from 'ui';
+
+import { blocksStateAtom } from '@atoms/blockGroupsAtom';
+
+import { BlockResponseInterface, GroupResponseInterface } from '@models/index';
+
+interface TypeWithIdInterface<Type = BlockGroupType> {
+  type: Type;
+  id: BlockResponseInterface['id'];
+}
+
+type NonSubTypeTextBlock = 'shape' | 'image';
+type SetStyleParams<State, Type = BlockGroupType> = State & TypeWithIdInterface<Type>;
 
 const typeProperties = {
   group: 'groupsStore',
@@ -158,6 +166,16 @@ export const useBlockGroups = (
     }));
   };
 
+  const setBlockState = (block: BlockResponseInterface) => {
+    setBlockGroupState((state) => ({
+      ...state,
+      blocksStore: {
+        ...state.blocksStore,
+        [block.id]: block,
+      },
+    }));
+  };
+
   const setActiveId = (type: BlockGroupType, id: string) => {
     setBlockGroupState((state) => ({
       ...state,
@@ -202,31 +220,182 @@ export const useBlockGroups = (
     });
   };
 
+  const changeBlockStyle = <Value>({
+    type,
+    id,
+    key,
+    value,
+  }: SetStyleParams<
+    {
+      key: keyof BlockResponseInterface['style'];
+      value: Value;
+    },
+    'block'
+  >) => {
+    if (type !== 'block') {
+      /* eslint-disable-next-line no-console */
+      console.error('BlockStyleError: Do not call with non-block type.');
+      return;
+    }
+
+    const nowState = blockGroupState.blocksStore[id];
+
+    const nextState = {
+      ...nowState,
+      style: {
+        ...nowState.style,
+        [key]: value,
+      },
+    };
+
+    syncBlockStateWithParentGroupBlocks({ parentId: nowState.parent, id, nextState });
+  };
+
+  const changeImageBlockStyle = <Value>({
+    subType,
+    id,
+    key,
+    value,
+  }: SetStyleParams<{ subType: 'image'; key: keyof ImageBlock; value: Value }, 'block'>) => {
+    if (subType !== 'image') {
+      /* eslint-disable-next-line no-console */
+      console.error('ImageBlockStyleError: Do not call with non-image-block type.');
+      return;
+    }
+
+    const nowState = blockGroupState.blocksStore[id] as ImageBlock;
+
+    const nextState = {
+      ...nowState,
+      imageStyle: {
+        ...nowState.imageStyle,
+        [key]: value,
+      },
+    };
+
+    syncBlockStateWithParentGroupBlocks({ parentId: nowState.parent, id, nextState });
+  };
+
   /**
    * NOTE: 아직 group의 position 속성에 대해 명세가 정해지지 않은 상태이다. 추후 확정되면 업데이트한다.
    */
-  const setPosition = ({
+  const setPositionStyle = ({
     type,
     id,
     position,
-  }: {
-    type: BlockResponseInterface['type'];
-    id: BlockResponseInterface['id'];
-    position: Position;
-  }) => {
+  }: SetStyleParams<{ position: BlockResponseInterface['style']['position'] }>) => {
     if (type === 'block') {
-      const nowState = blockGroupState.blocksStore[id];
-
-      const nextState = {
-        ...nowState,
-        style: {
-          ...nowState.style,
-          position,
-        },
-      };
-
-      syncBlockStateWithParentGroupBlocks({ parentId: nowState.parent, id, nextState });
+      changeBlockStyle({ type, id, key: 'position', value: position });
     }
+  };
+
+  const setBorderStyle = ({
+    type,
+    id,
+    border,
+  }: SetStyleParams<{ border: BlockResponseInterface['style']['border'] }, 'block'>) => {
+    if (type === 'block') {
+      changeBlockStyle({ type, id, key: 'border', value: border });
+    }
+  };
+
+  const setBorderRadiusStyle = ({
+    subType,
+    type,
+    id,
+    borderRadius,
+  }: SetStyleParams<
+    {
+      subType: NonSubTypeTextBlock;
+      borderRadius: BlockResponseInterface['style']['borderRadius'];
+    },
+    'block'
+  >) => {
+    if (subType !== 'image' && subType !== 'shape') return;
+    changeBlockStyle({ type, id, key: 'borderRadius', value: borderRadius });
+  };
+
+  const setFillBgStyle = ({
+    subType,
+    type,
+    id,
+    bg,
+  }: SetStyleParams<
+    { subType: NonSubTypeTextBlock; bg: BlockResponseInterface['style']['bg'] },
+    'block'
+  >) => {
+    if (subType !== 'shape' && subType !== 'image') return;
+
+    changeBlockStyle({ type, id, key: 'bg', value: bg });
+  };
+
+  const setTextColorStyle = ({
+    subType,
+    type,
+    id,
+    border,
+  }: SetStyleParams<{ subType: 'text'; border: BlockResponseInterface['style']['border'] }>) => {
+    if (subType !== 'text') {
+      /* eslint-disable-next-line no-console */
+      console.error('Do not call with non-text-block.');
+      return;
+    }
+
+    if (type === 'block') {
+      changeBlockStyle({ type, id, key: 'border', value: border });
+    }
+  };
+
+  const setImageStyle = ({
+    subType,
+    type,
+    id,
+    imageStyle,
+  }: SetStyleParams<{ subType: 'image'; imageStyle: ImageBlock['imageStyle'] }, 'block'>) => {
+    if (subType !== 'image') return;
+    changeImageBlockStyle({
+      subType,
+      type,
+      id,
+      key: 'imageStyle',
+      value: imageStyle,
+    });
+  };
+
+  const updateImageResource = ({
+    type,
+    id,
+    image,
+  }: SetStyleParams<{ image: ImageBlock['image'] }, 'block'>) => {
+    if (type !== 'block') return;
+
+    const nextState: ImageBlock = {
+      ...blockGroupState.blocksStore[id],
+      subType: 'image',
+      image,
+      imageStyle: {
+        opacity: 1,
+        objectFit: 'contains',
+        position: {
+          top: '50%',
+          left: '50%',
+        },
+      },
+    };
+    setBlockState(nextState);
+  };
+  const deleteImageResource = ({
+    type,
+    id,
+  }: SetStyleParams<{ image: ImageBlock['image'] }, 'block'>) => {
+    if (type !== 'block') return;
+
+    const nextState: ShapeBlock = {
+      ...blockGroupState.blocksStore[id],
+      subType: 'shape',
+    };
+
+    setBlockState(nextState);
   };
 
   return {
@@ -236,6 +405,13 @@ export const useBlockGroups = (
     setTitle,
     setToggle,
     setOrder,
-    setPosition,
+    setPositionStyle,
+    setBorderStyle,
+    setBorderRadiusStyle,
+    setFillBgStyle,
+    setTextColorStyle,
+    setImageStyle,
+    updateImageResource,
+    deleteImageResource,
   };
 };

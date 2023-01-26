@@ -1,6 +1,6 @@
-import { BlockResponseInterface, GroupResponseInterface } from '@models/index';
-
 import { atom } from 'jotai';
+
+import { BlockResponseInterface, GroupResponseInterface } from '@models/index';
 
 export interface BlockGroupToggleStoreInterface {
   [id: string]: boolean;

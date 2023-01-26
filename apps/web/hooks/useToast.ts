@@ -1,10 +1,10 @@
-import { toastAtom, toastAtomInterface } from '@atoms/toastAtom';
-
 import { useEffect, useRef, useState } from 'react';
 
 import { useAtom } from 'jotai';
 
 import { v4 as uuidv4 } from 'uuid';
+
+import { toastAtom, toastAtomInterface } from '@atoms/toastAtom';
 
 export const useToast = ({ duration = 2000, transitionDuration = 300 }) => {
   const [toastList, setToastList] = useAtom(toastAtom);
