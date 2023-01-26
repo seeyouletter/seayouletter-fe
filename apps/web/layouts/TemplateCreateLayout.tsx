@@ -8,6 +8,7 @@ import { v4 as uuidv4 } from 'uuid';
 
 import {
   BlockGroupMemberList,
+  BlockMembersType,
   DefaultBox,
   DefaultButton,
   DefaultHStack,
@@ -25,15 +26,14 @@ import {
 
 import { assembledBlockGroups } from '@atoms/blockGroupsAtom';
 
-import { BlockResponseInterface, GroupResponseInterface } from '@models/index';
-
 import { useBlockGroupsAtom, useCreateBlockGroupsStore } from '@hooks/index';
 
 import { BlockGroupModifier } from './template-create/BlockGroupModifier';
 
-const blockGroups: (GroupResponseInterface | BlockResponseInterface)[] = [
+const blockGroups: BlockMembersType = [
   {
     type: 'group',
+    subType: 'default',
     parent: null,
     id: 'component1',
     title: '그룹 1',
@@ -46,8 +46,10 @@ const blockGroups: (GroupResponseInterface | BlockResponseInterface)[] = [
         id: uuidv4(),
         title: '블록1',
         style: {
-          width: '100px',
-          height: '120px',
+          size: {
+            width: '100px',
+            height: '120px',
+          },
           borderRadius: {
             topLeft: '8px',
             topRight: '8px',
@@ -92,8 +94,10 @@ const blockGroups: (GroupResponseInterface | BlockResponseInterface)[] = [
         id: uuidv4(),
         title: '블록2',
         style: {
-          width: '100px',
-          height: '120px',
+          size: {
+            width: '100px',
+            height: '120px',
+          },
           borderRadius: {
             topLeft: '8px',
             topRight: '8px',
@@ -138,8 +142,10 @@ const blockGroups: (GroupResponseInterface | BlockResponseInterface)[] = [
         id: uuidv4(),
         title: '블록3',
         style: {
-          width: '100px',
-          height: '120px',
+          size: {
+            width: '100px',
+            height: '120px',
+          },
           borderRadius: {
             topLeft: '8px',
             topRight: '8px',
@@ -180,6 +186,7 @@ const blockGroups: (GroupResponseInterface | BlockResponseInterface)[] = [
 
       {
         type: 'group',
+        subType: 'default',
         parent: 'component1',
         id: 'subcomponent1',
         title: '서브그룹 1',
@@ -192,8 +199,10 @@ const blockGroups: (GroupResponseInterface | BlockResponseInterface)[] = [
             id: uuidv4(),
             title: '서브블록1',
             style: {
-              width: '100px',
-              height: '120px',
+              size: {
+                width: '100px',
+                height: '120px',
+              },
               borderRadius: {
                 topLeft: '8px',
                 topRight: '8px',
@@ -238,8 +247,10 @@ const blockGroups: (GroupResponseInterface | BlockResponseInterface)[] = [
             id: uuidv4(),
             title: '서브블록2',
             style: {
-              width: '100px',
-              height: '120px',
+              size: {
+                width: '100px',
+                height: '120px',
+              },
               borderRadius: {
                 topLeft: '8px',
                 topRight: '8px',
@@ -284,8 +295,10 @@ const blockGroups: (GroupResponseInterface | BlockResponseInterface)[] = [
             id: uuidv4(),
             title: '서브블록3',
             style: {
-              width: '100px',
-              height: '120px',
+              size: {
+                width: '100px',
+                height: '120px',
+              },
               borderRadius: {
                 topLeft: '8px',
                 topRight: '8px',
@@ -325,6 +338,7 @@ const blockGroups: (GroupResponseInterface | BlockResponseInterface)[] = [
           },
           {
             type: 'group',
+            subType: 'default',
             parent: 'subcomponent1',
             id: 'subsubcomponent1',
             title: '서브서브그룹 1',
@@ -337,8 +351,10 @@ const blockGroups: (GroupResponseInterface | BlockResponseInterface)[] = [
                 id: uuidv4(),
                 title: '서브서브블록1',
                 style: {
-                  width: '100px',
-                  height: '120px',
+                  size: {
+                    width: '100px',
+                    height: '120px',
+                  },
                   borderRadius: {
                     topLeft: '8px',
                     topRight: '8px',
@@ -383,8 +399,10 @@ const blockGroups: (GroupResponseInterface | BlockResponseInterface)[] = [
                 id: uuidv4(),
                 title: '서브서브블록2',
                 style: {
-                  width: '100px',
-                  height: '120px',
+                  size: {
+                    width: '100px',
+                    height: '120px',
+                  },
                   borderRadius: {
                     topLeft: '8px',
                     topRight: '8px',
@@ -430,6 +448,7 @@ const blockGroups: (GroupResponseInterface | BlockResponseInterface)[] = [
   },
   {
     type: 'group',
+    subType: 'default',
     parent: null,
     id: 'component2',
     title: '그룹 2',
@@ -442,8 +461,10 @@ const blockGroups: (GroupResponseInterface | BlockResponseInterface)[] = [
         id: uuidv4(),
         title: '블록4',
         style: {
-          width: '100px',
-          height: '120px',
+          size: {
+            width: '100px',
+            height: '120px',
+          },
           borderRadius: {
             topLeft: '8px',
             topRight: '8px',
@@ -488,8 +509,10 @@ const blockGroups: (GroupResponseInterface | BlockResponseInterface)[] = [
         id: uuidv4(),
         title: '블록5',
         style: {
-          width: '100px',
-          height: '120px',
+          size: {
+            width: '100px',
+            height: '120px',
+          },
           borderRadius: {
             topLeft: '8px',
             topRight: '8px',
@@ -537,8 +560,10 @@ const blockGroups: (GroupResponseInterface | BlockResponseInterface)[] = [
     id: uuidv4(),
     title: '루트블록',
     style: {
-      width: '100px',
-      height: '120px',
+      size: {
+        width: '100px',
+        height: '120px',
+      },
       borderRadius: {
         topLeft: '8px',
         topRight: '8px',
@@ -580,7 +605,7 @@ const blockGroups: (GroupResponseInterface | BlockResponseInterface)[] = [
 
 export default function TemplateCreateLayout({ children }: PropsWithChildren) {
   useCreateBlockGroupsStore(blockGroups);
-  const { activeId, setActiveId, setTitle, setToggle } = useBlockGroupsAtom();
+  const { activedBlockGroup, activeId, setActiveId, setTitle, setToggle } = useBlockGroupsAtom();
 
   const theme = useTheme();
 
@@ -723,7 +748,11 @@ export default function TemplateCreateLayout({ children }: PropsWithChildren) {
       </LeftSidebar>
 
       <RightSidebar actived={true} padding="24px 16px">
-        <BlockGroupModifier type="block" subType="image" />
+        {activedBlockGroup ? (
+          <BlockGroupModifier type={activedBlockGroup.type} subType={activedBlockGroup.subType} />
+        ) : (
+          <div></div>
+        )}
       </RightSidebar>
 
       <FullSizeMain backgroundColor="black" isHeader={true}>

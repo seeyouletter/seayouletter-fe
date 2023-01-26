@@ -1,6 +1,7 @@
-export * from './ActivedPositionModifier';
-export * from './ActivedGroupColorsModifier';
-export * from './ActivedBlockFillModifier';
-export * from './ActivedBlockBorderModifier';
-export * from './ActivedTextModifier';
-export * from './ActivedImageModifier';
+export { ActivedGroupPositionSizeModifier } from './ActivedGroupPositionSizeModifier';
+export { ActivedBlockPositionSizeModifier } from './ActivedBlockPositionSizeModifier';
+export { ActivedGroupColorsModifier } from './ActivedGroupColorsModifier';
+export { ActivedBlockFillModifier } from './ActivedBlockFillModifier';
+export { ActivedBlockBorderModifier } from './ActivedBlockBorderModifier';
+export { ActivedTextModifier } from './ActivedTextModifier';
+export { ActivedImageModifier } from './ActivedImageModifier';

@@ -14,6 +14,14 @@ export interface GroupInterface {
   blocks: BlockMembersType;
 }
 
+export interface DefaultGroup extends GroupInterface {
+  subType: 'default';
+}
+
+export interface AnimatorGroup extends GroupInterface {
+  subType: 'animator';
+}
+
 export interface BlockInterface {
   type: 'block';
   parent: IdType;
@@ -22,7 +30,10 @@ export interface BlockInterface {
   style: BlockStyles;
 }
 
-export type BlockMemberType = BlockInterface | GroupInterface;
+export type Blocks = ShapeBlock | ImageBlock;
+export type Groups = DefaultGroup | AnimatorGroup;
+
+export type BlockMemberType = Blocks | Groups;
 export type BlockMembersType = BlockMemberType[];
 
 export interface Position {
@@ -41,8 +52,9 @@ export interface Border {
 export type Directions = 'top' | 'right' | 'bottom' | 'left';
 export type EdgeDirections = 'topLeft' | 'topRight' | 'bottomLeft' | 'bottomRight';
 
-export interface BlockStyles extends ComponentSize {
+export interface BlockStyles {
   position: Position;
+  size: ComponentSize;
 
   bg: string;
 

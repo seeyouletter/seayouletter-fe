@@ -11,7 +11,7 @@ import { DEFAULT_NONE } from '@utils/contants';
 import { TemplatedInputWithTitlePresenter } from './TemplatedInputWithTitlePresenter';
 
 /* eslint-disable no-console */
-export function ActivedPositionModifier() {
+export function ActivedBlockPositionSizeModifier() {
   const { activedBlockGroup, setPositionStyle } = useBlockGroupsAtom();
 
   const theme = useTheme();
@@ -61,7 +61,7 @@ export function ActivedPositionModifier() {
           <TemplatedInputWithTitlePresenter
             title="너비"
             placeholder="입력"
-            value={activedBlockGroup?.style?.position.left}
+            value={activedBlockGroup?.style?.size.width}
             onInput={() => {
               console.log('너비');
             }}
@@ -70,7 +70,7 @@ export function ActivedPositionModifier() {
           <TemplatedInputWithTitlePresenter
             title="높이"
             placeholder="입력"
-            value={activedBlockGroup?.style?.position.right}
+            value={activedBlockGroup?.style?.size.height}
             onInput={() => {
               console.log('높이');
             }}

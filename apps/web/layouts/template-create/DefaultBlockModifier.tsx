@@ -5,13 +5,13 @@ import { DefaultVStack } from 'ui';
 import {
   ActivedBlockBorderModifier,
   ActivedBlockFillModifier,
-  ActivedPositionModifier,
+  ActivedBlockPositionSizeModifier,
 } from '@templates/index';
 
 export function DefaultBlockModifier() {
   return (
     <DefaultVStack spacing={5}>
-      <ActivedPositionModifier />
+      <ActivedBlockPositionSizeModifier />
       <ActivedBlockBorderModifier />
       <ActivedBlockFillModifier />
     </DefaultVStack>

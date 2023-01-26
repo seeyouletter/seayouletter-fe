@@ -1,15 +1,13 @@
 import { useAtom, useAtomValue } from 'jotai';
 
-import { BlockGroupType, IdType, ImageBlock, ShapeBlock } from 'ui';
+import { BlockGroupType, Blocks, Groups, IdType, ImageBlock, ShapeBlock } from 'ui';
 
 import { activedBlockGroupAtom } from '@atoms/blockGroupsAtom';
 import { blocksStateAtom } from '@atoms/blockGroupsAtom';
 
-import { BlockResponseInterface, GroupResponseInterface } from '@models/index';
-
 interface TypeWithIdInterface<Type = BlockGroupType> {
   type: Type;
-  id: BlockResponseInterface['id'];
+  id: Blocks['id'];
 }
 
 type NonSubTypeTextBlock = 'shape' | 'image';
@@ -47,7 +45,7 @@ export const useBlockGroupsAtom = () => {
   }: {
     parentId: IdType;
     id: string;
-    nextState: BlockResponseInterface;
+    nextState: Blocks;
   }) => {
     const nextBlocksStoreState = { ...blockGroupState.blocksStore, [id]: nextState };
     const nextGroupsStoreState = { ...blockGroupState.groupsStore };
@@ -78,7 +76,7 @@ export const useBlockGroupsAtom = () => {
   }: {
     parentId: IdType;
     id: string;
-    nextState: GroupResponseInterface;
+    nextState: Groups;
   }) => {
     const nextGroupsStoreState = {
       ...blockGroupState.groupsStore,
@@ -94,21 +92,21 @@ export const useBlockGroupsAtom = () => {
     setGroupsStore(nextGroupsStoreState);
   };
 
-  const setBlocks = (blocks: Record<string, BlockResponseInterface>) => {
+  const setBlocks = (blocks: Record<string, Blocks>) => {
     setBlockGroupState((state) => ({
       ...state,
       blocksStore: blocks,
     }));
   };
 
-  const setGroupsStore = (groups: Record<string, GroupResponseInterface>) => {
+  const setGroupsStore = (groups: Record<string, Groups>) => {
     setBlockGroupState((state) => ({
       ...state,
       groupsStore: groups,
     }));
   };
 
-  const setBlockState = (block: BlockResponseInterface) => {
+  const setBlockState = (block: Blocks) => {
     setBlockGroupState((state) => ({
       ...state,
       blocksStore: {
@@ -152,8 +150,8 @@ export const useBlockGroupsAtom = () => {
     syncWithParentGroupBlocksState({ parentId, id, nextState });
   };
 
-  const setOrder = (groups: GroupResponseInterface[]) => {
-    const nextGroups: Record<string, GroupResponseInterface> = {};
+  const setOrder = (groups: Groups[]) => {
+    const nextGroups: Record<string, Groups> = {};
 
     groups.forEach((group) => {
       nextGroups[group.id] = {
@@ -169,7 +167,7 @@ export const useBlockGroupsAtom = () => {
     value,
   }: SetStyleParams<
     {
-      key: keyof BlockResponseInterface['style'];
+      key: keyof Blocks['style'];
       value: Value;
     },
     'block'
@@ -225,7 +223,7 @@ export const useBlockGroupsAtom = () => {
     type,
     id,
     position,
-  }: SetStyleParams<{ position: BlockResponseInterface['style']['position'] }>) => {
+  }: SetStyleParams<{ position: Blocks['style']['position'] }>) => {
     if (type === 'block') {
       changeBlockStyle({ type, id, key: 'position', value: position });
     }
@@ -235,7 +233,7 @@ export const useBlockGroupsAtom = () => {
     type,
     id,
     border,
-  }: SetStyleParams<{ border: BlockResponseInterface['style']['border'] }, 'block'>) => {
+  }: SetStyleParams<{ border: Blocks['style']['border'] }, 'block'>) => {
     if (type === 'block') {
       changeBlockStyle({ type, id, key: 'border', value: border });
     }
@@ -249,7 +247,7 @@ export const useBlockGroupsAtom = () => {
   }: SetStyleParams<
     {
       subType: NonSubTypeTextBlock;
-      borderRadius: BlockResponseInterface['style']['borderRadius'];
+      borderRadius: Blocks['style']['borderRadius'];
     },
     'block'
   >) => {
@@ -262,10 +260,7 @@ export const useBlockGroupsAtom = () => {
     type,
     id,
     bg,
-  }: SetStyleParams<
-    { subType: NonSubTypeTextBlock; bg: BlockResponseInterface['style']['bg'] },
-    'block'
-  >) => {
+  }: SetStyleParams<{ subType: NonSubTypeTextBlock; bg: Blocks['style']['bg'] }, 'block'>) => {
     if (subType !== 'shape' && subType !== 'image') return;
 
     changeBlockStyle({ type, id, key: 'bg', value: bg });
@@ -276,7 +271,7 @@ export const useBlockGroupsAtom = () => {
     type,
     id,
     border,
-  }: SetStyleParams<{ subType: 'text'; border: BlockResponseInterface['style']['border'] }>) => {
+  }: SetStyleParams<{ subType: 'text'; border: Blocks['style']['border'] }>) => {
     if (subType !== 'text') {
       /* eslint-disable-next-line no-console */
       console.error('Do not call with non-text-block.');

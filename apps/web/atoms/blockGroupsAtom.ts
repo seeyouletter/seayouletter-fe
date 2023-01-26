@@ -1,6 +1,6 @@
 import { atom } from 'jotai';
 
-import { BlockResponseInterface, GroupResponseInterface } from '@models/index';
+import { BlockMembersType, Blocks, Groups } from 'ui';
 
 export interface BlockGroupToggleStoreInterface {
   [id: string]: boolean;
@@ -8,9 +8,9 @@ export interface BlockGroupToggleStoreInterface {
 
 export interface BlockGroupsAtomInterface {
   activeId: string | null;
-  groupsStore: Record<string, GroupResponseInterface>;
+  groupsStore: Record<string, Groups>;
   groupChildrenStore: Record<keyof BlockGroupsAtomInterface['groupsStore'], string[]>;
-  blocksStore: Record<string, BlockResponseInterface>;
+  blocksStore: Record<string, Blocks>;
 }
 
 export const blocksStateAtom = atom<BlockGroupsAtomInterface>({
@@ -20,35 +20,31 @@ export const blocksStateAtom = atom<BlockGroupsAtomInterface>({
   blocksStore: {},
 });
 
-export const assembledBlockGroups = atom(
-  (get): (GroupResponseInterface | BlockResponseInterface)[] | null => {
-    const blocksState = get(blocksStateAtom);
-    if (!Object.keys(blocksState.blocksStore)) return null;
+export const assembledBlockGroups = atom((get): BlockMembersType | null => {
+  const blocksState = get(blocksStateAtom);
+  if (!Object.keys(blocksState.blocksStore)) return null;
 
-    const result: (BlockResponseInterface | GroupResponseInterface)[] = [];
+  const result: BlockMembersType = [];
 
-    const groups: Record<string, GroupResponseInterface> = JSON.parse(
-      JSON.stringify(blocksState.groupsStore)
-    );
+  const groups: Record<string, Groups> = JSON.parse(JSON.stringify(blocksState.groupsStore));
 
-    const groupsArr = Object.values(groups);
-    const blocksArr = Object.values(blocksState.blocksStore);
+  const groupsArr = Object.values(groups);
+  const blocksArr = Object.values(blocksState.blocksStore);
 
-    groupsArr.forEach((group) => {
-      if (group.parent === null) {
-        result.push(group);
-      }
-    });
+  groupsArr.forEach((group) => {
+    if (group.parent === null) {
+      result.push(group);
+    }
+  });
 
-    blocksArr.forEach((block) => {
-      if (block.parent === null) {
-        result.push(block);
-      }
-    });
+  blocksArr.forEach((block) => {
+    if (block.parent === null) {
+      result.push(block);
+    }
+  });
 
-    return result;
-  }
-);
+  return result;
+});
 
 export const activedBlockGroupAtom = atom((get) => {
   const blockGroupState = get(blocksStateAtom);
