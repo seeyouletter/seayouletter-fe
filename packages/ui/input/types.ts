@@ -15,6 +15,7 @@ export interface InputPropsInterface {
   shape?: 'outline' | 'filled' | 'flushed';
   isInvalid?: boolean;
   onInput?: (e: FormEvent) => void;
+  onChange?: (e: FormEvent) => void;
   errorMessage?: string | React.ReactNode;
   borderColor?: string;
   width?: string;

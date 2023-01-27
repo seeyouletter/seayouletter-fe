@@ -2,8 +2,7 @@ import { useAtom, useAtomValue } from 'jotai';
 
 import { BlockGroupType, Blocks, Groups, IdType, ImageBlock, ShapeBlock } from 'ui';
 
-import { activedBlockGroupAtom } from '@atoms/blockGroupsAtom';
-import { blocksStateAtom } from '@atoms/blockGroupsAtom';
+import { activedBlockGroupAtom, blocksStateAtom } from '@atoms/index';
 
 interface TypeWithIdInterface<Type = BlockGroupType> {
   type: Type;
@@ -335,6 +334,12 @@ export const useBlockGroupsAtom = () => {
     setBlockState(nextState);
   };
 
+  const setSizeStyle = ({ type, id, size }: SetStyleParams<{ size: Blocks['style']['size'] }>) => {
+    if (type === 'block') {
+      changeBlockStyle({ type, id, key: 'size', value: size });
+    }
+  };
+
   return {
     activedBlockGroup,
     activeId: blockGroupState.activeId,
@@ -345,11 +350,17 @@ export const useBlockGroupsAtom = () => {
     setTitle,
     setToggle,
     setOrder,
+
     setPositionStyle,
+    setSizeStyle,
+
     setBorderStyle,
     setBorderRadiusStyle,
+
     setFillBgStyle,
+
     setTextColorStyle,
+
     setImageStyle,
     updateImageResource,
     deleteImageResource,

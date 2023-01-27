@@ -54,7 +54,7 @@ export type EdgeDirections = 'topLeft' | 'topRight' | 'bottomLeft' | 'bottomRigh
 
 export interface BlockStyles {
   position: Position;
-  size: ComponentSize;
+  size: GroupBlockSize;
 
   bg: string;
 
@@ -64,7 +64,7 @@ export interface BlockStyles {
 
 export type ObjectFit = 'cover' | 'contains' | 'fill' | 'none' | 'scale-down';
 
-export interface ComponentSize {
+export interface GroupBlockSize {
   width: string;
   height: string;
 }
