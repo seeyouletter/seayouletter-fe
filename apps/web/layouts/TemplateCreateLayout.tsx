@@ -63,6 +63,7 @@ const blockGroups: BlockMembersType = [
             left: '1px',
           },
           bg: '#ffffff',
+          opacity: '1',
           border: {
             top: {
               width: '1px',
@@ -111,6 +112,7 @@ const blockGroups: BlockMembersType = [
             left: '1px',
           },
           bg: '#ffffff',
+          opacity: '1',
           border: {
             top: {
               width: '1px',
@@ -159,6 +161,7 @@ const blockGroups: BlockMembersType = [
             left: '1px',
           },
           bg: '#ffffff',
+          opacity: '1',
           border: {
             top: {
               width: '1px',
@@ -216,6 +219,7 @@ const blockGroups: BlockMembersType = [
                 left: '1px',
               },
               bg: '#ffffff',
+              opacity: '1',
               border: {
                 top: {
                   width: '1px',
@@ -264,6 +268,7 @@ const blockGroups: BlockMembersType = [
                 left: '1px',
               },
               bg: '#ffffff',
+              opacity: '1',
               border: {
                 top: {
                   width: '1px',
@@ -312,6 +317,7 @@ const blockGroups: BlockMembersType = [
                 left: '1px',
               },
               bg: '#ffffff',
+              opacity: '1',
               border: {
                 top: {
                   width: '1px',
@@ -368,6 +374,7 @@ const blockGroups: BlockMembersType = [
                     left: '1px',
                   },
                   bg: '#ffffff',
+                  opacity: '1',
                   border: {
                     top: {
                       width: '1px',
@@ -416,6 +423,7 @@ const blockGroups: BlockMembersType = [
                     left: '1px',
                   },
                   bg: '#ffffff',
+                  opacity: '1',
                   border: {
                     top: {
                       width: '1px',
@@ -444,7 +452,7 @@ const blockGroups: BlockMembersType = [
                   imageName: '우리집',
                 },
                 imageStyle: {
-                  opacity: 1,
+                  opacity: '1',
                   objectFit: 'contains',
                   position: {
                     top: '50%',
@@ -490,6 +498,7 @@ const blockGroups: BlockMembersType = [
             left: '1px',
           },
           bg: '#ffffff',
+          opacity: '1',
           border: {
             top: {
               width: '1px',
@@ -538,6 +547,7 @@ const blockGroups: BlockMembersType = [
             left: '1px',
           },
           bg: '#ffffff',
+          opacity: '1',
           border: {
             top: {
               width: '1px',
@@ -589,6 +599,7 @@ const blockGroups: BlockMembersType = [
         left: '1px',
       },
       bg: '#ffffff',
+      opacity: '1',
       border: {
         top: {
           width: '1px',

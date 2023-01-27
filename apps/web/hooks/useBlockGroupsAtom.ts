@@ -33,7 +33,7 @@ export const useBlockGroupsAtom = () => {
 
   /**
    * @description
-   * INFO: 이는 블록 상태를 업데이트했을 때 blocksStore 변경과 동시에 groupsStore의 해당 parentGroup의 blocks를 업데이트하기 위한 로직입니다.
+cksStore 변경과 동시에 groupsStore의 해당 parentGroup의 blocks를 업데이트하기 위한 로직입니다.
    * group의 blocks들은 결국 하위 그룹의 상태가 변화하면 서로의 값이 불일치하게 됩니다.
    * 따라서 이를 해결해주기 위해, 등록한 상위 컴포넌트에서의 blocks에 있는 이전의 자신의 상태를 새롭게 업데이트하는 로직입니다.
    */
@@ -265,6 +265,20 @@ export const useBlockGroupsAtom = () => {
     changeBlockStyle({ type, id, key: 'bg', value: bg });
   };
 
+  const setBgOpacity = ({
+    subType,
+    type,
+    id,
+    opacity,
+  }: SetStyleParams<
+    { subType: NonSubTypeTextBlock; opacity: Blocks['style']['opacity'] },
+    'block'
+  >) => {
+    if (subType !== 'shape' && subType !== 'image') return;
+
+    changeBlockStyle({ type, id, key: 'opacity', value: opacity });
+  };
+
   const setTextColorStyle = ({
     subType,
     type,
@@ -310,7 +324,7 @@ export const useBlockGroupsAtom = () => {
       subType: 'image',
       image,
       imageStyle: {
-        opacity: 1,
+        opacity: '1',
         objectFit: 'contains',
         position: {
           top: '50%',
@@ -358,6 +372,7 @@ export const useBlockGroupsAtom = () => {
     setBorderRadiusStyle,
 
     setFillBgStyle,
+    setBgOpacity,
 
     setTextColorStyle,
 

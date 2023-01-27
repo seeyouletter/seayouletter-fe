@@ -57,6 +57,7 @@ export interface BlockStyles {
   size: GroupBlockSize;
 
   bg: string;
+  opacity: string;
 
   border: Record<Directions, Border>;
   borderRadius: Record<EdgeDirections, string>;
@@ -70,7 +71,7 @@ export interface GroupBlockSize {
 }
 
 export interface ImageStyle {
-  opacity: number;
+  opacity: string;
   objectFit: ObjectFit;
   position: {
     top: Position['top'];

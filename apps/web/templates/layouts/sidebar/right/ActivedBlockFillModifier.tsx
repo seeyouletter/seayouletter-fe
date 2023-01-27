@@ -1,8 +1,10 @@
-import React from 'react';
+import React, { FormEvent } from 'react';
 
 import { useTheme } from '@emotion/react';
 
 import { DefaultDivider, DefaultHStack, DefaultVStack, StrongText } from 'ui';
+
+import { useBlockGroupsAtom } from '@hooks/useBlockGroupsAtom';
 
 import { TemplatedColorInputWithTitlePresenter } from './TemplatedColorInputWithTitle';
 import { TemplatedInputWithTitlePresenter } from './TemplatedInputWithTitlePresenter';
@@ -11,6 +13,27 @@ import { TemplatedInputWithTitlePresenter } from './TemplatedInputWithTitlePrese
 /* eslint-disable no-console */
 export function ActivedBlockFillModifier() {
   const theme = useTheme();
+
+  const { activedBlockGroup, setFillBgStyle, setBgOpacity } = useBlockGroupsAtom();
+
+  if (activedBlockGroup === null) return <div></div>;
+
+  const onChangeBg = (e: FormEvent) => {
+    setFillBgStyle({
+      subType: activedBlockGroup?.subType,
+      type: activedBlockGroup?.type,
+      id: activedBlockGroup?.id,
+      bg: (e.target as HTMLInputElement).value,
+    });
+  };
+  const onChangeBgOpacity = (e: FormEvent) => {
+    setBgOpacity({
+      subType: activedBlockGroup?.subType,
+      type: activedBlockGroup?.type,
+      id: activedBlockGroup?.id,
+      opacity: (e.target as HTMLInputElement).value,
+    });
+  };
 
   return (
     <>
@@ -23,10 +46,8 @@ export function ActivedBlockFillModifier() {
           <TemplatedColorInputWithTitlePresenter
             direction="vertical"
             title="색상"
-            value={'#752bed'}
-            onChange={() => {
-              console.log('색상');
-            }}
+            value={activedBlockGroup.style.bg}
+            onChange={onChangeBg}
           />
 
           <TemplatedInputWithTitlePresenter
@@ -34,9 +55,8 @@ export function ActivedBlockFillModifier() {
             inputWidth="60px"
             title="색상번호"
             placeholder="입력"
-            onChange={() => {
-              console.log('입력');
-            }}
+            value={activedBlockGroup.style.bg}
+            onChange={onChangeBg}
           />
 
           <TemplatedInputWithTitlePresenter
@@ -44,9 +64,8 @@ export function ActivedBlockFillModifier() {
             inputWidth="48px"
             title="투명도"
             placeholder="입력"
-            onChange={() => {
-              console.log('입력');
-            }}
+            value={activedBlockGroup.style.opacity}
+            onChange={onChangeBgOpacity}
           />
         </DefaultHStack>
       </DefaultVStack>
