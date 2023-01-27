@@ -1,9 +1,10 @@
 import { InputPropsInterface } from '@ui/input/types';
-import { DefaultHStackInterface } from '@ui/stack';
+import { DefaultHStackInterface, DefaultVStackInterface } from '@ui/stack';
 import { DefaultTextPropsInterface } from '@ui/text';
 
 export interface InputWithTitlePropsInterface {
-  container: DefaultHStackInterface;
+  direction: 'vertical' | 'horizontal';
+  container: DefaultHStackInterface | DefaultVStackInterface;
   title: DefaultTextPropsInterface;
   input: InputPropsInterface;
 }
