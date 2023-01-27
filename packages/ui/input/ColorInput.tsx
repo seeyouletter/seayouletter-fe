@@ -11,6 +11,8 @@ export const ColorInput = ({
   color,
   isInvalid = false,
   width,
+  value,
+  onChange,
 }: ColorPropsInterface) => {
   const theme = useTheme();
 
@@ -27,6 +29,8 @@ export const ColorInput = ({
       focusBorderColor="primary.400"
       _placeholder={{ color: 'inherit', opacity: 0.5 }}
       isInvalid={isInvalid}
+      value={value}
+      onChange={onChange}
     />
   );
 };

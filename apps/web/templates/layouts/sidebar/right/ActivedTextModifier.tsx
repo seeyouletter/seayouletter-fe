@@ -20,16 +20,19 @@ export function ActivedTextModifier() {
         <DefaultVStack spacing={2}>
           <DefaultHStack justifyContent="space-between">
             <TemplatedInputWithTitlePresenter
+              direction="horizontal"
               title="크기"
               placeholder="입력"
-              onInput={() => {
+              onChange={() => {
                 console.log('왼쪽');
               }}
             />
+
             <TemplatedInputWithTitlePresenter
+              direction="horizontal"
               title="굵기"
               placeholder="입력"
-              onInput={() => {
+              onChange={() => {
                 console.log('왼쪽');
               }}
             />
@@ -37,16 +40,19 @@ export function ActivedTextModifier() {
 
           <DefaultHStack justifyContent="space-between">
             <TemplatedInputWithTitlePresenter
+              direction="horizontal"
               title="색상"
               placeholder="입력"
-              onInput={() => {
+              onChange={() => {
                 console.log('왼쪽');
               }}
             />
+
             <TemplatedInputWithTitlePresenter
+              direction="horizontal"
               title="스타일"
               placeholder="입력"
-              onInput={() => {
+              onChange={() => {
                 console.log('왼쪽');
               }}
             />
@@ -54,10 +60,11 @@ export function ActivedTextModifier() {
 
           <DefaultHStack justifyContent="space-between">
             <TemplatedInputWithTitlePresenter
+              direction="horizontal"
               title="글꼴"
               inputWidth="200px"
               placeholder="입력"
-              onInput={() => {
+              onChange={() => {
                 console.log('왼쪽');
               }}
             />

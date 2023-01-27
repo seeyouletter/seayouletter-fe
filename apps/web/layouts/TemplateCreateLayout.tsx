@@ -394,7 +394,7 @@ const blockGroups: BlockMembersType = [
               },
               {
                 type: 'block',
-                subType: 'shape',
+                subType: 'image',
                 parent: 'subsubcomponent1',
                 id: uuidv4(),
                 title: '서브서브블록2',
@@ -437,6 +437,18 @@ const blockGroups: BlockMembersType = [
                       style: 'solid',
                       color: 'black',
                     },
+                  },
+                },
+                image: {
+                  imageUrl: '우리집.jpg',
+                  imageName: '우리집',
+                },
+                imageStyle: {
+                  opacity: 1,
+                  objectFit: 'contains',
+                  position: {
+                    top: '50%',
+                    left: '50%',
                   },
                 },
               },

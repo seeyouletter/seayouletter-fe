@@ -15,6 +15,24 @@ import {
 export function ActivedGroupColorsModifier() {
   const theme = useTheme();
 
+  const blockColors = [
+    {
+      color: '#752bed',
+      opacity: '100%',
+      blocks: ['블록1', '블록2', '블록3'],
+    },
+    {
+      color: '#752bed',
+      opacity: '100%',
+      blocks: ['블록1', '블록2', '블록3'],
+    },
+    {
+      color: '#752bed',
+      opacity: '100%',
+      blocks: ['블록1', '블록2', '블록3'],
+    },
+  ];
+
   return (
     <>
       <DefaultVStack spacing={4}>
@@ -34,83 +52,59 @@ export function ActivedGroupColorsModifier() {
                 번호
               </StrongText>
             </DefaultBox>
-            <DefaultBox width="40px">
+            <DefaultBox width="48px">
               <StrongText size={theme.fontSize.xs} color="white">
                 투명도
               </StrongText>
             </DefaultBox>
           </DefaultHStack>
 
-          <DefaultHStack spacing={1}>
-            <ColorInput width="48px" size="xs" value="red" />
-            <DefaultBox width="60px">
-              <DefaultInput
-                size="xs"
-                placeholder="입력"
-                bgColor={theme.color.darkGray}
-                borderColor={theme.color.darkGray}
-                padding="4px"
-                color="white"
-              />
-            </DefaultBox>
-            <DefaultBox width="40px">
-              <DefaultInput
-                size="xs"
-                placeholder="입력"
-                bgColor={theme.color.darkGray}
-                borderColor={theme.color.darkGray}
-                padding="4px"
-                color="white"
-              />
-            </DefaultBox>
-          </DefaultHStack>
+          {blockColors.map((blockColor, idx) => (
+            <DefaultHStack key={idx} spacing={1}>
+              <DefaultBox width="48px">
+                <ColorInput
+                  aria-label="색상 선택"
+                  size="xs"
+                  value={blockColor.color}
+                  onChange={() => {
+                    return;
+                  }}
+                />
+              </DefaultBox>
 
-          <DefaultHStack spacing={1}>
-            <ColorInput width="48px" size="xs" value="red" />
-            <DefaultBox width="60px">
-              <DefaultInput
-                size="xs"
-                placeholder="입력"
-                bgColor={theme.color.darkGray}
-                borderColor={theme.color.darkGray}
-                padding="4px"
-                color="white"
-              />
-            </DefaultBox>
-            <DefaultBox width="40px">
-              <DefaultInput
-                size="xs"
-                placeholder="입력"
-                bgColor={theme.color.darkGray}
-                borderColor={theme.color.darkGray}
-                padding="4px"
-                color="white"
-              />
-            </DefaultBox>
-          </DefaultHStack>
-          <DefaultHStack spacing={2}>
-            <ColorInput width="48px" size="xs" value="red" />
-            <DefaultBox width="60px">
-              <DefaultInput
-                size="xs"
-                placeholder="입력"
-                bgColor={theme.color.darkGray}
-                borderColor={theme.color.darkGray}
-                padding="4px"
-                color="white"
-              />
-            </DefaultBox>
-            <DefaultBox width="48px">
-              <DefaultInput
-                size="xs"
-                placeholder="입력"
-                bgColor={theme.color.darkGray}
-                borderColor={theme.color.darkGray}
-                padding="4px"
-                color="white"
-              />
-            </DefaultBox>
-          </DefaultHStack>
+              <DefaultBox width="60px">
+                <DefaultInput
+                  aria-label="색상번호 입력"
+                  size="xs"
+                  placeholder="입력"
+                  bgColor={theme.color.darkGray}
+                  borderColor={theme.color.darkGray}
+                  padding="4px"
+                  color="white"
+                  value={blockColor.color}
+                  onChange={() => {
+                    return;
+                  }}
+                />
+              </DefaultBox>
+
+              <DefaultBox width="48px">
+                <DefaultInput
+                  aria-label="투명도 입력"
+                  size="xs"
+                  placeholder="입력"
+                  bgColor={theme.color.darkGray}
+                  borderColor={theme.color.darkGray}
+                  padding="4px"
+                  color="white"
+                  value={blockColor.opacity}
+                  onChange={() => {
+                    return;
+                  }}
+                />
+              </DefaultBox>
+            </DefaultHStack>
+          ))}
         </DefaultVStack>
       </DefaultVStack>
 

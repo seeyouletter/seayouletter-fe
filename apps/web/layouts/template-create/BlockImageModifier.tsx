@@ -23,9 +23,6 @@ export function BlockImageModifier({ subType }: BlockImageDecoratorPropsInterfac
             <ActivedImageModifier />
           ) : (
             <DefaultVStack spacing={1}>
-              <StrongText size={theme.fontSize.sm} color="white">
-                이미지 채우기
-              </StrongText>
               <DefaultButton
                 borderWidth="1px"
                 borderColor={theme.color.white}

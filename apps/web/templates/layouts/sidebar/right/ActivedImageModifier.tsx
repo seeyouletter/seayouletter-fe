@@ -5,12 +5,13 @@ import { useTheme } from '@emotion/react';
 import {
   DefaultButton,
   DefaultHStack,
-  DefaultInput,
   DefaultSelect,
   DefaultVStack,
   FullWidthButton,
   StrongText,
 } from 'ui';
+
+import { TemplatedInputWithTitlePresenter } from './TemplatedInputWithTitlePresenter';
 
 export function ActivedImageModifier() {
   const theme = useTheme();
@@ -19,7 +20,7 @@ export function ActivedImageModifier() {
     <DefaultVStack spacing={3}>
       <DefaultButton size="xs">재영이의 우당탕탕 시유레터.jpg</DefaultButton>
 
-      <DefaultHStack spacing={2} alignItems="center">
+      <DefaultHStack spacing={1} alignItems="center">
         <StrongText flexShrink size={theme.fontSize.xs} color="white">
           이미지 스타일
         </StrongText>
@@ -36,7 +37,7 @@ export function ActivedImageModifier() {
         />
       </DefaultHStack>
 
-      <DefaultHStack spacing={2} alignItems="center">
+      <DefaultHStack spacing={1} alignItems="center">
         <StrongText flexShrink size={theme.fontSize.xs} color="white">
           위치 상세설정
         </StrongText>
@@ -53,50 +54,38 @@ export function ActivedImageModifier() {
       </DefaultHStack>
 
       <DefaultHStack justifyContent="space-between" alignItems="center">
-        <DefaultHStack spacing={1} alignItems="center">
-          <StrongText flexShrink size={theme.fontSize.xs} color="white">
-            상하
-          </StrongText>
-          <DefaultInput
-            width="42px"
-            size="xs"
-            placeholder="입력"
-            bgColor={theme.color.darkGray}
-            borderColor={theme.color.darkGray}
-            padding="4px"
-            color="white"
-          />
-        </DefaultHStack>
+        <TemplatedInputWithTitlePresenter
+          direction="horizontal"
+          title="상하"
+          placeholder="입력"
+          inputWidth="42px"
+          value="50%"
+          onChange={() => {
+            return;
+          }}
+        />
 
-        <DefaultHStack spacing={1} alignItems="center">
-          <StrongText flexShrink size={theme.fontSize.xs} color="white">
-            좌우
-          </StrongText>
-          <DefaultInput
-            width="42px"
-            size="xs"
-            placeholder="입력"
-            bgColor={theme.color.darkGray}
-            borderColor={theme.color.darkGray}
-            padding="4px"
-            color="white"
-          />
-        </DefaultHStack>
+        <TemplatedInputWithTitlePresenter
+          direction="horizontal"
+          title="좌우"
+          placeholder="입력"
+          inputWidth="42px"
+          value="50%"
+          onChange={() => {
+            return;
+          }}
+        />
 
-        <DefaultHStack spacing={1} alignItems="center">
-          <StrongText flexShrink size={theme.fontSize.xs} color="white">
-            투명도
-          </StrongText>
-          <DefaultInput
-            width="42px"
-            size="xs"
-            placeholder="입력"
-            bgColor={theme.color.darkGray}
-            borderColor={theme.color.darkGray}
-            padding="4px"
-            color="white"
-          />
-        </DefaultHStack>
+        <TemplatedInputWithTitlePresenter
+          direction="horizontal"
+          title="투명도"
+          placeholder="입력"
+          inputWidth="42px"
+          value="100%"
+          onChange={() => {
+            return;
+          }}
+        />
       </DefaultHStack>
     </DefaultVStack>
   );

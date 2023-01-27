@@ -63,6 +63,7 @@ export function ActivedBlockPositionSizeModifier() {
 
         <DefaultHStack paddingBottom="8px" justifyContent="space-between">
           <TemplatedInputWithTitlePresenter
+            direction="horizontal"
             title="위쪽"
             placeholder="입력"
             value={activedBlockGroup?.style?.position.top ?? DEFAULT_NONE}
@@ -70,6 +71,7 @@ export function ActivedBlockPositionSizeModifier() {
           />
 
           <TemplatedInputWithTitlePresenter
+            direction="horizontal"
             title="왼쪽"
             placeholder="입력"
             value={activedBlockGroup?.style?.position.left ?? DEFAULT_NONE}
@@ -79,6 +81,7 @@ export function ActivedBlockPositionSizeModifier() {
 
         <DefaultHStack justifyContent="space-between">
           <TemplatedInputWithTitlePresenter
+            direction="horizontal"
             title="너비"
             placeholder="입력"
             value={activedBlockGroup?.style?.size.width ?? DEFAULT_NONE}
@@ -86,6 +89,7 @@ export function ActivedBlockPositionSizeModifier() {
           />
 
           <TemplatedInputWithTitlePresenter
+            direction="horizontal"
             title="높이"
             placeholder="입력"
             value={activedBlockGroup?.style?.size.height ?? DEFAULT_NONE}

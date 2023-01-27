@@ -33,20 +33,22 @@ export function ActivedGroupPositionSizeModifier() {
 
         <DefaultHStack paddingBottom="8px" justifyContent="space-between">
           <TemplatedInputWithTitlePresenter
+            direction="horizontal"
             title="위쪽"
             placeholder="입력"
             value={TBD}
-            onInput={() => {
+            onChange={() => {
               // eslint-disable-next-line
               console.log(TBD);
             }}
           />
 
           <TemplatedInputWithTitlePresenter
-            title="아래쪽"
+            direction="horizontal"
+            title="왼쪽"
             placeholder="입력"
             value={TBD}
-            onInput={() => {
+            onChange={() => {
               // eslint-disable-next-line
               console.log(TBD);
             }}
@@ -55,20 +57,22 @@ export function ActivedGroupPositionSizeModifier() {
 
         <DefaultHStack justifyContent="space-between">
           <TemplatedInputWithTitlePresenter
+            direction="horizontal"
             title="너비"
             placeholder="입력"
             value={TBD}
-            onInput={() => {
+            onChange={() => {
               // eslint-disable-next-line
               console.log(TBD);
             }}
           />
 
           <TemplatedInputWithTitlePresenter
+            direction="horizontal"
             title="높이"
             placeholder="입력"
             value={TBD}
-            onInput={() => {
+            onChange={() => {
               // eslint-disable-next-line
               console.log(TBD);
             }}
