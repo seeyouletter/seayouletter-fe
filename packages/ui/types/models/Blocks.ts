@@ -30,7 +30,7 @@ export interface BlockInterface {
   style: BlockStyles;
 }
 
-export type Blocks = ShapeBlock | ImageBlock;
+export type Blocks = ShapeBlock | ImageBlock | TextBlock;
 export type Groups = DefaultGroup | AnimatorGroup;
 
 export type BlockMemberType = Blocks | Groups;
@@ -92,4 +92,21 @@ export interface ShapeBlock extends BlockInterface {
   subType: 'shape';
 
   style: BlockStyles;
+}
+
+interface TextStyles {
+  color: string;
+  fontSize: string;
+  fontWeight: string;
+  textStroke: string;
+  textStrokeColor: string;
+  letterSpacing: string;
+  lineHeight: string;
+}
+
+export interface TextBlock extends BlockInterface {
+  subType: 'text';
+
+  style: BlockStyles;
+  textStyle: TextStyles;
 }

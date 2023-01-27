@@ -448,8 +448,8 @@ const blockGroups: BlockMembersType = [
                   },
                 },
                 image: {
-                  imageUrl: '우리집.jpg',
-                  imageName: '우리집',
+                  imageUrl: '재영이의 우당탕탕 시유레터.jpg',
+                  imageName: '재영이의 우당탕탕 시유레터',
                 },
                 imageStyle: {
                   opacity: '1',

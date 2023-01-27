@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { FormEvent } from 'react';
 
 import { useTheme } from '@emotion/react';
 
@@ -11,24 +11,59 @@ import {
   StrongText,
 } from 'ui';
 
+import { useBlockGroupsAtom } from '@hooks/useBlockGroupsAtom';
+
 import { TemplatedInputWithTitlePresenter } from './TemplatedInputWithTitlePresenter';
 
 export function ActivedImageModifier() {
   const theme = useTheme();
 
+  // TODO: updateImageResource, deleteImageResource를 추후 넣어야 한다. (이는 모달에서 제어를 할 것 같다. 업로드와 같이.)
+  const { activedBlockGroup, setImageStyle } = useBlockGroupsAtom();
+
+  if (activedBlockGroup === null || activedBlockGroup.subType !== 'image') return <div></div>;
+
+  const onChangeImagePosition = (e: FormEvent, position: 'top' | 'left') => {
+    setImageStyle({
+      subType: activedBlockGroup.subType,
+      type: activedBlockGroup.type,
+      id: activedBlockGroup.id,
+      imageStyle: {
+        ...activedBlockGroup.imageStyle,
+        position: {
+          ...activedBlockGroup.imageStyle.position,
+          [position]: (e.target as HTMLInputElement).value,
+        },
+      },
+    });
+  };
+
+  const onChangeImageOpacity = (e: FormEvent) => {
+    setImageStyle({
+      subType: activedBlockGroup.subType,
+      type: activedBlockGroup.type,
+      id: activedBlockGroup.id,
+      imageStyle: {
+        ...activedBlockGroup.imageStyle,
+        opacity: (e.target as HTMLInputElement).value,
+      },
+    });
+  };
+
   return (
     <DefaultVStack spacing={3}>
-      <DefaultButton size="xs">재영이의 우당탕탕 시유레터.jpg</DefaultButton>
+      <DefaultButton size="xs">{activedBlockGroup.image.imageUrl}</DefaultButton>
 
       <DefaultHStack spacing={1} alignItems="center">
         <StrongText flexShrink size={theme.fontSize.xs} color="white">
           이미지 스타일
         </StrongText>
+
         <DefaultSelect
           size="xs"
           width="100%"
           height="24px"
-          options={[{ label: '비율 유지하면서 채우기', value: 'contain' }]}
+          options={[{ label: '비율 유지하면서 채우기', value: 'contains' }]}
           onChange={() => {
             return;
           }}
@@ -59,10 +94,8 @@ export function ActivedImageModifier() {
           title="상하"
           placeholder="입력"
           inputWidth="42px"
-          value="50%"
-          onChange={() => {
-            return;
-          }}
+          value={activedBlockGroup.imageStyle.position.top}
+          onChange={(e) => onChangeImagePosition(e, 'top')}
         />
 
         <TemplatedInputWithTitlePresenter
@@ -70,10 +103,8 @@ export function ActivedImageModifier() {
           title="좌우"
           placeholder="입력"
           inputWidth="42px"
-          value="50%"
-          onChange={() => {
-            return;
-          }}
+          value={activedBlockGroup.imageStyle.position.left}
+          onChange={(e) => onChangeImagePosition(e, 'left')}
         />
 
         <TemplatedInputWithTitlePresenter
@@ -81,10 +112,8 @@ export function ActivedImageModifier() {
           title="투명도"
           placeholder="입력"
           inputWidth="42px"
-          value="100%"
-          onChange={() => {
-            return;
-          }}
+          value={activedBlockGroup.imageStyle.opacity}
+          onChange={onChangeImageOpacity}
         />
       </DefaultHStack>
     </DefaultVStack>

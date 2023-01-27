@@ -19,6 +19,8 @@ export function ActivedBlockFillModifier() {
   if (activedBlockGroup === null) return <div></div>;
 
   const onChangeBg = (e: FormEvent) => {
+    if (activedBlockGroup.subType === 'text') return;
+
     setFillBgStyle({
       subType: activedBlockGroup?.subType,
       type: activedBlockGroup?.type,
@@ -27,6 +29,8 @@ export function ActivedBlockFillModifier() {
     });
   };
   const onChangeBgOpacity = (e: FormEvent) => {
+    if (activedBlockGroup.subType === 'text') return;
+
     setBgOpacity({
       subType: activedBlockGroup?.subType,
       type: activedBlockGroup?.type,

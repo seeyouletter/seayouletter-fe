@@ -1,5 +1,6 @@
 import { useAtom, useAtomValue } from 'jotai';
 
+import { TextBlock } from './../../../packages/ui/types/models/Blocks';
 import { BlockGroupType, Blocks, Groups, IdType, ImageBlock, ShapeBlock } from 'ui';
 
 import { activedBlockGroupAtom, blocksStateAtom } from '@atoms/index';
@@ -279,21 +280,35 @@ cksStore 변경과 동시에 groupsStore의 해당 parentGroup의 blocks를 업�
     changeBlockStyle({ type, id, key: 'opacity', value: opacity });
   };
 
-  const setTextColorStyle = ({
+  const setTextStyle = <Value>({
     subType,
     type,
     id,
-    border,
-  }: SetStyleParams<{ subType: 'text'; border: Blocks['style']['border'] }>) => {
+    key,
+    value,
+  }: SetStyleParams<{ subType: 'text'; key: keyof TextBlock['textStyle']; value: Value }>) => {
+    if (type !== 'block') {
+      /* eslint-disable-next-line no-console */
+      console.error('Do not call with non-block.');
+      return;
+    }
     if (subType !== 'text') {
       /* eslint-disable-next-line no-console */
       console.error('Do not call with non-text-block.');
       return;
     }
 
-    if (type === 'block') {
-      changeBlockStyle({ type, id, key: 'border', value: border });
-    }
+    const nowState = blockGroupState.blocksStore[id] as TextBlock;
+
+    const nextState = {
+      ...nowState,
+      textStyle: {
+        ...nowState.textStyle,
+        [key]: value,
+      },
+    };
+
+    syncBlockStateWithParentGroupBlocks({ parentId: nowState.parent, id, nextState });
   };
 
   const setImageStyle = ({
@@ -374,7 +389,7 @@ cksStore 변경과 동시에 groupsStore의 해당 parentGroup의 blocks를 업�
     setFillBgStyle,
     setBgOpacity,
 
-    setTextColorStyle,
+    setTextStyle,
 
     setImageStyle,
     updateImageResource,
