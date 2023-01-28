@@ -13,6 +13,12 @@ interface TypeWithIdInterface<Type = BlockGroupType> {
 type NonSubTypeTextBlock = 'shape' | 'image';
 type SetStyleParams<State, Type = BlockGroupType> = State & TypeWithIdInterface<Type>;
 
+type SetTextStyleParams<Value> = SetStyleParams<{
+  subType: 'text';
+  key: keyof TextBlock['textStyle'];
+  value: Value;
+}>;
+
 const typeProperties = {
   group: 'groupsStore',
   block: 'blocksStore',
@@ -22,6 +28,36 @@ export const useBlockGroupsAtom = () => {
   const activedBlockGroup = useAtomValue(activedBlockGroupAtom);
   const [blockGroupState, setBlockGroupState] = useAtom(blocksStateAtom);
 
+  /**
+   * INFO: 공통 코드
+   */
+  const setActiveId = (type: BlockGroupType, id: string) => {
+    setBlockGroupState((state) => ({
+      ...state,
+      activeId: id,
+      detail: (type === 'block' ? blockGroupState.blocksStore : blockGroupState.groupsStore)[id],
+    }));
+  };
+
+  const setTitle = (type: BlockGroupType, id: string, title: string) => {
+    const key = typeProperties[type];
+
+    setBlockGroupState((state) => ({
+      ...state,
+      [key]: {
+        ...state[key],
+        [id]: {
+          ...state[key][id],
+          title,
+        },
+      },
+    }));
+  };
+
+  /**
+   * INFO: 그룹 관련 코드
+   */
+
   const setGroupChildrenStore = (id: string, children: string[]) => {
     setBlockGroupState((state) => ({
       ...state,
@@ -29,37 +65,6 @@ export const useBlockGroupsAtom = () => {
         ...state.groupChildrenStore,
         [id]: children,
       },
-    }));
-  };
-
-  /**
-   * @description
-cksStore 변경과 동시에 groupsStore의 해당 parentGroup의 blocks를 업데이트하기 위한 로직입니다.
-   * group의 blocks들은 결국 하위 그룹의 상태가 변화하면 서로의 값이 불일치하게 됩니다.
-   * 따라서 이를 해결해주기 위해, 등록한 상위 컴포넌트에서의 blocks에 있는 이전의 자신의 상태를 새롭게 업데이트하는 로직입니다.
-   */
-  const syncBlockStateWithParentGroupBlocks = ({
-    parentId,
-    id,
-    nextState,
-  }: {
-    parentId: IdType;
-    id: string;
-    nextState: Blocks;
-  }) => {
-    const nextBlocksStoreState = { ...blockGroupState.blocksStore, [id]: nextState };
-    const nextGroupsStoreState = { ...blockGroupState.groupsStore };
-
-    if (parentId) {
-      nextGroupsStoreState[parentId].blocks = nextGroupsStoreState[parentId].blocks.map((v) =>
-        v.id === id ? nextState : v
-      );
-    }
-
-    setBlockGroupState((state) => ({
-      ...state,
-      blocksStore: nextBlocksStoreState,
-      groupsStore: nextGroupsStoreState,
     }));
   };
 
@@ -92,13 +97,6 @@ cksStore 변경과 동시에 groupsStore의 해당 parentGroup의 blocks를 업�
     setGroupsStore(nextGroupsStoreState);
   };
 
-  const setBlocks = (blocks: Record<string, Blocks>) => {
-    setBlockGroupState((state) => ({
-      ...state,
-      blocksStore: blocks,
-    }));
-  };
-
   const setGroupsStore = (groups: Record<string, Groups>) => {
     setBlockGroupState((state) => ({
       ...state,
@@ -106,37 +104,14 @@ cksStore 변경과 동시에 groupsStore의 해당 parentGroup의 blocks를 업�
     }));
   };
 
-  const setBlockState = (block: Blocks) => {
-    setBlockGroupState((state) => ({
-      ...state,
-      blocksStore: {
-        ...state.blocksStore,
-        [block.id]: block,
-      },
-    }));
-  };
+  const setOrder = (groups: Groups[]) => {
+    const nextGroups: Record<string, Groups> = {};
 
-  const setActiveId = (type: BlockGroupType, id: string) => {
-    setBlockGroupState((state) => ({
-      ...state,
-      activeId: id,
-      detail: (type === 'block' ? blockGroupState.blocksStore : blockGroupState.groupsStore)[id],
-    }));
-  };
-
-  const setTitle = (type: BlockGroupType, id: string, title: string) => {
-    const key = typeProperties[type];
-
-    setBlockGroupState((state) => ({
-      ...state,
-      [key]: {
-        ...state[key],
-        [id]: {
-          ...state[key][id],
-          title,
-        },
-      },
-    }));
+    groups.forEach((group) => {
+      nextGroups[group.id] = {
+        ...group,
+      };
+    });
   };
 
   const setToggle = (id: string) => {
@@ -150,14 +125,56 @@ cksStore 변경과 동시에 groupsStore의 해당 parentGroup의 blocks를 업�
     syncWithParentGroupBlocksState({ parentId, id, nextState });
   };
 
-  const setOrder = (groups: Groups[]) => {
-    const nextGroups: Record<string, Groups> = {};
+  /**
+   * INFO: 블록 관련 코드
+   */
 
-    groups.forEach((group) => {
-      nextGroups[group.id] = {
-        ...group,
-      };
-    });
+  /**
+   * @description
+   * INFO: blocksStore 변경과 동시에 groupsStore의 해당 parentGroup의 blocks를 업데이트하기 위한 로직입니다.
+   * group의 blocks들은 결국 하위 그룹의 상태가 변화하면 서로의 값이 불일치하게 됩니다.
+   * 따라서 이를 해결해주기 위해, 등록한 상위 컴포넌트에서의 blocks에 있는 이전의 자신의 상태를 새롭게 업데이트하는 로직입니다.
+   */
+  const syncBlockStateWithParentGroupBlocks = ({
+    parentId,
+    id,
+    nextState,
+  }: {
+    parentId: IdType;
+    id: string;
+    nextState: Blocks;
+  }) => {
+    const nextBlocksStoreState = { ...blockGroupState.blocksStore, [id]: nextState };
+    const nextGroupsStoreState = { ...blockGroupState.groupsStore };
+
+    if (parentId) {
+      nextGroupsStoreState[parentId].blocks = nextGroupsStoreState[parentId].blocks.map((v) =>
+        v.id === id ? nextState : v
+      );
+    }
+
+    setBlockGroupState((state) => ({
+      ...state,
+      blocksStore: nextBlocksStoreState,
+      groupsStore: nextGroupsStoreState,
+    }));
+  };
+
+  const setBlocks = (blocks: Record<string, Blocks>) => {
+    setBlockGroupState((state) => ({
+      ...state,
+      blocksStore: blocks,
+    }));
+  };
+
+  const setBlockState = (block: Blocks) => {
+    setBlockGroupState((state) => ({
+      ...state,
+      blocksStore: {
+        ...state.blocksStore,
+        [block.id]: block,
+      },
+    }));
   };
 
   const changeBlockStyle = <Value>({
@@ -184,31 +201,6 @@ cksStore 변경과 동시에 groupsStore의 해당 parentGroup의 blocks를 업�
       ...nowState,
       style: {
         ...nowState.style,
-        [key]: value,
-      },
-    };
-
-    syncBlockStateWithParentGroupBlocks({ parentId: nowState.parent, id, nextState });
-  };
-
-  const changeImageBlockStyle = <Value>({
-    subType,
-    id,
-    key,
-    value,
-  }: SetStyleParams<{ subType: 'image'; key: keyof ImageBlock; value: Value }, 'block'>) => {
-    if (subType !== 'image') {
-      /* eslint-disable-next-line no-console */
-      console.error('ImageBlockStyleError: Do not call with non-image-block type.');
-      return;
-    }
-
-    const nowState = blockGroupState.blocksStore[id] as ImageBlock;
-
-    const nextState = {
-      ...nowState,
-      imageStyle: {
-        ...nowState.imageStyle,
         [key]: value,
       },
     };
@@ -280,13 +272,11 @@ cksStore 변경과 동시에 groupsStore의 해당 parentGroup의 blocks를 업�
     changeBlockStyle({ type, id, key: 'opacity', value: opacity });
   };
 
-  const setTextStyle = <Value>({
-    subType,
-    type,
-    id,
-    key,
-    value,
-  }: SetStyleParams<{ subType: 'text'; key: keyof TextBlock['textStyle']; value: Value }>) => {
+  /**
+   * INFO: 텍스트 블록 관련 코드
+   */
+
+  const setTextStyle = <Value>({ subType, type, id, key, value }: SetTextStyleParams<Value>) => {
     if (type !== 'block') {
       /* eslint-disable-next-line no-console */
       console.error('Do not call with non-block.');
@@ -304,6 +294,161 @@ cksStore 변경과 동시에 groupsStore의 해당 parentGroup의 blocks를 업�
       ...nowState,
       textStyle: {
         ...nowState.textStyle,
+        [key]: value,
+      },
+    };
+
+    syncBlockStateWithParentGroupBlocks({ parentId: nowState.parent, id, nextState });
+  };
+
+  const setTextColor = ({
+    subType,
+    id,
+    value,
+  }: Omit<SetTextStyleParams<string>, 'key' | 'type'>) => {
+    setTextStyle({
+      subType,
+      type: 'block',
+      id,
+      key: 'color',
+      value,
+    });
+  };
+
+  const setTextFontSize = ({
+    subType,
+    id,
+    value,
+  }: Omit<SetTextStyleParams<string>, 'key' | 'type'>) => {
+    setTextStyle({
+      subType,
+      type: 'block',
+      id,
+      key: 'fontSize',
+      value,
+    });
+  };
+
+  const setTextStroke = ({
+    subType,
+    id,
+    value,
+  }: Omit<SetTextStyleParams<string>, 'key' | 'type'>) => {
+    setTextStyle({
+      subType,
+      type: 'block',
+      id,
+      key: 'textStroke',
+      value,
+    });
+  };
+
+  const setTextStrokeColor = ({
+    subType,
+    id,
+    value,
+  }: Omit<SetTextStyleParams<string>, 'key' | 'type'>) => {
+    setTextStyle({
+      subType,
+      type: 'block',
+      id,
+      key: 'textStrokeColor',
+      value,
+    });
+  };
+
+  const setTextFontStyle = ({
+    subType,
+    id,
+    value,
+  }: Omit<SetTextStyleParams<string>, 'key' | 'type'>) => {
+    setTextStyle({
+      subType,
+      type: 'block',
+      id,
+      key: 'fontStyle',
+      value,
+    });
+  };
+
+  const setTextFontFamily = ({
+    subType,
+    id,
+    value,
+  }: Omit<SetTextStyleParams<string>, 'key' | 'type'>) => {
+    setTextStyle({
+      subType,
+      type: 'block',
+      id,
+      key: 'fontFamily',
+      value,
+    });
+  };
+
+  const setTextLetterSpacing = ({
+    subType,
+    id,
+    value,
+  }: Omit<SetTextStyleParams<string>, 'key' | 'type'>) => {
+    setTextStyle({
+      subType,
+      type: 'block',
+      id,
+      key: 'letterSpacing',
+      value,
+    });
+  };
+
+  const setTextFontWeight = ({
+    subType,
+    id,
+    value,
+  }: Omit<SetTextStyleParams<string>, 'key' | 'type'>) => {
+    setTextStyle({
+      subType,
+      type: 'block',
+      id,
+      key: 'fontWeight',
+      value,
+    });
+  };
+
+  const setTextLineHeight = ({
+    subType,
+    id,
+    value,
+  }: Omit<SetTextStyleParams<string>, 'key' | 'type'>) => {
+    setTextStyle({
+      subType,
+      type: 'block',
+      id,
+      key: 'lineHeight',
+      value,
+    });
+  };
+
+  /**
+   * INFO: 이미지 블록 관련 코드
+   */
+
+  const changeImageBlockStyle = <Value>({
+    subType,
+    id,
+    key,
+    value,
+  }: SetStyleParams<{ subType: 'image'; key: keyof ImageBlock; value: Value }, 'block'>) => {
+    if (subType !== 'image') {
+      /* eslint-disable-next-line no-console */
+      console.error('ImageBlockStyleError: Do not call with non-image-block type.');
+      return;
+    }
+
+    const nowState = blockGroupState.blocksStore[id] as ImageBlock;
+
+    const nextState = {
+      ...nowState,
+      imageStyle: {
+        ...nowState.imageStyle,
         [key]: value,
       },
     };
@@ -394,5 +539,15 @@ cksStore 변경과 동시에 groupsStore의 해당 parentGroup의 blocks를 업�
     setImageStyle,
     updateImageResource,
     deleteImageResource,
+
+    setTextColor,
+    setTextFontSize,
+    setTextFontWeight,
+    setTextLetterSpacing,
+    setTextLineHeight,
+    setTextStroke,
+    setTextStrokeColor,
+    setTextFontStyle,
+    setTextFontFamily,
   };
 };

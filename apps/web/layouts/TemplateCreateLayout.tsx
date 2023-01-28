@@ -352,6 +352,66 @@ const blockGroups: BlockMembersType = [
             blocks: [
               {
                 type: 'block',
+                subType: 'text',
+                parent: 'subsubcomponent1',
+                id: uuidv4(),
+                title: '서브서브블록텍스트1',
+                style: {
+                  size: {
+                    width: '100px',
+                    height: '120px',
+                  },
+                  borderRadius: {
+                    topLeft: '8px',
+                    topRight: '8px',
+                    bottomRight: '8px',
+                    bottomLeft: '8px',
+                  },
+                  position: {
+                    top: '1px',
+                    right: 'auto',
+                    bottom: 'auto',
+                    left: '1px',
+                  },
+                  bg: '#ffffff',
+                  opacity: '1',
+                  border: {
+                    top: {
+                      width: '1px',
+                      style: 'solid',
+                      color: 'black',
+                    },
+                    right: {
+                      width: '1px',
+                      style: 'solid',
+                      color: 'black',
+                    },
+                    bottom: {
+                      width: '1px',
+                      style: 'solid',
+                      color: 'black',
+                    },
+                    left: {
+                      width: '1px',
+                      style: 'solid',
+                      color: 'black',
+                    },
+                  },
+                },
+                textStyle: {
+                  color: '#f5ee32',
+                  fontSize: '16px',
+                  textStroke: '0px',
+                  textStrokeColor: '#f5ee32',
+                  letterSpacing: '0px',
+                  fontWeight: 'bold',
+                  lineHeight: '1',
+                  fontFamily: 'Noto Sans KR',
+                  fontStyle: '기본',
+                },
+              },
+              {
+                type: 'block',
                 subType: 'shape',
                 parent: 'subsubcomponent1',
                 id: uuidv4(),

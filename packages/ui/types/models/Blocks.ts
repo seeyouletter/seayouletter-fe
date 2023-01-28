@@ -102,6 +102,8 @@ interface TextStyles {
   textStrokeColor: string;
   letterSpacing: string;
   lineHeight: string;
+  fontStyle: 'oblique' | 'normal';
+  fontFamily: string;
 }
 
 export interface TextBlock extends BlockInterface {
