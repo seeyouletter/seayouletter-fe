@@ -1,14 +1,14 @@
 import { useAtom } from 'jotai';
 
-import { EdgeDirectionsContstants, blockBorderStateAtom } from '@atoms/index';
-
-import { useBlockGroupsAtom } from '@hooks/useBlockGroupsAtom';
-
 import {
   BorderName,
   DirectionsContstants,
+  EdgeDirectionsContstants,
+  blockBorderStateAtom,
   concurrentlyActivedSections,
-} from './../atoms/blockBorderAtom';
+} from '@atoms/index';
+
+import { useBlockGroupsAtom } from '@hooks/useBlockGroupsAtom';
 
 export const useBorderMatrix = () => {
   const [blockBorderState, setBlockBorderState] = useAtom(blockBorderStateAtom);
@@ -42,7 +42,7 @@ export const useBorderMatrix = () => {
   const onClickBorderSection = ({
     key,
   }: {
-    key: EdgeDirectionsContstants | DirectionsContstants;
+    key: EdgeDirectionsContstants | DirectionsContstants | 'all';
   }) => {
     setBlockBorderState((state) => ({
       ...state,
