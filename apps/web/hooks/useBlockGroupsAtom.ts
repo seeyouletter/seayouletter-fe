@@ -1,6 +1,6 @@
 import { useAtom, useAtomValue } from 'jotai';
 
-import { TextBlock } from './../../../packages/ui/types/models/Blocks';
+import { Border, Directions, TextBlock } from '@ui/types/models/Blocks';
 import { BlockGroupType, Blocks, Groups, IdType, ImageBlock, ShapeBlock } from 'ui';
 
 import { activedBlockGroupAtom, blocksStateAtom } from '@atoms/index';
@@ -221,7 +221,7 @@ export const useBlockGroupsAtom = () => {
     }
   };
 
-  const setBorderStyle = ({
+  const setBlockAllBorderStyle = ({
     type,
     id,
     border,
@@ -231,7 +231,88 @@ export const useBlockGroupsAtom = () => {
     }
   };
 
-  const setBorderRadiusStyle = ({
+  const setBlockBorderWidth = ({
+    subType,
+    type,
+    id,
+    key,
+    borderWidth,
+  }: SetStyleParams<
+    {
+      subType: NonSubTypeTextBlock;
+      key: Directions;
+      borderWidth: Border['width'];
+    },
+    'block'
+  >) => {
+    if (activedBlockGroup === null || (subType !== 'image' && subType !== 'shape')) return;
+
+    const nextBorderState: Record<Directions, Border> = {
+      ...activedBlockGroup.style.border,
+      [key]: {
+        ...activedBlockGroup.style.border[key],
+        width: borderWidth,
+      },
+    };
+
+    setBlockAllBorderStyle({ type, id, border: nextBorderState });
+  };
+
+  const setBlockBorderColor = ({
+    subType,
+    type,
+    id,
+    key,
+    borderColor,
+  }: SetStyleParams<
+    {
+      subType: NonSubTypeTextBlock;
+      key: Directions;
+      borderColor: Border['width'];
+    },
+    'block'
+  >) => {
+    if (activedBlockGroup === null || (subType !== 'image' && subType !== 'shape')) return;
+
+    const nextBorderState: Record<Directions, Border> = {
+      ...activedBlockGroup.style.border,
+      [key]: {
+        ...activedBlockGroup.style.border[key],
+        color: borderColor,
+      },
+    };
+
+    setBlockAllBorderStyle({ type, id, border: nextBorderState });
+  };
+
+  const setBlockBorderStyle = ({
+    subType,
+    type,
+    id,
+    key,
+    borderStyle,
+  }: SetStyleParams<
+    {
+      subType: NonSubTypeTextBlock;
+      key: Directions;
+      borderStyle: Border['style'];
+    },
+    'block'
+  >) => {
+    if (activedBlockGroup === null || (subType !== 'image' && subType !== 'shape')) return;
+
+    const nextBorderState: Record<Directions, Border> = {
+      ...activedBlockGroup.style.border,
+      [key]: {
+        ...activedBlockGroup.style.border[key],
+        style: borderStyle,
+      },
+    };
+
+    setBlockAllBorderStyle({ type, id, border: nextBorderState });
+  };
+
+  const setBlockAllBorderRadiusStyle = ({
     subType,
     type,
     id,
@@ -528,8 +609,11 @@ export const useBlockGroupsAtom = () => {
     setPositionStyle,
     setSizeStyle,
 
-    setBorderStyle,
-    setBorderRadiusStyle,
+    setBlockAllBorderStyle,
+    setBlockAllBorderRadiusStyle,
+    setBlockBorderWidth,
+    setBlockBorderColor,
+    setBlockBorderStyle,
 
     setFillBgStyle,
     setBgOpacity,

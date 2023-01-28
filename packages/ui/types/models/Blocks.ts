@@ -102,7 +102,7 @@ interface TextStyles {
   textStrokeColor: string;
   letterSpacing: string;
   lineHeight: string;
-  fontStyle: 'oblique' | 'normal';
+  fontStyle: '기울어지게' | '기본';
   fontFamily: string;
 }
 
