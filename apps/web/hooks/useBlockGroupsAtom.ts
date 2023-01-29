@@ -285,6 +285,33 @@ export const useBlockGroupsAtom = () => {
     setBlockAllBorderStyle({ type, id, border: nextBorderState });
   };
 
+  const setBlockBorderOpacity = ({
+    subType,
+    type,
+    id,
+    key,
+    borderOpacity,
+  }: SetStyleParams<
+    {
+      subType: NonSubTypeTextBlock;
+      key: Directions;
+      borderOpacity: Border['opacity'];
+    },
+    'block'
+  >) => {
+    if (activedBlockGroup === null || (subType !== 'image' && subType !== 'shape')) return;
+
+    const nextBorderState: Record<Directions, Border> = {
+      ...activedBlockGroup.style.border,
+      [key]: {
+        ...activedBlockGroup.style.border[key],
+        opacity: borderOpacity,
+      },
+    };
+
+    setBlockAllBorderStyle({ type, id, border: nextBorderState });
+  };
+
   const setBlockBorderStyle = ({
     subType,
     type,
@@ -613,6 +640,7 @@ export const useBlockGroupsAtom = () => {
     setBlockAllBorderRadiusStyle,
     setBlockBorderWidth,
     setBlockBorderColor,
+    setBlockBorderOpacity,
     setBlockBorderStyle,
 
     setFillBgStyle,

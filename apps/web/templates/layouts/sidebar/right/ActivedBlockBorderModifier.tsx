@@ -1,8 +1,9 @@
-import React, { useCallback, useEffect, useMemo, useState } from 'react';
+import React, { FormEvent, useCallback, useEffect, useMemo, useState } from 'react';
 
 import { useTheme } from '@emotion/react';
 
 import {
+  Border,
   DefaultBox,
   DefaultDivider,
   DefaultHStack,
@@ -17,6 +18,7 @@ import {
   concurrentlyActivedSections,
 } from '@atoms/blockBorderAtom';
 
+import { useBlockGroupsAtom } from '@hooks/useBlockGroupsAtom';
 import { useBorderMatrix } from '@hooks/useBorderMatrix';
 
 import { TemplatedColorInputWithTitlePresenter } from './TemplatedColorInputWithTitle';
@@ -257,6 +259,246 @@ export function ActivedBlockBorderModifier() {
   const theme = useTheme();
   const { blockBorderState } = useBorderMatrix();
 
+  const {
+    activedBlockGroup,
+    setBlockAllBorderStyle,
+    setBlockAllBorderRadiusStyle,
+    setBlockBorderWidth,
+    setBlockBorderColor,
+    setBlockBorderStyle,
+    setBlockBorderOpacity,
+  } = useBlockGroupsAtom();
+
+  if (!activedBlockGroup?.id) return <div></div>;
+
+  const activeSectionBorderWidth = () => {
+    if (blockBorderState.activeBorder in EdgeDirectionsContstants) return '';
+
+    if (blockBorderState.activeBorder === 'all') {
+      if (
+        Object.values(activedBlockGroup.style.border).every(
+          (v) => v.width === activedBlockGroup.style.border.top.width
+        )
+      ) {
+        return activedBlockGroup.style.border.top.width;
+      } else {
+        return 'mixed';
+      }
+    } else {
+      return activedBlockGroup.style.border[blockBorderState.activeBorder as DirectionsContstants]
+        .width;
+    }
+  };
+
+  const activeSectionBorderColor = () => {
+    if (blockBorderState.activeBorder in EdgeDirectionsContstants) return '';
+
+    if (blockBorderState.activeBorder === 'all') {
+      if (
+        Object.values(activedBlockGroup.style.border).every(
+          (v) => v.color === activedBlockGroup.style.border.top.color
+        )
+      ) {
+        return activedBlockGroup.style.border.top.color;
+      } else {
+        return 'mixed';
+      }
+    } else {
+      return activedBlockGroup.style.border[blockBorderState.activeBorder as DirectionsContstants]
+        .color;
+    }
+  };
+
+  const activeSectionBorderStyle = () => {
+    if (blockBorderState.activeBorder in EdgeDirectionsContstants) return '';
+
+    if (blockBorderState.activeBorder === 'all') {
+      const concurrentlyActivedLines = blockBorderState.concurrentlyActivedSection.filter(
+        (v) => v in DirectionsContstants
+      ) as DirectionsContstants[];
+
+      if (
+        concurrentlyActivedLines.every(
+          (v) =>
+            activedBlockGroup.style.border[v].style === activedBlockGroup.style.border.top.style
+        )
+      ) {
+        return activedBlockGroup.style.border.top.style;
+      } else {
+        return 'mixed';
+      }
+    } else {
+      return activedBlockGroup.style.border[blockBorderState.activeBorder as DirectionsContstants]
+        .style;
+    }
+  };
+
+  const activeSectionBorderOpacity = () => {
+    if (blockBorderState.activeBorder in EdgeDirectionsContstants) return '';
+
+    if (blockBorderState.activeBorder === 'all') {
+      const concurrentlyActivedLines = blockBorderState.concurrentlyActivedSection.filter(
+        (v) => v in DirectionsContstants
+      ) as DirectionsContstants[];
+
+      if (
+        concurrentlyActivedLines.every(
+          (v) =>
+            activedBlockGroup.style.border[v].opacity === activedBlockGroup.style.border.top.opacity
+        )
+      ) {
+        return activedBlockGroup.style.border.top.opacity;
+      } else {
+        return 'mixed';
+      }
+    } else {
+      return activedBlockGroup.style.border[blockBorderState.activeBorder as DirectionsContstants]
+        .opacity;
+    }
+  };
+
+  const activeSectionBorderRadius = () => {
+    const borderRadius = activedBlockGroup.style.borderRadius;
+
+    if (blockBorderState.activeBorder === 'all') {
+      const nowStandardValue = borderRadius.topLeft;
+      if (Object.values(borderRadius).every((v) => v === nowStandardValue)) {
+        return nowStandardValue;
+      } else {
+        return 'mixed';
+      }
+    } else if (blockBorderState.activeBorder in DirectionsContstants) {
+      const concurrentlyActivedEdges = blockBorderState.concurrentlyActivedSection.filter(
+        (v) => v in EdgeDirectionsContstants
+      );
+
+      const nowStandardValue =
+        borderRadius[concurrentlyActivedEdges[0] as EdgeDirectionsContstants];
+
+      if (
+        (concurrentlyActivedEdges as EdgeDirectionsContstants[]).every(
+          (key) => borderRadius[key] === nowStandardValue
+        )
+      ) {
+        return nowStandardValue;
+      } else {
+        return 'mixed';
+      }
+    } else {
+      return borderRadius[blockBorderState.activeBorder as EdgeDirectionsContstants];
+    }
+  };
+
+  const setBorderMiddleware = (e: FormEvent, type: keyof Border) => {
+    const value = (e.target as HTMLInputElement).value;
+
+    if (value === 'mixed') return;
+
+    if (activedBlockGroup.subType === 'text') return;
+
+    if (blockBorderState.activeBorder === 'all') {
+      const nextBorderState = {
+        ...activedBlockGroup.style.border,
+        top: {
+          ...activedBlockGroup.style.border.top,
+          [type]: value,
+        },
+        right: {
+          ...activedBlockGroup.style.border.right,
+          [type]: value,
+        },
+        bottom: {
+          ...activedBlockGroup.style.border.bottom,
+          [type]: value,
+        },
+        left: {
+          ...activedBlockGroup.style.border.left,
+          [type]: value,
+        },
+      };
+
+      setBlockAllBorderStyle({ type: 'block', id: activedBlockGroup.id, border: nextBorderState });
+    } else {
+      if (type === 'width') {
+        if (blockBorderState.activeBorder in DirectionsContstants) {
+          setBlockBorderWidth({
+            subType: activedBlockGroup.subType,
+            type: activedBlockGroup.type,
+            id: activedBlockGroup.id,
+            key: blockBorderState.activeBorder as DirectionsContstants,
+            borderWidth: value,
+          });
+        }
+      }
+
+      if (type === 'color') {
+        setBlockBorderColor({
+          subType: activedBlockGroup.subType,
+          type: activedBlockGroup.type,
+          id: activedBlockGroup.id,
+          key: blockBorderState.activeBorder as DirectionsContstants,
+          borderColor: value,
+        });
+      }
+
+      if (type === 'style') {
+        setBlockBorderStyle({
+          subType: activedBlockGroup.subType,
+          type: activedBlockGroup.type,
+          id: activedBlockGroup.id,
+          key: blockBorderState.activeBorder as DirectionsContstants,
+          borderStyle: value,
+        });
+      }
+
+      if (type === 'opacity') {
+        setBlockBorderOpacity({
+          subType: activedBlockGroup.subType,
+          type: activedBlockGroup.type,
+          id: activedBlockGroup.id,
+          key: blockBorderState.activeBorder as DirectionsContstants,
+          borderOpacity: value,
+        });
+      }
+    }
+  };
+
+  const setBorderRadiusMiddleWare = (e: FormEvent) => {
+    const value = (e.target as HTMLInputElement).value;
+
+    if (value === 'mixed') return;
+
+    if (activedBlockGroup.subType === 'text') return;
+
+    const nextBorderRadius = {
+      ...activedBlockGroup.style.borderRadius,
+    };
+
+    if (blockBorderState.activeBorder === 'all') {
+      nextBorderRadius.topLeft = value;
+      nextBorderRadius.topRight = value;
+      nextBorderRadius.bottomLeft = value;
+      nextBorderRadius.bottomRight = value;
+    } else {
+      if (blockBorderState.activeBorder in DirectionsContstants) {
+        blockBorderState.concurrentlyActivedSection.forEach((section) => {
+          if (section in EdgeDirectionsContstants) {
+            nextBorderRadius[section as EdgeDirectionsContstants] = value;
+          }
+        });
+      } else {
+        nextBorderRadius[blockBorderState.activeBorder as EdgeDirectionsContstants] = value;
+      }
+    }
+
+    setBlockAllBorderRadiusStyle({
+      subType: activedBlockGroup.subType,
+      type: activedBlockGroup.type,
+      id: activedBlockGroup.id,
+      borderRadius: nextBorderRadius,
+    });
+  };
+
   return (
     <>
       <DefaultVStack spacing={4}>
@@ -274,10 +516,8 @@ export function ActivedBlockBorderModifier() {
                 inputWidth="42px"
                 title="두께"
                 placeholder="입력"
-                value={'1px'}
-                onChange={() => {
-                  console.log('입력');
-                }}
+                value={activeSectionBorderWidth()}
+                onChange={(e) => setBorderMiddleware(e, 'width')}
               />
 
               <TemplatedInputWithTitlePresenter
@@ -285,10 +525,8 @@ export function ActivedBlockBorderModifier() {
                 inputWidth="42px"
                 title="둥글기"
                 placeholder="입력"
-                value={'0'}
-                onChange={() => {
-                  console.log('입력');
-                }}
+                value={activeSectionBorderRadius()}
+                onChange={setBorderRadiusMiddleWare}
               />
 
               <TemplatedInputWithTitlePresenter
@@ -296,10 +534,8 @@ export function ActivedBlockBorderModifier() {
                 inputWidth="48px"
                 title="스타일"
                 placeholder="입력"
-                value={'실선'}
-                onChange={() => {
-                  console.log('입력');
-                }}
+                value={activeSectionBorderStyle()}
+                onChange={(e) => setBorderMiddleware(e, 'style')}
               />
             </DefaultHStack>
 
@@ -308,10 +544,8 @@ export function ActivedBlockBorderModifier() {
                 direction="vertical"
                 width="24px"
                 title="색상"
-                value="#752bed"
-                onChange={() => {
-                  console.log('입력');
-                }}
+                value={activeSectionBorderColor()}
+                onChange={(e) => setBorderMiddleware(e, 'color')}
               />
 
               <TemplatedInputWithTitlePresenter
@@ -319,10 +553,8 @@ export function ActivedBlockBorderModifier() {
                 inputWidth="60px"
                 title="색상번호"
                 placeholder="입력"
-                value="#752bed"
-                onChange={() => {
-                  console.log('입력');
-                }}
+                value={activeSectionBorderColor()}
+                onChange={(e) => setBorderMiddleware(e, 'color')}
               />
 
               <TemplatedInputWithTitlePresenter
@@ -330,10 +562,8 @@ export function ActivedBlockBorderModifier() {
                 inputWidth="48px"
                 title="투명도"
                 placeholder="입력"
-                value="100%"
-                onChange={() => {
-                  console.log('입력');
-                }}
+                value={activeSectionBorderOpacity()}
+                onChange={(e) => setBorderMiddleware(e, 'opacity')}
               />
             </DefaultHStack>
           </DefaultVStack>
