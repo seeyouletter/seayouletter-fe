@@ -70,13 +70,13 @@ export function ActivedTextModifier() {
               title="색상"
               placeholder="입력"
               value={activedBlockGroup.textStyle.color}
-              onChange={(e) =>
+              onChange={(e) => {
                 setTextColor({
                   subType: activedBlockGroup.subType,
                   id: activedBlockGroup.id,
                   value: (e.target as HTMLInputElement).value,
-                })
-              }
+                });
+              }}
             />
 
             <TemplatedInputWithTitlePresenter
@@ -114,13 +114,13 @@ export function ActivedTextModifier() {
               title="줄높이"
               placeholder="입력"
               value={activedBlockGroup.textStyle.lineHeight}
-              onChange={(e) =>
+              onChange={(e) => {
                 setTextLineHeight({
                   subType: activedBlockGroup.subType,
                   id: activedBlockGroup.id,
                   value: (e.target as HTMLInputElement).value,
-                })
-              }
+                });
+              }}
             />
           </DefaultHStack>
 
@@ -130,13 +130,13 @@ export function ActivedTextModifier() {
               title="둘레"
               placeholder="입력"
               value={activedBlockGroup.textStyle.textStroke}
-              onChange={(e) =>
+              onChange={(e) => {
                 setTextStroke({
                   subType: activedBlockGroup.subType,
                   id: activedBlockGroup.id,
                   value: (e.target as HTMLInputElement).value,
-                })
-              }
+                });
+              }}
             />
 
             <TemplatedInputWithTitlePresenter
@@ -144,13 +144,13 @@ export function ActivedTextModifier() {
               title="둘레색상"
               placeholder="입력"
               value={activedBlockGroup.textStyle.textStrokeColor}
-              onChange={(e) =>
+              onChange={(e) => {
                 setTextStrokeColor({
                   subType: activedBlockGroup.subType,
                   id: activedBlockGroup.id,
                   value: (e.target as HTMLInputElement).value,
-                })
-              }
+                });
+              }}
             />
           </DefaultHStack>
 
@@ -161,13 +161,13 @@ export function ActivedTextModifier() {
               inputWidth="200px"
               placeholder="입력"
               value={activedBlockGroup.textStyle.fontFamily}
-              onChange={(e) =>
+              onChange={(e) => {
                 setTextFontFamily({
                   subType: activedBlockGroup.subType,
                   id: activedBlockGroup.id,
                   value: (e.target as HTMLInputElement).value,
-                })
-              }
+                });
+              }}
             />
           </DefaultHStack>
         </DefaultVStack>

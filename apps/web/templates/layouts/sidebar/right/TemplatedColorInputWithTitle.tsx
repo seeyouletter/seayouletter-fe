@@ -20,8 +20,7 @@ interface TemplatedColorInputWithTitlePresenterInterface {
 
 /**
  * @description
- * INFO: 템플릿 만들기 페이지에서는 타이틀과 함께 주어지는 input이 상당히 많습니다.
- * 이를 쉽게 핸들링하기 위해서 사용하는 컴포넌트입니다.
+ * INFO: 템플릿 만들기 페이지에서는 타이틀과 함께 주어지는 input이 상당히 많습니다. 이를 쉽게 핸들링하기 위해서 사용하는 컴포넌트입니다.
  */
 export function TemplatedColorInputWithTitlePresenter({
   direction,
