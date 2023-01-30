@@ -20,16 +20,47 @@ export const useBorderModifier = () => {
     setBlockBorderOpacity,
   } = useBlockGroupsAtom();
 
+  const checkLineValuesAllEqual = (key: 'width' | 'color' | 'style' | 'opacity') => {
+    if (activedBlockGroup === null) return false;
+
+    return Object.values(activedBlockGroup.style.border).every(
+      (v) => v[key] === activedBlockGroup.style.border.top[key]
+    );
+  };
+
+  const checkEdgeValuesAllEqual = (key: 'borderRadius') => {
+    if (activedBlockGroup === null) return false;
+
+    return Object.values(activedBlockGroup.style[key]).every(
+      (v) => v === activedBlockGroup.style[key].topLeft
+    );
+  };
+
+  const checkEdgeValuesConditionalEqual = (key: 'borderRadius') => {
+    if (!activedBlockGroup) return { success: false, value: 'mixed' };
+
+    const targetObj = activedBlockGroup.style[key];
+
+    const concurrentlyActivedEdges = blockBorderState.concurrentlyActivedSection.filter(
+      (v) => v in EdgeDirectionsContstants
+    );
+
+    const nowStandardValue = targetObj[concurrentlyActivedEdges[0] as EdgeDirectionsContstants];
+
+    return {
+      success: (concurrentlyActivedEdges as EdgeDirectionsContstants[]).every(
+        (key) => targetObj[key] === nowStandardValue
+      ),
+      value: nowStandardValue,
+    };
+  };
+
   const activeSectionBorderWidth = () => {
     if (blockBorderState.activeBorder in EdgeDirectionsContstants) return '';
     if (activedBlockGroup === null) return '';
 
     if (blockBorderState.activeBorder === 'all') {
-      if (
-        Object.values(activedBlockGroup.style.border).every(
-          (v) => v.width === activedBlockGroup.style.border.top.width
-        )
-      ) {
+      if (checkLineValuesAllEqual('width')) {
         return activedBlockGroup.style.border.top.width;
       } else {
         return 'mixed';
@@ -45,11 +76,7 @@ export const useBorderModifier = () => {
     if (activedBlockGroup === null) return '';
 
     if (blockBorderState.activeBorder === 'all') {
-      if (
-        Object.values(activedBlockGroup.style.border).every(
-          (v) => v.color === activedBlockGroup.style.border.top.color
-        )
-      ) {
+      if (checkLineValuesAllEqual('color')) {
         return activedBlockGroup.style.border.top.color;
       } else {
         return 'mixed';
@@ -65,16 +92,7 @@ export const useBorderModifier = () => {
     if (activedBlockGroup === null) return '';
 
     if (blockBorderState.activeBorder === 'all') {
-      const concurrentlyActivedLines = blockBorderState.concurrentlyActivedSection.filter(
-        (v) => v in DirectionsContstants
-      ) as DirectionsContstants[];
-
-      if (
-        concurrentlyActivedLines.every(
-          (v) =>
-            activedBlockGroup.style.border[v].style === activedBlockGroup.style.border.top.style
-        )
-      ) {
+      if (checkLineValuesAllEqual('style')) {
         return activedBlockGroup.style.border.top.style;
       } else {
         return 'mixed';
@@ -90,16 +108,7 @@ export const useBorderModifier = () => {
     if (activedBlockGroup === null) return '';
 
     if (blockBorderState.activeBorder === 'all') {
-      const concurrentlyActivedLines = blockBorderState.concurrentlyActivedSection.filter(
-        (v) => v in DirectionsContstants
-      ) as DirectionsContstants[];
-
-      if (
-        concurrentlyActivedLines.every(
-          (v) =>
-            activedBlockGroup.style.border[v].opacity === activedBlockGroup.style.border.top.opacity
-        )
-      ) {
+      if (checkLineValuesAllEqual('opacity')) {
         return activedBlockGroup.style.border.top.opacity;
       } else {
         return 'mixed';
@@ -115,26 +124,16 @@ export const useBorderModifier = () => {
     const borderRadius = activedBlockGroup.style.borderRadius;
 
     if (blockBorderState.activeBorder === 'all') {
-      const nowStandardValue = borderRadius.topLeft;
-      if (Object.values(borderRadius).every((v) => v === nowStandardValue)) {
-        return nowStandardValue;
+      if (checkEdgeValuesAllEqual('borderRadius')) {
+        return borderRadius.topLeft;
       } else {
         return 'mixed';
       }
     } else if (blockBorderState.activeBorder in DirectionsContstants) {
-      const concurrentlyActivedEdges = blockBorderState.concurrentlyActivedSection.filter(
-        (v) => v in EdgeDirectionsContstants
-      );
+      const { success, value } = checkEdgeValuesConditionalEqual('borderRadius');
 
-      const nowStandardValue =
-        borderRadius[concurrentlyActivedEdges[0] as EdgeDirectionsContstants];
-
-      if (
-        (concurrentlyActivedEdges as EdgeDirectionsContstants[]).every(
-          (key) => borderRadius[key] === nowStandardValue
-        )
-      ) {
-        return nowStandardValue;
+      if (success) {
+        return value;
       } else {
         return 'mixed';
       }
