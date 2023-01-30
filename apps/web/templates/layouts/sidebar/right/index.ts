@@ -2,6 +2,6 @@ export { ActivedGroupPositionSizeModifier } from './ActivedGroupPositionSizeModi
 export { ActivedBlockPositionSizeModifier } from './ActivedBlockPositionSizeModifier';
 export { ActivedGroupColorsModifier } from './ActivedGroupColorsModifier';
 export { ActivedBlockFillModifier } from './ActivedBlockFillModifier';
-export { ActivedBlockBorderModifier } from './ActivedBlockBorderModifier';
+export { ActivedBlockBorderModifier } from './border-modifier/ActivedBlockBorderModifier';
 export { ActivedTextModifier } from './ActivedTextModifier';
 export { ActivedImageModifier } from './ActivedImageModifier';
