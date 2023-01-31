@@ -1,37 +1,63 @@
-import React from 'react';
+import React, { useMemo } from 'react';
 
 import { useTheme } from '@emotion/react';
 
 import {
+  Blocks,
   ColorInput,
   DefaultBox,
   DefaultDivider,
   DefaultHStack,
   DefaultInput,
   DefaultVStack,
+  Groups,
   StrongText,
 } from 'ui';
+
+import { useBlockGroupsAtom } from '@hooks/useBlockGroupsAtom';
 
 export function ActivedGroupColorsModifier() {
   const theme = useTheme();
 
-  const blockColors = [
-    {
-      color: '#752bed',
-      opacity: '100%',
-      blocks: ['블록1', '블록2', '블록3'],
-    },
-    {
-      color: '#752bed',
-      opacity: '100%',
-      blocks: ['블록1', '블록2', '블록3'],
-    },
-    {
-      color: '#752bed',
-      opacity: '100%',
-      blocks: ['블록1', '블록2', '블록3'],
-    },
-  ];
+  const { activedBlockGroup } = useBlockGroupsAtom();
+
+  if (activedBlockGroup === null || activedBlockGroup.type === 'block') return <div></div>;
+
+  /* eslint-disable-next-line react-hooks/rules-of-hooks */
+  const blockColors = useMemo(() => {
+    if (!activedBlockGroup.id) return [];
+
+    const colorStore: Record<string, { color: string; id: string[]; opacity: string[] }> = {};
+
+    const reculsiveAddColorStore = (node: Blocks | Groups) => {
+      if (node.type === 'block') {
+        if (node.subType !== 'text') {
+          const bg = node.style.bg;
+          colorStore[bg] = {
+            color: bg,
+            id: [...(colorStore[bg]?.id ?? []), node.id],
+            opacity: [...new Set([...(colorStore[bg]?.opacity ?? []), node.style.opacity])],
+          };
+        } else {
+          const textColor = node.textStyle.color;
+          const textOpacity = node.style.opacity;
+          colorStore[textColor] = {
+            color: textColor,
+            id: [...(colorStore[textColor]?.id ?? []), node.id],
+            opacity: [...new Set([...(colorStore[textColor]?.opacity ?? []), textOpacity])],
+          };
+        }
+      } else {
+        for (const block of node.blocks) {
+          reculsiveAddColorStore(block);
+        }
+      }
+    };
+
+    reculsiveAddColorStore(activedBlockGroup);
+
+    return Object.values(colorStore);
+  }, [activedBlockGroup]);
 
   return (
     <>
@@ -97,7 +123,7 @@ export function ActivedGroupColorsModifier() {
                   borderColor={theme.color.darkGray}
                   padding="4px"
                   color="white"
-                  value={blockColor.opacity}
+                  value={blockColor.opacity.length === 1 ? blockColor.opacity[0] : 'mixed'}
                   onChange={() => {
                     return;
                   }}

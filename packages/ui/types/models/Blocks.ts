@@ -128,4 +128,5 @@ export interface TextBlock extends BlockInterface {
 
   style: CommonBlockStyles;
   textStyle: TextStyles;
+  textContent: string;
 }

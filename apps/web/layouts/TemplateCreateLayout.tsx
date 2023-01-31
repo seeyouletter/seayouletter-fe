@@ -436,6 +436,7 @@ const blockGroups: BlockMembersType = [
                   fontFamily: 'Noto Sans KR',
                   fontStyle: '기본',
                 },
+                textContent: '안녕하세요',
               },
               {
                 type: 'block',
