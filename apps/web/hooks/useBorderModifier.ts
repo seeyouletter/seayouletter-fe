@@ -21,7 +21,7 @@ export const useBorderModifier = () => {
   } = useBlockGroupsAtom();
 
   const checkLineValuesAllEqual = (key: 'width' | 'color' | 'style' | 'opacity') => {
-    if (activedBlockGroup === null) return false;
+    if (activedBlockGroup === null || activedBlockGroup.type !== 'block') return false;
 
     return Object.values(activedBlockGroup.style.border).every(
       (v) => v[key] === activedBlockGroup.style.border.top[key]
@@ -29,7 +29,7 @@ export const useBorderModifier = () => {
   };
 
   const checkEdgeValuesAllEqual = (key: 'borderRadius') => {
-    if (activedBlockGroup === null) return false;
+    if (activedBlockGroup === null || activedBlockGroup.type !== 'block') return false;
 
     return Object.values(activedBlockGroup.style[key]).every(
       (v) => v === activedBlockGroup.style[key].topLeft
@@ -37,7 +37,8 @@ export const useBorderModifier = () => {
   };
 
   const checkEdgeValuesConditionalEqual = (key: 'borderRadius') => {
-    if (!activedBlockGroup) return { success: false, value: 'mixed' };
+    if (!activedBlockGroup || activedBlockGroup.type !== 'block')
+      return { success: false, value: 'mixed' };
 
     const targetObj = activedBlockGroup.style[key];
 
@@ -57,7 +58,7 @@ export const useBorderModifier = () => {
 
   const activeSectionBorderWidth = () => {
     if (blockBorderState.activeBorder in EdgeDirectionsContstants) return '';
-    if (activedBlockGroup === null) return '';
+    if (activedBlockGroup === null || activedBlockGroup.type !== 'block') return '';
 
     if (blockBorderState.activeBorder === 'all') {
       if (checkLineValuesAllEqual('width')) {
@@ -73,7 +74,7 @@ export const useBorderModifier = () => {
 
   const activeSectionBorderColor = () => {
     if (blockBorderState.activeBorder in EdgeDirectionsContstants) return '';
-    if (activedBlockGroup === null) return '';
+    if (activedBlockGroup === null || activedBlockGroup.type !== 'block') return '';
 
     if (blockBorderState.activeBorder === 'all') {
       if (checkLineValuesAllEqual('color')) {
@@ -89,7 +90,7 @@ export const useBorderModifier = () => {
 
   const activeSectionBorderStyle = () => {
     if (blockBorderState.activeBorder in EdgeDirectionsContstants) return '';
-    if (activedBlockGroup === null) return '';
+    if (activedBlockGroup === null || activedBlockGroup.type !== 'block') return '';
 
     if (blockBorderState.activeBorder === 'all') {
       if (checkLineValuesAllEqual('style')) {
@@ -105,7 +106,7 @@ export const useBorderModifier = () => {
 
   const activeSectionBorderOpacity = () => {
     if (blockBorderState.activeBorder in EdgeDirectionsContstants) return '';
-    if (activedBlockGroup === null) return '';
+    if (activedBlockGroup === null || activedBlockGroup.type !== 'block') return '';
 
     if (blockBorderState.activeBorder === 'all') {
       if (checkLineValuesAllEqual('opacity')) {
@@ -120,7 +121,7 @@ export const useBorderModifier = () => {
   };
 
   const activeSectionBorderRadius = () => {
-    if (activedBlockGroup === null) return '';
+    if (activedBlockGroup === null || activedBlockGroup.type !== 'block') return '';
     const borderRadius = activedBlockGroup.style.borderRadius;
 
     if (blockBorderState.activeBorder === 'all') {
@@ -143,7 +144,7 @@ export const useBorderModifier = () => {
   };
 
   const setBorderMiddleware = (e: FormEvent, type: keyof Border) => {
-    if (activedBlockGroup === null) return '';
+    if (activedBlockGroup === null || activedBlockGroup.type !== 'block') return '';
     const value = (e.target as HTMLInputElement).value;
 
     if (value === 'mixed') return;
@@ -218,7 +219,7 @@ export const useBorderModifier = () => {
   };
 
   const setBorderRadiusMiddleWare = (e: FormEvent) => {
-    if (activedBlockGroup === null) return '';
+    if (activedBlockGroup === null || activedBlockGroup.type !== 'block') return '';
     const value = (e.target as HTMLInputElement).value;
 
     if (value === 'mixed') return;

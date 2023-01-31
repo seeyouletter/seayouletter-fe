@@ -1,7 +1,18 @@
 import { useAtom, useAtomValue } from 'jotai';
 
-import { Border, Directions, TextBlock } from '@ui/types/models/Blocks';
-import { BlockGroupType, Blocks, Groups, IdType, ImageBlock, ShapeBlock } from 'ui';
+import {
+  BlockGroupType,
+  Blocks,
+  Border,
+  Directions,
+  Groups,
+  IdType,
+  ImageBlock,
+  NonTextBlock,
+  NonTextBlockStylesInterface,
+  ShapeBlock,
+  TextBlock,
+} from 'ui';
 
 import { activedBlockGroupAtom, blocksStateAtom } from '@atoms/index';
 
@@ -11,7 +22,7 @@ interface TypeWithIdInterface<Type = BlockGroupType> {
 }
 
 type NonSubTypeTextBlock = 'shape' | 'image';
-type SetStyleParams<State, Type = BlockGroupType> = State & TypeWithIdInterface<Type>;
+type SetStyleParams<State = unknown, Type = BlockGroupType> = State & TypeWithIdInterface<Type>;
 
 type SetTextStyleParams<Value> = SetStyleParams<{
   subType: 'text';
@@ -177,14 +188,14 @@ export const useBlockGroupsAtom = () => {
     }));
   };
 
-  const changeBlockStyle = <Value>({
+  const changeBlockStyle = <BlockType, Value>({
     type,
     id,
     key,
     value,
   }: SetStyleParams<
     {
-      key: keyof Blocks['style'];
+      key: keyof BlockType;
       value: Value;
     },
     'block'
@@ -194,18 +205,29 @@ export const useBlockGroupsAtom = () => {
       console.error('BlockStyleError: Do not call with non-block type.');
       return;
     }
-
     const nowState = blockGroupState.blocksStore[id];
 
-    const nextState = {
-      ...nowState,
-      style: {
-        ...nowState.style,
-        [key]: value,
-      },
-    };
+    if (nowState.subType === 'text') {
+      const nextState: TextBlock = {
+        ...nowState,
+        style: {
+          ...nowState.style,
+          [key]: value,
+        },
+      };
 
-    syncBlockStateWithParentGroupBlocks({ parentId: nowState.parent, id, nextState });
+      syncBlockStateWithParentGroupBlocks({ parentId: nowState.parent, id, nextState });
+    } else {
+      const nextState: NonTextBlock = {
+        ...nowState,
+        style: {
+          ...nowState.style,
+          [key]: value,
+        },
+      };
+
+      syncBlockStateWithParentGroupBlocks({ parentId: nowState.parent, id, nextState });
+    }
   };
 
   /**
@@ -245,7 +267,12 @@ export const useBlockGroupsAtom = () => {
     },
     'block'
   >) => {
-    if (activedBlockGroup === null || (subType !== 'image' && subType !== 'shape')) return;
+    if (
+      activedBlockGroup === null ||
+      activedBlockGroup.type !== 'block' ||
+      (subType !== 'image' && subType !== 'shape')
+    )
+      return;
 
     const nextBorderState: Record<Directions, Border> = {
       ...activedBlockGroup.style.border,
@@ -272,7 +299,12 @@ export const useBlockGroupsAtom = () => {
     },
     'block'
   >) => {
-    if (activedBlockGroup === null || (subType !== 'image' && subType !== 'shape')) return;
+    if (
+      activedBlockGroup === null ||
+      activedBlockGroup.type !== 'block' ||
+      (subType !== 'image' && subType !== 'shape')
+    )
+      return;
 
     const nextBorderState: Record<Directions, Border> = {
       ...activedBlockGroup.style.border,
@@ -299,7 +331,12 @@ export const useBlockGroupsAtom = () => {
     },
     'block'
   >) => {
-    if (activedBlockGroup === null || (subType !== 'image' && subType !== 'shape')) return;
+    if (
+      activedBlockGroup === null ||
+      activedBlockGroup.type !== 'block' ||
+      (subType !== 'image' && subType !== 'shape')
+    )
+      return;
 
     const nextBorderState: Record<Directions, Border> = {
       ...activedBlockGroup.style.border,
@@ -326,7 +363,12 @@ export const useBlockGroupsAtom = () => {
     },
     'block'
   >) => {
-    if (activedBlockGroup === null || (subType !== 'image' && subType !== 'shape')) return;
+    if (
+      activedBlockGroup === null ||
+      activedBlockGroup.type !== 'block' ||
+      (subType !== 'image' && subType !== 'shape')
+    )
+      return;
 
     const nextBorderState: Record<Directions, Border> = {
       ...activedBlockGroup.style.border,
@@ -360,7 +402,10 @@ export const useBlockGroupsAtom = () => {
     type,
     id,
     bg,
-  }: SetStyleParams<{ subType: NonSubTypeTextBlock; bg: Blocks['style']['bg'] }, 'block'>) => {
+  }: SetStyleParams<
+    { subType: NonSubTypeTextBlock; bg: NonTextBlockStylesInterface['bg'] },
+    'block'
+  >) => {
     if (subType !== 'shape' && subType !== 'image') return;
 
     changeBlockStyle({ type, id, key: 'bg', value: bg });
@@ -586,9 +631,12 @@ export const useBlockGroupsAtom = () => {
     image,
   }: SetStyleParams<{ image: ImageBlock['image'] }, 'block'>) => {
     if (type !== 'block') return;
+    if (blockGroupState.blocksStore[id].subType !== 'image') return;
+
+    const nowState = blockGroupState.blocksStore[id] as ImageBlock;
 
     const nextState: ImageBlock = {
-      ...blockGroupState.blocksStore[id],
+      ...nowState,
       subType: 'image',
       image,
       imageStyle: {
@@ -600,16 +648,14 @@ export const useBlockGroupsAtom = () => {
         },
       },
     };
+
     setBlockState(nextState);
   };
-  const deleteImageResource = ({
-    type,
-    id,
-  }: SetStyleParams<{ image: ImageBlock['image'] }, 'block'>) => {
+  const deleteImageResource = ({ type, id }: SetStyleParams) => {
     if (type !== 'block') return;
 
     const nextState: ShapeBlock = {
-      ...blockGroupState.blocksStore[id],
+      ...(blockGroupState.blocksStore[id] as ImageBlock),
       subType: 'shape',
     };
 

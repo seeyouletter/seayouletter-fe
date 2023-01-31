@@ -15,7 +15,11 @@ export const useBorderMatrix = () => {
   const { activedBlockGroup, setBlockAllBorderRadiusStyle } = useBlockGroupsAtom();
 
   const setBlockBorderRadius = ({ value }: { value: string }) => {
-    if (activedBlockGroup === null || activedBlockGroup.subType === 'text') {
+    if (
+      activedBlockGroup === null ||
+      activedBlockGroup.type !== 'block' ||
+      activedBlockGroup.subType === 'text'
+    ) {
       return;
     }
 

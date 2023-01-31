@@ -46,7 +46,7 @@ export const assembledBlockGroups = atom((get): BlockMembersType | null => {
   return result;
 });
 
-export const activedBlockGroupAtom = atom((get) => {
+export const activedBlockGroupAtom = atom<Blocks | Groups | null>((get) => {
   const blockGroupState = get(blocksStateAtom);
 
   const activeId = blockGroupState.activeId;

@@ -23,8 +23,15 @@ export function ActivedBlockPositionSizeModifier() {
 
   const theme = useTheme();
 
+  if (activedBlockGroup === null || activedBlockGroup.type !== 'block') return <div></div>;
+
   const onInputPosition = (e: FormEvent, key: keyof Position) => {
-    if (activedBlockGroup === null || activedBlockGroup.id === null) return;
+    if (
+      activedBlockGroup === null ||
+      activedBlockGroup.type !== 'block' ||
+      activedBlockGroup.id === null
+    )
+      return;
     setPositionStyle({
       type: 'block',
       id: activedBlockGroup.id,
@@ -36,7 +43,12 @@ export function ActivedBlockPositionSizeModifier() {
   };
 
   const onInputSize = (e: FormEvent, key: keyof GroupBlockSize) => {
-    if (activedBlockGroup === null || activedBlockGroup.id === null) return;
+    if (
+      activedBlockGroup === null ||
+      activedBlockGroup.type !== 'block' ||
+      activedBlockGroup.id === null
+    )
+      return;
 
     setSizeStyle({
       type: 'block',

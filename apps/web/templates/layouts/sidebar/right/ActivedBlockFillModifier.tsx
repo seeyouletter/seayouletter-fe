@@ -16,11 +16,15 @@ export function ActivedBlockFillModifier() {
 
   const { activedBlockGroup, setFillBgStyle, setBgOpacity } = useBlockGroupsAtom();
 
-  if (activedBlockGroup === null) return <div></div>;
+  if (
+    activedBlockGroup === null ||
+    activedBlockGroup.type === 'group' ||
+    activedBlockGroup.subType === 'text'
+  ) {
+    return <div></div>;
+  }
 
   const onChangeBg = (e: FormEvent) => {
-    if (activedBlockGroup.subType === 'text') return;
-
     setFillBgStyle({
       subType: activedBlockGroup?.subType,
       type: activedBlockGroup?.type,
@@ -28,8 +32,9 @@ export function ActivedBlockFillModifier() {
       bg: (e.target as HTMLInputElement).value,
     });
   };
+
   const onChangeBgOpacity = (e: FormEvent) => {
-    if (activedBlockGroup.subType === 'text') return;
+    if (activedBlockGroup.type !== 'block') return;
 
     setBgOpacity({
       subType: activedBlockGroup?.subType,

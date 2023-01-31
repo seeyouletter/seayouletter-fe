@@ -22,15 +22,27 @@ export interface AnimatorGroup extends GroupInterface {
   subType: 'animator';
 }
 
+export interface CommonBlockStyles {
+  position: Position;
+  size: GroupBlockSize;
+
+  opacity: string;
+
+  border: Record<Directions, Border>;
+  borderRadius: Record<EdgeDirections, string>;
+}
+
 export interface BlockInterface {
   type: 'block';
   parent: IdType;
   id: string;
   title: string;
-  style: BlockStyles;
+  style: CommonBlockStyles;
 }
 
 export type Blocks = ShapeBlock | ImageBlock | TextBlock;
+export type NonTextBlock = ShapeBlock | ImageBlock;
+
 export type Groups = DefaultGroup | AnimatorGroup;
 
 export type BlockMemberType = Blocks | Groups;
@@ -53,15 +65,18 @@ export interface Border {
 export type Directions = 'top' | 'right' | 'bottom' | 'left';
 export type EdgeDirections = 'topLeft' | 'topRight' | 'bottomLeft' | 'bottomRight';
 
-export interface BlockStyles {
-  position: Position;
-  size: GroupBlockSize;
+// export interface BlockStyles {
+//   position: Position;
+//   size: GroupBlockSize;
 
+//   opacity: string;
+
+//   border: Record<Directions, Border>;
+//   borderRadius: Record<EdgeDirections, string>;
+// }
+
+export interface NonTextBlockStylesInterface extends CommonBlockStyles {
   bg: string;
-  opacity: string;
-
-  border: Record<Directions, Border>;
-  borderRadius: Record<EdgeDirections, string>;
 }
 
 export type ObjectFit = 'cover' | 'contains' | 'fill' | 'none' | 'scale-down';
@@ -87,12 +102,13 @@ export interface ImageBlock extends BlockInterface {
     imageName: string;
   };
   imageStyle: ImageStyle;
+  style: NonTextBlockStylesInterface;
 }
 
 export interface ShapeBlock extends BlockInterface {
   subType: 'shape';
 
-  style: BlockStyles;
+  style: NonTextBlockStylesInterface;
 }
 
 interface TextStyles {
@@ -110,6 +126,6 @@ interface TextStyles {
 export interface TextBlock extends BlockInterface {
   subType: 'text';
 
-  style: BlockStyles;
+  style: CommonBlockStyles;
   textStyle: TextStyles;
 }

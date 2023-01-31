@@ -397,7 +397,6 @@ const blockGroups: BlockMembersType = [
                     bottom: 'auto',
                     left: '1px',
                   },
-                  bg: '#ffffff',
                   opacity: '1',
                   border: {
                     top: {
@@ -879,11 +878,7 @@ export default function TemplateCreateLayout({ children }: PropsWithChildren) {
       </LeftSidebar>
 
       <RightSidebar actived={true} padding="24px 16px">
-        {activedBlockGroup ? (
-          <BlockGroupModifier type={activedBlockGroup.type} subType={activedBlockGroup.subType} />
-        ) : (
-          <div></div>
-        )}
+        {activedBlockGroup ? <BlockGroupModifier blockGroup={activedBlockGroup} /> : <div></div>}
       </RightSidebar>
 
       <FullSizeMain backgroundColor="black" isHeader={true}>

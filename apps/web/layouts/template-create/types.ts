@@ -1,28 +1,25 @@
-import { BlockInterface, GroupInterface } from '@ui/types';
-
-export type GroupSubType = 'animator' | 'default';
-export type BlockSubType = 'text' | 'shape' | 'image';
+import { Blocks, Groups } from 'ui';
 
 export interface BlockModifierFactoryPropsInterface {
-  subType: BlockSubType;
+  subType: Blocks['subType'];
 }
 
 export interface BlockImageDecoratorPropsInterface {
-  subType: BlockSubType;
+  subType: Blocks['subType'];
 }
 
 export interface GroupModifierFactoryPropsInterface {
-  subType: GroupSubType;
+  subType: Groups['subType'];
 }
 
 export interface BlockModifierPropsInterface extends BlockModifierFactoryPropsInterface {
-  type: BlockInterface['type'];
+  type: Blocks['type'];
 }
 
 export interface GroupModifierPropsInterface extends GroupModifierFactoryPropsInterface {
-  type: GroupInterface['type'];
+  type: Groups['type'];
 }
 
-export type BlockGroupModifierPropsInterface =
-  | BlockModifierPropsInterface
-  | GroupModifierPropsInterface;
+export interface BlockGroupModifierPropsInterface {
+  blockGroup: Blocks | Groups;
+}
