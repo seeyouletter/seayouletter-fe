@@ -1,8 +1,8 @@
 import React from 'react';
 
-import { useTheme } from '@emotion/react';
-
 import { ChevronLeftIcon, ChevronRightIcon } from '@chakra-ui/icons';
+
+import { useTheme } from '@emotion/react';
 
 import { IconButton } from '@ui/button';
 import { DefaultDivider } from '@ui/divider';

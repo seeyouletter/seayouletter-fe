@@ -1,8 +1,8 @@
 import { PropsWithChildren } from 'react';
 
-import styled from '@emotion/styled';
-
 import { MenuItem as ChakraMenuItem } from '@chakra-ui/react';
+
+import styled from '@emotion/styled';
 
 const StyledMenuItem = styled(ChakraMenuItem)`
   :focus,

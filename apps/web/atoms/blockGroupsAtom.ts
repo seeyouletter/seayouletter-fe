@@ -1,6 +1,6 @@
 import { atom } from 'jotai';
 
-import { BlockInterface, GroupInterface } from 'ui';
+import { BlockMembersType, Blocks, Groups } from 'ui';
 
 export interface BlockGroupToggleStoreInterface {
   [id: string]: boolean;
@@ -8,41 +8,50 @@ export interface BlockGroupToggleStoreInterface {
 
 export interface BlockGroupsAtomInterface {
   activeId: string | null;
-  groups: Record<string, GroupInterface>;
-  blocks: Record<string, BlockInterface>;
+  groupsStore: Record<string, Groups>;
+  groupChildrenStore: Record<keyof BlockGroupsAtomInterface['groupsStore'], string[]>;
+  blocksStore: Record<string, Blocks>;
 }
 
 export const blocksStateAtom = atom<BlockGroupsAtomInterface>({
   activeId: null,
-  groups: {},
-  blocks: {},
+  groupsStore: {},
+  groupChildrenStore: {},
+  blocksStore: {},
 });
 
-export const getBlockGroups = atom((get) => {
+export const assembledBlockGroups = atom((get): BlockMembersType | null => {
   const blocksState = get(blocksStateAtom);
+  if (!Object.keys(blocksState.blocksStore)) return null;
 
-  const result: (BlockInterface | GroupInterface)[] = [];
+  const result: BlockMembersType = [];
 
-  const groups: Record<string, GroupInterface> = JSON.parse(JSON.stringify(blocksState.groups));
+  const groups: Record<string, Groups> = JSON.parse(JSON.stringify(blocksState.groupsStore));
 
   const groupsArr = Object.values(groups);
-  const blocksArr = Object.values(blocksState.blocks);
+  const blocksArr = Object.values(blocksState.blocksStore);
 
   groupsArr.forEach((group) => {
     if (group.parent === null) {
       result.push(group);
-    } else {
-      groups[group.parent].blocks.push(group);
     }
   });
 
   blocksArr.forEach((block) => {
     if (block.parent === null) {
       result.push(block);
-    } else {
-      groups[block.parent].blocks.push(block);
     }
   });
 
   return result;
+});
+
+export const activedBlockGroupAtom = atom<Blocks | Groups | null>((get) => {
+  const blockGroupState = get(blocksStateAtom);
+
+  const activeId = blockGroupState.activeId;
+
+  if (activeId === null) return null;
+
+  return blockGroupState.blocksStore[activeId] ?? blockGroupState.groupsStore[activeId];
 });

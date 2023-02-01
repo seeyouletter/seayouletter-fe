@@ -1,9 +1,9 @@
 import React from 'react';
 
+import { ChakraProvider } from '@chakra-ui/react';
+
 import { ThemeProvider } from '@emotion/react';
 import { Global } from '@emotion/react';
-
-import { ChakraProvider } from '@chakra-ui/react';
 
 import { chakraTheme } from '@ui/styles/chakraTheme';
 import { globalStyle } from '@ui/styles/globalStyle';

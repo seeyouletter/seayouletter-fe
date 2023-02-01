@@ -1,17 +1,20 @@
 import { css } from '@emotion/react';
 import styled from '@emotion/styled';
 
+import { BlockMembersType } from '@ui/types';
+
 /* eslint-disable-next-line import/no-cycle */
 import { MemberFactory } from './Member';
-import { BlockGroupWrapperPropsInterface, BlockMembersType } from './types';
+import { BlockGroupWrapperPropsInterface } from './types';
 
-export interface BlockGroupMemberListPropsInterface
-  extends Omit<
-    BlockGroupWrapperPropsInterface,
-    'type' | 'id' | 'title' | 'blocks' | 'toggled' | 'order'
-  > {
+export interface BlockGroupMemberListPropsInterface {
+  activeId: BlockGroupWrapperPropsInterface['activeId'];
+  depth: number;
   members: BlockMembersType;
   actived: boolean;
+  onBlockClick: BlockGroupWrapperPropsInterface['onBlockClick'];
+  onGroupClick: BlockGroupWrapperPropsInterface['onGroupClick'];
+  onUpdateTitle: BlockGroupWrapperPropsInterface['onUpdateTitle'];
 }
 
 const StyledBlockGroupMemberList = styled.div<{ parentActived: boolean }>`
@@ -31,6 +34,7 @@ const StyledBlockGroupMemberList = styled.div<{ parentActived: boolean }>`
  * 이 컴포넌트가 active되는 시점은 parent GroupWrapper Component가 active되는 시점입니다.
  */
 export function BlockGroupMemberList({
+  depth,
   activeId,
   actived,
   members,
@@ -42,6 +46,7 @@ export function BlockGroupMemberList({
     <StyledBlockGroupMemberList parentActived={actived}>
       {members.map((member) => (
         <MemberFactory
+          depth={depth}
           key={member.id}
           member={member}
           activeId={activeId}

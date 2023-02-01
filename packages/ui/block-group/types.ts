@@ -1,9 +1,14 @@
 import { FocusEvent, MouseEvent } from 'react';
 
+import { BlockInterface, BlockMembersType, GroupInterface, IdType } from '@ui/types';
+
 export type ClickEvent = (e: MouseEvent, id: string) => void;
-export type BlockMemberType = BlockInterface | GroupInterface;
-export type BlockMembersType = BlockMemberType[];
-export type IdType = string | null;
+
+export type ClickEventWithType = (
+  e: MouseEvent,
+  { type, id }: { type: BlockGroupType; id: string }
+) => void;
+
 export type BlockGroupType = 'block' | 'group';
 
 export type UpdateTitleEvent = (
@@ -11,30 +16,7 @@ export type UpdateTitleEvent = (
   { type, id, title }: { type: BlockGroupType; id: string; title: string }
 ) => void;
 export interface CommonStyledBlockInterface {
-  actived?: boolean;
-}
-
-export interface GroupInterface {
-  /**
-   * @inner parent
-   * parent property는 perentGroup이 있을 수 있다면, 이를 아이디로 가리킨다.
-   * 단방향 연결리스트를 통해 Group의 계층을 flat하게 관리하여 데이터로 주고받기 위함이다.
-   */
-  type: 'group';
-  parent: IdType;
-  id: string;
-  title: string;
-  order: number;
-  toggled: boolean;
-  blocks: BlockMembersType;
-}
-
-export interface BlockInterface {
-  type: 'block';
-  parent: IdType;
-  id: string;
-  title: string;
-  order: number;
+  depth: number;
 }
 
 export interface StyledBlockGroupToggleTitleInterface {
@@ -48,18 +30,23 @@ export interface StyledBlockGroupToggleMarkerInterface {
   toggled: boolean;
 }
 
-export interface BlockGroupWrapperPropsInterface
-  extends StyledBlockGroupToggleMarkerInterface,
-    Omit<GroupInterface, 'order'> {
-  blocks: BlockMembersType;
-  activeId: IdType;
-  onGroupClick: ClickEvent;
-  onBlockClick: ClickEvent;
+export interface BlockEvents {
+  onBlockClick: ClickEventWithType;
   onUpdateTitle: UpdateTitleEvent;
 }
+export interface BlockGroupWrapperPropsInterface
+  extends StyledBlockGroupToggleMarkerInterface,
+    BlockEvents,
+    GroupInterface {
+  depth: number;
 
-export interface BlockPropsInterface extends Omit<BlockInterface, 'order'> {
-  onBlockClick: ClickEvent;
+  blocks: BlockMembersType;
   activeId: IdType;
-  onUpdateTitle: UpdateTitleEvent;
+
+  onGroupClick: ClickEventWithType;
+}
+
+export interface BlockPropsInterface extends BlockEvents, Omit<BlockInterface, 'style'> {
+  depth: number;
+  activeId: IdType;
 }

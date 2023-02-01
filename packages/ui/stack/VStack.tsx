@@ -1,8 +1,6 @@
-import { StackProps, VStack } from '@chakra-ui/react';
+import { VStack } from '@chakra-ui/react';
 
-interface DefaultHStackInterface extends Omit<StackProps, 'inline'> {
-  inline?: StackProps['isInline'];
-}
+import { DefaultVStackInterface } from './types';
 
 /**
  * @params { inline: StakcsProps['isInline'] } & Omit<StackProps, 'inline'>
@@ -22,7 +20,7 @@ export const DefaultVStack = ({
   spacing = '0px',
   divider,
   ...props
-}: DefaultHStackInterface) => {
+}: DefaultVStackInterface) => {
   return (
     <VStack
       align={align}

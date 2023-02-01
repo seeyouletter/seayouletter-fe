@@ -1,8 +1,8 @@
 import React from 'react';
 
-import { useTheme } from '@emotion/react';
-
 import { Input } from '@chakra-ui/react';
+
+import { useTheme } from '@emotion/react';
 
 import { ColorPropsInterface } from './types';
 
@@ -11,6 +11,8 @@ export const ColorInput = ({
   color,
   isInvalid = false,
   width,
+  value,
+  onChange,
 }: ColorPropsInterface) => {
   const theme = useTheme();
 
@@ -27,6 +29,8 @@ export const ColorInput = ({
       focusBorderColor="primary.400"
       _placeholder={{ color: 'inherit', opacity: 0.5 }}
       isInvalid={isInvalid}
+      value={value}
+      onChange={onChange}
     />
   );
 };

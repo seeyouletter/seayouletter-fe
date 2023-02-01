@@ -1,8 +1,8 @@
 import { PropsWithChildren } from 'react';
 
-import styled from '@emotion/styled';
-
 import { MenuList as ChakraMenuList } from '@chakra-ui/react';
+
+import styled from '@emotion/styled';
 
 const StyledMenuList = styled(ChakraMenuList)`
   font-size: 14px;

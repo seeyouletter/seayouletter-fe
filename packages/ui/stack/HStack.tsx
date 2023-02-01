@@ -1,10 +1,8 @@
 import React from 'react';
 
-import { HStack, StackProps } from '@chakra-ui/react';
+import { HStack } from '@chakra-ui/react';
 
-export interface DefaultHStackInterface extends Omit<StackProps, 'inline'> {
-  inline?: StackProps['isInline'];
-}
+import { DefaultHStackInterface } from './types';
 
 /**
  * @params { inline: StakcsProps['isInline'] } & Omit<StackProps, 'inline'>

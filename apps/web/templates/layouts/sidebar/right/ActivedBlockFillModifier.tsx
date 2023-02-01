@@ -1,19 +1,48 @@
-import React from 'react';
+import React, { FormEvent } from 'react';
 
 import { useTheme } from '@emotion/react';
 
-import {
-  ColorInput,
-  DefaultBox,
-  DefaultDivider,
-  DefaultHStack,
-  DefaultInput,
-  DefaultVStack,
-  StrongText,
-} from 'ui';
+import { useBlockGroupsAtom } from '@hooks/index';
 
+import { DefaultDivider, DefaultHStack, DefaultVStack, StrongText } from 'ui';
+
+import { TemplatedColorInputWithTitlePresenter } from './TemplatedColorInputWithTitle';
+import { TemplatedInputWithTitlePresenter } from './TemplatedInputWithTitlePresenter';
+
+// NOTE: 작업이 끝나면 disable을 삭제한다.
+/* eslint-disable no-console */
 export function ActivedBlockFillModifier() {
   const theme = useTheme();
+
+  const { activedBlockGroup, setFillBgStyle, setBgOpacity } = useBlockGroupsAtom();
+
+  if (
+    activedBlockGroup === null ||
+    activedBlockGroup.type === 'group' ||
+    activedBlockGroup.subType === 'text'
+  ) {
+    return <div></div>;
+  }
+
+  const onChangeBg = (e: FormEvent) => {
+    setFillBgStyle({
+      subType: activedBlockGroup?.subType,
+      type: activedBlockGroup?.type,
+      id: activedBlockGroup?.id,
+      bg: (e.target as HTMLInputElement).value,
+    });
+  };
+
+  const onChangeBgOpacity = (e: FormEvent) => {
+    if (activedBlockGroup.type !== 'block') return;
+
+    setBgOpacity({
+      subType: activedBlockGroup?.subType,
+      type: activedBlockGroup?.type,
+      id: activedBlockGroup?.id,
+      opacity: (e.target as HTMLInputElement).value,
+    });
+  };
 
   return (
     <>
@@ -22,47 +51,32 @@ export function ActivedBlockFillModifier() {
           블록 채우기
         </StrongText>
 
-        <DefaultVStack spacing={1}>
-          <DefaultHStack spacing={2}>
-            <DefaultBox width="48px">
-              <StrongText size={theme.fontSize.xs} color="white">
-                색상
-              </StrongText>
-            </DefaultBox>
-            <DefaultBox width="60px">
-              <StrongText size={theme.fontSize.xs} color="white">
-                색상번호
-              </StrongText>
-            </DefaultBox>
-            <DefaultBox width="42px">
-              <StrongText size={theme.fontSize.xs} color="white">
-                투명도
-              </StrongText>
-            </DefaultBox>
-          </DefaultHStack>
+        <DefaultHStack spacing={2}>
+          <TemplatedColorInputWithTitlePresenter
+            direction="vertical"
+            title="색상"
+            value={activedBlockGroup.style.bg}
+            onChange={onChangeBg}
+          />
 
-          <DefaultHStack spacing={2}>
-            <ColorInput value="black" size="xs" width="48px"></ColorInput>
-            <DefaultInput
-              width="60px"
-              size="xs"
-              placeholder="입력"
-              bgColor={theme.color.darkGray}
-              borderColor={theme.color.darkGray}
-              padding="4px"
-              color="white"
-            />
-            <DefaultInput
-              width="48px"
-              size="xs"
-              placeholder="입력"
-              bgColor={theme.color.darkGray}
-              borderColor={theme.color.darkGray}
-              padding="4px"
-              color="white"
-            />
-          </DefaultHStack>
-        </DefaultVStack>
+          <TemplatedInputWithTitlePresenter
+            direction="vertical"
+            inputWidth="60px"
+            title="색상번호"
+            placeholder="입력"
+            value={activedBlockGroup.style.bg}
+            onChange={onChangeBg}
+          />
+
+          <TemplatedInputWithTitlePresenter
+            direction="vertical"
+            inputWidth="48px"
+            title="투명도"
+            placeholder="입력"
+            value={activedBlockGroup.style.opacity}
+            onChange={onChangeBgOpacity}
+          />
+        </DefaultHStack>
       </DefaultVStack>
 
       <DefaultDivider horizontal size="100%" borderColor={theme.color.white}></DefaultDivider>

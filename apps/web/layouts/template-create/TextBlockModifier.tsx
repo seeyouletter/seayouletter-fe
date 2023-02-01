@@ -1,13 +1,13 @@
 import React from 'react';
 
-import { DefaultVStack } from 'ui';
+import { ActivedBlockPositionSizeModifier, ActivedTextModifier } from '@templates/index';
 
-import { ActivedPositionModifier, ActivedTextModifier } from '@templates/index';
+import { DefaultVStack } from 'ui';
 
 export function TextBlockModifier() {
   return (
     <DefaultVStack spacing={5}>
-      <ActivedPositionModifier />
+      <ActivedBlockPositionSizeModifier />
       <ActivedTextModifier />
     </DefaultVStack>
   );

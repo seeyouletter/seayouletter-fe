@@ -3,10 +3,10 @@ import { FocusEvent, FormEvent, MouseEvent } from 'react';
 import { css, useTheme } from '@emotion/react';
 import styled from '@emotion/styled';
 
+import { useContentEditable } from '@common-hooks/useContentEditable';
+
 import { DefaultBox } from '@ui/box';
 import { DefaultVStack } from '@ui/stack';
-
-import { useContentEditable } from '@common-hooks/useContentEditable';
 
 /* eslint-disable-next-line import/no-cycle */
 import { BlockGroupMemberList } from './MemberList';
@@ -21,17 +21,17 @@ const StyledBlockGroupToggleMarker = styled.div<StyledBlockGroupToggleMarkerInte
 
   margin-left: 8px;
 
-  border-top: 6px solid transparent;
-  border-right: 6px solid transparent;
-  border-bottom: 6px solid transparent;
-  border-left: 6px solid ${({ toggleMarkerBg }) => toggleMarkerBg};
+  border-top: 4px solid transparent;
+  border-right: 4px solid transparent;
+  border-bottom: 4px solid transparent;
+  border-left: 4px solid ${({ toggleMarkerBg }) => toggleMarkerBg};
 
   transition: all 0.3s;
 
   ${({ toggled, toggleMarkerToggleBg }) =>
     toggled &&
     css`
-      border-left: 6px solid ${toggleMarkerToggleBg};
+      border-left: 4px solid ${toggleMarkerToggleBg};
       transform: rotate(90deg);
       transform-origin: 25% 50%;
     `}
@@ -43,7 +43,7 @@ const StyledBlockGroupToggleTitle = styled.div<StyledBlockGroupToggleTitleInterf
   width: 100%;
   height: 100%;
   margin-left: 20px;
-  font-size: ${(props) => props.theme.fontSize.sm};
+  font-size: ${(props) => props.theme.fontSize.xs};
 
   ${({ actived, theme }) =>
     actived &&
@@ -53,7 +53,7 @@ const StyledBlockGroupToggleTitle = styled.div<StyledBlockGroupToggleTitleInterf
 `;
 
 export function BlockGroupWrapper({
-  parent,
+  depth,
   id,
   title,
   activeId,
@@ -78,9 +78,12 @@ export function BlockGroupWrapper({
 
   const theme = useTheme();
 
+  if (id === 'subcomponent1') {
+  }
+
   const onWrapperClick = (e: MouseEvent) => {
     if (titleEditable) return;
-    onGroupClick(e, id);
+    onGroupClick(e, { type: 'group', id });
   };
 
   const onBlurTitle = (e: FocusEvent) => {
@@ -110,6 +113,7 @@ export function BlockGroupWrapper({
         height="24px"
         position="relative"
         onClick={onWrapperClick}
+        paddingLeft={`${depth * 20}px`}
       >
         <StyledBlockGroupToggleMarker
           toggleMarkerBg={theme.color.white}
@@ -128,7 +132,7 @@ export function BlockGroupWrapper({
 
       {toggled && (
         <BlockGroupMemberList
-          parent={parent}
+          depth={depth + 1}
           activeId={activeId}
           actived={activeId === id}
           members={blocks}

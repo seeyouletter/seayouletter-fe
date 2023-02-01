@@ -2,9 +2,9 @@ import React, { PropsWithChildren } from 'react';
 
 import styled from '@emotion/styled';
 
-import { StyledPageContainer } from 'ui';
-
 import { PrevButton } from '@templates/index';
+
+import { StyledPageContainer } from 'ui';
 
 const StyledHeaderContainer = styled.header`
   position: fixed;

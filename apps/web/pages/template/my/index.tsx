@@ -2,11 +2,11 @@ import React from 'react';
 
 import { useTheme } from '@emotion/react';
 
-import BaseLayout from 'layouts/BaseLayout';
-
-import { DefaultButton, DefaultHStack, DefaultVStack, HeaderText, MyTemplateCard } from 'ui';
+import BaseLayout from '@layouts/BaseLayout';
 
 import { TemplateCardList } from '@templates/index';
+
+import { DefaultButton, DefaultHStack, DefaultVStack, HeaderText, MyTemplateCard } from 'ui';
 
 const templates = [
   {

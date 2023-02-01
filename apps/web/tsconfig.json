@@ -8,11 +8,13 @@
     "jsx": "preserve",
     "paths": {
       "@ui/*": ["../../packages/ui/*"],
+      "@models/*": ["types/models/*"],
       "@pages/*": ["pages/*"],
       "@hooks/*": ["hooks/*"],
       "@common-hooks/*": ["../../packages/common-hooks/*"],
       "@templates/*": ["templates/*"],
       "@atoms/*": ["atoms/*"],
+      "@layouts/*": ["layouts/*"],
       "@apis/*": ["libs/apis/*"],
       "@utils/*": ["libs/utils/*"]
     },

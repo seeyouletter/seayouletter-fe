@@ -1,11 +1,11 @@
 import { css } from '@emotion/react';
 import styled from '@emotion/styled';
 
-import BaseLayout from 'layouts/BaseLayout';
-
-import { DefaultVStack, IconHeaderText, Logo, ScreenReaderText } from 'ui';
+import BaseLayout from '@layouts/BaseLayout';
 
 import { LoginForm } from '@templates/index';
+
+import { DefaultVStack, IconHeaderText, Logo, ScreenReaderText } from 'ui';
 
 const loginTextFormContainerCSS = css`
   height: 100vh;

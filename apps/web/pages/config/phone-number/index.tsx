@@ -3,7 +3,11 @@ import React, { FormEvent, useState } from 'react';
 import { css } from '@emotion/react';
 import styled from '@emotion/styled';
 
-import ConfigLayout from 'layouts/ConfigLayout';
+import ConfigLayout from '@layouts/ConfigLayout';
+
+import { ConfigForm } from '@templates/index';
+
+import { useForm } from '@common-hooks/useForm';
 
 import {
   DefaultButton,
@@ -14,10 +18,6 @@ import {
   IconHeaderText,
   Logo,
 } from 'ui';
-
-import { ConfigForm } from '@templates/index';
-
-import { useForm } from '@common-hooks/useForm';
 
 const StyledConfigPage = styled.section`
   display: flex;

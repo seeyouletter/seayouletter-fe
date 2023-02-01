@@ -37,6 +37,10 @@ function BlockModifierFactory({ subType }: BlockModifierFactoryPropsInterface) {
   }
 }
 
-export function BlockGroupModifier({ type, subType }: BlockGroupModifierPropsInterface) {
-  return type === 'block' ? <BlockModifierFactory subType={subType} /> : <GroupModifierFactory />;
+export function BlockGroupModifier({ blockGroup }: BlockGroupModifierPropsInterface) {
+  if (blockGroup.type === 'block') {
+    return <BlockModifierFactory subType={blockGroup.subType} />;
+  } else {
+    return <GroupModifierFactory subType={blockGroup.subType} />;
+  }
 }

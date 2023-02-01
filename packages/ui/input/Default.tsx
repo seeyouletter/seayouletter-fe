@@ -13,6 +13,9 @@ export const DefaultInput = ({
   width,
   bgColor,
   padding,
+  value,
+  onChange,
+  onInput,
 }: InputPropsInterface) => {
   return (
     <Input
@@ -30,6 +33,9 @@ export const DefaultInput = ({
       background="white"
       opacity={0.9}
       padding={padding}
+      value={value}
+      onChange={onChange}
+      onInput={onInput}
     />
   );
 };

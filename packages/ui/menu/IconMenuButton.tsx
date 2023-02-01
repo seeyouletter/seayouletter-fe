@@ -1,8 +1,8 @@
 import { PropsWithChildren } from 'react';
 
-import styled from '@emotion/styled';
-
 import { MenuButton } from '@chakra-ui/react';
+
+import styled from '@emotion/styled';
 
 const StyledMenuButton = styled(MenuButton)`
   position: relative;

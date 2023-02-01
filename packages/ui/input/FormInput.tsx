@@ -1,9 +1,9 @@
 import React, { useRef, useState } from 'react';
 
+import { Input } from '@chakra-ui/react';
+
 import { css } from '@emotion/react';
 import styled from '@emotion/styled';
-
-import { Input } from '@chakra-ui/react';
 
 import { globalTheme } from '@ui/styles';
 import { DefaultText } from '@ui/text/Default';

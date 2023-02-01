@@ -2,9 +2,9 @@ import React from 'react';
 
 import { useTheme } from '@emotion/react';
 
-import { DefaultButton, DefaultVStack, StrongText } from 'ui';
-
 import { ActivedImageModifier } from '@templates/index';
+
+import { DefaultButton, DefaultVStack, StrongText } from 'ui';
 
 import { BlockImageDecoratorPropsInterface } from './types';
 
@@ -23,9 +23,6 @@ export function BlockImageModifier({ subType }: BlockImageDecoratorPropsInterfac
             <ActivedImageModifier />
           ) : (
             <DefaultVStack spacing={1}>
-              <StrongText size={theme.fontSize.sm} color="white">
-                이미지 채우기
-              </StrongText>
               <DefaultButton
                 borderWidth="1px"
                 borderColor={theme.color.white}
