@@ -54,7 +54,6 @@ const StyledBlockGroupToggleTitle = styled.div<StyledBlockGroupToggleTitleInterf
 
 export function BlockGroupWrapper({
   depth,
-  parent,
   id,
   title,
   activeId,
@@ -134,7 +133,6 @@ export function BlockGroupWrapper({
       {toggled && (
         <BlockGroupMemberList
           depth={depth + 1}
-          parent={parent}
           activeId={activeId}
           actived={activeId === id}
           members={blocks}

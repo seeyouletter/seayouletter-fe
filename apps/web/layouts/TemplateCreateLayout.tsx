@@ -858,7 +858,6 @@ export default function TemplateCreateLayout({ children }: PropsWithChildren) {
               depth={0}
               activeId={activeId}
               actived={false}
-              parent={null}
               members={blockGroupData ?? []}
               onGroupClick={(e, { type, id }) => {
                 setActiveId(type, id);
