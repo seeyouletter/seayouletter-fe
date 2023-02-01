@@ -1,14 +1,10 @@
 import { useAtom } from 'jotai';
 
-import {
-  BorderName,
-  DirectionsContstants,
-  EdgeDirectionsContstants,
-  blockBorderStateAtom,
-  concurrentlyActivedSections,
-} from '@atoms/index';
+import { blockBorderStateAtom, concurrentlyActivedSections } from '@atoms/index';
 
 import { useBlockGroupsAtom } from '@hooks/useBlockGroupsAtom';
+
+import { BorderName, DirectionsContstants, EdgeDirectionsContstants } from 'ui';
 
 export const useBorderMatrix = () => {
   const [blockBorderState, setBlockBorderState] = useAtom(blockBorderStateAtom);

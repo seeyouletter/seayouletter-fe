@@ -1,8 +1,6 @@
 import { FormEvent } from 'react';
 
-import { DirectionsContstants, EdgeDirectionsContstants } from '@atoms/index';
-
-import { Border } from 'ui';
+import { Border, DirectionsContstants, EdgeDirectionsContstants } from 'ui';
 
 import { useBlockGroupsAtom } from './useBlockGroupsAtom';
 import { useBorderMatrix } from './useBorderMatrix';

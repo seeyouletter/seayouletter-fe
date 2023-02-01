@@ -2,15 +2,19 @@ import React, { useCallback, useEffect, useMemo, useState } from 'react';
 
 import { useTheme } from '@emotion/react';
 
-import {
-  DirectionsContstants,
-  EdgeDirectionsContstants,
-  concurrentlyActivedSections,
-} from '@atoms/blockBorderAtom';
+import { concurrentlyActivedSections } from '@atoms/blockBorderAtom';
 
 import { useBorderMatrix } from '@hooks/index';
 
-import { DefaultBox, DefaultHStack, DefaultText, DefaultVStack, StrongText } from 'ui';
+import {
+  DefaultBox,
+  DefaultHStack,
+  DefaultText,
+  DefaultVStack,
+  DirectionsContstants,
+  EdgeDirectionsContstants,
+  StrongText,
+} from 'ui';
 
 interface SubMatrixCommonPropsInterface {
   onMouseOverMatrix: (key: EdgeDirectionsContstants | DirectionsContstants | 'all') => void;

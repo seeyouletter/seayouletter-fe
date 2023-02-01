@@ -65,16 +65,6 @@ export interface Border {
 export type Directions = 'top' | 'right' | 'bottom' | 'left';
 export type EdgeDirections = 'topLeft' | 'topRight' | 'bottomLeft' | 'bottomRight';
 
-// export interface BlockStyles {
-//   position: Position;
-//   size: GroupBlockSize;
-
-//   opacity: string;
-
-//   border: Record<Directions, Border>;
-//   borderRadius: Record<EdgeDirections, string>;
-// }
-
 export interface NonTextBlockStylesInterface extends CommonBlockStyles {
   bg: string;
 }
@@ -129,4 +119,32 @@ export interface TextBlock extends BlockInterface {
   style: CommonBlockStyles;
   textStyle: TextStyles;
   textContent: string;
+}
+
+export enum DirectionsContstants {
+  top = 'top',
+  right = 'right',
+  bottom = 'bottom',
+  left = 'left',
+}
+
+export enum EdgeDirectionsContstants {
+  topLeft = 'topLeft',
+  topRight = 'topRight',
+  bottomLeft = 'bottomLeft',
+  bottomRight = 'bottomRight',
+}
+
+export enum BorderName {
+  all = '전체',
+
+  top = '위',
+  bottom = '아래',
+  left = '왼쪽',
+  right = '오른쪽',
+
+  topLeft = '왼쪽 위',
+  topRight = '오른쪽 위',
+  bottomLeft = '왼쪽 아래',
+  bottomRight = '오른쪽 아래',
 }

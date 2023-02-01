@@ -7,14 +7,14 @@ import { BlockMembersType } from '@ui/types';
 import { MemberFactory } from './Member';
 import { BlockGroupWrapperPropsInterface } from './types';
 
-export interface BlockGroupMemberListPropsInterface
-  extends Omit<
-    BlockGroupWrapperPropsInterface,
-    'type' | 'id' | 'title' | 'blocks' | 'toggled' | 'order'
-  > {
+export interface BlockGroupMemberListPropsInterface {
+  activeId: BlockGroupWrapperPropsInterface['activeId'];
   depth: number;
   members: BlockMembersType;
   actived: boolean;
+  onBlockClick: BlockGroupWrapperPropsInterface['onBlockClick'];
+  onGroupClick: BlockGroupWrapperPropsInterface['onGroupClick'];
+  onUpdateTitle: BlockGroupWrapperPropsInterface['onUpdateTitle'];
 }
 
 const StyledBlockGroupMemberList = styled.div<{ parentActived: boolean }>`

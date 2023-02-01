@@ -2,7 +2,7 @@ import React, { FormEvent } from 'react';
 
 import { useTheme } from '@emotion/react';
 
-import { useBlockGroupsAtom } from '@hooks/useBlockGroupsAtom';
+import { useBlockGroupsAtom } from '@hooks/index';
 
 import { DefaultDivider, DefaultHStack, DefaultVStack, StrongText } from 'ui';
 
