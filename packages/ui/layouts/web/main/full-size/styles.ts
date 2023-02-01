@@ -14,8 +14,16 @@ export const StyledFullSizeMainContainer = styled.section<{
   isHeader: boolean;
   backgroundColor: string;
 }>`
-  width: 100vw;
+  position: relative;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  width: 2000px;
+  height: 2000px;
   min-height: 100%;
+
   background-color: ${({ backgroundColor }) => backgroundColor};
 
   ${({ isHeader, theme }) =>
