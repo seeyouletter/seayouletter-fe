@@ -2,21 +2,29 @@ import React from 'react';
 
 import { useTheme } from '@emotion/react';
 
-import { DefaultDivider, DefaultHStack, DefaultVStack, StrongText } from 'ui';
-
 import { useBlockGroupsAtom } from '@hooks/useBlockGroupsAtom';
 
-import { DEFAULT_NONE } from '@utils/contants';
+import { DEFAULT_NONE } from '@utils/index';
+
+import { DefaultDivider, DefaultHStack, DefaultVStack, StrongText } from 'ui';
 
 import { TemplatedInputWithTitlePresenter } from './TemplatedInputWithTitlePresenter';
 
 const TBD = '개발중';
 
+/**
+ * @TODO
+ * TODO: 현재 컴포넌트 짜는 로직을 추가하지 않은 시점에서 작업을 하려니, 막상 사이즈를 구하는 로직에서 어떻게 사이즈를 정의해줄지를 정의할 수 없다는 것을 깨달았다.
+ * 예컨대 `useRef`를 써서 해결할 수도 있을 것 같기도 하고, 마우스 이벤트마다 특정 시점을 변경시켜서 컴포넌트의 position, size 값을 set할 수도 있을 것 같다.
+ * 이는 추후 명세가 확정되면 구체화한다.
+ */
 /* eslint-disable no-console */
 export function ActivedGroupPositionSizeModifier() {
   const { activedBlockGroup } = useBlockGroupsAtom();
 
   const theme = useTheme();
+
+  if (activedBlockGroup === null || activedBlockGroup.type !== 'group') return <div></div>;
 
   return (
     <>

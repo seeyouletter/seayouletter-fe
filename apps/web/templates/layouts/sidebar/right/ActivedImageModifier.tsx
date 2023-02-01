@@ -2,6 +2,8 @@ import React, { FormEvent } from 'react';
 
 import { useTheme } from '@emotion/react';
 
+import { useBlockGroupsAtom } from '@hooks/useBlockGroupsAtom';
+
 import {
   DefaultButton,
   DefaultHStack,
@@ -10,8 +12,6 @@ import {
   FullWidthButton,
   StrongText,
 } from 'ui';
-
-import { useBlockGroupsAtom } from '@hooks/useBlockGroupsAtom';
 
 import { TemplatedInputWithTitlePresenter } from './TemplatedInputWithTitlePresenter';
 

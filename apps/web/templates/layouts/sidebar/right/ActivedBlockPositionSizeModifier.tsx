@@ -2,6 +2,10 @@ import React, { FormEvent } from 'react';
 
 import { useTheme } from '@emotion/react';
 
+import { useBlockGroupsAtom } from '@hooks/useBlockGroupsAtom';
+
+import { DEFAULT_NONE } from '@utils/index';
+
 import {
   DefaultDivider,
   DefaultHStack,
@@ -10,10 +14,6 @@ import {
   Position,
   StrongText,
 } from 'ui';
-
-import { useBlockGroupsAtom } from '@hooks/useBlockGroupsAtom';
-
-import { DEFAULT_NONE } from '@utils/contants';
 
 import { TemplatedInputWithTitlePresenter } from './TemplatedInputWithTitlePresenter';
 

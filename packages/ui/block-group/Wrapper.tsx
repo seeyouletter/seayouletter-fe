@@ -3,10 +3,10 @@ import { FocusEvent, FormEvent, MouseEvent } from 'react';
 import { css, useTheme } from '@emotion/react';
 import styled from '@emotion/styled';
 
+import { useContentEditable } from '@common-hooks/useContentEditable';
+
 import { DefaultBox } from '@ui/box';
 import { DefaultVStack } from '@ui/stack';
-
-import { useContentEditable } from '@common-hooks/useContentEditable';
 
 /* eslint-disable-next-line import/no-cycle */
 import { BlockGroupMemberList } from './MemberList';

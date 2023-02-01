@@ -2,9 +2,9 @@ import React from 'react';
 
 import { useTheme } from '@emotion/react';
 
-import { DefaultDivider, DefaultHStack, DefaultVStack, StrongText } from 'ui';
-
 import { useBorderMatrix } from '@hooks/index';
+
+import { DefaultDivider, DefaultHStack, DefaultVStack, StrongText } from 'ui';
 
 import { BorderMatrix } from './Matrix';
 import { BorderSubModifierFactory } from './SubModifier';

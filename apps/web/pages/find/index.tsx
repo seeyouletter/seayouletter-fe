@@ -1,11 +1,11 @@
 import React from 'react';
 
-import BaseLayout from 'layouts/BaseLayout';
-
-import { DefaultHStack, DefaultSelect, DefaultVStack, TabGroup } from 'ui';
+import BaseLayout from '@layouts/BaseLayout';
 
 import { TemplateCardList } from '@templates/card-list';
 import { FindTemplateSearchForm } from '@templates/form';
+
+import { DefaultHStack, DefaultSelect, DefaultVStack, TabGroup } from 'ui';
 
 const FindTemplateCategorySelects = () => {
   return (

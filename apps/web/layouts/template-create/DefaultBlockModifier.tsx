@@ -1,12 +1,12 @@
 import React from 'react';
 
-import { DefaultVStack } from 'ui';
-
 import {
   ActivedBlockBorderModifier,
   ActivedBlockFillModifier,
   ActivedBlockPositionSizeModifier,
 } from '@templates/index';
+
+import { DefaultVStack } from 'ui';
 
 export function DefaultBlockModifier() {
   return (

@@ -14,6 +14,7 @@
       "@common-hooks/*": ["../../packages/common-hooks/*"],
       "@templates/*": ["templates/*"],
       "@atoms/*": ["atoms/*"],
+      "@layouts/*": ["layouts/*"],
       "@apis/*": ["libs/apis/*"],
       "@utils/*": ["libs/utils/*"]
     },

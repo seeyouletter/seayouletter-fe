@@ -1,14 +1,19 @@
-import { login } from 'libs/apis/login';
-import { ValidateReturnType, validate } from 'libs/utils/validate';
 import { z } from 'zod';
 
-import React from 'react';
-import { FormEvent, useEffect, useState } from 'react';
+import React, { FormEvent, useEffect, useState } from 'react';
 
 import { useRouter } from 'next/router';
 
 import { css, useTheme } from '@emotion/react';
 import styled from '@emotion/styled';
+
+import { Kakao, Naver } from '@templates/link';
+
+import { useForm } from '@common-hooks/useForm';
+
+import { ValidateReturnType, emailSchema, validate } from '@utils/index';
+
+import { login } from '@apis/login';
 
 import {
   DefaultButtonPropsInterface,
@@ -23,12 +28,6 @@ import {
   StrongText,
   globalTheme,
 } from 'ui';
-
-import { Kakao, Naver } from '@templates/link';
-
-import { useForm } from '@common-hooks/useForm';
-
-import { emailSchema } from '@utils/schemas';
 
 const idInputCSS = css`
   margin-bottom: 0px;

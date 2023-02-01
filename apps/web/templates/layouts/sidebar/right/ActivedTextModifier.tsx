@@ -2,9 +2,9 @@ import React from 'react';
 
 import { useTheme } from '@emotion/react';
 
-import { DefaultDivider, DefaultHStack, DefaultVStack, StrongText } from 'ui';
-
 import { useBlockGroupsAtom } from '@hooks/useBlockGroupsAtom';
+
+import { DefaultDivider, DefaultHStack, DefaultVStack, StrongText } from 'ui';
 
 import { TemplatedInputWithTitlePresenter } from './TemplatedInputWithTitlePresenter';
 

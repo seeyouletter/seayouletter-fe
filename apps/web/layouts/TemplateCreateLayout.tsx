@@ -2,9 +2,13 @@ import React, { PropsWithChildren } from 'react';
 
 import { useAtomValue } from 'jotai';
 
+import { v4 as uuidv4 } from 'uuid';
+
 import { useTheme } from '@emotion/react';
 
-import { v4 as uuidv4 } from 'uuid';
+import { assembledBlockGroups } from '@atoms/blockGroupsAtom';
+
+import { useBlockGroupsAtom, useCreateBlockGroupsStore } from '@hooks/index';
 
 import {
   BlockGroupMemberList,
@@ -23,10 +27,6 @@ import {
   TemplateCreateHeader,
   TextMenuButton,
 } from 'ui';
-
-import { assembledBlockGroups } from '@atoms/blockGroupsAtom';
-
-import { useBlockGroupsAtom, useCreateBlockGroupsStore } from '@hooks/index';
 
 import { BlockGroupModifier } from './template-create/BlockGroupModifier';
 

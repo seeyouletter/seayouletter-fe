@@ -2,6 +2,8 @@ import React, { useMemo } from 'react';
 
 import { useTheme } from '@emotion/react';
 
+import { useBlockGroupsAtom } from '@hooks/useBlockGroupsAtom';
+
 import {
   Blocks,
   ColorInput,
@@ -13,8 +15,6 @@ import {
   Groups,
   StrongText,
 } from 'ui';
-
-import { useBlockGroupsAtom } from '@hooks/useBlockGroupsAtom';
 
 export function ActivedGroupColorsModifier() {
   const theme = useTheme();

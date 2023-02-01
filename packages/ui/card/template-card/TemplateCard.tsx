@@ -2,10 +2,10 @@ import React from 'react';
 
 import Image from 'next/image';
 
+import { Avatar, Button } from '@chakra-ui/react';
+
 import { useTheme } from '@emotion/react';
 import styled from '@emotion/styled';
-
-import { Avatar, Button } from '@chakra-ui/react';
 
 import HeartEmptyIcon from '@ui/icon/HeartEmpty';
 import HeartFillIcon from '@ui/icon/HeartFill';

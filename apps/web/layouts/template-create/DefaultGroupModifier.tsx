@@ -1,8 +1,8 @@
 import React from 'react';
 
-import { DefaultVStack } from 'ui';
-
 import { ActivedGroupColorsModifier, ActivedGroupPositionSizeModifier } from '@templates/index';
+
+import { DefaultVStack } from 'ui';
 
 export function DefaultGroupModifier() {
   return (

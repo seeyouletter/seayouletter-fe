@@ -1,10 +1,10 @@
 import React from 'react';
 
-import { DefaultHStack, DefaultVStack } from 'ui';
-
 import { EdgeDirectionsContstants } from '@atoms/blockBorderAtom';
 
 import { useBorderMatrix, useBorderModifier } from '@hooks/index';
+
+import { DefaultHStack, DefaultVStack } from 'ui';
 
 import { TemplatedColorInputWithTitlePresenter } from '../TemplatedColorInputWithTitle';
 import { TemplatedInputWithTitlePresenter } from '../TemplatedInputWithTitlePresenter';

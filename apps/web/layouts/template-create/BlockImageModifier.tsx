@@ -2,9 +2,9 @@ import React from 'react';
 
 import { useTheme } from '@emotion/react';
 
-import { DefaultButton, DefaultVStack, StrongText } from 'ui';
-
 import { ActivedImageModifier } from '@templates/index';
+
+import { DefaultButton, DefaultVStack, StrongText } from 'ui';
 
 import { BlockImageDecoratorPropsInterface } from './types';
 

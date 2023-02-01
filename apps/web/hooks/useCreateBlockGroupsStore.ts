@@ -2,9 +2,9 @@ import { useEffect } from 'react';
 
 import { useSetAtom } from 'jotai';
 
-import { BlockMembersType, Blocks, Groups } from 'ui';
-
 import { blocksStateAtom } from '@atoms/blockGroupsAtom';
+
+import { BlockMembersType, Blocks, Groups } from 'ui';
 
 import { useBlockGroupsAtom } from './useBlockGroupsAtom';
 

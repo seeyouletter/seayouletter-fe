@@ -1,5 +1,7 @@
 import { useAtom, useAtomValue } from 'jotai';
 
+import { activedBlockGroupAtom, blocksStateAtom } from '@atoms/index';
+
 import {
   BlockGroupType,
   Blocks,
@@ -13,8 +15,6 @@ import {
   ShapeBlock,
   TextBlock,
 } from 'ui';
-
-import { activedBlockGroupAtom, blocksStateAtom } from '@atoms/index';
 
 interface TypeWithIdInterface<Type = BlockGroupType> {
   type: Type;

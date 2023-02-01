@@ -1,10 +1,12 @@
 import React from 'react';
 
-import { useTheme } from '@emotion/react';
-
 import { v4 as uuidV4 } from 'uuid';
 
-import BaseLayout from 'layouts/BaseLayout';
+import { useTheme } from '@emotion/react';
+
+import BaseLayout from '@layouts/BaseLayout';
+
+import { TemplateCardList } from '@templates/index';
 
 import {
   DefaultBanner,
@@ -14,8 +16,6 @@ import {
   DefaultVStack,
   StrongText,
 } from 'ui';
-
-import { TemplateCardList } from '@templates/index';
 
 const CarouselData = [
   {

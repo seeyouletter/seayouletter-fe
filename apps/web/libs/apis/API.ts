@@ -1,5 +1,6 @@
-import { instanceStore } from '@apis/instances';
 import { AxiosInstance, AxiosRequestConfig } from 'axios';
+
+import { instanceStore } from '@apis/instances';
 
 // type SuspenseResponseType<R> = { read: () => R };
 type RestAPIMethodType = <T = unknown, R = T, D = unknown>(

@@ -2,7 +2,7 @@ import React from 'react';
 
 import { useTheme } from '@emotion/react';
 
-import BaseLayout from 'layouts/BaseLayout';
+import BaseLayout from '@layouts/BaseLayout';
 
 import { DefaultHStack, DefaultText, DefaultVStack, FreeSizeButton } from 'ui';
 

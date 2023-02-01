@@ -1,8 +1,8 @@
 import React from 'react';
 
-import { useTheme } from '@emotion/react';
-
 import { Input } from '@chakra-ui/react';
+
+import { useTheme } from '@emotion/react';
 
 import { ColorPropsInterface } from './types';
 

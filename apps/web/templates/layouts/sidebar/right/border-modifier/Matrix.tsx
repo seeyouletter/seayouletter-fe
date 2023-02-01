@@ -2,8 +2,6 @@ import React, { useCallback, useEffect, useMemo, useState } from 'react';
 
 import { useTheme } from '@emotion/react';
 
-import { DefaultBox, DefaultHStack, DefaultText, DefaultVStack, StrongText } from 'ui';
-
 import {
   DirectionsContstants,
   EdgeDirectionsContstants,
@@ -11,6 +9,8 @@ import {
 } from '@atoms/blockBorderAtom';
 
 import { useBorderMatrix } from '@hooks/index';
+
+import { DefaultBox, DefaultHStack, DefaultText, DefaultVStack, StrongText } from 'ui';
 
 interface SubMatrixCommonPropsInterface {
   onMouseOverMatrix: (key: EdgeDirectionsContstants | DirectionsContstants | 'all') => void;

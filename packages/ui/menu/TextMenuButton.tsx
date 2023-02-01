@@ -1,8 +1,8 @@
 import React, { PropsWithChildren } from 'react';
 
-import { useTheme } from '@emotion/react';
-
 import { ChevronDownIcon } from '@chakra-ui/icons';
+
+import { useTheme } from '@emotion/react';
 
 import { IconWithTextButton } from '@ui/button';
 

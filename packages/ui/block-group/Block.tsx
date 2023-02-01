@@ -3,10 +3,10 @@ import React, { FocusEvent, FormEvent, MouseEvent } from 'react';
 import { useTheme } from '@emotion/react';
 import styled from '@emotion/styled';
 
+import { useContentEditable } from '@common-hooks/useContentEditable';
+
 import { DefaultBox } from '@ui/box';
 import { DefaultHStack } from '@ui/stack';
-
-import { useContentEditable } from '@common-hooks/useContentEditable';
 
 import { BlockPropsInterface, CommonStyledBlockInterface } from './types';
 

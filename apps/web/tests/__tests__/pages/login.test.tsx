@@ -1,7 +1,4 @@
 // __tests__/index.test.jsx
-import '@testing-library/jest-dom';
-import { cleanup, fireEvent, render, screen } from '@testing-library/react';
-import userEvent from '@testing-library/user-event';
 import { createMockRouter } from 'tests/__mocks__/router';
 import { UserEventType } from 'tests/types';
 
@@ -9,9 +6,13 @@ import { useRouter } from 'next/router';
 
 import LoginPage from '@pages/login';
 
-import { CustomThemeProvider } from 'ui';
-
 import { LoginFormButton } from '@templates/form/LoginForm';
+
+import '@testing-library/jest-dom';
+import { cleanup, fireEvent, render, screen } from '@testing-library/react';
+import userEvent from '@testing-library/user-event';
+
+import { CustomThemeProvider } from 'ui';
 
 afterEach(cleanup);
 
