@@ -13,7 +13,7 @@ export default function TemplateCreatePage() {
     setPageWidth({ width: '500px' });
     setPageHeight({ height: '1000px' });
     setPageScale({ scale: '1' });
-  }, []);
+  }, [setPageHeight, setPageWidth, setPageScale]);
 
   return <ResizablePage width={pageState.width} height={pageState.height} />;
 }

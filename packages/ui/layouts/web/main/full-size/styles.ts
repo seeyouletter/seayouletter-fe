@@ -10,7 +10,11 @@ import type {} from 'node_modules/@types/react';
 import { css } from '@emotion/react';
 import styled from '@emotion/styled';
 
+import { SizeType } from '@ui/types/models/Styles';
+
 export const StyledFullSizeMainContainer = styled.section<{
+  width: SizeType;
+  height: SizeType;
   isHeader: boolean;
   backgroundColor: string;
 }>`
@@ -20,16 +24,18 @@ export const StyledFullSizeMainContainer = styled.section<{
   align-items: center;
   justify-content: center;
 
-  width: 2000px;
-  height: 2000px;
-  min-height: 100%;
+  ${(props) => css`
+    width: calc(${props.width} * 2);
+    height: calc(${props.height} * 2);
+  `};
+
+  min-width: 100vw;
 
   background-color: ${({ backgroundColor }) => backgroundColor};
 
   ${({ isHeader, theme }) =>
     isHeader &&
     css`
-      /* min-height: calc(100% - ${theme.layout.header.height}); */
       padding-top: calc(
         ${theme.layout.header.height} + ${theme.layout.templateCreateToolbar.height}
       );

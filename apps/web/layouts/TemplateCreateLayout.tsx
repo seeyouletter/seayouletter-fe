@@ -865,6 +865,8 @@ export default function TemplateCreateLayout({ children }: PropsWithChildren) {
 
   const blockGroupData = useAtomValue(assembledBlockGroups);
 
+  const { pageState } = useResizablePageAtom();
+
   return (
     <StyledPageContainer>
       <Header />
@@ -906,7 +908,12 @@ export default function TemplateCreateLayout({ children }: PropsWithChildren) {
         {activedBlockGroup ? <BlockGroupModifier blockGroup={activedBlockGroup} /> : <div></div>}
       </RightSidebar>
 
-      <FullSizeMain backgroundColor="black" isHeader={true}>
+      <FullSizeMain
+        width={pageState.width}
+        height={pageState.height}
+        backgroundColor="black"
+        isHeader={true}
+      >
         {children}
       </FullSizeMain>
     </StyledPageContainer>
