@@ -1,12 +1,17 @@
 import React, { useEffect } from 'react';
 
+import { useTheme } from '@emotion/react';
+
 import TemplateCreateLayout from '@layouts/TemplateCreateLayout';
 
 import { ResizablePage } from '@templates/template-create';
 
 import { useResizablePageAtom } from '@hooks/index';
 
+import { DefaultBox } from 'ui';
+
 export default function TemplateCreatePage() {
+  const theme = useTheme();
   const { pageState, setPageWidth, setPageHeight, setPageScale } = useResizablePageAtom();
 
   /**
@@ -20,7 +25,19 @@ export default function TemplateCreatePage() {
     /* eslint-disable-next-line react-hooks/exhaustive-deps */
   }, []);
 
-  return <ResizablePage width={pageState.width} height={pageState.height} />;
+  return (
+    <DefaultBox
+      width="100%"
+      height={`calc(${pageState.height} + 300px)`}
+      position="relative"
+      display="flex"
+      justifyContent="center"
+      alignItems="center"
+      bg={theme.color.dark}
+    >
+      <ResizablePage width={pageState.width} height={pageState.height} />
+    </DefaultBox>
+  );
 }
 
 TemplateCreatePage.getLayout = function getLayout(page: React.ReactElement) {

@@ -797,16 +797,6 @@ const Toolbar = () => {
         justifyContent="space-between"
       >
         <DefaultHStack spacing={0}>
-          {/* <TextMenuButton
-            color={theme.color.white}
-            borderRadius="0"
-            onClick={() => {
-              return;
-            }}
-          >
-            설정
-          </TextMenuButton> */}
-
           <Menu>
             <TextMenuButton color={theme.color.white}>블록 생성</TextMenuButton>
 
@@ -906,8 +896,6 @@ export default function TemplateCreateLayout({ children }: PropsWithChildren) {
 
   const blockGroupData = useAtomValue(assembledBlockGroups);
 
-  const { pageState } = useResizablePageAtom();
-
   return (
     <StyledPageContainer>
       <Header />
@@ -949,12 +937,7 @@ export default function TemplateCreateLayout({ children }: PropsWithChildren) {
         {activedBlockGroup ? <BlockGroupModifier blockGroup={activedBlockGroup} /> : <div></div>}
       </RightSidebar>
 
-      <FullSizeMain
-        width={pageState.width}
-        height={pageState.height}
-        backgroundColor="black"
-        isHeader={true}
-      >
+      <FullSizeMain backgroundColor="black" isHeader={true}>
         {children}
       </FullSizeMain>
     </StyledPageContainer>
