@@ -8,4 +8,4 @@ export { toastAtom } from './toastAtom';
 
 export { resizablePageAtom } from './resizablePageAtom';
 
-export { templateCreateToolbarAtom } from './templateCreateToolbarAtom';
+export { templateCreateToolbarAtom, initialBlockCreationState } from './templateCreateToolbarAtom';

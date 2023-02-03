@@ -1,6 +1,6 @@
 import { useAtom } from 'jotai';
 
-import { templateCreateToolbarAtom } from '@atoms/index';
+import { initialBlockCreationState, templateCreateToolbarAtom } from '@atoms/index';
 
 export const useTemplateCreateToolbar = () => {
   const [toolbarState, setToolbarState] = useAtom(templateCreateToolbarAtom);
@@ -29,9 +29,17 @@ export const useTemplateCreateToolbar = () => {
     }));
   };
 
+  const initializeBlockCreation = () => {
+    setToolbarState((state) => ({
+      ...state,
+      blockCreation: { ...initialBlockCreationState },
+    }));
+  };
+
   return {
     blockCreationState: toolbarState.blockCreation,
     setBlockCreationActive,
     setTextCreationActive,
+    initializeBlockCreation,
   };
 };

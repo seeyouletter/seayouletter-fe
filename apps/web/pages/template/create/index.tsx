@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useMemo } from 'react';
 
 import { useTheme } from '@emotion/react';
 
@@ -7,12 +7,23 @@ import TemplateCreateLayout from '@layouts/TemplateCreateLayout';
 import { ResizablePage } from '@templates/template-create';
 
 import { useResizablePageAtom } from '@hooks/index';
+import { useTemplateCreateToolbar } from '@hooks/useTemplateCreateToolbar';
 
 import { DefaultBox } from 'ui';
 
 export default function TemplateCreatePage() {
   const theme = useTheme();
   const { pageState, setPageWidth, setPageHeight, setPageScale } = useResizablePageAtom();
+
+  const { blockCreationState, initializeBlockCreation } = useTemplateCreateToolbar();
+
+  const cursorState = useMemo(() => {
+    if (blockCreationState.type !== null) {
+      return 'crosshair';
+    } else {
+      return 'auto';
+    }
+  }, [blockCreationState.type]);
 
   /**
    * @todo
@@ -25,6 +36,15 @@ export default function TemplateCreatePage() {
     /* eslint-disable-next-line react-hooks/exhaustive-deps */
   }, []);
 
+  useEffect(() => {
+    const keydownHandler = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') {
+        initializeBlockCreation();
+      }
+    };
+    document.body.addEventListener('keydown', keydownHandler);
+  });
+
   return (
     <DefaultBox
       width="100%"
@@ -34,6 +54,7 @@ export default function TemplateCreatePage() {
       justifyContent="center"
       alignItems="center"
       bg={theme.color.dark}
+      cursor={cursorState}
     >
       <ResizablePage width={pageState.width} height={pageState.height} />
     </DefaultBox>

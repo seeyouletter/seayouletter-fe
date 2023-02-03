@@ -10,6 +10,7 @@ import { assembledBlockGroups } from '@atoms/blockGroupsAtom';
 
 import { useBlockGroupsAtom, useCreateBlockGroupsStore } from '@hooks/index';
 import { useResizablePageAtom } from '@hooks/index';
+import { useTemplateCreateToolbar } from '@hooks/useTemplateCreateToolbar';
 
 import {
   BlockGroupMemberList,
@@ -778,6 +779,8 @@ const Toolbar = () => {
 
   const { pageState, setPageWidth, setPageHeight, setPageScale } = useResizablePageAtom();
 
+  const { setBlockCreationActive, setTextCreationActive } = useTemplateCreateToolbar();
+
   return (
     <DefaultHStack
       backgroundColor="#333"
@@ -805,6 +808,7 @@ const Toolbar = () => {
                 backgroundColor={theme.color.semiDark}
                 color={theme.color.white}
                 fontSize={theme.fontSize.xs}
+                onClick={setBlockCreationActive}
               >
                 <DefaultHStack alignItems="baseline" justifyContent="space-between">
                   <DefaultBox marginRight="8px" width="12px">
@@ -820,6 +824,7 @@ const Toolbar = () => {
                 backgroundColor={theme.color.semiDark}
                 color={theme.color.white}
                 fontSize={theme.fontSize.xs}
+                onClick={setTextCreationActive}
               >
                 <DefaultHStack alignItems="baseline" justifyContent="space-between">
                   <DefaultBox marginRight="8px" width="12px">
