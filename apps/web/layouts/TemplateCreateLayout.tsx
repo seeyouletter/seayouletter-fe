@@ -23,6 +23,9 @@ import {
   FullSizeMain,
   LeftSidebar,
   LogoImageLink,
+  Menu,
+  MenuItem,
+  MenuList,
   RightSidebar,
   StyledPageContainer,
   TemplateCreateHeader,
@@ -794,13 +797,51 @@ const Toolbar = () => {
         justifyContent="space-between"
       >
         <DefaultHStack spacing={0}>
-          <TextMenuButton borderRadius="0" color={theme.color.white}>
+          {/* <TextMenuButton
+            color={theme.color.white}
+            borderRadius="0"
+            onClick={() => {
+              return;
+            }}
+          >
             설정
-          </TextMenuButton>
+          </TextMenuButton> */}
 
-          <TextMenuButton borderRadius="0" color={theme.color.white}>
-            블록 생성
-          </TextMenuButton>
+          <Menu>
+            <TextMenuButton color={theme.color.white}>블록 생성</TextMenuButton>
+
+            <MenuList minWidth="100px" backgroundColor={theme.color.semiDark}>
+              <MenuItem
+                backgroundColor={theme.color.semiDark}
+                color={theme.color.white}
+                fontSize={theme.fontSize.xs}
+              >
+                <DefaultHStack alignItems="baseline" justifyContent="space-between">
+                  <DefaultBox marginRight="8px" width="12px">
+                    ⎕
+                  </DefaultBox>
+                  <DefaultText size={theme.fontSize.xs} color={theme.color.white}>
+                    블록
+                  </DefaultText>
+                </DefaultHStack>
+              </MenuItem>
+
+              <MenuItem
+                backgroundColor={theme.color.semiDark}
+                color={theme.color.white}
+                fontSize={theme.fontSize.xs}
+              >
+                <DefaultHStack alignItems="baseline" justifyContent="space-between">
+                  <DefaultBox marginRight="8px" width="12px">
+                    가
+                  </DefaultBox>
+                  <DefaultText size={theme.fontSize.xs} color={theme.color.white}>
+                    텍스트
+                  </DefaultText>
+                </DefaultHStack>
+              </MenuItem>
+            </MenuList>
+          </Menu>
         </DefaultHStack>
 
         <DefaultHStack spacing={3}>

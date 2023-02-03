@@ -1,6 +1,4 @@
-import { PropsWithChildren } from 'react';
-
-import { MenuItem as ChakraMenuItem } from '@chakra-ui/react';
+import { MenuItem as ChakraMenuItem, MenuItemProps } from '@chakra-ui/react';
 
 import styled from '@emotion/styled';
 
@@ -13,6 +11,6 @@ const StyledMenuItem = styled(ChakraMenuItem)`
     transition: all 0.2s;
   }
 `;
-export function MenuItem({ children }: PropsWithChildren) {
-  return <StyledMenuItem>{children}</StyledMenuItem>;
+export function MenuItem({ children, ...props }: MenuItemProps) {
+  return <StyledMenuItem {...props}>{children}</StyledMenuItem>;
 }
