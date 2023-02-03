@@ -7,3 +7,5 @@ export { blockBorderStateAtom, concurrentlyActivedSections } from './blockBorder
 export { toastAtom } from './toastAtom';
 
 export { resizablePageAtom } from './resizablePageAtom';
+
+export { templateCreateToolbarAtom } from './templateCreateToolbarAtom';
