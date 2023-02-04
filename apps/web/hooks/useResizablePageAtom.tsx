@@ -7,6 +7,8 @@ import { SizeType } from 'ui';
 interface UseResizablePageParams {
   width: SizeType;
   height: SizeType;
+  top: SizeType;
+  left: SizeType;
   scale: SizeType;
 }
 
@@ -27,6 +29,20 @@ export const useResizablePageAtom = () => {
     }));
   };
 
+  const setPageTop = ({ top }: { top: UseResizablePageParams['top'] }) => {
+    setResizablePageState((state) => ({
+      ...state,
+      top,
+    }));
+  };
+
+  const setPageLeft = ({ left }: { left: UseResizablePageParams['left'] }) => {
+    setResizablePageState((state) => ({
+      ...state,
+      left,
+    }));
+  };
+
   const setPageScale = ({ scale }: { scale: UseResizablePageParams['scale'] }) => {
     setResizablePageState((state) => ({
       ...state,
@@ -39,5 +55,7 @@ export const useResizablePageAtom = () => {
     setPageWidth,
     setPageHeight,
     setPageScale,
+    setPageTop,
+    setPageLeft,
   };
 };
