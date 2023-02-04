@@ -86,6 +86,7 @@ const globalColor = {
 const globalBorder = {
   default: '1px solid #DDDDDD',
   darkGray: '1px solid #555555',
+  primary: `1px solid ${globalColor.primary[500]}`,
 };
 
 const globalBorderRadius = {
