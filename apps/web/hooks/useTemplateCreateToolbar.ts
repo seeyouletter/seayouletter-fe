@@ -5,26 +5,68 @@ import { initialBlockCreationState, templateCreateToolbarAtom } from '@atoms/ind
 export const useTemplateCreateToolbar = () => {
   const [toolbarState, setToolbarState] = useAtom(templateCreateToolbarAtom);
 
-  const setBlockCreationActive = () => {
+  const setShapeBlockCreationActive = () => {
     setToolbarState((state) => ({
       ...state,
       blockCreation: {
         ...state.blockCreation,
         type: 'block',
-        width: 100,
-        height: 100,
+        top: 0,
+        left: 0,
+        width: 0,
+        height: 0,
       },
     }));
   };
 
-  const setTextCreationActive = () => {
+  const setBlockCreationWidth = (width: number) => {
+    setToolbarState((state) => ({
+      ...state,
+      blockCreation: {
+        ...state.blockCreation,
+        width,
+      },
+    }));
+  };
+
+  const setBlockCreationHeight = (height: number) => {
+    setToolbarState((state) => ({
+      ...state,
+      blockCreation: {
+        ...state.blockCreation,
+        height,
+      },
+    }));
+  };
+
+  const setBlockCreationTop = (top: number) => {
+    setToolbarState((state) => ({
+      ...state,
+      blockCreation: {
+        ...state.blockCreation,
+        top,
+      },
+    }));
+  };
+
+  const setBlockCreationLeft = (left: number) => {
+    setToolbarState((state) => ({
+      ...state,
+      blockCreation: {
+        ...state.blockCreation,
+        left,
+      },
+    }));
+  };
+
+  const setTextBlockCreationActive = () => {
     setToolbarState((state) => ({
       ...state,
       blockCreation: {
         ...state.blockCreation,
         type: 'text',
-        width: 16,
-        height: 16,
+        width: 0,
+        height: 0,
       },
     }));
   };
@@ -38,8 +80,12 @@ export const useTemplateCreateToolbar = () => {
 
   return {
     blockCreationState: toolbarState.blockCreation,
-    setBlockCreationActive,
-    setTextCreationActive,
+    setShapeBlockCreationActive,
+    setTextBlockCreationActive,
+    setBlockCreationWidth,
+    setBlockCreationHeight,
+    setBlockCreationTop,
+    setBlockCreationLeft,
     initializeBlockCreation,
   };
 };
