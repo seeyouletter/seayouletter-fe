@@ -779,7 +779,7 @@ const Toolbar = () => {
 
   const { pageState, setPageWidth, setPageHeight, setPageScale } = useResizablePageAtom();
 
-  const { setBlockCreationActive, setTextCreationActive } = useTemplateCreateToolbar();
+  const { setShapeBlockCreationActive, setTextBlockCreationActive } = useTemplateCreateToolbar();
 
   return (
     <DefaultHStack
@@ -808,7 +808,7 @@ const Toolbar = () => {
                 backgroundColor={theme.color.semiDark}
                 color={theme.color.white}
                 fontSize={theme.fontSize.xs}
-                onClick={setBlockCreationActive}
+                onClick={setShapeBlockCreationActive}
               >
                 <DefaultHStack alignItems="baseline" justifyContent="space-between">
                   <DefaultBox marginRight="8px" width="12px">
@@ -824,7 +824,7 @@ const Toolbar = () => {
                 backgroundColor={theme.color.semiDark}
                 color={theme.color.white}
                 fontSize={theme.fontSize.xs}
-                onClick={setTextCreationActive}
+                onClick={setTextBlockCreationActive}
               >
                 <DefaultHStack alignItems="baseline" justifyContent="space-between">
                   <DefaultBox marginRight="8px" width="12px">
@@ -915,6 +915,7 @@ export default function TemplateCreateLayout({ children }: PropsWithChildren) {
                 생성된 블록
               </DefaultText>
             </DefaultBox>
+
             <BlockGroupMemberList
               depth={0}
               activeId={activeId}
