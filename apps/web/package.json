@@ -17,15 +17,16 @@
     "@emotion/react": "^11.10.5",
     "@emotion/styled": "^11.10.5",
     "axios": "^1.2.0",
+    "common-hooks": "workspace:*",
     "framer-motion": "^7.7.2",
+    "idb": "^7.1.1",
     "jotai": "^1.12.0",
     "next": "13.0.7",
     "react": "18.2.0",
     "react-dom": "18.2.0",
     "react-query": "^3.39.2",
     "ui": "workspace:*",
-    "uuid": "^9.0.0",
-    "common-hooks": "workspace:*"
+    "uuid": "^9.0.0"
   },
   "devDependencies": {
     "@babel/core": "^7.0.0",

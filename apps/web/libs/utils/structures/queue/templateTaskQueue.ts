@@ -16,7 +16,7 @@ export class TemplateTaskQueue implements QueueInterface<TaskTransaction> {
   public _rear: number;
   private _garbages: Queue<TaskTransaction>;
 
-  private constructor(arr: TaskTransaction[] = []) {
+  public constructor(arr: TaskTransaction[] = []) {
     this._queue = arr;
 
     this._front = 0;
