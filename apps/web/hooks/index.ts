@@ -4,3 +4,4 @@ export { useBlockGroupsAtom } from './useBlockGroupsAtom';
 export { useBorderMatrix } from './useBorderMatrix';
 export { useBorderModifier } from './useBorderModifier';
 export { useResizablePageAtom } from './useResizablePageAtom';
+export { useTemplateTaskHistories } from './useTemplateTaskHistories';

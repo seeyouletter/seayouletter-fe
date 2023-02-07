@@ -8,7 +8,7 @@ import TemplateCreateLayout from '@layouts/TemplateCreateLayout';
 
 import { BlockPreviewer, ResizablePage } from '@templates/template-create';
 
-import { useBlockGroupsAtom, useResizablePageAtom } from '@hooks/index';
+import { useBlockGroupsAtom, useResizablePageAtom, useTemplateTaskHistories } from '@hooks/index';
 import { useTemplateCreateToolbar } from '@hooks/useTemplateCreateToolbar';
 
 import { Blocks, DefaultBox, SizeType } from 'ui';
@@ -87,6 +87,11 @@ export default function TemplateCreatePage() {
   const theme = useTheme();
   const { activedBlockGroup } = useBlockGroupsAtom();
   const { pageState, setPageWidth, setPageHeight, setPageScale } = useResizablePageAtom();
+
+  const { tasks } = useTemplateTaskHistories();
+  // TODO: 추후 삭제한다.
+  // eslint-disable-next-line
+  console.log('here: ', tasks);
 
   const [scrollY, setScrollY] = useState(0);
 
