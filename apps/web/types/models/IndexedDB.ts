@@ -9,3 +9,9 @@ export enum CursorDirection {
   prev = 'prev',
   prevunique = 'prevunique',
 }
+
+export enum TemplateCreateDBKeys {
+  tasks = 'tasks',
+  taskGarbages = 'taskGarbages',
+  snapshot = 'snapshot',
+}

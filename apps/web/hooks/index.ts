@@ -5,3 +5,5 @@ export { useBorderMatrix } from './useBorderMatrix';
 export { useBorderModifier } from './useBorderModifier';
 export { useResizablePageAtom } from './useResizablePageAtom';
 export { useTemplateTaskHistories } from './useTemplateTaskHistories';
+
+export { usePageDB, getTaskHistories } from './usePageDB';

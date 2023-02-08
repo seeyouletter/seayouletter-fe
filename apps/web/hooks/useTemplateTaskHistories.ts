@@ -1,11 +1,13 @@
-import { IDBPDatabase, IDBPObjectStore, openDB } from 'idb';
+import { IDBPDatabase, IDBPObjectStore } from 'idb';
 import type {} from 'node_modules/@types/react';
 
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useState } from 'react';
 
 import { CursorDirection, TransactionType } from '@models/index';
 
 import { Blocks, Groups } from 'ui';
+
+import { getTaskHistories, usePageDB } from './usePageDB';
 
 export const KEY_TASKS = 'tasks';
 export const KEY_GARBAGE_TASKS = 'taskGarbages';
@@ -36,27 +38,6 @@ const initializeGarbageTasks = async (store: GarbageTasksDBStoreType) => {
   store.clear();
 };
 
-const openTaskQueueStore = async () => {
-  const pageDB = await openDB('pageId', 1, {
-    upgrade(db, oldVersion) {
-      if (oldVersion < 1) {
-        db.createObjectStore(KEY_TASKS, { keyPath: 'id', autoIncrement: true });
-        db.createObjectStore(KEY_GARBAGE_TASKS, { keyPath: 'id', autoIncrement: true });
-      }
-    },
-  });
-
-  return { db: pageDB, message: null };
-};
-
-const getTaskHistories = async (db: IDBPDatabase) => {
-  const tasksTransaction = (db as IDBPDatabase).transaction(KEY_TASKS, TransactionType.readonly);
-
-  const res = await tasksTransaction.store.getAll();
-
-  return res;
-};
-
 const pushTaskHistories = async (db: IDBPDatabase, task: TaskHistoryInterface) => {
   const tasksTransaction = (db as IDBPDatabase).transaction(
     [KEY_TASKS, KEY_GARBAGE_TASKS],
@@ -71,6 +52,14 @@ const pushTaskHistories = async (db: IDBPDatabase, task: TaskHistoryInterface) =
     initializeGarbageTasks(garbageTasksStore),
     tasksTransaction.done,
   ]);
+};
+
+const getAllTasks = async (db: IDBPDatabase) => {
+  const transaction = db.transaction(KEY_TASKS, TransactionType.readonly);
+
+  const res = await transaction.store.getAll();
+
+  return res;
 };
 
 const pushGarbageTaskHistories = (store: GarbageTasksDBStoreType, value: TaskHistoryInterface) => {
@@ -133,10 +122,8 @@ const restoreTaskHistories = async (db: IDBPDatabase) => {
 };
 
 export const useTemplateTaskHistories = () => {
-  const pageDB = useRef<IDBPDatabase | null>(null);
-
+  const { pageDB, pageDBMessage } = usePageDB();
   const [tasks, setTasks] = useState<TaskHistoryInterface[] | null>(null);
-  const [pageDBMessage, setPageDBMessage] = useState<string | null>(null);
 
   useEffect(() => {
     if (pageDB.current !== null) {
@@ -149,18 +136,6 @@ export const useTemplateTaskHistories = () => {
       return;
     }
 
-    (async () => {
-      try {
-        const { db, message } = await openTaskQueueStore();
-
-        pageDB.current = db;
-        setPageDBMessage(() => message);
-      } catch (e) {
-        /* eslint-disable-next-line no-console */
-        console.error(e);
-      }
-    })();
-
     /* eslint-disable-next-line react-hooks/exhaustive-deps */
   }, [pageDB.current]);
 
@@ -171,7 +146,13 @@ export const useTemplateTaskHistories = () => {
     setTasks((state) => [...(state ?? []), task]);
   };
 
-  // [x] 병렬로 처리하여 성능 개선
+  const getTasksNotUpdatedInWAS = async () => {
+    if (pageDB.current === null) return;
+
+    const res = await getAllTasks(pageDB.current);
+    return res;
+  };
+
   const cancelTask = async () => {
     if (pageDB.current === null) return;
 
@@ -208,5 +189,7 @@ export const useTemplateTaskHistories = () => {
     addTask,
     cancelTask,
     restoreTask,
+
+    getTasksNotUpdatedInWAS,
   };
 };

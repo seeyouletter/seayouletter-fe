@@ -25,7 +25,7 @@ const getInitialBlockState = ({
   height: SizeType;
   top: SizeType;
   left: SizeType;
-}) => {
+}): Blocks => {
   return {
     type: 'block',
     subType: 'shape',
@@ -88,7 +88,7 @@ export default function TemplateCreatePage() {
   const { activedBlockGroup } = useBlockGroupsAtom();
   const { pageState, setPageWidth, setPageHeight, setPageScale } = useResizablePageAtom();
 
-  const { tasks } = useTemplateTaskHistories();
+  const { tasks, addTask } = useTemplateTaskHistories();
   // TODO: 추후 삭제한다.
   // eslint-disable-next-line
   console.log('here: ', tasks);
@@ -149,7 +149,7 @@ export default function TemplateCreatePage() {
 
     // TODO: 추후 태스크큐가 생성되면 이를 등록해야 한다.
     /* eslint-disable-next-line @typescript-eslint/no-unused-vars */
-    const nextBlock = getInitialBlockState({
+    const nextBlock: Blocks = getInitialBlockState({
       parent:
         activedBlockGroup === null
           ? null
@@ -160,6 +160,12 @@ export default function TemplateCreatePage() {
       height: blockCreationState.height + 'px',
       top: blockCreationState.top - +pageState.top + scrollY + 'px',
       left: blockCreationState.left - +pageState.left + 'px',
+    });
+
+    addTask({
+      taskType: 'create',
+      before: null,
+      after: nextBlock,
     });
 
     initializeBlockCreation();
