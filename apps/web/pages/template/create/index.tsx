@@ -12,8 +12,12 @@ import { BlockPreviewer, NodeList, ResizablePage } from '@templates/template-cre
 
 import { assembledBlockGroups } from '@atoms/blockGroupsAtom';
 
-import { useBlockGroupsAtom, useResizablePageAtom, useTemplateTaskHistories } from '@hooks/index';
-import { useTemplateCreateToolbar } from '@hooks/useTemplateCreateToolbar';
+import {
+  useBlockGroupsAtom,
+  useResizablePageAtom,
+  useTemplateCreateToolbar,
+  useTemplateTaskHistories,
+} from '@hooks/index';
 
 import { Blocks, DefaultBox, SizeType, globalTheme } from 'ui';
 

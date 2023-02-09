@@ -9,8 +9,7 @@ import { useTheme } from '@emotion/react';
 import { assembledBlockGroups } from '@atoms/blockGroupsAtom';
 
 import { useBlockGroupsAtom, useCreateBlockGroupsStore } from '@hooks/index';
-import { useResizablePageAtom } from '@hooks/index';
-import { useTemplateCreateToolbar } from '@hooks/useTemplateCreateToolbar';
+import { useResizablePageAtom, useTemplateCreateToolbar } from '@hooks/index';
 
 import {
   BlockGroupMemberList,

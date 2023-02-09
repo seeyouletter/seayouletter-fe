@@ -200,7 +200,7 @@ export const useBorderModifier = () => {
           type: activedBlockGroup.type,
           id: activedBlockGroup.id,
           key: blockBorderState.activeBorder as DirectionsContstants,
-          borderStyle: value,
+          borderStyle: value as Border['style'],
         });
       }
 

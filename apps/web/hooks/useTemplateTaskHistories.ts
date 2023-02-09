@@ -5,10 +5,9 @@ import { useEffect, useState } from 'react';
 
 import { CursorDirection, TransactionType } from '@models/index';
 
-import { useBlockGroupsAtom } from '@hooks/index';
-
 import { Blocks, Groups } from 'ui';
 
+import { useBlockGroupsAtom } from './useBlockGroupsAtom';
 import { getTaskHistories, usePageDB } from './usePageDB';
 
 export const KEY_TASKS = 'tasks';

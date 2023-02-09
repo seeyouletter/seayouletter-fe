@@ -5,6 +5,11 @@ import { useEffect, useRef, useState } from 'react';
 
 import { TemplateCreateDBKeys, TransactionType } from '@models/index';
 
+/**
+ * @todo
+ * 추후 해당 제네릭이 무엇을 의미하는지에 대해 알아야 한다.
+ * @see: https://github.com/seeyouletter/seeyouletter-fe/pull/69
+ */
 export const getTaskHistories = async (db: IDBPDatabase) => {
   const tasksTransaction = (db as IDBPDatabase).transaction(
     TemplateCreateDBKeys.tasks,
