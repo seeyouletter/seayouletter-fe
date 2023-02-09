@@ -42,10 +42,10 @@ const getInitialBlockState = ({
         height,
       },
       borderRadius: {
-        topLeft: '8px',
-        topRight: '8px',
-        bottomRight: '8px',
-        bottomLeft: '8px',
+        topLeft: '0px',
+        topRight: '0px',
+        bottomRight: '0px',
+        bottomLeft: '0px',
       },
       position: {
         top,
@@ -189,8 +189,21 @@ export default function TemplateCreatePage() {
     const mouseMoveHandler = (e: MouseEvent) => {
       const { clientY, clientX } = e;
 
-      const width = clientX - blockCreationState.left;
-      const height = clientY - blockCreationState.top;
+      const defaultWidth = clientX - blockCreationState.left;
+      const defaultHeight = clientY - blockCreationState.top;
+
+      let width = defaultWidth;
+      let height = defaultHeight;
+
+      if (defaultWidth < 0) {
+        width = -1 * defaultWidth;
+        setBlockCreationLeft(clientX);
+      }
+
+      if (defaultHeight < 0) {
+        height = -1 * defaultHeight;
+        setBlockCreationTop(clientY);
+      }
 
       setBlockCreationWidth(width);
       setBlockCreationHeight(height);
