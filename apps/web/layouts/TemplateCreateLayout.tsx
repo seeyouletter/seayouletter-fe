@@ -895,6 +895,7 @@ const Toolbar = () => {
 
 export default function TemplateCreateLayout({ children }: PropsWithChildren) {
   useCreateBlockGroupsStore(blockGroups);
+
   const { activedBlockGroup, activeId, setActiveId, setTitle, setToggle } = useBlockGroupsAtom();
 
   const theme = useTheme();

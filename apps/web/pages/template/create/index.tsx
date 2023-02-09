@@ -85,13 +85,10 @@ export default function TemplateCreatePage() {
   const pageRef = useRef<HTMLDivElement | null>(null);
 
   const theme = useTheme();
-  const { activedBlockGroup } = useBlockGroupsAtom();
+  const { activedBlockGroup, addBlock } = useBlockGroupsAtom();
   const { pageState, setPageWidth, setPageHeight, setPageScale } = useResizablePageAtom();
 
-  const { tasks, addTask } = useTemplateTaskHistories();
-  // TODO: 추후 삭제한다.
-  // eslint-disable-next-line
-  console.log('here: ', tasks);
+  const { addTask } = useTemplateTaskHistories();
 
   const [scrollY, setScrollY] = useState(0);
 
@@ -133,7 +130,7 @@ export default function TemplateCreatePage() {
       },
       { passive: true }
     );
-  });
+  }, []);
 
   const onMouseDown = (e: ReactMouseEvent) => {
     setIsCreatingBlock(() => true);
@@ -161,6 +158,8 @@ export default function TemplateCreatePage() {
       top: blockCreationState.top - +pageState.top + scrollY + 'px',
       left: blockCreationState.left - +pageState.left + 'px',
     });
+
+    addBlock(nextBlock);
 
     addTask({
       taskType: 'create',

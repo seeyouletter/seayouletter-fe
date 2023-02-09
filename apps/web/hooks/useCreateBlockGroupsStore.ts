@@ -53,6 +53,10 @@ export const useCreateBlockGroupsStore = (blockGroupsData: BlockMembersType) => 
       ...state,
       groupsStore,
       blocksStore,
+      snapshots: {
+        groupsStore: JSON.parse(JSON.stringify(groupsStore)),
+        blocksStore: JSON.parse(JSON.stringify(blocksStore)),
+      },
     }));
 
     return () => {
@@ -61,6 +65,10 @@ export const useCreateBlockGroupsStore = (blockGroupsData: BlockMembersType) => 
         groupChildrenStore: {},
         groupsStore: {},
         blocksStore: {},
+        snapshots: {
+          groupsStore: {},
+          blocksStore: {},
+        },
       }));
     };
 

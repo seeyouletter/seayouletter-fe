@@ -5,6 +5,8 @@ import { useEffect, useState } from 'react';
 
 import { CursorDirection, TransactionType } from '@models/index';
 
+import { useBlockGroupsAtom } from '@hooks/index';
+
 import { Blocks, Groups } from 'ui';
 
 import { getTaskHistories, usePageDB } from './usePageDB';
@@ -100,7 +102,9 @@ const popTaskHistories = async (db: IDBPDatabase) => {
   return { key: lastTask.key, value: lastTask.value };
 };
 
-const restoreTaskHistories = async (db: IDBPDatabase) => {
+const restoreTaskHistories = async (
+  db: IDBPDatabase
+): Promise<{ key: IDBValidKey; value: TaskHistoryInterface } | null> => {
   const tasksTransaction = (db as IDBPDatabase).transaction(
     [KEY_TASKS, KEY_GARBAGE_TASKS],
     TransactionType.readwrite
@@ -124,6 +128,9 @@ const restoreTaskHistories = async (db: IDBPDatabase) => {
 export const useTemplateTaskHistories = () => {
   const { pageDB, pageDBMessage } = usePageDB();
   const [tasks, setTasks] = useState<TaskHistoryInterface[] | null>(null);
+  const [isTaskInitialized, setIsTaskInitialized] = useState(false);
+  const { addBlock, addGroup, updateBlock, updateGroup, deleteBlock, deleteGroup } =
+    useBlockGroupsAtom();
 
   useEffect(() => {
     if (pageDB.current !== null) {
@@ -131,6 +138,7 @@ export const useTemplateTaskHistories = () => {
         const taskHistories = await getTaskHistories(pageDB.current as IDBPDatabase);
 
         setTasks(() => taskHistories ?? []);
+        setIsTaskInitialized(() => true);
       })();
 
       return;
@@ -138,6 +146,49 @@ export const useTemplateTaskHistories = () => {
 
     /* eslint-disable-next-line react-hooks/exhaustive-deps */
   }, [pageDB.current]);
+
+  useEffect(() => {
+    if (!isTaskInitialized || !tasks?.length) return;
+
+    const reflectTasksIntoBlockGroupStore = () => {
+      tasks.forEach((task) => {
+        const afterTask = task.after;
+        const beforeTask = task.before;
+
+        /**
+         * 삭제하는 로직
+         */
+        if (afterTask === null) {
+          if (beforeTask === null) return;
+
+          if (beforeTask.type === 'block') {
+            deleteBlock(beforeTask);
+          } else {
+            deleteGroup(beforeTask);
+          }
+          return;
+        }
+
+        if (afterTask.type === 'block') {
+          if (task.taskType === 'create') {
+            addBlock(afterTask);
+          } else if (task.taskType === 'update') {
+            updateBlock(afterTask);
+          }
+        } else {
+          if (task.taskType === 'create') {
+            addGroup(afterTask);
+          } else if (task.taskType === 'update') {
+            updateGroup(afterTask);
+          }
+        }
+      });
+    };
+
+    reflectTasksIntoBlockGroupStore();
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [isTaskInitialized, tasks]);
 
   const addTask = async (task: TaskHistoryInterface) => {
     if (pageDB.current === null) return;
