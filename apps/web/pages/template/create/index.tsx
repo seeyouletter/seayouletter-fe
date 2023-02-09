@@ -15,7 +15,7 @@ import { assembledBlockGroups } from '@atoms/blockGroupsAtom';
 import { useBlockGroupsAtom, useResizablePageAtom, useTemplateTaskHistories } from '@hooks/index';
 import { useTemplateCreateToolbar } from '@hooks/useTemplateCreateToolbar';
 
-import { Blocks, DefaultBox, SizeType } from 'ui';
+import { Blocks, DefaultBox, SizeType, globalTheme } from 'ui';
 
 const getInitialBlockState = ({
   parent,
@@ -53,7 +53,7 @@ const getInitialBlockState = ({
         bottom: 'auto',
         left,
       },
-      bg: '#ffffff',
+      bg: globalTheme.color.primary[500],
       opacity: '1',
       border: {
         top: {

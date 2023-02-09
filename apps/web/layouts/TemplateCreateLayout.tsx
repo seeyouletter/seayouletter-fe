@@ -52,7 +52,7 @@ const blockGroups: BlockMembersType = [
         title: '블록1',
         style: {
           size: {
-            width: '100px',
+            width: '300px',
             height: '120px',
           },
           borderRadius: {
@@ -62,12 +62,12 @@ const blockGroups: BlockMembersType = [
             bottomLeft: '8px',
           },
           position: {
-            top: '1px',
+            top: '123px',
             right: 'auto',
             bottom: 'auto',
-            left: '1px',
+            left: '205px',
           },
-          bg: '#ffffff',
+          bg: '#634654',
           opacity: '1',
           border: {
             top: {
@@ -77,10 +77,10 @@ const blockGroups: BlockMembersType = [
               opacity: '1',
             },
             right: {
-              width: '1px',
+              width: '145px',
               style: 'solid',
               color: 'black',
-              opacity: '1',
+              opacity: '300px',
             },
             bottom: {
               width: '1px',
@@ -105,7 +105,7 @@ const blockGroups: BlockMembersType = [
         title: '블록2',
         style: {
           size: {
-            width: '100px',
+            width: '50px',
             height: '120px',
           },
           borderRadius: {
@@ -115,12 +115,12 @@ const blockGroups: BlockMembersType = [
             bottomLeft: '8px',
           },
           position: {
-            top: '1px',
+            top: '400px',
             right: 'auto',
             bottom: 'auto',
-            left: '1px',
+            left: '60px',
           },
-          bg: '#ffffff',
+          bg: '#1fe693',
           opacity: '1',
           border: {
             top: {

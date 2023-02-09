@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { Groups } from 'ui';
+import { DefaultBox, Groups } from 'ui';
 
 /**
  * NOTE: 재귀적으로 블록을 렌더링하기 위해 설정했다.
@@ -14,8 +14,9 @@ interface NodePropsInterface {
 }
 export function Node({ data }: NodePropsInterface) {
   return (
-    <div>
+    <DefaultBox id={data.id}>
       <NodeList listItems={data.blocks}></NodeList>
-    </div>
+      {data.id}
+    </DefaultBox>
   );
 }

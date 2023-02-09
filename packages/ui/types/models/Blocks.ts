@@ -55,9 +55,21 @@ export interface Position {
   left: string;
 }
 
+type LineStyle =
+  | 'dashed'
+  | 'dotted'
+  | 'double'
+  | 'groove'
+  | 'hidden'
+  | 'inset'
+  | 'none'
+  | 'outset'
+  | 'ridge'
+  | 'solid';
+
 export interface Border {
   width: string;
-  style: string;
+  style: LineStyle;
   color: string;
   opacity: string;
 }
