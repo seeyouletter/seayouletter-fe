@@ -6,11 +6,14 @@ export interface BlockGroupToggleStoreInterface {
   [id: string]: boolean;
 }
 
-export interface BlockGroupsAtomInterface {
-  activeId: string | null;
+export interface BlockGroupsStore {
   groupsStore: Record<string, Groups>;
-  groupChildrenStore: Record<keyof BlockGroupsAtomInterface['groupsStore'], string[]>;
   blocksStore: Record<string, Blocks>;
+}
+export interface BlockGroupsAtomInterface extends BlockGroupsStore {
+  activeId: string | null;
+  groupChildrenStore: Record<keyof BlockGroupsAtomInterface['groupsStore'], string[]>;
+  snapshots: BlockGroupsStore;
 }
 
 export const blocksStateAtom = atom<BlockGroupsAtomInterface>({
@@ -18,6 +21,10 @@ export const blocksStateAtom = atom<BlockGroupsAtomInterface>({
   groupsStore: {},
   groupChildrenStore: {},
   blocksStore: {},
+  snapshots: {
+    blocksStore: {},
+    groupsStore: {},
+  },
 });
 
 export const assembledBlockGroups = atom((get): BlockMembersType | null => {

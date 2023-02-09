@@ -1,32 +1,61 @@
-import React, { PropsWithChildren } from 'react';
+import React from 'react';
 
 import { ChevronDownIcon } from '@chakra-ui/icons';
+import { MenuButton, MenuButtonProps } from '@chakra-ui/react';
 
-import { useTheme } from '@emotion/react';
+import styled from '@emotion/styled';
 
-import { IconWithTextButton } from '@ui/button';
+import { globalTheme } from '@ui/styles';
 
-interface TextMenuButtonPropsInterface extends PropsWithChildren {
-  borderRadius: string;
-  color: string;
+interface TextMenuButtonPropsInterface extends MenuButtonProps {
+  hoverBg?: MenuButtonProps['bg'];
+  activeBg?: MenuButtonProps['bg'];
 }
-export function TextMenuButton({ borderRadius, color, children }: TextMenuButtonPropsInterface) {
-  const theme = useTheme();
+
+const StyledMenuButton = styled((props: MenuButtonProps) => <MenuButton {...props} />)`
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  padding: 0 12px;
+
+  overflow: hidden;
+  font-size: ${(props) => props.theme.fontSize.xs};
+  color: ${(props) => props.color};
+  border: none;
+
+  box-shadow: 0px 2px 2px 1px rgba(0, 0, 0, 0.25);
+  box-shadow: none;
+  transition: all 0.2s;
+
+  &:hover {
+    background-color: ${(props) => props.theme.color.primary[500]};
+  }
+`;
+
+export function TextMenuButton({
+  bg = globalTheme.color.transparent,
+  hoverBg = globalTheme.color.primary[500],
+  activeBg = globalTheme.color.primary[500],
+  borderRadius = '0',
+  color = globalTheme.color.text,
+  children,
+}: TextMenuButtonPropsInterface) {
   return (
-    <IconWithTextButton
-      padding="12px"
-      fontSize={theme.fontSize.xs}
-      shape="ghost"
-      borderRadius={borderRadius}
-      iconSpacing={1}
-      rightIcon={<ChevronDownIcon />}
-      colorScheme=""
-      color={color}
+    <StyledMenuButton
+      bg={bg}
       _hover={{
-        backgroundColor: theme.color.primary[500],
+        bg: hoverBg,
       }}
+      _active={{
+        bg: activeBg,
+      }}
+      borderRadius={borderRadius}
+      color={color}
     >
       {children}
-    </IconWithTextButton>
+      <ChevronDownIcon marginLeft="4px" />
+    </StyledMenuButton>
   );
 }

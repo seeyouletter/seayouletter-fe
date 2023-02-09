@@ -115,6 +115,36 @@ export const useBlockGroupsAtom = () => {
     }));
   };
 
+  const addGroup = (group: Groups) => {
+    setBlockGroupState((state) => ({
+      ...state,
+      groupsStore: {
+        ...state.groupsStore,
+        [group.id]: group,
+      },
+    }));
+  };
+
+  const updateGroup = (group: Groups) => {
+    setBlockGroupState((state) => ({
+      ...state,
+      groupsStore: {
+        ...state.groupsStore,
+        [group.id]: group,
+      },
+    }));
+  };
+
+  const deleteGroup = (group: Groups) => {
+    const nextState = { ...blockGroupState.groupsStore };
+    delete nextState[group.id];
+
+    setBlockGroupState((state) => ({
+      ...state,
+      groupsStore: nextState,
+    }));
+  };
+
   const setOrder = (groups: Groups[]) => {
     const nextGroups: Record<string, Groups> = {};
 
@@ -185,6 +215,36 @@ export const useBlockGroupsAtom = () => {
         ...state.blocksStore,
         [block.id]: block,
       },
+    }));
+  };
+
+  const addBlock = (block: Blocks) => {
+    setBlockGroupState((state) => ({
+      ...state,
+      blocksStore: {
+        ...state.blocksStore,
+        [block.id]: block,
+      },
+    }));
+  };
+
+  const updateBlock = (block: Blocks) => {
+    setBlockGroupState((state) => ({
+      ...state,
+      blocksStore: {
+        ...state.blocksStore,
+        block,
+      },
+    }));
+  };
+
+  const deleteBlock = (block: Blocks) => {
+    const nextState = { ...blockGroupState.blocksStore };
+    delete nextState[block.id];
+
+    setBlockGroupState((state) => ({
+      ...state,
+      blocksStore: nextState,
     }));
   };
 
@@ -669,6 +729,7 @@ export const useBlockGroupsAtom = () => {
   };
 
   return {
+    blockGroupState,
     activedBlockGroup,
     activeId: blockGroupState.activeId,
 
@@ -707,5 +768,12 @@ export const useBlockGroupsAtom = () => {
     setTextStrokeColor,
     setTextFontStyle,
     setTextFontFamily,
+
+    addBlock,
+    addGroup,
+    updateBlock,
+    updateGroup,
+    deleteBlock,
+    deleteGroup,
   };
 };

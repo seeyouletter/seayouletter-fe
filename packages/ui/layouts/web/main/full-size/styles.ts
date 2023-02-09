@@ -14,14 +14,18 @@ export const StyledFullSizeMainContainer = styled.section<{
   isHeader: boolean;
   backgroundColor: string;
 }>`
-  width: 100vw;
-  min-height: 100%;
+  position: relative;
+
+  min-width: 100vw;
+
+  height: 100%;
+  min-height: 100vh;
+
   background-color: ${({ backgroundColor }) => backgroundColor};
 
   ${({ isHeader, theme }) =>
     isHeader &&
     css`
-      /* min-height: calc(100% - ${theme.layout.header.height}); */
       padding-top: calc(
         ${theme.layout.header.height} + ${theme.layout.templateCreateToolbar.height}
       );

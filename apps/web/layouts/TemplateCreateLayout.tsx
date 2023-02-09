@@ -9,6 +9,7 @@ import { useTheme } from '@emotion/react';
 import { assembledBlockGroups } from '@atoms/blockGroupsAtom';
 
 import { useBlockGroupsAtom, useCreateBlockGroupsStore } from '@hooks/index';
+import { useResizablePageAtom, useTemplateCreateToolbar } from '@hooks/index';
 
 import {
   BlockGroupMemberList,
@@ -22,6 +23,9 @@ import {
   FullSizeMain,
   LeftSidebar,
   LogoImageLink,
+  Menu,
+  MenuItem,
+  MenuList,
   RightSidebar,
   StyledPageContainer,
   TemplateCreateHeader,
@@ -47,7 +51,7 @@ const blockGroups: BlockMembersType = [
         title: '블록1',
         style: {
           size: {
-            width: '100px',
+            width: '300px',
             height: '120px',
           },
           borderRadius: {
@@ -57,12 +61,12 @@ const blockGroups: BlockMembersType = [
             bottomLeft: '8px',
           },
           position: {
-            top: '1px',
+            top: '123px',
             right: 'auto',
             bottom: 'auto',
-            left: '1px',
+            left: '205px',
           },
-          bg: '#ffffff',
+          bg: '#634654',
           opacity: '1',
           border: {
             top: {
@@ -72,10 +76,10 @@ const blockGroups: BlockMembersType = [
               opacity: '1',
             },
             right: {
-              width: '1px',
+              width: '145px',
               style: 'solid',
               color: 'black',
-              opacity: '1',
+              opacity: '300px',
             },
             bottom: {
               width: '1px',
@@ -100,7 +104,7 @@ const blockGroups: BlockMembersType = [
         title: '블록2',
         style: {
           size: {
-            width: '100px',
+            width: '50px',
             height: '120px',
           },
           borderRadius: {
@@ -110,12 +114,12 @@ const blockGroups: BlockMembersType = [
             bottomLeft: '8px',
           },
           position: {
-            top: '1px',
+            top: '400px',
             right: 'auto',
             bottom: 'auto',
-            left: '1px',
+            left: '60px',
           },
-          bg: '#ffffff',
+          bg: '#1fe693',
           opacity: '1',
           border: {
             top: {
@@ -392,10 +396,10 @@ const blockGroups: BlockMembersType = [
                     bottomLeft: '8px',
                   },
                   position: {
-                    top: '1px',
+                    top: '120px',
                     right: 'auto',
                     bottom: 'auto',
-                    left: '1px',
+                    left: '170px',
                   },
                   opacity: '1',
                   border: {
@@ -436,7 +440,8 @@ const blockGroups: BlockMembersType = [
                   fontFamily: 'Noto Sans KR',
                   fontStyle: '기본',
                 },
-                textContent: '안녕하세요',
+                textContent:
+                  '안녕하세요안녕하세요안녕하세요안녕하세요안녕하세요안녕하세요안녕하세요안녕하세요안녕하세요',
               },
               {
                 type: 'block',
@@ -734,8 +739,170 @@ const blockGroups: BlockMembersType = [
   },
 ];
 
+const Header = () => {
+  const theme = useTheme();
+
+  return (
+    <TemplateCreateHeader>
+      <DefaultBox position="absolute">
+        <LogoImageLink href="/" />
+      </DefaultBox>
+
+      <DefaultVStack flex="1" spacing={1}>
+        <DefaultText textAlign="center" bold>
+          Undefined
+        </DefaultText>
+        <DefaultText
+          textAlign="center"
+          size={theme.fontSize.sm}
+          color={theme.color.primary[500]}
+          bold
+        >
+          헤더 작업 중...
+        </DefaultText>
+      </DefaultVStack>
+
+      <DefaultHStack spacing={2} position="absolute" right="32px">
+        <DefaultButton shape="solid" size="sm" colorScheme="primary">
+          임시저장
+        </DefaultButton>
+        <DefaultButton shape="ghost" size="sm" colorScheme="red" color={theme.color.error}>
+          만들기 취소
+        </DefaultButton>
+      </DefaultHStack>
+    </TemplateCreateHeader>
+  );
+};
+
+const Toolbar = () => {
+  const theme = useTheme();
+
+  const { pageState, setPageWidth, setPageHeight, setPageScale } = useResizablePageAtom();
+
+  const { enableCreating, setShapeBlockCreationActive, setTextBlockCreationActive } =
+    useTemplateCreateToolbar();
+
+  return (
+    <DefaultHStack
+      backgroundColor="#333"
+      position="fixed"
+      borderBottom={theme.border.darkGray}
+      top={theme.layout.header.height}
+      left="0"
+      right="0"
+      zIndex="10001"
+      height="40px"
+    >
+      <DefaultHStack
+        width="100%"
+        maxWidth="1024px"
+        padding="0 32px"
+        margin="0 auto"
+        justifyContent="space-between"
+      >
+        <DefaultHStack spacing={0}>
+          <Menu>
+            <TextMenuButton color={theme.color.white}>블록 생성</TextMenuButton>
+
+            <MenuList minWidth="100px" backgroundColor={theme.color.semiDark}>
+              <MenuItem
+                backgroundColor={theme.color.semiDark}
+                color={theme.color.white}
+                fontSize={theme.fontSize.xs}
+                onClick={() => {
+                  enableCreating();
+                  setShapeBlockCreationActive();
+                }}
+              >
+                <DefaultHStack alignItems="baseline" justifyContent="space-between">
+                  <DefaultBox marginRight="8px" width="12px">
+                    ⎕
+                  </DefaultBox>
+                  <DefaultText size={theme.fontSize.xs} color={theme.color.white}>
+                    블록
+                  </DefaultText>
+                </DefaultHStack>
+              </MenuItem>
+
+              <MenuItem
+                backgroundColor={theme.color.semiDark}
+                color={theme.color.white}
+                fontSize={theme.fontSize.xs}
+                onClick={() => {
+                  enableCreating();
+                  setTextBlockCreationActive();
+                }}
+              >
+                <DefaultHStack alignItems="baseline" justifyContent="space-between">
+                  <DefaultBox marginRight="8px" width="12px">
+                    가
+                  </DefaultBox>
+                  <DefaultText size={theme.fontSize.xs} color={theme.color.white}>
+                    텍스트
+                  </DefaultText>
+                </DefaultHStack>
+              </MenuItem>
+            </MenuList>
+          </Menu>
+        </DefaultHStack>
+
+        <DefaultHStack spacing={3}>
+          <DefaultHStack alignItems="center" spacing={1}>
+            <DefaultText color="white" size={theme.fontSize.xs} flexShrink>
+              너비
+            </DefaultText>
+            <DefaultInput
+              size="xs"
+              placeholder="너비입력"
+              width="60px"
+              bgColor={theme.color.darkGray}
+              color={theme.color.white}
+              borderColor="transparent"
+              value={pageState.width}
+              onChange={(e) => setPageWidth({ width: (e.target as HTMLInputElement).value })}
+            />
+          </DefaultHStack>
+
+          <DefaultHStack alignItems="center" spacing={1}>
+            <DefaultText color="white" size={theme.fontSize.xs} flexShrink>
+              높이
+            </DefaultText>
+            <DefaultInput
+              size="xs"
+              placeholder="높이입력"
+              width="60px"
+              bgColor="#555"
+              color={theme.color.white}
+              borderColor="transparent"
+              value={pageState.height}
+              onChange={(e) => setPageHeight({ height: (e.target as HTMLInputElement).value })}
+            />
+          </DefaultHStack>
+
+          <DefaultHStack alignItems="center" spacing={1}>
+            <DefaultText color="white" size={theme.fontSize.xs} flexShrink>
+              실제 크기 대비
+            </DefaultText>
+            <DefaultInput
+              size="xs"
+              placeholder="비율입력"
+              width="60px"
+              bgColor="#555"
+              color={theme.color.white}
+              borderColor="transparent"
+              value={pageState.scale.toString()}
+              onChange={(e) => setPageScale({ scale: (e.target as HTMLInputElement).value })}
+            />
+          </DefaultHStack>
+        </DefaultHStack>
+      </DefaultHStack>
+    </DefaultHStack>
+  );
+};
+
 export default function TemplateCreateLayout({ children }: PropsWithChildren) {
   useCreateBlockGroupsStore(blockGroups);
+
   const { activedBlockGroup, activeId, setActiveId, setTitle, setToggle } = useBlockGroupsAtom();
 
   const theme = useTheme();
@@ -744,107 +911,9 @@ export default function TemplateCreateLayout({ children }: PropsWithChildren) {
 
   return (
     <StyledPageContainer>
-      <TemplateCreateHeader>
-        <DefaultBox position="absolute">
-          <LogoImageLink href="/" />
-        </DefaultBox>
+      <Header />
 
-        <DefaultVStack flex="1" spacing={1}>
-          <DefaultText textAlign="center" bold>
-            Undefined
-          </DefaultText>
-          <DefaultText
-            textAlign="center"
-            size={theme.fontSize.sm}
-            color={theme.color.primary[500]}
-            bold
-          >
-            헤더 작업 중...
-          </DefaultText>
-        </DefaultVStack>
-
-        <DefaultHStack spacing={2} position="absolute" right="32px">
-          <DefaultButton shape="solid" size="sm" colorScheme="primary">
-            임시저장
-          </DefaultButton>
-          <DefaultButton shape="ghost" size="sm" colorScheme="red" color={theme.color.error}>
-            만들기 취소
-          </DefaultButton>
-        </DefaultHStack>
-      </TemplateCreateHeader>
-
-      <DefaultHStack
-        backgroundColor="#333"
-        position="fixed"
-        borderBottom={theme.border.darkGray}
-        top={theme.layout.header.height}
-        left="0"
-        right="0"
-        zIndex="10001"
-        height="40px"
-      >
-        <DefaultHStack
-          width="100%"
-          maxWidth="1024px"
-          padding="0 32px"
-          margin="0 auto"
-          justifyContent="space-between"
-        >
-          <DefaultHStack spacing={0}>
-            <TextMenuButton borderRadius="0" color={theme.color.white}>
-              설정
-            </TextMenuButton>
-
-            <TextMenuButton borderRadius="0" color={theme.color.white}>
-              블록 생성
-            </TextMenuButton>
-          </DefaultHStack>
-
-          <DefaultHStack spacing={3}>
-            <DefaultHStack alignItems="center" spacing={1}>
-              <DefaultText color="white" size={theme.fontSize.xs} flexShrink>
-                너비
-              </DefaultText>
-              <DefaultInput
-                size="xs"
-                placeholder="너비입력"
-                width="60px"
-                bgColor={theme.color.darkGray}
-                color={theme.color.white}
-                borderColor="transparent"
-              />
-            </DefaultHStack>
-
-            <DefaultHStack alignItems="center" spacing={1}>
-              <DefaultText color="white" size={theme.fontSize.xs} flexShrink>
-                높이
-              </DefaultText>
-              <DefaultInput
-                size="xs"
-                placeholder="높이입력"
-                width="60px"
-                bgColor="#555"
-                color={theme.color.white}
-                borderColor="transparent"
-              />
-            </DefaultHStack>
-
-            <DefaultHStack alignItems="center" spacing={1}>
-              <DefaultText color="white" size={theme.fontSize.xs} flexShrink>
-                실제 크기 대비
-              </DefaultText>
-              <DefaultInput
-                size="xs"
-                placeholder="비율입력"
-                width="60px"
-                bgColor="#555"
-                color={theme.color.white}
-                borderColor="transparent"
-              />
-            </DefaultHStack>
-          </DefaultHStack>
-        </DefaultHStack>
-      </DefaultHStack>
+      <Toolbar />
 
       <LeftSidebar actived={true}>
         <DefaultVStack spacing={2} height="calc(100% - 40px)" padding="20px 0">
@@ -854,6 +923,7 @@ export default function TemplateCreateLayout({ children }: PropsWithChildren) {
                 생성된 블록
               </DefaultText>
             </DefaultBox>
+
             <BlockGroupMemberList
               depth={0}
               activeId={activeId}
