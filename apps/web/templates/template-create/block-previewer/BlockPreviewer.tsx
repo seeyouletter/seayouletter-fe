@@ -15,6 +15,7 @@ export function BlockPreviewer({ width, height, top, left }: BlockPreviewerProps
 
   return (
     <DefaultBox
+      zIndex={2147483647}
       position="absolute"
       width={width}
       height={height}
