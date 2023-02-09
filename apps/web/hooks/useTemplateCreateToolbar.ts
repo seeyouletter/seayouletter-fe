@@ -19,6 +19,20 @@ export const useTemplateCreateToolbar = () => {
     }));
   };
 
+  const enableCreating = () => {
+    setToolbarState((state) => ({
+      ...state,
+      isCreating: true,
+    }));
+  };
+
+  const disableCreating = () => {
+    setToolbarState((state) => ({
+      ...state,
+      isCreating: false,
+    }));
+  };
+
   const setBlockCreationWidth = (width: number) => {
     setToolbarState((state) => ({
       ...state,
@@ -79,7 +93,10 @@ export const useTemplateCreateToolbar = () => {
   };
 
   return {
+    isCreating: toolbarState.isCreating,
     blockCreationState: toolbarState.blockCreation,
+    enableCreating,
+    disableCreating,
     setShapeBlockCreationActive,
     setTextBlockCreationActive,
     setBlockCreationWidth,
