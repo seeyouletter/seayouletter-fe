@@ -1,12 +1,16 @@
 import React, { MouseEvent as ReactMouseEvent, useEffect, useMemo, useRef, useState } from 'react';
 
+import { useAtomValue } from 'jotai';
+
 import { v4 as uuidv4 } from 'uuid';
 
 import { useTheme } from '@emotion/react';
 
 import TemplateCreateLayout from '@layouts/TemplateCreateLayout';
 
-import { BlockPreviewer, ResizablePage } from '@templates/template-create';
+import { BlockPreviewer, NodeList, ResizablePage } from '@templates/template-create';
+
+import { assembledBlockGroups } from '@atoms/blockGroupsAtom';
 
 import { useBlockGroupsAtom, useResizablePageAtom, useTemplateTaskHistories } from '@hooks/index';
 import { useTemplateCreateToolbar } from '@hooks/useTemplateCreateToolbar';
@@ -93,6 +97,8 @@ export default function TemplateCreatePage() {
   const [scrollY, setScrollY] = useState(0);
 
   const {
+    isCreating,
+    disableCreating,
     blockCreationState,
     initializeBlockCreation,
     setBlockCreationTop,
@@ -101,7 +107,9 @@ export default function TemplateCreatePage() {
     setBlockCreationHeight,
   } = useTemplateCreateToolbar();
 
-  const [isCreatingBlock, setIsCreatingBlock] = useState(false);
+  const [isMousePressing, setIsMousePressing] = useState(false);
+
+  const blockGroupsTree = useAtomValue(assembledBlockGroups);
 
   const cursorState = useMemo(() => {
     if (blockCreationState.type !== null) {
@@ -133,7 +141,9 @@ export default function TemplateCreatePage() {
   }, []);
 
   const onMouseDown = (e: ReactMouseEvent) => {
-    setIsCreatingBlock(() => true);
+    if (!isCreating) return;
+
+    setIsMousePressing(() => true);
     const top = e.clientY;
     const left = e.clientX;
 
@@ -142,7 +152,9 @@ export default function TemplateCreatePage() {
   };
 
   const onMouseUp = () => {
-    setIsCreatingBlock(() => false);
+    if (!isCreating || !isMousePressing) return;
+
+    setIsMousePressing(() => false);
 
     // TODO: 추후 태스크큐가 생성되면 이를 등록해야 한다.
     /* eslint-disable-next-line @typescript-eslint/no-unused-vars */
@@ -167,6 +179,7 @@ export default function TemplateCreatePage() {
       after: nextBlock,
     });
 
+    disableCreating();
     initializeBlockCreation();
   };
 
@@ -183,7 +196,7 @@ export default function TemplateCreatePage() {
       setBlockCreationHeight(height);
     };
 
-    if (nowRef && isCreatingBlock) {
+    if (nowRef && isMousePressing) {
       nowRef.addEventListener('mousemove', mouseMoveHandler, { passive: true });
     }
 
@@ -193,11 +206,12 @@ export default function TemplateCreatePage() {
       }
     };
     /* eslint-disable-next-line react-hooks/exhaustive-deps */
-  }, [pageRef, isCreatingBlock]);
+  }, [pageRef, isMousePressing]);
 
   useEffect(() => {
     const keydownHandler = (e: KeyboardEvent) => {
       if (e.key === 'Escape') {
+        disableCreating();
         initializeBlockCreation();
       }
     };
@@ -233,6 +247,7 @@ export default function TemplateCreatePage() {
             left={blockCreationState.left - +pageState.left + 'px'}
           />
         )}
+        {blockGroupsTree && <NodeList listItems={blockGroupsTree}></NodeList>}
       </ResizablePage>
     </DefaultBox>
   );
