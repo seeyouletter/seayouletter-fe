@@ -397,10 +397,10 @@ const blockGroups: BlockMembersType = [
                     bottomLeft: '8px',
                   },
                   position: {
-                    top: '1px',
+                    top: '120px',
                     right: 'auto',
                     bottom: 'auto',
-                    left: '1px',
+                    left: '170px',
                   },
                   opacity: '1',
                   border: {
@@ -441,7 +441,8 @@ const blockGroups: BlockMembersType = [
                   fontFamily: 'Noto Sans KR',
                   fontStyle: '기본',
                 },
-                textContent: '안녕하세요',
+                textContent:
+                  '안녕하세요안녕하세요안녕하세요안녕하세요안녕하세요안녕하세요안녕하세요안녕하세요안녕하세요',
               },
               {
                 type: 'block',
@@ -779,7 +780,8 @@ const Toolbar = () => {
 
   const { pageState, setPageWidth, setPageHeight, setPageScale } = useResizablePageAtom();
 
-  const { setShapeBlockCreationActive, setTextBlockCreationActive } = useTemplateCreateToolbar();
+  const { enableCreating, setShapeBlockCreationActive, setTextBlockCreationActive } =
+    useTemplateCreateToolbar();
 
   return (
     <DefaultHStack
@@ -808,7 +810,10 @@ const Toolbar = () => {
                 backgroundColor={theme.color.semiDark}
                 color={theme.color.white}
                 fontSize={theme.fontSize.xs}
-                onClick={setShapeBlockCreationActive}
+                onClick={() => {
+                  enableCreating();
+                  setShapeBlockCreationActive();
+                }}
               >
                 <DefaultHStack alignItems="baseline" justifyContent="space-between">
                   <DefaultBox marginRight="8px" width="12px">
@@ -824,7 +829,10 @@ const Toolbar = () => {
                 backgroundColor={theme.color.semiDark}
                 color={theme.color.white}
                 fontSize={theme.fontSize.xs}
-                onClick={setTextBlockCreationActive}
+                onClick={() => {
+                  enableCreating();
+                  setTextBlockCreationActive();
+                }}
               >
                 <DefaultHStack alignItems="baseline" justifyContent="space-between">
                   <DefaultBox marginRight="8px" width="12px">
