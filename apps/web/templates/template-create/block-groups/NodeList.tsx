@@ -1,21 +1,12 @@
 import React from 'react';
 
-import { Blocks, Groups } from 'ui';
-
 import { ImageLeaf } from './ImageLeaf';
 
 /* eslint-disable-next-line import/no-cycle */
 import { Node } from './Node';
 import { ShapeLeaf } from './ShapeLeaf';
 import { TextLeaf } from './TextLeaf';
-
-interface NodeListPropsInterface {
-  listItems: (Blocks | Groups)[];
-}
-
-interface NodeItemFactoryPropsInterface {
-  item: Blocks | Groups;
-}
+import { NodeItemFactoryPropsInterface, NodeListPropsInterface } from './types';
 
 function NodeItemFactory({ item }: NodeItemFactoryPropsInterface) {
   if (item.type === 'group') {
@@ -36,7 +27,7 @@ export function NodeList({ listItems }: NodeListPropsInterface) {
   return (
     <>
       {listItems.map((item) => (
-        <NodeItemFactory key={item.id} item={item}></NodeItemFactory>
+        <NodeItemFactory key={item.id} item={item} />
       ))}
     </>
   );

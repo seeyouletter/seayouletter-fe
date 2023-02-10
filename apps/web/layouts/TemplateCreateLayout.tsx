@@ -76,7 +76,7 @@ const blockGroups: BlockMembersType = [
               opacity: '1',
             },
             right: {
-              width: '145px',
+              width: '1px',
               style: 'solid',
               color: 'black',
               opacity: '300px',

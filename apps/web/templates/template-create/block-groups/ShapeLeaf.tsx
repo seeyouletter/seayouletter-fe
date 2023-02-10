@@ -1,12 +1,17 @@
 import React from 'react';
 
+import { useBlockGroupsAtom } from '@hooks/useBlockGroupsAtom';
+
 import { DefaultBox, ShapeBlock } from 'ui';
+
+import { Updator } from './Updator';
 
 interface ShapeLeafPropsInterface {
   data: ShapeBlock;
 }
 
 export function ShapeLeaf({ data }: ShapeLeafPropsInterface) {
+  const { activeId } = useBlockGroupsAtom();
   return (
     <DefaultBox
       position="absolute"
@@ -43,6 +48,8 @@ export function ShapeLeaf({ data }: ShapeLeafPropsInterface) {
       borderTopRightRadius={data.style.borderRadius.topRight}
       borderBottomRightRadius={data.style.borderRadius.bottomRight}
       borderBottomLeftRadius={data.style.borderRadius.bottomLeft}
-    />
+    >
+      {activeId === data.id && <Updator item={data} />}
+    </DefaultBox>
   );
 }
