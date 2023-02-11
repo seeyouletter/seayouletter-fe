@@ -1,3 +1,5 @@
+import { useEffect } from 'react';
+
 import { useAtom } from 'jotai';
 
 import { resizablePageAtom } from '@atoms/index';
@@ -10,6 +12,7 @@ interface UseResizablePageParams {
   top: SizeType;
   left: SizeType;
   scale: SizeType;
+  scrollY: number;
 }
 
 export const useResizablePageAtom = () => {
@@ -49,6 +52,23 @@ export const useResizablePageAtom = () => {
       scale,
     }));
   };
+
+  useEffect(() => {
+    const scrollHandler = () => {
+      setResizablePageState((state) => ({
+        ...state,
+        scrollY: window.scrollY,
+      }));
+    };
+
+    window.addEventListener('scroll', scrollHandler, { passive: true });
+
+    return () => {
+      window.removeEventListener('scroll', scrollHandler);
+    };
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   return {
     pageState: resizablePageState,
