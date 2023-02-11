@@ -1,12 +1,22 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 
 import { useTheme } from '@emotion/react';
 
-import { DefaultBox } from 'ui';
+import { useBlockGroupsAtom } from '@hooks/useBlockGroupsAtom';
+import { useResizablePageAtom } from '@hooks/useResizablePageAtom';
+import { useTemplateTaskHistories } from '@hooks/useTemplateTaskHistories';
+
+import { convertPxStringToNumber } from '@utils/index';
+
+import { DefaultBox, Directions, EdgeDirections } from 'ui';
 
 import { NodeItemPropsInterface } from './types';
 
-Updator.Top = function UpdatorTopLine() {
+interface LineInterface {
+  onMouseDown: () => void;
+  onMouseUp: () => void;
+}
+Updator.Top = function UpdatorTopLine({ onMouseDown, onMouseUp }: LineInterface) {
   const theme = useTheme();
 
   return (
@@ -19,6 +29,8 @@ Updator.Top = function UpdatorTopLine() {
       width="100%"
       height="2px"
       background={theme.color.primary[200]}
+      onMouseDown={onMouseDown}
+      onMouseUp={onMouseUp}
     />
   );
 };
@@ -40,7 +52,7 @@ Updator.Right = function UpdatorRightLine() {
   );
 };
 
-Updator.Bottom = function UpdatorLeftLine() {
+Updator.Bottom = function UpdatorLeftLine({ onMouseDown, onMouseUp }: LineInterface) {
   const theme = useTheme();
 
   return (
@@ -53,6 +65,8 @@ Updator.Bottom = function UpdatorLeftLine() {
       width="100%"
       height="2px"
       background={theme.color.primary[200]}
+      onMouseDown={onMouseDown}
+      onMouseUp={onMouseUp}
     />
   );
 };
@@ -147,31 +161,178 @@ Updator.BottomLeftEdge = function UpdatorBottomLeftEdge() {
 };
 
 export function Updator({ item }: NodeItemPropsInterface) {
-  // TODO: 추후 지운다.
-  // eslint-disable-next-line
-  console.log(item);
+  const { activedBlockGroup, changeBlockState } = useBlockGroupsAtom();
+  const { pageState } = useResizablePageAtom();
+
+  const { addTask } = useTemplateTaskHistories();
+
+  const [isMousePressing, setIsMousePressing] = useState(false);
+  const [nowUpdate, setNowUpdate] = useState<EdgeDirections | Directions | null>(null);
+  const [isUpdating, setIsUpdating] = useState({
+    top: false,
+    right: false,
+    bottom: false,
+    left: false,
+    topLeft: false,
+    topRight: false,
+    bottomRight: false,
+    bottomLeft: false,
+  });
+
+  const onMouseDown = (direction: EdgeDirections | Directions) => {
+    if (isMousePressing || isUpdating[direction]) return;
+
+    setIsMousePressing(() => true);
+    setNowUpdate(() => direction);
+    setIsUpdating((state) => ({ ...state, [direction]: true }));
+  };
+
+  const onMouseUp = (direction: EdgeDirections | Directions | null) => {
+    if (!isMousePressing || !direction || !isUpdating[direction]) return;
+
+    addTask({
+      taskType: 'update',
+      before: item,
+      after: activedBlockGroup,
+    });
+
+    setIsMousePressing(() => false);
+    setIsUpdating((state) => ({ ...state, [direction]: false }));
+    setNowUpdate(() => null);
+  };
+
+  useEffect(() => {
+    const lineTopMouseMoveHandler = (e: MouseEvent) => {
+      if (activedBlockGroup === null || activedBlockGroup.type === 'group') return;
+      if (!isUpdating.top) return;
+
+      const { clientY } = e;
+
+      const activedBlockTop = convertPxStringToNumber(activedBlockGroup.style.position.top);
+      const activedBlockHeight = convertPxStringToNumber(activedBlockGroup.style.size.height);
+      const activedBlockBottom = activedBlockTop + activedBlockHeight;
+
+      const nextTop = clientY - +pageState.top + pageState.scrollY;
+      const nextHeight = activedBlockHeight + activedBlockTop - nextTop;
+
+      const isReversed = nextTop > activedBlockBottom;
+
+      const nextPosition = {
+        ...activedBlockGroup.style.position,
+        top: (isReversed ? activedBlockBottom : nextTop) + 'px',
+      };
+
+      const nextSize = {
+        ...activedBlockGroup.style.size,
+        height: (isReversed ? nextTop - activedBlockBottom : nextHeight) + 'px',
+      };
+
+      if (activedBlockGroup.subType !== 'text') {
+        const nextState = {
+          ...activedBlockGroup,
+          style: {
+            ...activedBlockGroup.style,
+            size: nextSize,
+            position: nextPosition,
+          },
+        };
+
+        changeBlockState(nextState);
+      } else {
+        const nextState = {
+          ...activedBlockGroup,
+          style: {
+            ...activedBlockGroup.style,
+            size: nextSize,
+            position: nextPosition,
+          },
+        };
+
+        changeBlockState(nextState);
+      }
+    };
+
+    window.addEventListener('mousemove', lineTopMouseMoveHandler, { passive: true });
+
+    return () => {
+      window.removeEventListener('mousemove', lineTopMouseMoveHandler);
+    };
+
+    /* eslint-disable-next-line */
+  }, [isUpdating]);
+
+  useEffect(() => {
+    const lineBottomMouseMoveHandler = (e: MouseEvent) => {
+      if (activedBlockGroup === null || activedBlockGroup.type === 'group') return;
+      if (!isUpdating.bottom) return;
+
+      const { clientY } = e;
+
+      const activedBlockTop = convertPxStringToNumber(activedBlockGroup.style.position.top);
+
+      // const nextTop = clientY - activedBlockHeight + pageState.scrollY;
+      const nextHeight = clientY + pageState.scrollY - +pageState.top - activedBlockTop;
+
+      const isReversed = nextHeight < 0;
+
+      const nextPosition = {
+        ...activedBlockGroup.style.position,
+        top: (isReversed ? activedBlockTop + nextHeight : activedBlockTop) + 'px',
+      };
+
+      const nextSize = {
+        ...activedBlockGroup.style.size,
+        height: (isReversed ? -1 : 1) * nextHeight + 'px',
+      };
+
+      if (activedBlockGroup.subType !== 'text') {
+        const nextState = {
+          ...activedBlockGroup,
+          style: {
+            ...activedBlockGroup.style,
+            size: nextSize,
+            position: nextPosition,
+          },
+        };
+
+        changeBlockState(nextState);
+      } else {
+        const nextState = {
+          ...activedBlockGroup,
+          style: {
+            ...activedBlockGroup.style,
+            size: nextSize,
+            position: nextPosition,
+          },
+        };
+
+        changeBlockState(nextState);
+      }
+    };
+
+    window.addEventListener('mousemove', lineBottomMouseMoveHandler, { passive: true });
+
+    return () => {
+      window.removeEventListener('mousemove', lineBottomMouseMoveHandler);
+    };
+
+    /* eslint-disable-next-line */
+  }, [isUpdating]);
+
   return (
     <>
-      <Updator.Top />
+      <Updator.Top onMouseDown={() => onMouseDown('top')} onMouseUp={() => onMouseUp(nowUpdate)} />
       <Updator.Right />
-      <Updator.Bottom />
+      <Updator.Bottom
+        onMouseDown={() => onMouseDown('bottom')}
+        onMouseUp={() => onMouseUp(nowUpdate)}
+      />
       <Updator.Left />
 
       <Updator.TopLeftEdge />
       <Updator.TopRightEdge />
       <Updator.BottomRightEdge />
       <Updator.BottomLeftEdge />
-
-      {/* <DefaultBox
-        border={activedBlockGroup?.id === item.id ? '10px solid orange' : 'none'}
-        onDoubleClickCapture={() => {
-          if (activedBlockGroup?.type === 'group') {
-            if ((activedBlockGroup as Groups).blocks.find((v) => v.id === item.id)) {
-              setActiveId(item.type, item.id);
-            }
-          }
-        }}
-      /> */}
     </>
   );
 }

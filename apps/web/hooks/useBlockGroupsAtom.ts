@@ -233,7 +233,7 @@ export const useBlockGroupsAtom = () => {
       ...state,
       blocksStore: {
         ...state.blocksStore,
-        block,
+        [block.id]: block,
       },
     }));
   };
@@ -246,6 +246,22 @@ export const useBlockGroupsAtom = () => {
       ...state,
       blocksStore: nextState,
     }));
+  };
+
+  const changeBlockState = (nextState: Blocks) => {
+    if (nextState.subType === 'text') {
+      syncBlockStateWithParentGroupBlocks({
+        parentId: nextState.parent,
+        id: nextState.id,
+        nextState,
+      });
+    } else {
+      syncBlockStateWithParentGroupBlocks({
+        parentId: nextState.parent,
+        id: nextState.id,
+        nextState,
+      });
+    }
   };
 
   const changeBlockStyle = <BlockType, Value>({
@@ -732,6 +748,9 @@ export const useBlockGroupsAtom = () => {
     blockGroupState,
     activedBlockGroup,
     activeId: blockGroupState.activeId,
+
+    changeBlockState,
+    changeBlockStyle,
 
     setGroupChildrenStore,
     setBlocks,
