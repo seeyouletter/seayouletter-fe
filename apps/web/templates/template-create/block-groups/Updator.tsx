@@ -270,7 +270,6 @@ export function Updator({ item }: NodeItemPropsInterface) {
 
       const activedBlockTop = convertPxStringToNumber(activedBlockGroup.style.position.top);
 
-      // const nextTop = clientY - activedBlockHeight + pageState.scrollY;
       const nextHeight = clientY + pageState.scrollY - +pageState.top - activedBlockTop;
 
       const isReversed = nextHeight < 0;

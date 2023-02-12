@@ -56,6 +56,7 @@ export function TextLeaf({ data }: TextLeafPropsInterface) {
         // stylelint-disable-next-line
         WebkitTextStrokeWidth: data.textStyle.textStroke,
       }}
+      userSelect="none"
     >
       {data.textContent}
     </DefaultBox>
