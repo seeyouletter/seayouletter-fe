@@ -12,12 +12,26 @@ export interface BlockGroupsStore {
 }
 export interface BlockGroupsAtomInterface extends BlockGroupsStore {
   activeId: string | null;
-  groupChildrenStore: Record<keyof BlockGroupsAtomInterface['groupsStore'], string[]>;
+  activedBlockGroupDepth: number | null;
+  detail: Blocks | Groups | null;
+  activeOrder: number | null;
+
+  hoverId: string | null;
+  hoveredBlockGroupDepth: number | null;
+
+  groupChildrenStore: Record<keyof BlockGroupsAtomInterface['groupsStore'], string[]>; // 하위 블록/그룹의 order을 쉽게 기억하기 위함.
   snapshots: BlockGroupsStore;
 }
 
 export const blocksStateAtom = atom<BlockGroupsAtomInterface>({
   activeId: null,
+  activedBlockGroupDepth: null,
+  detail: null,
+  activeOrder: null,
+
+  hoverId: null,
+  hoveredBlockGroupDepth: null,
+
   groupsStore: {},
   groupChildrenStore: {},
   blocksStore: {},
