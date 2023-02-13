@@ -35,7 +35,7 @@ Updator.Top = function UpdatorTopLine({ onMouseDown, onMouseUp }: LineInterface)
   );
 };
 
-Updator.Right = function UpdatorRightLine() {
+Updator.Right = function UpdatorRightLine({ onMouseDown, onMouseUp }: LineInterface) {
   const theme = useTheme();
 
   return (
@@ -48,6 +48,8 @@ Updator.Right = function UpdatorRightLine() {
       width="2px"
       height="100%"
       background={theme.color.primary[200]}
+      onMouseDown={onMouseDown}
+      onMouseUp={onMouseUp}
     />
   );
 };
@@ -71,7 +73,7 @@ Updator.Bottom = function UpdatorLeftLine({ onMouseDown, onMouseUp }: LineInterf
   );
 };
 
-Updator.Left = function UpdatorBototmLine() {
+Updator.Left = function UpdatorBototmLine({ onMouseDown, onMouseUp }: LineInterface) {
   const theme = useTheme();
 
   return (
@@ -84,6 +86,8 @@ Updator.Left = function UpdatorBototmLine() {
       width="2px"
       height="100%"
       background={theme.color.primary[200]}
+      onMouseDown={onMouseDown}
+      onMouseUp={onMouseUp}
     />
   );
 };
@@ -203,7 +207,7 @@ export function Updator({ item }: { item: NodeItemPropsInterface['item'] }) {
 
   useEffect(() => {
     const lineTopMouseMoveHandler = (e: MouseEvent) => {
-      if (activedBlockGroup === null || activedBlockGroup.type === 'group') return;
+      if (activedBlockGroup === null || activedBlockGroup.type !== 'block') return;
       if (!isUpdating.top) return;
 
       const { clientY } = e;
@@ -263,7 +267,7 @@ export function Updator({ item }: { item: NodeItemPropsInterface['item'] }) {
 
   useEffect(() => {
     const lineBottomMouseMoveHandler = (e: MouseEvent) => {
-      if (activedBlockGroup === null || activedBlockGroup.type === 'group') return;
+      if (activedBlockGroup === null || activedBlockGroup.type !== 'block') return;
       if (!isUpdating.bottom) return;
 
       const { clientY } = e;
@@ -318,15 +322,154 @@ export function Updator({ item }: { item: NodeItemPropsInterface['item'] }) {
     /* eslint-disable-next-line */
   }, [isUpdating]);
 
+  useEffect(() => {
+    const lineLeftMouseMoveHandler = (e: MouseEvent) => {
+      if (activedBlockGroup === null || activedBlockGroup.type !== 'block') return;
+      if (!isUpdating.left) return;
+
+      const { clientX } = e;
+
+      const activedBlockRight = convertPxStringToNumber(activedBlockGroup.style.position.right);
+
+      const pageLeft = +pageState.left;
+
+      const nowLeft = clientX - pageLeft;
+
+      const isReversed = nowLeft > activedBlockRight;
+
+      const nextLeft = isReversed ? activedBlockRight : nowLeft;
+      const nextRight = isReversed ? nowLeft : activedBlockRight;
+
+      const nextWidth = nextRight - nextLeft;
+
+      const nextSize = {
+        ...activedBlockGroup.style.size,
+        width: nextWidth + 'px',
+      };
+
+      const nextPosition = {
+        ...activedBlockGroup.style.position,
+        left: nextLeft + 'px',
+        right: nextRight + 'px',
+      };
+
+      if (activedBlockGroup.subType !== 'text') {
+        const nextState = {
+          ...activedBlockGroup,
+          style: {
+            ...activedBlockGroup.style,
+            size: nextSize,
+            position: nextPosition,
+          },
+        };
+
+        changeBlockState(nextState);
+      } else {
+        const nextState = {
+          ...activedBlockGroup,
+          style: {
+            ...activedBlockGroup.style,
+            size: nextSize,
+            position: nextPosition,
+          },
+        };
+
+        changeBlockState(nextState);
+      }
+    };
+
+    window.addEventListener('mousemove', lineLeftMouseMoveHandler, { passive: true });
+
+    return () => {
+      window.removeEventListener('mousemove', lineLeftMouseMoveHandler);
+    };
+
+    /* eslint-disable-next-line */
+  }, [isUpdating]);
+
+  useEffect(() => {
+    const lineRightMouseMoveHandler = (e: MouseEvent) => {
+      if (activedBlockGroup === null || activedBlockGroup.type !== 'block') return;
+      if (!isUpdating.right) return;
+
+      const { clientX } = e;
+
+      const activedBlockLeft = convertPxStringToNumber(activedBlockGroup.style.position.left);
+
+      const pageLeft = +pageState.left;
+
+      const nowRight = clientX - pageLeft;
+
+      const isReversed = nowRight < activedBlockLeft;
+
+      const nextLeft = isReversed ? nowRight : activedBlockLeft;
+      const nextRight = isReversed ? activedBlockLeft : nowRight;
+
+      const nextWidth = nextRight - nextLeft;
+
+      const nextSize = {
+        ...activedBlockGroup.style.size,
+        width: nextWidth + 'px',
+      };
+
+      const nextPosition = {
+        ...activedBlockGroup.style.position,
+        left: nextLeft + 'px',
+        right: nextRight + 'px',
+      };
+
+      if (activedBlockGroup.subType !== 'text') {
+        const nextState = {
+          ...activedBlockGroup,
+          style: {
+            ...activedBlockGroup.style,
+            size: nextSize,
+            position: nextPosition,
+          },
+        };
+
+        changeBlockState(nextState);
+      } else {
+        const nextState = {
+          ...activedBlockGroup,
+          style: {
+            ...activedBlockGroup.style,
+            size: nextSize,
+            position: nextPosition,
+          },
+        };
+
+        changeBlockState(nextState);
+      }
+    };
+
+    window.addEventListener('mousemove', lineRightMouseMoveHandler, { passive: true });
+
+    return () => {
+      window.removeEventListener('mousemove', lineRightMouseMoveHandler);
+    };
+
+    /* eslint-disable-next-line */
+  }, [isUpdating]);
+
   return (
     <>
       <Updator.Top onMouseDown={() => onMouseDown('top')} onMouseUp={() => onMouseUp(nowUpdate)} />
-      <Updator.Right />
+
+      <Updator.Right
+        onMouseDown={() => onMouseDown('right')}
+        onMouseUp={() => onMouseUp(nowUpdate)}
+      />
+
       <Updator.Bottom
         onMouseDown={() => onMouseDown('bottom')}
         onMouseUp={() => onMouseUp(nowUpdate)}
       />
-      <Updator.Left />
+
+      <Updator.Left
+        onMouseDown={() => onMouseDown('left')}
+        onMouseUp={() => onMouseUp(nowUpdate)}
+      />
 
       <Updator.TopLeftEdge />
       <Updator.TopRightEdge />
