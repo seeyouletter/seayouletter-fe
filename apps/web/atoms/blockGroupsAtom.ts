@@ -21,6 +21,8 @@ export interface BlockGroupsAtomInterface extends BlockGroupsStore {
 
   groupChildrenStore: Record<keyof BlockGroupsAtomInterface['groupsStore'], string[]>; // 하위 블록/그룹의 order을 쉽게 기억하기 위함.
   snapshots: BlockGroupsStore;
+
+  isMount: boolean;
 }
 
 export const blocksStateAtom = atom<BlockGroupsAtomInterface>({
@@ -35,10 +37,13 @@ export const blocksStateAtom = atom<BlockGroupsAtomInterface>({
   groupsStore: {},
   groupChildrenStore: {},
   blocksStore: {},
+
   snapshots: {
     blocksStore: {},
     groupsStore: {},
   },
+
+  isMount: false,
 });
 
 export const assembledBlockGroups = atom((get): BlockMembersType | null => {

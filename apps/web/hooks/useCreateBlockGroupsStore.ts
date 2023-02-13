@@ -57,6 +57,7 @@ export const useCreateBlockGroupsStore = (blockGroupsData: BlockMembersType) => 
         groupsStore: JSON.parse(JSON.stringify(groupsStore)),
         blocksStore: JSON.parse(JSON.stringify(blocksStore)),
       },
+      isMount: true,
     }));
 
     return () => {
@@ -74,6 +75,7 @@ export const useCreateBlockGroupsStore = (blockGroupsData: BlockMembersType) => 
           groupsStore: {},
           blocksStore: {},
         },
+        isMount: false,
       }));
     };
 

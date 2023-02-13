@@ -128,8 +128,15 @@ export const useTemplateTaskHistories = () => {
   const { pageDB, pageDBMessage } = usePageDB();
   const [tasks, setTasks] = useState<TaskHistoryInterface[] | null>(null);
   const [isTaskInitialized, setIsTaskInitialized] = useState(false);
-  const { addBlock, addGroup, updateBlock, updateGroup, deleteBlock, deleteGroup } =
-    useBlockGroupsAtom();
+  const {
+    addBlock,
+    addGroup,
+    updateBlock,
+    updateGroup,
+    deleteBlock,
+    deleteGroup,
+    blockGroupState,
+  } = useBlockGroupsAtom();
 
   useEffect(() => {
     if (pageDB.current !== null) {
@@ -147,7 +154,7 @@ export const useTemplateTaskHistories = () => {
   }, [pageDB.current]);
 
   useEffect(() => {
-    if (!isTaskInitialized || !tasks?.length) return;
+    if (!blockGroupState.isMount || !isTaskInitialized || !tasks?.length) return;
 
     const reflectTasksIntoBlockGroupStore = () => {
       tasks.forEach((task) => {
@@ -187,7 +194,7 @@ export const useTemplateTaskHistories = () => {
     reflectTasksIntoBlockGroupStore();
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [isTaskInitialized, tasks]);
+  }, [isTaskInitialized, tasks, blockGroupState.isMount]);
 
   const addTask = async (task: TaskHistoryInterface) => {
     if (pageDB.current === null) return;

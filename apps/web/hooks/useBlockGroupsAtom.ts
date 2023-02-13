@@ -302,13 +302,21 @@ export const useBlockGroupsAtom = () => {
   };
 
   const updateBlock = (block: Blocks) => {
-    setBlockGroupState((state) => ({
-      ...state,
-      blocksStore: {
-        ...state.blocksStore,
-        [block.id]: block,
-      },
-    }));
+    if (block.parent === null) {
+      setBlockGroupState((state) => ({
+        ...state,
+        blocksStore: {
+          ...state.blocksStore,
+          [block.id]: block,
+        },
+      }));
+    } else {
+      syncBlockStateWithParentGroupBlocks({
+        parentId: block.parent,
+        id: block.id,
+        nextState: block,
+      });
+    }
   };
 
   const deleteBlock = (block: Blocks) => {

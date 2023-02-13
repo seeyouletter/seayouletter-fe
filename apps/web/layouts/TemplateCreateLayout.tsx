@@ -2,8 +2,6 @@ import React, { PropsWithChildren } from 'react';
 
 import { useAtomValue } from 'jotai';
 
-import { v4 as uuidv4 } from 'uuid';
-
 import { useTheme } from '@emotion/react';
 
 import { assembledBlockGroups } from '@atoms/blockGroupsAtom';
@@ -47,7 +45,7 @@ const blockGroups: BlockMembersType = [
         type: 'block',
         subType: 'shape',
         parent: 'component1',
-        id: uuidv4(),
+        id: '블록1',
         title: '블록1',
         style: {
           size: {
@@ -100,7 +98,7 @@ const blockGroups: BlockMembersType = [
         type: 'block',
         subType: 'shape',
         parent: 'component1',
-        id: uuidv4(),
+        id: '블록2',
         title: '블록2',
         style: {
           size: {
@@ -153,7 +151,7 @@ const blockGroups: BlockMembersType = [
         type: 'block',
         subType: 'shape',
         parent: 'component1',
-        id: uuidv4(),
+        id: '블록3',
         title: '블록3',
         style: {
           size: {
@@ -215,7 +213,7 @@ const blockGroups: BlockMembersType = [
             type: 'block',
             subType: 'shape',
             parent: 'subcomponent1',
-            id: uuidv4(),
+            id: '서브블록1',
             title: '서브블록1',
             style: {
               size: {
@@ -268,7 +266,7 @@ const blockGroups: BlockMembersType = [
             type: 'block',
             subType: 'shape',
             parent: 'subcomponent1',
-            id: uuidv4(),
+            id: '서브블록2',
             title: '서브블록2',
             style: {
               size: {
@@ -321,7 +319,7 @@ const blockGroups: BlockMembersType = [
             type: 'block',
             subType: 'shape',
             parent: 'subcomponent1',
-            id: uuidv4(),
+            id: '서브블록3',
             title: '서브블록3',
             style: {
               size: {
@@ -382,7 +380,7 @@ const blockGroups: BlockMembersType = [
                 type: 'block',
                 subType: 'text',
                 parent: 'subsubcomponent1',
-                id: uuidv4(),
+                id: '서브서브블록텍스트1',
                 title: '서브서브블록텍스트1',
                 style: {
                   size: {
@@ -447,7 +445,7 @@ const blockGroups: BlockMembersType = [
                 type: 'block',
                 subType: 'shape',
                 parent: 'subsubcomponent1',
-                id: uuidv4(),
+                id: '서브서브블록1',
                 title: '서브서브블록1',
                 style: {
                   size: {
@@ -500,7 +498,7 @@ const blockGroups: BlockMembersType = [
                 type: 'block',
                 subType: 'image',
                 parent: 'subsubcomponent1',
-                id: uuidv4(),
+                id: '서브서브블록2',
                 title: '서브서브블록2',
                 style: {
                   size: {
@@ -579,7 +577,7 @@ const blockGroups: BlockMembersType = [
         type: 'block',
         subType: 'shape',
         parent: 'component2',
-        id: uuidv4(),
+        id: '블록4',
         title: '블록4',
         style: {
           size: {
@@ -632,7 +630,7 @@ const blockGroups: BlockMembersType = [
         type: 'block',
         subType: 'shape',
         parent: 'component2',
-        id: uuidv4(),
+        id: '블록5',
         title: '블록5',
         style: {
           size: {
@@ -688,7 +686,7 @@ const blockGroups: BlockMembersType = [
     type: 'block',
     subType: 'shape',
     parent: null,
-    id: uuidv4(),
+    id: '루트블록',
     title: '루트블록',
     style: {
       size: {

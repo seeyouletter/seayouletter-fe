@@ -25,7 +25,12 @@ export interface BlockGroupMemberListPropsInterface {
   onUpdateTitle: BlockGroupWrapperPropsInterface['onUpdateTitle'];
 }
 
-const StyledBlockGroupMemberList = styled.div<{ parentActived: boolean; parentHovered: boolean }>`
+interface StyledBlockGroupMemeberListPropsInterface {
+  parentActived: boolean;
+  parentHovered: boolean;
+}
+
+const StyledBlockGroupMemberList = styled.div<StyledBlockGroupMemeberListPropsInterface>`
   box-sizing: border-box;
 
   flex-direction: column;
