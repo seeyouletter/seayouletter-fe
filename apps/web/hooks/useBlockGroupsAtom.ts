@@ -73,6 +73,36 @@ export const useBlockGroupsAtom = () => {
     }));
   };
 
+  const setNextActivedBlockGroup = ({
+    type,
+    id,
+    depth,
+    order,
+  }: {
+    type: BlockGroupType;
+    id: IdType;
+    depth: number;
+    order: number;
+  }) => {
+    if (id === null || activedBlockGroup === null || id === blockGroupState.activeId) {
+      return;
+    }
+
+    if (activedBlockGroup.type === 'group') {
+      if (activedBlockGroup.blocks.map((v) => v.id).includes(id)) {
+        if (blockGroupState.activedBlockGroupDepth === null) {
+          if (depth === 0) {
+            setActiveId(type, id, depth, order);
+          }
+        } else {
+          if (depth === blockGroupState.activedBlockGroupDepth + 1) {
+            setActiveId(type, id, depth, order);
+          }
+        }
+      }
+    }
+  };
+
   const initializeHoverBlockGroup = () => {
     setBlockGroupState((state) => ({
       ...state,
@@ -193,6 +223,17 @@ export const useBlockGroupsAtom = () => {
     const nextState = {
       ...blockGroupState.groupsStore[id],
       toggled: !blockGroupState.groupsStore[id].toggled,
+    };
+
+    syncWithParentGroupBlocksState({ parentId, id, nextState });
+  };
+
+  const setToggleTrue = (id: string) => {
+    const parentId = blockGroupState.groupsStore[id].parent;
+
+    const nextState = {
+      ...blockGroupState.groupsStore[id],
+      toggled: true,
     };
 
     syncWithParentGroupBlocksState({ parentId, id, nextState });
@@ -790,11 +831,14 @@ export const useBlockGroupsAtom = () => {
     setActiveId,
     initializeActiveBlockGroup,
 
+    setNextActivedBlockGroup,
+
     setHoverId,
     initializeHoverBlockGroup,
 
     setTitle,
     setToggle,
+    setToggleTrue,
     setOrder,
 
     setPositionStyle,

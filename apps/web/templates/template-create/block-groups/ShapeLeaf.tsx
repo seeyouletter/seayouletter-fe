@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { MouseEvent } from 'react';
 
 import { useBlockGroupsAtom } from '@hooks/useBlockGroupsAtom';
 
@@ -14,6 +14,27 @@ interface ShapeLeafPropsInterface {
 
 export function ShapeLeaf({ data, depth, order }: ShapeLeafPropsInterface) {
   const { activeId, setHoverId, initializeHoverBlockGroup } = useBlockGroupsAtom();
+
+  const { setActiveId, setNextActivedBlockGroup, setToggleTrue } = useBlockGroupsAtom();
+
+  /**
+   * @see: feat(component): set click event to active block or group
+   */
+  const onClickLeaf = (e: MouseEvent) => {
+    e.stopPropagation();
+    setActiveId('group', data.id, depth, order);
+  };
+
+  /**
+   * @see: feat(component): set click event to active block or group
+   */
+  const onDoubleClickLeaf = (e: MouseEvent) => {
+    e.stopPropagation();
+    setNextActivedBlockGroup({ type: 'group', id: data.id, depth, order });
+    if (data.parent) {
+      setToggleTrue(data.parent);
+    }
+  };
 
   return (
     <DefaultBox
@@ -54,6 +75,8 @@ export function ShapeLeaf({ data, depth, order }: ShapeLeafPropsInterface) {
       data-order={order}
       onMouseOver={() => setHoverId({ id: data.id, depth, order })}
       onMouseLeave={() => initializeHoverBlockGroup()}
+      onClick={onClickLeaf}
+      onDoubleClick={onDoubleClickLeaf}
     >
       {activeId === data.id && <Updator item={data} />}
     </DefaultBox>
