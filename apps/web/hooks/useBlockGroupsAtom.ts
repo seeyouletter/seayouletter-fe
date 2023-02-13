@@ -258,19 +258,22 @@ export const useBlockGroupsAtom = () => {
     id: string;
     nextState: Blocks;
   }) => {
-    const nextBlocksStoreState = { ...blockGroupState.blocksStore, [id]: nextState };
-    const nextGroupsStoreState = { ...blockGroupState.groupsStore };
-
-    if (parentId) {
-      nextGroupsStoreState[parentId].blocks = nextGroupsStoreState[parentId].blocks.map((v) =>
-        v.id === id ? nextState : v
-      );
-    }
-
     setBlockGroupState((state) => ({
       ...state,
-      blocksStore: nextBlocksStoreState,
-      groupsStore: nextGroupsStoreState,
+      blocksStore: { ...state.blocksStore, [id]: nextState },
+      groupsStore: {
+        ...state.groupsStore,
+        ...(parentId
+          ? {
+              [parentId]: {
+                ...state.groupsStore[parentId],
+                blocks: state.groupsStore[parentId].blocks.map((v) =>
+                  v.id === id ? nextState : v
+                ),
+              },
+            }
+          : {}),
+      },
     }));
   };
 
