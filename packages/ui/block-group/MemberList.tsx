@@ -9,23 +9,42 @@ import { BlockGroupWrapperPropsInterface } from './types';
 
 export interface BlockGroupMemberListPropsInterface {
   activeId: BlockGroupWrapperPropsInterface['activeId'];
+  hoverId: BlockGroupWrapperPropsInterface['hoverId'];
+
   depth: number;
   members: BlockMembersType;
+
   actived: boolean;
+  hovered: boolean;
+
   onBlockClick: BlockGroupWrapperPropsInterface['onBlockClick'];
   onGroupClick: BlockGroupWrapperPropsInterface['onGroupClick'];
+
+  onBlockHover: BlockGroupWrapperPropsInterface['onBlockHover'];
+
   onUpdateTitle: BlockGroupWrapperPropsInterface['onUpdateTitle'];
 }
 
-const StyledBlockGroupMemberList = styled.div<{ parentActived: boolean }>`
+const StyledBlockGroupMemberList = styled.div<{ parentActived: boolean; parentHovered: boolean }>`
+  box-sizing: border-box;
+
   flex-direction: column;
+
   font-size: inherit;
   color: white;
+
+  border: ${(props) => props.theme.border.transparent};
 
   ${({ parentActived, theme }) =>
     parentActived &&
     css`
       background-color: ${theme.color.layout.blockGroupToggle.childrenBg};
+    `}
+  ${({ parentHovered, theme }) =>
+    parentHovered &&
+    css`
+      border: ${parentHovered ? theme.border.primaryLight : theme.border.transparent};
+      border-top: ${theme.border.transparent};
     `}
 `;
 
@@ -37,21 +56,27 @@ export function BlockGroupMemberList({
   depth,
   activeId,
   actived,
+  hoverId,
+  hovered,
   members,
   onBlockClick,
   onGroupClick,
   onUpdateTitle,
+  onBlockHover,
 }: BlockGroupMemberListPropsInterface) {
   return (
-    <StyledBlockGroupMemberList parentActived={actived}>
-      {members.map((member) => (
+    <StyledBlockGroupMemberList parentActived={actived} parentHovered={hovered}>
+      {members.map((member, index) => (
         <MemberFactory
           depth={depth}
+          order={index}
           key={member.id}
           member={member}
           activeId={activeId}
+          hoverId={hoverId}
           onGroupClick={onGroupClick}
           onBlockClick={onBlockClick}
+          onBlockHover={onBlockHover}
           onUpdateTitle={onUpdateTitle}
         />
       ))}

@@ -54,16 +54,20 @@ const StyledBlockGroupToggleTitle = styled.div<StyledBlockGroupToggleTitleInterf
 
 export function BlockGroupWrapper({
   depth,
+  order,
   id,
   title,
   activeId,
+  hoverId,
   toggled = true,
   onGroupClick,
   onBlockClick,
+  onBlockHover,
   blocks,
   onUpdateTitle,
 }: BlockGroupWrapperPropsInterface) {
   const isActive = activeId === id;
+  const isHover = hoverId === id;
 
   const {
     ref: contentEditableRef,
@@ -83,7 +87,7 @@ export function BlockGroupWrapper({
 
   const onWrapperClick = (e: MouseEvent) => {
     if (titleEditable) return;
-    onGroupClick(e, { type: 'group', id });
+    onGroupClick(e, { type: 'group', id, depth, order });
   };
 
   const onBlurTitle = (e: FocusEvent) => {
@@ -97,23 +101,24 @@ export function BlockGroupWrapper({
   };
 
   return (
-    <DefaultVStack fontSize={theme.fontSize.sm}>
+    <DefaultVStack fontSize={theme.fontSize.sm} boxSizing="border-box">
       <DefaultBox
         id={id}
         cursor="pointer"
+        boxSizing="border-box"
         backgroundColor={
           isActive ? theme.color.layout.blockGroupToggle.activeBg : theme.color.transparent
         }
-        _hover={{
-          background: theme.color.layout.blockGroupToggle.activeBg,
-        }}
+        border={isHover ? theme.border.primaryLight : theme.border.transparent}
+        borderBottom={isHover && !toggled ? theme.border.primaryLight : theme.border.transparent}
         color={theme.color.white}
         display="flex"
         alignItems="center"
-        height="24px"
+        height="28px"
         position="relative"
         onClick={onWrapperClick}
         paddingLeft={`${depth * 20}px`}
+        onMouseOver={(e) => onBlockHover(e, { id, depth, order })}
       >
         <StyledBlockGroupToggleMarker
           toggleMarkerBg={theme.color.white}
@@ -134,10 +139,13 @@ export function BlockGroupWrapper({
         <BlockGroupMemberList
           depth={depth + 1}
           activeId={activeId}
+          hoverId={hoverId}
+          hovered={hoverId === id}
           actived={activeId === id}
           members={blocks}
           onBlockClick={onBlockClick}
           onGroupClick={onGroupClick}
+          onBlockHover={onBlockHover}
           onUpdateTitle={onUpdateTitle}
         />
       )}

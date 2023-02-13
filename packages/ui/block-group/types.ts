@@ -4,9 +4,17 @@ import { BlockInterface, BlockMembersType, GroupInterface, IdType } from '@ui/ty
 
 export type ClickEvent = (e: MouseEvent, id: string) => void;
 
+interface BlockHoverEventParams {
+  id: IdType;
+  depth: number;
+  order: number;
+}
+
+export type BlockHoverEvent = (e: MouseEvent, param: BlockHoverEventParams) => void;
+
 export type ClickEventWithType = (
   e: MouseEvent,
-  { type, id }: { type: BlockGroupType; id: string }
+  { type, id, depth, order }: { type: BlockGroupType; id: string; depth: number; order: number }
 ) => void;
 
 export type BlockGroupType = 'block' | 'group';
@@ -32,6 +40,7 @@ export interface StyledBlockGroupToggleMarkerInterface {
 
 export interface BlockEvents {
   onBlockClick: ClickEventWithType;
+  onBlockHover: BlockHoverEvent;
   onUpdateTitle: UpdateTitleEvent;
 }
 export interface BlockGroupWrapperPropsInterface
@@ -39,14 +48,18 @@ export interface BlockGroupWrapperPropsInterface
     BlockEvents,
     GroupInterface {
   depth: number;
+  order: number;
 
   blocks: BlockMembersType;
   activeId: IdType;
+  hoverId: IdType;
 
   onGroupClick: ClickEventWithType;
 }
 
 export interface BlockPropsInterface extends BlockEvents, Omit<BlockInterface, 'style'> {
   depth: number;
+  order: number;
   activeId: IdType;
+  hoverId: IdType;
 }

@@ -903,7 +903,8 @@ const Toolbar = () => {
 export default function TemplateCreateLayout({ children }: PropsWithChildren) {
   useCreateBlockGroupsStore(blockGroups);
 
-  const { activedBlockGroup, activeId, setActiveId, setTitle, setToggle } = useBlockGroupsAtom();
+  const { activedBlockGroup, activeId, hoverId, setActiveId, setHoverId, setTitle, setToggle } =
+    useBlockGroupsAtom();
 
   const theme = useTheme();
 
@@ -928,13 +929,16 @@ export default function TemplateCreateLayout({ children }: PropsWithChildren) {
               depth={0}
               activeId={activeId}
               actived={false}
+              hoverId={hoverId}
+              hovered={false}
               members={blockGroupData ?? []}
-              onGroupClick={(e, { type, id }) => {
-                setActiveId(type, id);
+              onGroupClick={(e, { type, id, depth, order }) => {
+                setActiveId(type, id, depth, order);
                 setToggle(id);
               }}
               onUpdateTitle={(e, { type, id, title }) => setTitle(type, id, title)}
-              onBlockClick={(e, { type, id }) => setActiveId(type, id)}
+              onBlockClick={(e, { type, id, depth, order }) => setActiveId(type, id, depth, order)}
+              onBlockHover={(e, { id, depth, order }) => setHoverId({ id, depth, order })}
             />
           </DefaultVStack>
 
