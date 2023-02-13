@@ -62,6 +62,11 @@ export const useCreateBlockGroupsStore = (blockGroupsData: BlockMembersType) => 
     return () => {
       setBlockGroupState(() => ({
         activeId: null,
+        hoverId: null,
+        detail: null,
+        activedBlockGroupDepth: null,
+        hoveredBlockGroupDepth: null,
+        activeOrder: null,
         groupChildrenStore: {},
         groupsStore: {},
         blocksStore: {},

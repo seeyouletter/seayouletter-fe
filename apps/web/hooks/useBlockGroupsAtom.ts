@@ -42,11 +42,43 @@ export const useBlockGroupsAtom = () => {
   /**
    * INFO: 공통 코드
    */
-  const setActiveId = (type: BlockGroupType, id: string) => {
+  const setActiveId = (type: BlockGroupType, id: string, depth: number, order: number) => {
     setBlockGroupState((state) => ({
       ...state,
       activeId: id,
+      activedBlockGroupDepth: depth,
+      activeOrder: order,
       detail: (type === 'block' ? blockGroupState.blocksStore : blockGroupState.groupsStore)[id],
+    }));
+  };
+
+  const initializeActiveBlockGroup = () => {
+    setBlockGroupState((state) => ({
+      ...state,
+      activeId: null,
+      activedBlockGroupDepth: null,
+      activeOrder: null,
+      detail: null,
+    }));
+  };
+
+  const setHoverId = ({ id, depth, order }: { id: IdType; depth: number; order: number }) => {
+    if (id === null) return;
+
+    setBlockGroupState((state) => ({
+      ...state,
+      hoverId: id,
+      hoveredBlockGroupDepth: depth,
+      hoverOrder: order,
+    }));
+  };
+
+  const initializeHoverBlockGroup = () => {
+    setBlockGroupState((state) => ({
+      ...state,
+      hoverId: null,
+      hoveredBlockGroupDepth: null,
+      hoverOrder: null,
     }));
   };
 
@@ -748,6 +780,7 @@ export const useBlockGroupsAtom = () => {
     blockGroupState,
     activedBlockGroup,
     activeId: blockGroupState.activeId,
+    hoverId: blockGroupState.hoverId,
 
     changeBlockState,
     changeBlockStyle,
@@ -755,6 +788,11 @@ export const useBlockGroupsAtom = () => {
     setGroupChildrenStore,
     setBlocks,
     setActiveId,
+    initializeActiveBlockGroup,
+
+    setHoverId,
+    initializeHoverBlockGroup,
+
     setTitle,
     setToggle,
     setOrder,
