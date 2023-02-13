@@ -160,7 +160,7 @@ Updator.BottomLeftEdge = function UpdatorBottomLeftEdge() {
   );
 };
 
-export function Updator({ item }: NodeItemPropsInterface) {
+export function Updator({ item }: { item: NodeItemPropsInterface['item'] }) {
   const { activedBlockGroup, changeBlockState } = useBlockGroupsAtom();
   const { pageState } = useResizablePageAtom();
 

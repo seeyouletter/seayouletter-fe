@@ -11,11 +11,14 @@ import { NodeList } from './NodeList';
 
 interface NodePropsInterface {
   data: Groups;
+  depth: number;
+  order: number;
 }
-export function Node({ data }: NodePropsInterface) {
+
+export function Node({ data, depth, order }: NodePropsInterface) {
   return (
-    <DefaultBox id={data.id}>
-      <NodeList listItems={data.blocks}></NodeList>
+    <DefaultBox id={data.id} data-order={order}>
+      <NodeList depth={depth} listItems={data.blocks} />
       {data.id}
     </DefaultBox>
   );

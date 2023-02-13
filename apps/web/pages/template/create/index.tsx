@@ -252,7 +252,7 @@ export default function TemplateCreatePage() {
             left={blockCreationState.left - +pageState.left + 'px'}
           />
         )}
-        {blockGroupsTree && <NodeList listItems={blockGroupsTree}></NodeList>}
+        {blockGroupsTree && <NodeList depth={0} listItems={blockGroupsTree}></NodeList>}
       </ResizablePage>
     </DefaultBox>
   );

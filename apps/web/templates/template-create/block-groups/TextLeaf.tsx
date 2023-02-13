@@ -4,9 +4,11 @@ import { DefaultBox, TextBlock } from 'ui';
 
 interface TextLeafPropsInterface {
   data: TextBlock;
+  depth: number;
+  order: number;
 }
 
-export function TextLeaf({ data }: TextLeafPropsInterface) {
+export function TextLeaf({ data, depth, order }: TextLeafPropsInterface) {
   return (
     <DefaultBox
       as="p"
@@ -57,6 +59,8 @@ export function TextLeaf({ data }: TextLeafPropsInterface) {
         WebkitTextStrokeWidth: data.textStyle.textStroke,
       }}
       userSelect="none"
+      data-order={order}
+      data-depth={depth}
     >
       {data.textContent}
     </DefaultBox>

@@ -8,10 +8,13 @@ import { Updator } from './Updator';
 
 interface ShapeLeafPropsInterface {
   data: ShapeBlock;
+  depth: number;
+  order: number;
 }
 
-export function ShapeLeaf({ data }: ShapeLeafPropsInterface) {
-  const { activeId } = useBlockGroupsAtom();
+export function ShapeLeaf({ data, depth, order }: ShapeLeafPropsInterface) {
+  const { activeId, setHoverId, initializeHoverBlockGroup } = useBlockGroupsAtom();
+
   return (
     <DefaultBox
       position="absolute"
@@ -48,6 +51,9 @@ export function ShapeLeaf({ data }: ShapeLeafPropsInterface) {
       borderTopRightRadius={data.style.borderRadius.topRight}
       borderBottomRightRadius={data.style.borderRadius.bottomRight}
       borderBottomLeftRadius={data.style.borderRadius.bottomLeft}
+      data-order={order}
+      onMouseOver={() => setHoverId({ id: data.id, depth, order })}
+      onMouseLeave={() => initializeHoverBlockGroup()}
     >
       {activeId === data.id && <Updator item={data} />}
     </DefaultBox>
