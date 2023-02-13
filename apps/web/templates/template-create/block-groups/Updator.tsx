@@ -473,14 +473,13 @@ export function Updator({ item }: { item: NodeItemPropsInterface['item'] }) {
     if (activedBlockGroup === null || activedBlockGroup.type !== 'block') return;
     if (!isUpdating.topLeft) return;
 
-    const edgeTopLeftMouseMoveHandler = (e: MouseEvent) => {
+    const edgesBottomLeftMouseMoveHandler = (e: MouseEvent) => {
       const { clientX, clientY } = e;
 
       const activedBlockTop = convertPxStringToNumber(activedBlockGroup.style.position.top);
       const activedBlockLeft = convertPxStringToNumber(activedBlockGroup.style.position.left);
       const activedBlockWidth = convertPxStringToNumber(activedBlockGroup.style.size.width);
       const activedBlocHeight = convertPxStringToNumber(activedBlockGroup.style.size.height);
-
       const activedBlockRightLineFromLeft = activedBlockLeft + activedBlockWidth;
       const activedBlockBottomLineFromTop = activedBlockTop + activedBlocHeight;
 
@@ -496,6 +495,84 @@ export function Updator({ item }: { item: NodeItemPropsInterface['item'] }) {
 
       const nextLeft = isLeftReversed ? activedBlockRightLineFromLeft : nowLeft;
       const nextRightLineFormLeft = isLeftReversed ? nowLeft : activedBlockRightLineFromLeft;
+
+      const nextTop = isTopReversed ? activedBlockBottomLineFromTop : nowTop;
+      const nextBottomLineFromTop = isTopReversed ? nowTop : activedBlockBottomLineFromTop;
+
+      const nextWidth = nextRightLineFormLeft - nextLeft;
+      const nextHeight = nextBottomLineFromTop - nextTop;
+
+      const nextSize = {
+        ...activedBlockGroup.style.size,
+        width: nextWidth + 'px',
+        height: nextHeight + 'px',
+      };
+
+      const nextPosition = {
+        ...activedBlockGroup.style.position,
+        left: nextLeft + 'px',
+        top: nextTop + 'px',
+      };
+
+      if (activedBlockGroup.subType !== 'text') {
+        const nextState = {
+          ...activedBlockGroup,
+          style: {
+            ...activedBlockGroup.style,
+            size: nextSize,
+            position: nextPosition,
+          },
+        };
+
+        changeBlockState(nextState);
+      } else {
+        const nextState = {
+          ...activedBlockGroup,
+          style: {
+            ...activedBlockGroup.style,
+            size: nextSize,
+            position: nextPosition,
+          },
+        };
+
+        changeBlockState(nextState);
+      }
+    };
+
+    window.addEventListener('mousemove', edgesBottomLeftMouseMoveHandler, { passive: true });
+
+    return () => {
+      window.removeEventListener('mousemove', edgesBottomLeftMouseMoveHandler);
+    };
+
+    /* eslint-disable-next-line */
+  }, [isUpdating]);
+
+  useEffect(() => {
+    if (activedBlockGroup === null || activedBlockGroup.type !== 'block') return;
+    if (!isUpdating.topRight) return;
+
+    const edgeTopRightMouseMoveHandler = (e: MouseEvent) => {
+      const { clientX, clientY } = e;
+
+      const activedBlockTop = convertPxStringToNumber(activedBlockGroup.style.position.top);
+      const activedBlockLeft = convertPxStringToNumber(activedBlockGroup.style.position.left);
+      const activedBlocHeight = convertPxStringToNumber(activedBlockGroup.style.size.height);
+
+      const activedBlockBottomLineFromTop = activedBlockTop + activedBlocHeight;
+
+      const pageScrollY = pageState.scrollY;
+      const pageTop = +pageState.top;
+      const pageLeft = +pageState.left;
+
+      const nowTop = pageScrollY - pageTop + clientY;
+      const nowRightFromLeft = clientX - pageLeft;
+
+      const isTopReversed = activedBlockBottomLineFromTop < nowTop;
+      const isRightReversed = nowRightFromLeft < activedBlockLeft;
+
+      const nextLeft = isRightReversed ? nowRightFromLeft : activedBlockLeft;
+      const nextRightLineFormLeft = isRightReversed ? activedBlockLeft : nowRightFromLeft;
 
       const nextTop = isTopReversed ? activedBlockBottomLineFromTop : nowTop;
       const nextBottomLineFromTop = isTopReversed ? nowTop : activedBlockBottomLineFromTop;
@@ -544,10 +621,10 @@ export function Updator({ item }: { item: NodeItemPropsInterface['item'] }) {
       }
     };
 
-    window.addEventListener('mousemove', edgeTopLeftMouseMoveHandler, { passive: true });
+    window.addEventListener('mousemove', edgeTopRightMouseMoveHandler, { passive: true });
 
     return () => {
-      window.removeEventListener('mousemove', edgeTopLeftMouseMoveHandler);
+      window.removeEventListener('mousemove', edgeTopRightMouseMoveHandler);
     };
 
     /* eslint-disable-next-line */
@@ -623,6 +700,83 @@ export function Updator({ item }: { item: NodeItemPropsInterface['item'] }) {
 
     return () => {
       window.removeEventListener('mousemove', edgeBottomRightMouseMoveHandler);
+    };
+
+    /* eslint-disable-next-line */
+  }, [isUpdating]);
+
+  useEffect(() => {
+    if (activedBlockGroup === null || activedBlockGroup.type !== 'block') return;
+    if (!isUpdating.bottomLeft) return;
+
+    const edgesBottomLeftMouseMoveHandler = (e: MouseEvent) => {
+      const { clientX, clientY } = e;
+
+      const activedBlockTop = convertPxStringToNumber(activedBlockGroup.style.position.top);
+      const activedBlockLeft = convertPxStringToNumber(activedBlockGroup.style.position.left);
+      const activedBlockWidth = convertPxStringToNumber(activedBlockGroup.style.size.width);
+      const activedBlockRightLineFromLeft = activedBlockLeft + activedBlockWidth;
+
+      const pageScrollY = pageState.scrollY;
+      const pageTop = +pageState.top;
+      const pageLeft = +pageState.left;
+
+      const nowBottomFromTop = pageScrollY - pageTop + clientY;
+      const nowLeft = clientX - pageLeft;
+
+      const isBottomReversed = nowBottomFromTop < activedBlockTop;
+      const isLeftReversed = activedBlockRightLineFromLeft < nowLeft;
+
+      const nextLeft = isLeftReversed ? activedBlockRightLineFromLeft : nowLeft;
+      const nextRightLineFormLeft = isLeftReversed ? nowLeft : activedBlockRightLineFromLeft;
+
+      const nextTop = isBottomReversed ? nowBottomFromTop : activedBlockTop;
+      const nextBottomLineFromTop = isBottomReversed ? activedBlockTop : nowBottomFromTop;
+
+      const nextWidth = nextRightLineFormLeft - nextLeft;
+      const nextHeight = nextBottomLineFromTop - nextTop;
+
+      const nextSize = {
+        ...activedBlockGroup.style.size,
+        width: nextWidth + 'px',
+        height: nextHeight + 'px',
+      };
+
+      const nextPosition = {
+        ...activedBlockGroup.style.position,
+        left: nextLeft + 'px',
+        top: nextTop + 'px',
+      };
+
+      if (activedBlockGroup.subType !== 'text') {
+        const nextState = {
+          ...activedBlockGroup,
+          style: {
+            ...activedBlockGroup.style,
+            size: nextSize,
+            position: nextPosition,
+          },
+        };
+
+        changeBlockState(nextState);
+      } else {
+        const nextState = {
+          ...activedBlockGroup,
+          style: {
+            ...activedBlockGroup.style,
+            size: nextSize,
+            position: nextPosition,
+          },
+        };
+
+        changeBlockState(nextState);
+      }
+    };
+
+    window.addEventListener('mousemove', edgesBottomLeftMouseMoveHandler, { passive: true });
+
+    return () => {
+      window.removeEventListener('mousemove', edgesBottomLeftMouseMoveHandler);
     };
 
     /* eslint-disable-next-line */
