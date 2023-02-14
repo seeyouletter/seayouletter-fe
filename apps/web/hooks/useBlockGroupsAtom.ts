@@ -58,6 +58,16 @@ export const useBlockGroupsAtom = () => {
     }));
   };
 
+  const initializeActiveId = () => {
+    setBlockGroupState((state) => ({
+      ...state,
+      activeId: null,
+      activedBlockGroupDepth: null,
+      activeOrder: null,
+      detail: null,
+    }));
+  };
+
   const initializeActiveBlockGroup = () => {
     setBlockGroupState((state) => ({
       ...state,
@@ -324,13 +334,16 @@ export const useBlockGroupsAtom = () => {
   };
 
   const deleteBlock = (block: Blocks) => {
-    const nextState = { ...blockGroupState.blocksStore };
-    delete nextState[block.id];
+    setBlockGroupState((state) => {
+      const nextState = { ...state.blocksStore };
 
-    setBlockGroupState((state) => ({
-      ...state,
-      blocksStore: nextState,
-    }));
+      delete nextState[block.id];
+
+      return {
+        ...state,
+        blocksStore: nextState,
+      };
+    });
   };
 
   const changeBlockState = (nextState: Blocks) => {
@@ -841,6 +854,7 @@ export const useBlockGroupsAtom = () => {
     setGroupChildrenStore,
     setBlocks,
     setActiveId,
+    initializeActiveId,
     initializeActiveBlockGroup,
 
     setNextActivedBlockGroup,

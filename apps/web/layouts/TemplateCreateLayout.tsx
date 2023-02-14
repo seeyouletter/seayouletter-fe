@@ -70,25 +70,25 @@ const blockGroups: BlockMembersType = [
             top: {
               width: '1px',
               style: 'solid',
-              color: 'black',
+              color: '#000000',
               opacity: '1',
             },
             right: {
               width: '1px',
               style: 'solid',
-              color: 'black',
+              color: '#000000',
               opacity: '300px',
             },
             bottom: {
               width: '1px',
               style: 'solid',
-              color: 'black',
+              color: '#000000',
               opacity: '1',
             },
             left: {
               width: '1px',
               style: 'solid',
-              color: 'black',
+              color: '#000000',
               opacity: '1',
             },
           },
@@ -123,25 +123,25 @@ const blockGroups: BlockMembersType = [
             top: {
               width: '1px',
               style: 'solid',
-              color: 'black',
+              color: '#000000',
               opacity: '1',
             },
             right: {
               width: '1px',
               style: 'solid',
-              color: 'black',
+              color: '#000000',
               opacity: '1',
             },
             bottom: {
               width: '1px',
               style: 'solid',
-              color: 'black',
+              color: '#000000',
               opacity: '1',
             },
             left: {
               width: '1px',
               style: 'solid',
-              color: 'black',
+              color: '#000000',
               opacity: '1',
             },
           },
@@ -176,25 +176,25 @@ const blockGroups: BlockMembersType = [
             top: {
               width: '1px',
               style: 'solid',
-              color: 'black',
+              color: '#000000',
               opacity: '1',
             },
             right: {
               width: '1px',
               style: 'solid',
-              color: 'black',
+              color: '#000000',
               opacity: '1',
             },
             bottom: {
               width: '1px',
               style: 'solid',
-              color: 'black',
+              color: '#000000',
               opacity: '1',
             },
             left: {
               width: '1px',
               style: 'solid',
-              color: 'black',
+              color: '#000000',
               opacity: '1',
             },
           },
@@ -238,25 +238,25 @@ const blockGroups: BlockMembersType = [
                 top: {
                   width: '1px',
                   style: 'solid',
-                  color: 'black',
+                  color: '#000000',
                   opacity: '1',
                 },
                 right: {
                   width: '1px',
                   style: 'solid',
-                  color: 'black',
+                  color: '#000000',
                   opacity: '1',
                 },
                 bottom: {
                   width: '1px',
                   style: 'solid',
-                  color: 'black',
+                  color: '#000000',
                   opacity: '1',
                 },
                 left: {
                   width: '1px',
                   style: 'solid',
-                  color: 'black',
+                  color: '#000000',
                   opacity: '1',
                 },
               },
@@ -291,25 +291,25 @@ const blockGroups: BlockMembersType = [
                 top: {
                   width: '1px',
                   style: 'solid',
-                  color: 'black',
+                  color: '#000000',
                   opacity: '1',
                 },
                 right: {
                   width: '1px',
                   style: 'solid',
-                  color: 'black',
+                  color: '#000000',
                   opacity: '1',
                 },
                 bottom: {
                   width: '1px',
                   style: 'solid',
-                  color: 'black',
+                  color: '#000000',
                   opacity: '1',
                 },
                 left: {
                   width: '1px',
                   style: 'solid',
-                  color: 'black',
+                  color: '#000000',
                   opacity: '1',
                 },
               },
@@ -344,25 +344,25 @@ const blockGroups: BlockMembersType = [
                 top: {
                   width: '1px',
                   style: 'solid',
-                  color: 'black',
+                  color: '#000000',
                   opacity: '1',
                 },
                 right: {
                   width: '1px',
                   style: 'solid',
-                  color: 'black',
+                  color: '#000000',
                   opacity: '1',
                 },
                 bottom: {
                   width: '1px',
                   style: 'solid',
-                  color: 'black',
+                  color: '#000000',
                   opacity: '1',
                 },
                 left: {
                   width: '1px',
                   style: 'solid',
-                  color: 'black',
+                  color: '#000000',
                   opacity: '1',
                 },
               },
@@ -404,25 +404,25 @@ const blockGroups: BlockMembersType = [
                     top: {
                       width: '1px',
                       style: 'solid',
-                      color: 'black',
+                      color: '#000000',
                       opacity: '1',
                     },
                     right: {
                       width: '1px',
                       style: 'solid',
-                      color: 'black',
+                      color: '#000000',
                       opacity: '1',
                     },
                     bottom: {
                       width: '1px',
                       style: 'solid',
-                      color: 'black',
+                      color: '#000000',
                       opacity: '1',
                     },
                     left: {
                       width: '1px',
                       style: 'solid',
-                      color: 'black',
+                      color: '#000000',
                       opacity: '1',
                     },
                   },
@@ -470,25 +470,25 @@ const blockGroups: BlockMembersType = [
                     top: {
                       width: '1px',
                       style: 'solid',
-                      color: 'black',
+                      color: '#000000',
                       opacity: '1',
                     },
                     right: {
                       width: '1px',
                       style: 'solid',
-                      color: 'black',
+                      color: '#000000',
                       opacity: '1',
                     },
                     bottom: {
                       width: '1px',
                       style: 'solid',
-                      color: 'black',
+                      color: '#000000',
                       opacity: '1',
                     },
                     left: {
                       width: '1px',
                       style: 'solid',
-                      color: 'black',
+                      color: '#000000',
                       opacity: '1',
                     },
                   },
@@ -523,25 +523,25 @@ const blockGroups: BlockMembersType = [
                     top: {
                       width: '1px',
                       style: 'solid',
-                      color: 'black',
+                      color: '#000000',
                       opacity: '1',
                     },
                     right: {
                       width: '1px',
                       style: 'solid',
-                      color: 'black',
+                      color: '#000000',
                       opacity: '1',
                     },
                     bottom: {
                       width: '1px',
                       style: 'solid',
-                      color: 'black',
+                      color: '#000000',
                       opacity: '1',
                     },
                     left: {
                       width: '1px',
                       style: 'solid',
-                      color: 'black',
+                      color: '#000000',
                       opacity: '1',
                     },
                   },
@@ -602,25 +602,25 @@ const blockGroups: BlockMembersType = [
             top: {
               width: '1px',
               style: 'solid',
-              color: 'black',
+              color: '#000000',
               opacity: '1',
             },
             right: {
               width: '1px',
               style: 'solid',
-              color: 'black',
+              color: '#000000',
               opacity: '1',
             },
             bottom: {
               width: '1px',
               style: 'solid',
-              color: 'black',
+              color: '#000000',
               opacity: '1',
             },
             left: {
               width: '1px',
               style: 'solid',
-              color: 'black',
+              color: '#000000',
               opacity: '1',
             },
           },
@@ -655,25 +655,25 @@ const blockGroups: BlockMembersType = [
             top: {
               width: '1px',
               style: 'solid',
-              color: 'black',
+              color: '#000000',
               opacity: '1',
             },
             right: {
               width: '1px',
               style: 'solid',
-              color: 'black',
+              color: '#000000',
               opacity: '1',
             },
             bottom: {
               width: '1px',
               style: 'solid',
-              color: 'black',
+              color: '#000000',
               opacity: '1',
             },
             left: {
               width: '1px',
               style: 'solid',
-              color: 'black',
+              color: '#000000',
               opacity: '1',
             },
           },
@@ -711,25 +711,25 @@ const blockGroups: BlockMembersType = [
         top: {
           width: '1px',
           style: 'solid',
-          color: 'black',
+          color: '#000000',
           opacity: '1',
         },
         right: {
           width: '1px',
           style: 'solid',
-          color: 'black',
+          color: '#000000',
           opacity: '1',
         },
         bottom: {
           width: '1px',
           style: 'solid',
-          color: 'black',
+          color: '#000000',
           opacity: '1',
         },
         left: {
           width: '1px',
           style: 'solid',
-          color: 'black',
+          color: '#000000',
           opacity: '1',
         },
       },
@@ -775,6 +775,7 @@ const Header = () => {
 const Toolbar = () => {
   const theme = useTheme();
 
+  const { initializeActiveId } = useBlockGroupsAtom();
   const { pageState, setPageWidth, setPageHeight, setPageScale } = useResizablePageAtom();
 
   const { enableCreating, setShapeBlockCreationActive, setTextBlockCreationActive } =
@@ -808,6 +809,7 @@ const Toolbar = () => {
                 color={theme.color.white}
                 fontSize={theme.fontSize.xs}
                 onClick={() => {
+                  initializeActiveId();
                   enableCreating();
                   setShapeBlockCreationActive();
                 }}
@@ -953,7 +955,7 @@ export default function TemplateCreateLayout({ children }: PropsWithChildren) {
         {activedBlockGroup ? <BlockGroupModifier blockGroup={activedBlockGroup} /> : <div></div>}
       </RightSidebar>
 
-      <FullSizeMain backgroundColor="black" isHeader={true}>
+      <FullSizeMain backgroundColor="#000000" isHeader={true}>
         {children}
       </FullSizeMain>
     </StyledPageContainer>

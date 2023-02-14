@@ -93,7 +93,7 @@ export default function TemplateCreatePage() {
   const pageRef = useRef<HTMLDivElement | null>(null);
 
   const theme = useTheme();
-  const { activedBlockGroup, addBlock } = useBlockGroupsAtom();
+  const { activedBlockGroup, initializeActiveId, addBlock, deleteBlock } = useBlockGroupsAtom();
   const { pageState, setPageWidth, setPageHeight, setPageScale } = useResizablePageAtom();
 
   const { addTask } = useTemplateTaskHistories();
@@ -228,6 +228,35 @@ export default function TemplateCreatePage() {
     };
     /* eslint-disable-next-line react-hooks/exhaustive-deps */
   }, []);
+
+  useEffect(() => {
+    /**
+     * @description
+     * TODO: 추후 group 로직을 추가할 때 만들어야 한다.
+     */
+    const deleteBlockGroupHandler = (e: KeyboardEvent) => {
+      if (activedBlockGroup !== null && activedBlockGroup.type === 'block') {
+        if (e.key === 'Backspace') {
+          addTask({
+            taskType: 'delete',
+            before: activedBlockGroup,
+            after: null,
+          });
+
+          deleteBlock(activedBlockGroup);
+
+          initializeActiveId();
+        }
+      }
+    };
+
+    document.body.addEventListener('keydown', deleteBlockGroupHandler);
+
+    return () => {
+      document.body.removeEventListener('keydown', deleteBlockGroupHandler);
+    };
+    /* eslint-disable-next-line react-hooks/exhaustive-deps */
+  }, [activedBlockGroup]);
 
   return (
     <DefaultBox
