@@ -39,10 +39,11 @@ export function ShapeLeaf({ data, depth, order }: ShapeLeafPropsInterface) {
   const onClickLeaf = (e: ReactMouseEvent) => {
     e.stopPropagation();
     setActiveId('block', data.id, depth, order);
+    setIsPossibleMove(() => false);
   };
 
   const onMouseDown = (e: ReactMouseEvent) => {
-    e.stopPropagation();
+    setActiveId('block', data.id, depth, order);
     const { clientX, clientY } = e;
 
     setLastOffset((state) => ({
@@ -99,23 +100,27 @@ export function ShapeLeaf({ data, depth, order }: ShapeLeafPropsInterface) {
 
   const onMouseUp = () => {
     if (!updatedPosition.current.left || !updatedPosition.current.top) return;
-    if (!isPossibleMove) return;
 
-    addTask({
-      taskType: 'update',
-      before: data,
-      after: {
-        ...data,
-        style: {
-          ...data.style,
-          position: {
-            ...data.style.position,
-            left: updatedPosition.current.left,
-            top: updatedPosition.current.top,
+    if (isPossibleMove) {
+      addTask({
+        taskType: 'update',
+        before: data,
+        after: {
+          ...data,
+          style: {
+            ...data.style,
+            position: {
+              ...data.style.position,
+              left: updatedPosition.current.left,
+              top: updatedPosition.current.top,
+            },
           },
         },
-      },
-    });
+      });
+
+      updatedPosition.current.top = null;
+      updatedPosition.current.left = null;
+    }
 
     setIsPossibleMove(() => false);
   };
@@ -172,7 +177,7 @@ export function ShapeLeaf({ data, depth, order }: ShapeLeafPropsInterface) {
       onMouseOver={() => setHoverId({ id: data.id, depth, order })}
       onMouseLeave={() => initializeHoverBlockGroup()}
       onClick={onClickLeaf}
-      onMouseDownCapture={onMouseDown}
+      onMouseDown={onMouseDown}
       onMouseUp={onMouseUp}
       onDoubleClick={onDoubleClickLeaf}
     >

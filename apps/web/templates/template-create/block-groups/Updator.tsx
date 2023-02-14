@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { MouseEvent as ReactMouseEvent, useEffect, useState } from 'react';
 
 import { useTheme } from '@emotion/react';
 
@@ -11,12 +11,12 @@ import { DefaultBox, Directions, EdgeDirections } from 'ui';
 import { NodeItemPropsInterface } from './types';
 
 interface LineInterface {
-  onMouseDown: () => void;
+  onMouseDown: (e: ReactMouseEvent) => void;
   onMouseUp: () => void;
 }
 
 interface EdgeInterface {
-  onMouseDown: () => void;
+  onMouseDown: (e: ReactMouseEvent) => void;
   onMouseUp: () => void;
 }
 
@@ -33,7 +33,7 @@ Updator.Top = function UpdatorTopLine({ onMouseDown, onMouseUp }: LineInterface)
       width="100%"
       height="2px"
       background={theme.color.primary[200]}
-      onMouseDown={onMouseDown}
+      onMouseDownCapture={onMouseDown}
       onMouseUp={onMouseUp}
     />
   );
@@ -52,7 +52,7 @@ Updator.Right = function UpdatorRightLine({ onMouseDown, onMouseUp }: LineInterf
       width="2px"
       height="100%"
       background={theme.color.primary[200]}
-      onMouseDown={onMouseDown}
+      onMouseDownCapture={onMouseDown}
       onMouseUp={onMouseUp}
     />
   );
@@ -71,7 +71,7 @@ Updator.Bottom = function UpdatorLeftLine({ onMouseDown, onMouseUp }: LineInterf
       width="100%"
       height="2px"
       background={theme.color.primary[200]}
-      onMouseDown={onMouseDown}
+      onMouseDownCapture={onMouseDown}
       onMouseUp={onMouseUp}
     />
   );
@@ -90,7 +90,7 @@ Updator.Left = function UpdatorBototmLine({ onMouseDown, onMouseUp }: LineInterf
       width="2px"
       height="100%"
       background={theme.color.primary[200]}
-      onMouseDown={onMouseDown}
+      onMouseDownCapture={onMouseDown}
       onMouseUp={onMouseUp}
     />
   );
@@ -110,7 +110,7 @@ Updator.TopLeftEdge = function UpdatorLeftTopEdge({ onMouseDown, onMouseUp }: Ed
       height="6px"
       background={theme.color.white}
       border={theme.border.primaryLight}
-      onMouseDown={onMouseDown}
+      onMouseDownCapture={onMouseDown}
       onMouseUp={onMouseUp}
     />
   );
@@ -130,7 +130,7 @@ Updator.TopRightEdge = function TopRightEdge({ onMouseDown, onMouseUp }: EdgeInt
       height="6px"
       background={theme.color.white}
       border={theme.border.primaryLight}
-      onMouseDown={onMouseDown}
+      onMouseDownCapture={onMouseDown}
       onMouseUp={onMouseUp}
     />
   );
@@ -153,7 +153,7 @@ Updator.BottomRightEdge = function UpdatorBottomRightEdge({
       height="6px"
       background={theme.color.white}
       border={theme.border.primaryLight}
-      onMouseDown={onMouseDown}
+      onMouseDownCapture={onMouseDown}
       onMouseUp={onMouseUp}
     />
   );
@@ -173,7 +173,7 @@ Updator.BottomLeftEdge = function UpdatorBottomLeftEdge({ onMouseDown, onMouseUp
       height="6px"
       background={theme.color.white}
       border={theme.border.primaryLight}
-      onMouseDown={onMouseDown}
+      onMouseDownCapture={onMouseDown}
       onMouseUp={onMouseUp}
     />
   );
@@ -198,7 +198,9 @@ export function Updator({ item }: { item: NodeItemPropsInterface['item'] }) {
     bottomLeft: false,
   });
 
-  const onMouseDown = (direction: EdgeDirections | Directions) => {
+  const onMouseDown = (e: ReactMouseEvent, direction: EdgeDirections | Directions) => {
+    e.stopPropagation();
+
     if (isMousePressing || isUpdating[direction]) return;
 
     setIsMousePressing(() => true);
@@ -782,37 +784,40 @@ export function Updator({ item }: { item: NodeItemPropsInterface['item'] }) {
 
   return (
     <>
-      <Updator.Top onMouseDown={() => onMouseDown('top')} onMouseUp={() => onMouseUp(nowUpdate)} />
+      <Updator.Top
+        onMouseDown={(e) => onMouseDown(e, 'top')}
+        onMouseUp={() => onMouseUp(nowUpdate)}
+      />
 
       <Updator.Right
-        onMouseDown={() => onMouseDown('right')}
+        onMouseDown={(e) => onMouseDown(e, 'right')}
         onMouseUp={() => onMouseUp(nowUpdate)}
       />
 
       <Updator.Bottom
-        onMouseDown={() => onMouseDown('bottom')}
+        onMouseDown={(e) => onMouseDown(e, 'bottom')}
         onMouseUp={() => onMouseUp(nowUpdate)}
       />
 
       <Updator.Left
-        onMouseDown={() => onMouseDown('left')}
+        onMouseDown={(e) => onMouseDown(e, 'left')}
         onMouseUp={() => onMouseUp(nowUpdate)}
       />
 
       <Updator.TopLeftEdge
-        onMouseDown={() => onMouseDown('topLeft')}
+        onMouseDown={(e) => onMouseDown(e, 'topLeft')}
         onMouseUp={() => onMouseUp(nowUpdate)}
       />
       <Updator.TopRightEdge
-        onMouseDown={() => onMouseDown('topRight')}
+        onMouseDown={(e) => onMouseDown(e, 'topRight')}
         onMouseUp={() => onMouseUp(nowUpdate)}
       />
       <Updator.BottomRightEdge
-        onMouseDown={() => onMouseDown('bottomRight')}
+        onMouseDown={(e) => onMouseDown(e, 'bottomRight')}
         onMouseUp={() => onMouseUp(nowUpdate)}
       />
       <Updator.BottomLeftEdge
-        onMouseDown={() => onMouseDown('bottomLeft')}
+        onMouseDown={(e) => onMouseDown(e, 'bottomLeft')}
         onMouseUp={() => onMouseUp(nowUpdate)}
       />
     </>
