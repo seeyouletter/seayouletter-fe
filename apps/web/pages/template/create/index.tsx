@@ -98,8 +98,6 @@ export default function TemplateCreatePage() {
 
   const { addTask } = useTemplateTaskHistories();
 
-  const [scrollY, setScrollY] = useState(0);
-
   const {
     isCreating,
     disableCreating,
@@ -134,16 +132,6 @@ export default function TemplateCreatePage() {
     /* eslint-disable-next-line react-hooks/exhaustive-deps */
   }, []);
 
-  useEffect(() => {
-    window.addEventListener(
-      'scroll',
-      () => {
-        setScrollY(window.scrollY);
-      },
-      { passive: true }
-    );
-  }, []);
-
   const onMouseDown = (e: ReactMouseEvent) => {
     if (!isCreating) return;
 
@@ -171,7 +159,7 @@ export default function TemplateCreatePage() {
           : activedBlockGroup.id,
       width: blockCreationState.width + 'px',
       height: blockCreationState.height + 'px',
-      top: blockCreationState.top - +pageState.top + scrollY + 'px',
+      top: blockCreationState.top - +pageState.top + pageState.scrollY + 'px',
       left: blockCreationState.left - +pageState.left + 'px',
     });
 
@@ -264,7 +252,7 @@ export default function TemplateCreatePage() {
             left={blockCreationState.left - +pageState.left + 'px'}
           />
         )}
-        {blockGroupsTree && <NodeList listItems={blockGroupsTree}></NodeList>}
+        {blockGroupsTree && <NodeList depth={0} listItems={blockGroupsTree}></NodeList>}
       </ResizablePage>
     </DefaultBox>
   );

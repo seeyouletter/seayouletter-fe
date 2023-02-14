@@ -1,6 +1,6 @@
 import { atom } from 'jotai';
 
-import { BlockMembersType, Blocks, Groups } from 'ui';
+import { BlockMemberType, BlockMembersType, Blocks, Groups, IdType } from 'ui';
 
 export interface BlockGroupToggleStoreInterface {
   [id: string]: boolean;
@@ -11,21 +11,42 @@ export interface BlockGroupsStore {
   blocksStore: Record<string, Blocks>;
 }
 export interface BlockGroupsAtomInterface extends BlockGroupsStore {
-  activeId: string | null;
-  groupChildrenStore: Record<keyof BlockGroupsAtomInterface['groupsStore'], string[]>;
+  activeId: IdType;
+  activedBlockGroupDepth: number | null;
+  detail: BlockMemberType | null;
+  activeOrder: number | null;
+
+  hoverId: IdType;
+  hoveredBlockGroupDepth: number | null;
+
+  groupChildrenStore: Record<keyof BlockGroupsAtomInterface['groupsStore'], string[]>; // 하위 블록/그룹의 order을 쉽게 기억하기 위함.
   snapshots: BlockGroupsStore;
+
+  isMount: boolean;
 }
 
-export const blocksStateAtom = atom<BlockGroupsAtomInterface>({
+export const getInitialBlockState = () => ({
   activeId: null,
+  activedBlockGroupDepth: null,
+  detail: null,
+  activeOrder: null,
+
+  hoverId: null,
+  hoveredBlockGroupDepth: null,
+
   groupsStore: {},
   groupChildrenStore: {},
   blocksStore: {},
+
   snapshots: {
     blocksStore: {},
     groupsStore: {},
   },
+
+  isMount: false,
 });
+
+export const blocksStateAtom = atom<BlockGroupsAtomInterface>(getInitialBlockState());
 
 export const assembledBlockGroups = atom((get): BlockMembersType | null => {
   const blocksState = get(blocksStateAtom);
@@ -53,7 +74,7 @@ export const assembledBlockGroups = atom((get): BlockMembersType | null => {
   return result;
 });
 
-export const activedBlockGroupAtom = atom<Blocks | Groups | null>((get) => {
+export const activedBlockGroupAtom = atom<BlockMemberType | null>((get) => {
   const blockGroupState = get(blocksStateAtom);
 
   const activeId = blockGroupState.activeId;

@@ -1,12 +1,12 @@
 import React from 'react';
 
-import { DefaultBox, TextBlock } from 'ui';
+import { BlockGroupPriorities, DefaultBox, TextBlock } from 'ui';
 
-interface TextLeafPropsInterface {
+interface TextLeafPropsInterface extends BlockGroupPriorities {
   data: TextBlock;
 }
 
-export function TextLeaf({ data }: TextLeafPropsInterface) {
+export function TextLeaf({ data, depth, order }: TextLeafPropsInterface) {
   return (
     <DefaultBox
       as="p"
@@ -56,6 +56,9 @@ export function TextLeaf({ data }: TextLeafPropsInterface) {
         // stylelint-disable-next-line
         WebkitTextStrokeWidth: data.textStyle.textStroke,
       }}
+      userSelect="none"
+      data-order={order}
+      data-depth={depth}
     >
       {data.textContent}
     </DefaultBox>

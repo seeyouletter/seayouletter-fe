@@ -23,16 +23,20 @@ const StyledBlockContainer = styled.div<CommonStyledBlockInterface>`
 `;
 
 export function Block({
+  activeId,
+  hoverId,
   id,
   title,
   onBlockClick,
-  activeId,
+  onBlockHover,
   onUpdateTitle,
   depth,
+  order,
 }: BlockPropsInterface) {
   const theme = useTheme();
 
   const actived = activeId === id;
+  const hovered = hoverId === id;
 
   const {
     ref: contentEditableRef,
@@ -55,12 +59,13 @@ export function Block({
 
   return (
     <DefaultHStack
+      boxSizing="border-box"
       paddingLeft={`${depth * 20}px`}
       borderWidth="1px"
       backgroundColor={
         actived ? theme.color.layout.blockGroupToggle.activeBg : theme.color.transparent
       }
-      _hover={{ backgroundColor: theme.color.layout.blockGroupToggle.activeBg }}
+      border={hovered ? theme.border.primaryLight : theme.border.transparent}
     >
       <DefaultBox
         width="20px"
@@ -75,12 +80,13 @@ export function Block({
       <StyledBlockContainer
         depth={depth}
         ref={contentEditableRef}
-        onClick={(e: MouseEvent) => onBlockClick(e, { type: 'block', id })}
+        onClick={(e: MouseEvent) => onBlockClick(e, { type: 'block', id, depth, order })}
         contentEditable={titleEditable}
         onDoubleClick={onEdit}
         onBlur={onBlurTitle}
         onInput={onInputTitle}
-      ></StyledBlockContainer>
+        onMouseOver={(e: MouseEvent) => onBlockHover(e, { id, depth, order })}
+      />
     </DefaultHStack>
   );
 }

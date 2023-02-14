@@ -1,8 +1,8 @@
 import React from 'react';
 
-import { DefaultBox, ImageBlock } from 'ui';
+import { BlockGroupPriorities, DefaultBox, ImageBlock } from 'ui';
 
-interface ImageLeafPropsInterface {
+interface ImageLeafPropsInterface extends BlockGroupPriorities {
   data: ImageBlock;
 }
 
@@ -10,7 +10,7 @@ interface ImageLeafPropsInterface {
  * @todo
  * TODO: 추후 구체적으로 이미지 업로드 기능이 추가되면 구현한다.
  */
-export function ImageLeaf({ data }: ImageLeafPropsInterface) {
+export function ImageLeaf({ data, depth, order }: ImageLeafPropsInterface) {
   return (
     <DefaultBox
       position="absolute"
@@ -48,6 +48,8 @@ export function ImageLeaf({ data }: ImageLeafPropsInterface) {
       borderBottomRightRadius={data.style.borderRadius.bottomRight}
       borderBottomLeftRadius={data.style.borderRadius.bottomLeft}
       backgroundImage={data.image.imageUrl}
+      data-order={order}
+      data-depth={depth}
     />
   );
 }

@@ -1,4 +1,4 @@
-import { Blocks, Groups } from 'ui';
+import { BlockMemberType, Blocks, Groups } from 'ui';
 
 export interface BlockModifierFactoryPropsInterface {
   subType: Blocks['subType'];
@@ -21,5 +21,5 @@ export interface GroupModifierPropsInterface extends GroupModifierFactoryPropsIn
 }
 
 export interface BlockGroupModifierPropsInterface {
-  blockGroup: Blocks | Groups;
+  blockGroup: BlockMemberType;
 }

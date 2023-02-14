@@ -3,6 +3,7 @@ import { useAtom, useAtomValue } from 'jotai';
 import { activedBlockGroupAtom, blocksStateAtom } from '@atoms/index';
 
 import {
+  BlockGroupPriorities,
   BlockGroupType,
   Blocks,
   Border,
@@ -42,11 +43,76 @@ export const useBlockGroupsAtom = () => {
   /**
    * INFO: 공통 코드
    */
-  const setActiveId = (type: BlockGroupType, id: string) => {
+  const setActiveId = (
+    type: BlockGroupType,
+    id: string,
+    depth: BlockGroupPriorities['depth'],
+    order: BlockGroupPriorities['order']
+  ) => {
     setBlockGroupState((state) => ({
       ...state,
       activeId: id,
+      activedBlockGroupDepth: depth,
+      activeOrder: order,
       detail: (type === 'block' ? blockGroupState.blocksStore : blockGroupState.groupsStore)[id],
+    }));
+  };
+
+  const initializeActiveBlockGroup = () => {
+    setBlockGroupState((state) => ({
+      ...state,
+      activeId: null,
+      activedBlockGroupDepth: null,
+      activeOrder: null,
+      detail: null,
+    }));
+  };
+
+  const setHoverId = ({ id, depth, order }: { id: IdType } & BlockGroupPriorities) => {
+    if (id === null) return;
+
+    setBlockGroupState((state) => ({
+      ...state,
+      hoverId: id,
+      hoveredBlockGroupDepth: depth,
+      hoverOrder: order,
+    }));
+  };
+
+  const setNextActivedBlockGroup = ({
+    type,
+    id,
+    depth,
+    order,
+  }: {
+    type: BlockGroupType;
+    id: IdType;
+  } & BlockGroupPriorities) => {
+    if (id === null || activedBlockGroup === null || id === blockGroupState.activeId) {
+      return;
+    }
+
+    if (activedBlockGroup.type === 'group') {
+      if (activedBlockGroup.blocks.map((v) => v.id).includes(id)) {
+        if (blockGroupState.activedBlockGroupDepth === null) {
+          if (depth === 0) {
+            setActiveId(type, id, depth, order);
+          }
+        } else {
+          if (depth === blockGroupState.activedBlockGroupDepth + 1) {
+            setActiveId(type, id, depth, order);
+          }
+        }
+      }
+    }
+  };
+
+  const initializeHoverBlockGroup = () => {
+    setBlockGroupState((state) => ({
+      ...state,
+      hoverId: null,
+      hoveredBlockGroupDepth: null,
+      hoverOrder: null,
     }));
   };
 
@@ -167,6 +233,24 @@ export const useBlockGroupsAtom = () => {
   };
 
   /**
+   * @description
+   * 아직 toggleFalse는 만들지 않았다. 유즈케이스를 아직 떠올리지 못한 상황이기 때문이다.
+   * 추후 토글을 반드시 제거해야 되는 상황이 있다면 이를 고민해보자.
+   *
+   * @see: #71 (Block의 변경 로직을 구현한다)
+   */
+  const setToggleTrue = (id: string) => {
+    const parentId = blockGroupState.groupsStore[id].parent;
+
+    const nextState = {
+      ...blockGroupState.groupsStore[id],
+      toggled: true,
+    };
+
+    syncWithParentGroupBlocksState({ parentId, id, nextState });
+  };
+
+  /**
    * INFO: 블록 관련 코드
    */
 
@@ -185,19 +269,22 @@ export const useBlockGroupsAtom = () => {
     id: string;
     nextState: Blocks;
   }) => {
-    const nextBlocksStoreState = { ...blockGroupState.blocksStore, [id]: nextState };
-    const nextGroupsStoreState = { ...blockGroupState.groupsStore };
-
-    if (parentId) {
-      nextGroupsStoreState[parentId].blocks = nextGroupsStoreState[parentId].blocks.map((v) =>
-        v.id === id ? nextState : v
-      );
-    }
-
     setBlockGroupState((state) => ({
       ...state,
-      blocksStore: nextBlocksStoreState,
-      groupsStore: nextGroupsStoreState,
+      blocksStore: { ...state.blocksStore, [id]: nextState },
+      groupsStore: {
+        ...state.groupsStore,
+        ...(parentId
+          ? {
+              [parentId]: {
+                ...state.groupsStore[parentId],
+                blocks: state.groupsStore[parentId].blocks.map((v) =>
+                  v.id === id ? nextState : v
+                ),
+              },
+            }
+          : {}),
+      },
     }));
   };
 
@@ -229,13 +316,11 @@ export const useBlockGroupsAtom = () => {
   };
 
   const updateBlock = (block: Blocks) => {
-    setBlockGroupState((state) => ({
-      ...state,
-      blocksStore: {
-        ...state.blocksStore,
-        block,
-      },
-    }));
+    syncBlockStateWithParentGroupBlocks({
+      parentId: block.parent,
+      id: block.id,
+      nextState: block,
+    });
   };
 
   const deleteBlock = (block: Blocks) => {
@@ -246,6 +331,22 @@ export const useBlockGroupsAtom = () => {
       ...state,
       blocksStore: nextState,
     }));
+  };
+
+  const changeBlockState = (nextState: Blocks) => {
+    if (nextState.subType === 'text') {
+      syncBlockStateWithParentGroupBlocks({
+        parentId: nextState.parent,
+        id: nextState.id,
+        nextState,
+      });
+    } else {
+      syncBlockStateWithParentGroupBlocks({
+        parentId: nextState.parent,
+        id: nextState.id,
+        nextState,
+      });
+    }
   };
 
   const changeBlockStyle = <BlockType, Value>({
@@ -732,12 +833,24 @@ export const useBlockGroupsAtom = () => {
     blockGroupState,
     activedBlockGroup,
     activeId: blockGroupState.activeId,
+    hoverId: blockGroupState.hoverId,
+
+    changeBlockState,
+    changeBlockStyle,
 
     setGroupChildrenStore,
     setBlocks,
     setActiveId,
+    initializeActiveBlockGroup,
+
+    setNextActivedBlockGroup,
+
+    setHoverId,
+    initializeHoverBlockGroup,
+
     setTitle,
     setToggle,
+    setToggleTrue,
     setOrder,
 
     setPositionStyle,

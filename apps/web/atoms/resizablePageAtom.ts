@@ -6,6 +6,7 @@ export interface ResizablePageAtomState {
   top: string;
   left: string;
   scale: string;
+  scrollY: number;
 }
 
 export const resizablePageAtom = atom<ResizablePageAtomState>({
@@ -14,4 +15,5 @@ export const resizablePageAtom = atom<ResizablePageAtomState>({
   top: '0',
   left: '0',
   scale: '1',
+  scrollY: 0,
 });
