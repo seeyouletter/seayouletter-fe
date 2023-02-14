@@ -1,11 +1,15 @@
+export {
+  activedBlockGroupAtom,
+  assembledBlockGroups,
+  blocksStateAtom,
+  getInitialBlockState,
+} from './blockGroupsAtom';
 export type { BlockBorderStateAtomInterface } from './blockBorderAtom';
-export type { ResizablePageAtomState } from './resizablePageAtom';
-
-export { activedBlockGroupAtom, assembledBlockGroups, blocksStateAtom } from './blockGroupsAtom';
 export { blockBorderStateAtom, concurrentlyActivedSections } from './blockBorderAtom';
 
-export { toastAtom } from './toastAtom';
-
+export type { ResizablePageAtomState } from './resizablePageAtom';
 export { resizablePageAtom } from './resizablePageAtom';
 
 export { templateCreateToolbarAtom, initialBlockCreationState } from './templateCreateToolbarAtom';
+
+export { toastAtom } from './toastAtom';

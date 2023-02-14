@@ -1,19 +1,15 @@
 import React, { MouseEvent as ReactMouseEvent, useEffect, useRef, useState } from 'react';
 
-import { useBlockGroupsAtom } from '@hooks/useBlockGroupsAtom';
-import { useResizablePageAtom } from '@hooks/useResizablePageAtom';
-import { useTemplateTaskHistories } from '@hooks/useTemplateTaskHistories';
+import { useBlockGroupsAtom, useResizablePageAtom, useTemplateTaskHistories } from '@hooks/index';
 
 import { convertPxStringToNumber } from '@utils/typeConvert';
 
-import { DefaultBox, Position, ShapeBlock } from 'ui';
+import { BlockGroupPriorities, DefaultBox, Position, ShapeBlock } from 'ui';
 
 import { Updator } from './Updator';
 
-interface ShapeLeafPropsInterface {
+interface ShapeLeafPropsInterface extends BlockGroupPriorities {
   data: ShapeBlock;
-  depth: number;
-  order: number;
 }
 
 export function ShapeLeaf({ data, depth, order }: ShapeLeafPropsInterface) {

@@ -3,6 +3,7 @@ import { useAtom, useAtomValue } from 'jotai';
 import { activedBlockGroupAtom, blocksStateAtom } from '@atoms/index';
 
 import {
+  BlockGroupPriorities,
   BlockGroupType,
   Blocks,
   Border,
@@ -42,7 +43,12 @@ export const useBlockGroupsAtom = () => {
   /**
    * INFO: 공통 코드
    */
-  const setActiveId = (type: BlockGroupType, id: string, depth: number, order: number) => {
+  const setActiveId = (
+    type: BlockGroupType,
+    id: string,
+    depth: BlockGroupPriorities['depth'],
+    order: BlockGroupPriorities['order']
+  ) => {
     setBlockGroupState((state) => ({
       ...state,
       activeId: id,
@@ -62,7 +68,7 @@ export const useBlockGroupsAtom = () => {
     }));
   };
 
-  const setHoverId = ({ id, depth, order }: { id: IdType; depth: number; order: number }) => {
+  const setHoverId = ({ id, depth, order }: { id: IdType } & BlockGroupPriorities) => {
     if (id === null) return;
 
     setBlockGroupState((state) => ({
@@ -81,9 +87,7 @@ export const useBlockGroupsAtom = () => {
   }: {
     type: BlockGroupType;
     id: IdType;
-    depth: number;
-    order: number;
-  }) => {
+  } & BlockGroupPriorities) => {
     if (id === null || activedBlockGroup === null || id === blockGroupState.activeId) {
       return;
     }
@@ -228,6 +232,13 @@ export const useBlockGroupsAtom = () => {
     syncWithParentGroupBlocksState({ parentId, id, nextState });
   };
 
+  /**
+   * @description
+   * 아직 toggleFalse는 만들지 않았다. 유즈케이스를 아직 떠올리지 못한 상황이기 때문이다.
+   * 추후 토글을 반드시 제거해야 되는 상황이 있다면 이를 고민해보자.
+   *
+   * @see: #71 (Block의 변경 로직을 구현한다)
+   */
   const setToggleTrue = (id: string) => {
     const parentId = blockGroupState.groupsStore[id].parent;
 
@@ -305,21 +316,11 @@ export const useBlockGroupsAtom = () => {
   };
 
   const updateBlock = (block: Blocks) => {
-    if (block.parent === null) {
-      setBlockGroupState((state) => ({
-        ...state,
-        blocksStore: {
-          ...state.blocksStore,
-          [block.id]: block,
-        },
-      }));
-    } else {
-      syncBlockStateWithParentGroupBlocks({
-        parentId: block.parent,
-        id: block.id,
-        nextState: block,
-      });
-    }
+    syncBlockStateWithParentGroupBlocks({
+      parentId: block.parent,
+      id: block.id,
+      nextState: block,
+    });
   };
 
   const deleteBlock = (block: Blocks) => {

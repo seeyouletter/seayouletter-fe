@@ -6,14 +6,18 @@ import { Block } from './Block';
 
 /* eslint-disable-next-line import/no-cycle */
 import { BlockGroupWrapper } from './Wrapper';
-import { BlockEvents, BlockHoverEvent, ClickEventWithType, UpdateTitleEvent } from './types';
+import {
+  BlockEvents,
+  BlockGroupPriorities,
+  BlockHoverEvent,
+  ClickEventWithType,
+  UpdateTitleEvent,
+} from './types';
 
-interface BlockGroupMemberPropsInterface extends BlockEvents {
+interface BlockGroupMemberPropsInterface extends BlockEvents, BlockGroupPriorities {
   activeId: IdType;
   hoverId: IdType;
 
-  depth: number;
-  order: number;
   member: BlockMemberType;
 
   onBlockHover: BlockHoverEvent;

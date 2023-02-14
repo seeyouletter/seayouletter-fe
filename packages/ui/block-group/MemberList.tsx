@@ -5,13 +5,13 @@ import { BlockMembersType } from '@ui/types';
 
 /* eslint-disable-next-line import/no-cycle */
 import { MemberFactory } from './Member';
-import { BlockGroupWrapperPropsInterface } from './types';
+import { BlockGroupPriorities, BlockGroupWrapperPropsInterface } from './types';
 
 export interface BlockGroupMemberListPropsInterface {
   activeId: BlockGroupWrapperPropsInterface['activeId'];
   hoverId: BlockGroupWrapperPropsInterface['hoverId'];
 
-  depth: number;
+  depth: BlockGroupPriorities['depth'];
   members: BlockMembersType;
 
   actived: boolean;

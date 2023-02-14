@@ -1,11 +1,9 @@
 import React from 'react';
 
-import { DefaultBox, ImageBlock } from 'ui';
+import { BlockGroupPriorities, DefaultBox, ImageBlock } from 'ui';
 
-interface ImageLeafPropsInterface {
+interface ImageLeafPropsInterface extends BlockGroupPriorities {
   data: ImageBlock;
-  depth: number;
-  order: number;
 }
 
 /**

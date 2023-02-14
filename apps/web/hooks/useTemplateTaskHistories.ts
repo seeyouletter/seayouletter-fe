@@ -5,7 +5,7 @@ import { useEffect, useState } from 'react';
 
 import { CursorDirection, TransactionType } from '@models/index';
 
-import { Blocks, Groups } from 'ui';
+import { BlockMemberType } from 'ui';
 
 import { useBlockGroupsAtom } from './useBlockGroupsAtom';
 import { getTaskHistories, usePageDB } from './usePageDB';
@@ -31,8 +31,8 @@ type TaskType = 'create' | 'update' | 'delete';
 
 export interface TaskHistoryInterface {
   taskType: TaskType;
-  before: Blocks | Groups | null;
-  after: Blocks | Groups | null;
+  before: BlockMemberType | null;
+  after: BlockMemberType | null;
 }
 
 const initializeGarbageTasks = async (store: GarbageTasksDBStoreType) => {

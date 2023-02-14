@@ -1,11 +1,9 @@
 import React from 'react';
 
-import { DefaultBox, TextBlock } from 'ui';
+import { BlockGroupPriorities, DefaultBox, TextBlock } from 'ui';
 
-interface TextLeafPropsInterface {
+interface TextLeafPropsInterface extends BlockGroupPriorities {
   data: TextBlock;
-  depth: number;
-  order: number;
 }
 
 export function TextLeaf({ data, depth, order }: TextLeafPropsInterface) {

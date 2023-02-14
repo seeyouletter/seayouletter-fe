@@ -1,16 +1,14 @@
 import { PropsWithChildren } from 'react';
 
-import { BlockMemberType } from 'ui';
+import { BlockGroupPriorities, BlockMemberType } from 'ui';
 
 export interface NodeListPropsInterface {
-  depth: number;
+  depth: BlockGroupPriorities['depth'];
   listItems: BlockMemberType[];
 }
 
-export interface NodeItemFactoryPropsInterface {
-  depth: number;
+export interface NodeItemFactoryPropsInterface extends BlockGroupPriorities {
   item: BlockMemberType;
-  order: number;
 }
 
 export interface NodeItemPropsInterface extends NodeItemFactoryPropsInterface, PropsWithChildren {}

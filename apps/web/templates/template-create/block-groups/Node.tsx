@@ -2,7 +2,7 @@ import React, { MouseEvent } from 'react';
 
 import { useBlockGroupsAtom } from '@hooks/useBlockGroupsAtom';
 
-import { DefaultBox, Groups } from 'ui';
+import { BlockGroupPriorities, DefaultBox, Groups } from 'ui';
 
 /**
  * NOTE: 재귀적으로 블록을 렌더링하기 위해 설정했다.
@@ -11,10 +11,8 @@ import { DefaultBox, Groups } from 'ui';
 /* eslint-disable-next-line import/no-cycle */
 import { NodeList } from './NodeList';
 
-interface NodePropsInterface {
+interface NodePropsInterface extends BlockGroupPriorities {
   data: Groups;
-  depth: number;
-  order: number;
 }
 
 export function Node({ data, depth, order }: NodePropsInterface) {

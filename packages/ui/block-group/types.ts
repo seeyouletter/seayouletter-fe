@@ -4,17 +4,20 @@ import { BlockInterface, BlockMembersType, GroupInterface, IdType } from '@ui/ty
 
 export type ClickEvent = (e: MouseEvent, id: string) => void;
 
-interface BlockHoverEventParams {
-  id: IdType;
+export interface BlockGroupPriorities {
   depth: number;
   order: number;
+}
+
+interface BlockHoverEventParams extends BlockGroupPriorities {
+  id: IdType;
 }
 
 export type BlockHoverEvent = (e: MouseEvent, param: BlockHoverEventParams) => void;
 
 export type ClickEventWithType = (
   e: MouseEvent,
-  { type, id, depth, order }: { type: BlockGroupType; id: string; depth: number; order: number }
+  { type, id, depth, order }: { type: BlockGroupType; id: string } & BlockGroupPriorities
 ) => void;
 
 export type BlockGroupType = 'block' | 'group';
@@ -24,7 +27,7 @@ export type UpdateTitleEvent = (
   { type, id, title }: { type: BlockGroupType; id: string; title: string }
 ) => void;
 export interface CommonStyledBlockInterface {
-  depth: number;
+  depth: BlockGroupPriorities['depth'];
 }
 
 export interface StyledBlockGroupToggleTitleInterface {
@@ -46,10 +49,8 @@ export interface BlockEvents {
 export interface BlockGroupWrapperPropsInterface
   extends StyledBlockGroupToggleMarkerInterface,
     BlockEvents,
+    BlockGroupPriorities,
     GroupInterface {
-  depth: number;
-  order: number;
-
   blocks: BlockMembersType;
   activeId: IdType;
   hoverId: IdType;
@@ -57,9 +58,10 @@ export interface BlockGroupWrapperPropsInterface
   onGroupClick: ClickEventWithType;
 }
 
-export interface BlockPropsInterface extends BlockEvents, Omit<BlockInterface, 'style'> {
-  depth: number;
-  order: number;
+export interface BlockPropsInterface
+  extends BlockEvents,
+    BlockGroupPriorities,
+    Omit<BlockInterface, 'style'> {
   activeId: IdType;
   hoverId: IdType;
 }

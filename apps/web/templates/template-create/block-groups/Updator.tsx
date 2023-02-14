@@ -2,9 +2,7 @@ import React, { useEffect, useState } from 'react';
 
 import { useTheme } from '@emotion/react';
 
-import { useBlockGroupsAtom } from '@hooks/useBlockGroupsAtom';
-import { useResizablePageAtom } from '@hooks/useResizablePageAtom';
-import { useTemplateTaskHistories } from '@hooks/useTemplateTaskHistories';
+import { useBlockGroupsAtom, useResizablePageAtom, useTemplateTaskHistories } from '@hooks/index';
 
 import { convertPxStringToNumber } from '@utils/index';
 
