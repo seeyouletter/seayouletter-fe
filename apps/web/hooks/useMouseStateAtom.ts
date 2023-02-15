@@ -4,7 +4,7 @@ import { useAtom } from 'jotai';
 
 import { mouseStateAtom } from '@atoms/index';
 
-import { throttle } from '@utils/throttle';
+import { throttle } from '@utils/index';
 
 export const useMouseStateAtom = () => {
   const [mouseState, setMouseState] = useAtom(mouseStateAtom);
