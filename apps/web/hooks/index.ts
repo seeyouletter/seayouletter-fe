@@ -14,3 +14,6 @@ export { useTemplateTaskHistories } from './useTemplateTaskHistories';
 export { usePageDB, getTaskHistories } from './usePageDB';
 
 export { useMouseStateAtom } from './useMouseStateAtom';
+
+/* eslint-disable-next-line import/no-cycle */
+export { useSearchActiveBlockGroup } from './useSearchActiveBlockGroup';

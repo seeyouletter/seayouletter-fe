@@ -1,7 +1,6 @@
 import React from 'react';
 
-import { useBlockGroupMove, useBlockGroupsAtom } from '@hooks/index';
-import { useSearchActiveBlockGroup } from '@hooks/useSearchActiveBlockGroup';
+import { useBlockGroupMove, useBlockGroupsAtom, useSearchActiveBlockGroup } from '@hooks/index';
 
 import { BlockGroupPriorities, DefaultBox, ShapeBlock } from 'ui';
 
