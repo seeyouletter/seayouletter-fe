@@ -7,22 +7,27 @@ import { MouseEvent as ReactMouseEvent, useEffect, useRef, useState } from 'reac
 
 import { convertPxStringToNumber } from '@utils/index';
 
-import { BlockGroupPriorities, Blocks, Position } from 'ui';
+import { Position } from 'ui';
 
+import { UseLeafParams } from './types';
 import { useBlockGroupsAtom } from './useBlockGroupsAtom';
+import { useMouseStateAtom } from './useMouseStateAtom';
 import { useResizablePageAtom } from './useResizablePageAtom';
 import { useTemplateTaskHistories } from './useTemplateTaskHistories';
 
-interface UseBlockMoveParams<T = Blocks> extends BlockGroupPriorities {
-  data: T;
-}
-export const useBlockGroupMove = ({ data, depth, order }: UseBlockMoveParams) => {
+export const useBlockGroupMove = ({ data }: { data: UseLeafParams['data'] }) => {
   const { pageState } = useResizablePageAtom();
+  const { mouseState, activeMouseMove, inactiveMouseMove } = useMouseStateAtom();
 
   const { addTask } = useTemplateTaskHistories();
 
-  const { setActiveId, changeBlockState } = useBlockGroupsAtom();
+  const { changeBlockState } = useBlockGroupsAtom();
 
+  /**
+   * @description
+   * 얼핏 mouseState와 중복처럼 보이지만, 각개 블록들이 움직일 수 있는지에 대한 상태이기 때문에 반드시 있어야 한다.
+   * 반면 mouseState는 전역에서 mouseMove 이벤트를 반영할지를 결정하여 최적화를 실행시킨다.
+   */
   const [isPossibleMove, setIsPossibleMove] = useState(false);
 
   const [lastOffset, setLastOffset] = useState({
@@ -36,8 +41,8 @@ export const useBlockGroupMove = ({ data, depth, order }: UseBlockMoveParams) =>
   });
 
   const onMouseDown = (e: ReactMouseEvent) => {
-    setActiveId('block', data.id, depth, order);
     const { clientX, clientY } = e;
+    activeMouseMove(clientX, clientY);
 
     setLastOffset((state) => ({
       ...state,
@@ -57,12 +62,11 @@ export const useBlockGroupMove = ({ data, depth, order }: UseBlockMoveParams) =>
   useEffect(() => {
     if (!boxRef.current) return;
 
-    const mouseDownHandler = (e: MouseEvent) => {
-      if (!isPossibleMove) return;
+    const mouseMoveHandler = () => {
+      if (!isPossibleMove || !mouseState.moveActived) return;
 
-      const { clientX, clientY } = e;
-      const nowLeft = clientX - +pageState.left - lastOffset.left;
-      const nowTop = pageState.scrollY - +pageState.top + clientY - lastOffset.top;
+      const nowLeft = mouseState.x - +pageState.left - lastOffset.left;
+      const nowTop = pageState.scrollY - +pageState.top + mouseState.y - lastOffset.top;
 
       updatedPosition.current.left = nowLeft + 'px';
       updatedPosition.current.top = nowTop + 'px';
@@ -94,18 +98,26 @@ export const useBlockGroupMove = ({ data, depth, order }: UseBlockMoveParams) =>
       }
     };
 
-    window.addEventListener('mousemove', mouseDownHandler, {
+    window.addEventListener('scroll', mouseMoveHandler, {
+      passive: true,
+    });
+
+    window.addEventListener('mousemove', mouseMoveHandler, {
       passive: true,
     });
 
     return () => {
-      window.removeEventListener('mousemove', mouseDownHandler);
+      window.removeEventListener('mousemove', mouseMoveHandler);
+      window.removeEventListener('scroll', mouseMoveHandler);
     };
 
-    /* eslint-disable-next-line */
-  }, [boxRef, isPossibleMove]);
+    /* eslint-disable-next-line react-hooks/exhaustive-deps */
+  }, [boxRef, isPossibleMove, pageState.scrollY, mouseState]);
 
   const onMouseUp = () => {
+    setIsPossibleMove(() => false);
+    inactiveMouseMove();
+
     if (!updatedPosition.current.left || !updatedPosition.current.top) return;
 
     if (isPossibleMove) {
@@ -146,8 +158,6 @@ export const useBlockGroupMove = ({ data, depth, order }: UseBlockMoveParams) =>
       updatedPosition.current.top = null;
       updatedPosition.current.left = null;
     }
-
-    setIsPossibleMove(() => false);
   };
 
   return {

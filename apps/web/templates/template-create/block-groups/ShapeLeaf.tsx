@@ -1,6 +1,7 @@
-import React, { MouseEvent as ReactMouseEvent } from 'react';
+import React from 'react';
 
 import { useBlockGroupMove, useBlockGroupsAtom } from '@hooks/index';
+import { useSearchActiveBlockGroup } from '@hooks/useSearchActiveBlockGroup';
 
 import { BlockGroupPriorities, DefaultBox, ShapeBlock } from 'ui';
 
@@ -13,28 +14,13 @@ interface ShapeLeafPropsInterface extends BlockGroupPriorities {
 export function ShapeLeaf({ data, depth, order }: ShapeLeafPropsInterface) {
   const { activeId, setHoverId, initializeHoverBlockGroup } = useBlockGroupsAtom();
 
-  const { setActiveId, setNextActivedBlockGroup, setToggleTrue } = useBlockGroupsAtom();
+  const { onActiveTarget, onSearchNextTarget } = useSearchActiveBlockGroup<ShapeBlock>({
+    data,
+    depth,
+    order,
+  });
 
-  /**
-   * @see: feat(component): set click event to active block or group
-   */
-  const onClickLeaf = (e: ReactMouseEvent) => {
-    e.stopPropagation();
-    setActiveId('block', data.id, depth, order);
-  };
-
-  const { boxRef, onMouseDown, onMouseUp } = useBlockGroupMove({ data, depth, order });
-
-  /**
-   * @see: feat(component): set click event to active block or group
-   */
-  const onDoubleClickLeaf = (e: ReactMouseEvent) => {
-    e.stopPropagation();
-    setNextActivedBlockGroup({ type: 'group', id: data.id, depth, order });
-    if (data.parent) {
-      setToggleTrue(data.parent);
-    }
-  };
+  const { boxRef, onMouseDown, onMouseUp } = useBlockGroupMove({ data });
 
   return (
     <DefaultBox
@@ -76,10 +62,10 @@ export function ShapeLeaf({ data, depth, order }: ShapeLeafPropsInterface) {
       data-order={order}
       onMouseOver={() => setHoverId({ id: data.id, depth, order })}
       onMouseLeave={() => initializeHoverBlockGroup()}
-      onClick={onClickLeaf}
+      onClick={onActiveTarget}
       onMouseDown={onMouseDown}
       onMouseUp={onMouseUp}
-      onDoubleClick={onDoubleClickLeaf}
+      onDoubleClick={onSearchNextTarget}
     >
       {activeId === data.id && <Updator item={data} />}
     </DefaultBox>
