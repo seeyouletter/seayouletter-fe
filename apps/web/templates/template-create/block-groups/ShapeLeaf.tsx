@@ -1,10 +1,8 @@
-import React, { MouseEvent as ReactMouseEvent, useEffect, useRef, useState } from 'react';
+import React from 'react';
 
-import { useBlockGroupsAtom, useResizablePageAtom, useTemplateTaskHistories } from '@hooks/index';
+import { useBlockGroupMove, useBlockGroupsAtom, useSearchActiveBlockGroup } from '@hooks/index';
 
-import { convertPxStringToNumber } from '@utils/typeConvert';
-
-import { BlockGroupPriorities, DefaultBox, Position, ShapeBlock } from 'ui';
+import { BlockGroupPriorities, DefaultBox, ShapeBlock } from 'ui';
 
 import { Updator } from './Updator';
 
@@ -13,128 +11,15 @@ interface ShapeLeafPropsInterface extends BlockGroupPriorities {
 }
 
 export function ShapeLeaf({ data, depth, order }: ShapeLeafPropsInterface) {
-  const { activeId, setHoverId, initializeHoverBlockGroup, changeBlockState } =
-    useBlockGroupsAtom();
+  const { activeId, setHoverId, initializeHoverBlockGroup } = useBlockGroupsAtom();
 
-  const { setActiveId, setNextActivedBlockGroup, setToggleTrue } = useBlockGroupsAtom();
-
-  const [isPossibleMove, setIsPossibleMove] = useState(false);
-
-  const [lastOffset, setLastOffset] = useState({
-    top: 0,
-    left: 0,
+  const { onActiveTarget, onSearchNextTarget } = useSearchActiveBlockGroup<ShapeBlock>({
+    data,
+    depth,
+    order,
   });
 
-  const updatedPosition = useRef<{ top: Position['top'] | null; left: Position['left'] | null }>({
-    top: null,
-    left: null,
-  });
-
-  const { pageState } = useResizablePageAtom();
-
-  const { addTask } = useTemplateTaskHistories();
-  /**
-   * @see: feat(component): set click event to active block or group
-   */
-  const onClickLeaf = (e: ReactMouseEvent) => {
-    e.stopPropagation();
-    setActiveId('block', data.id, depth, order);
-    setIsPossibleMove(() => false);
-  };
-
-  const onMouseDown = (e: ReactMouseEvent) => {
-    setActiveId('block', data.id, depth, order);
-    const { clientX, clientY } = e;
-
-    setLastOffset((state) => ({
-      ...state,
-      left: clientX - +pageState.left - convertPxStringToNumber(data.style.position.left),
-      top:
-        pageState.scrollY -
-        +pageState.top +
-        clientY -
-        convertPxStringToNumber(data.style.position.top),
-    }));
-
-    setIsPossibleMove(() => true);
-  };
-
-  const boxRef = useRef<HTMLDivElement | null>(null);
-
-  useEffect(() => {
-    if (!boxRef.current) return;
-
-    const mouseDownHandler = (e: MouseEvent) => {
-      if (!isPossibleMove) return;
-
-      const { clientX, clientY } = e;
-      const nowLeft = clientX - +pageState.left - lastOffset.left;
-      const nowTop = pageState.scrollY - +pageState.top + clientY - lastOffset.top;
-
-      updatedPosition.current.left = nowLeft + 'px';
-      updatedPosition.current.top = nowTop + 'px';
-
-      changeBlockState({
-        ...data,
-        style: {
-          ...data.style,
-          position: {
-            ...data.style.position,
-            left: nowLeft + 'px',
-            top: nowTop + 'px',
-          },
-        },
-      });
-    };
-
-    window.addEventListener('mousemove', mouseDownHandler, {
-      passive: true,
-    });
-
-    return () => {
-      window.removeEventListener('mousemove', mouseDownHandler);
-    };
-
-    /* eslint-disable-next-line */
-  }, [boxRef, isPossibleMove]);
-
-  const onMouseUp = () => {
-    if (!updatedPosition.current.left || !updatedPosition.current.top) return;
-
-    if (isPossibleMove) {
-      addTask({
-        taskType: 'update',
-        before: data,
-        after: {
-          ...data,
-          style: {
-            ...data.style,
-            position: {
-              ...data.style.position,
-              left: updatedPosition.current.left,
-              top: updatedPosition.current.top,
-            },
-          },
-        },
-      });
-
-      updatedPosition.current.top = null;
-      updatedPosition.current.left = null;
-    }
-
-    setIsPossibleMove(() => false);
-  };
-
-  /**
-   * @see: feat(component): set click event to active block or group
-   */
-  const onDoubleClickLeaf = (e: ReactMouseEvent) => {
-    e.stopPropagation();
-    setNextActivedBlockGroup({ type: 'group', id: data.id, depth, order });
-    if (data.parent) {
-      setToggleTrue(data.parent);
-    }
-  };
+  const { boxRef, onMouseDown, onMouseUp } = useBlockGroupMove({ data });
 
   return (
     <DefaultBox
@@ -176,10 +61,10 @@ export function ShapeLeaf({ data, depth, order }: ShapeLeafPropsInterface) {
       data-order={order}
       onMouseOver={() => setHoverId({ id: data.id, depth, order })}
       onMouseLeave={() => initializeHoverBlockGroup()}
-      onClick={onClickLeaf}
+      onClick={onActiveTarget}
       onMouseDown={onMouseDown}
       onMouseUp={onMouseUp}
-      onDoubleClick={onDoubleClickLeaf}
+      onDoubleClick={onSearchNextTarget}
     >
       {activeId === data.id && <Updator item={data} />}
     </DefaultBox>

@@ -336,12 +336,25 @@ export const useBlockGroupsAtom = () => {
   const deleteBlock = (block: Blocks) => {
     setBlockGroupState((state) => {
       const nextState = { ...state.blocksStore };
-
       delete nextState[block.id];
+
+      const parentId = block.parent;
+      const parentState = parentId ? state.groupsStore[parentId] : null;
 
       return {
         ...state,
         blocksStore: nextState,
+        groupsStore: {
+          ...state.groupsStore,
+          ...(parentId && parentState
+            ? {
+                [parentId]: {
+                  ...parentState,
+                  blocks: parentState.blocks.filter((v) => v.id !== block.id),
+                },
+              }
+            : {}),
+        },
       };
     });
   };

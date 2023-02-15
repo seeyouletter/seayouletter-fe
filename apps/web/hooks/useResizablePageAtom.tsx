@@ -4,6 +4,8 @@ import { useAtom } from 'jotai';
 
 import { resizablePageAtom } from '@atoms/index';
 
+import { throttle } from '@utils/index';
+
 import { SizeType } from 'ui';
 
 interface UseResizablePageParams {
@@ -54,12 +56,12 @@ export const useResizablePageAtom = () => {
   };
 
   useEffect(() => {
-    const scrollHandler = () => {
+    const scrollHandler = throttle(() => {
       setResizablePageState((state) => ({
         ...state,
         scrollY: window.scrollY,
       }));
-    };
+    }, 20);
 
     window.addEventListener('scroll', scrollHandler, { passive: true });
 

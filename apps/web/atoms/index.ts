@@ -13,3 +13,5 @@ export { resizablePageAtom } from './resizablePageAtom';
 export { templateCreateToolbarAtom, initialBlockCreationState } from './templateCreateToolbarAtom';
 
 export { toastAtom } from './toastAtom';
+
+export { mouseStateAtom } from './mouseStateAtom';
