@@ -10,3 +10,5 @@ export { usePageDB, getTaskHistories } from './usePageDB';
 
 /* eslint-disable-next-line import/no-cycle */
 export { useTemplateTaskHistories } from './useTemplateTaskHistories';
+
+export { useBlockGroupMove } from './useBlockGroupMove';
