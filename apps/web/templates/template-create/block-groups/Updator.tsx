@@ -273,7 +273,7 @@ export function Updator({ item }: { item: NodeItemPropsInterface['item'] }) {
       }
     };
 
-    window.addEventListener('mousemove', lineTopMouseMoveHandler, { passive: true });
+    window.addEventListener('mousemove', lineTopMouseMoveHandler);
 
     return () => {
       window.removeEventListener('mousemove', lineTopMouseMoveHandler);
@@ -405,24 +405,42 @@ export function Updator({ item }: { item: NodeItemPropsInterface['item'] }) {
     /* eslint-disable-next-line */
   }, [isUpdating]);
 
+  const getNextFromRight = (x: number) => {
+    if (activedBlockGroup === null || activedBlockGroup.type === 'group') {
+      return {
+        nextLeft: 0,
+        nextRight: 0,
+      };
+    }
+
+    const activedBlockLeft = convertPxStringToNumber(activedBlockGroup.style.position.left);
+    const nowRight = x - +pageState.left;
+
+    const isReversed = nowRight < activedBlockLeft;
+
+    return {
+      nextLeft: isReversed ? nowRight : activedBlockLeft,
+      nextRight: isReversed ? activedBlockLeft : nowRight,
+    };
+  };
+
   useEffect(() => {
     const lineRightMouseMoveHandler = (e: MouseEvent) => {
-      if (activedBlockGroup === null || activedBlockGroup.type !== 'block') return;
+      if (activedBlockGroup === null || activedBlockGroup.type === 'group') return;
       if (!isUpdating.right) return;
 
+      /**
+       * @inner
+       * useMouseStateAtom으로 하지 않는 이유는, 현재 이벤트에서 가져오는 값이 훨씬 속도가 빠르기 때문이다.
+       * throttle을 제거하더라도, mouseMove의 변수를 가져오는 속도는 생각보다 느리다.
+       * 전역 상태의 값을 찾아야 하기 때문이다.
+       *
+       * 반면 해당 작업은 유저가 세밀하게 작업하기 때문에 속도에 대한 역치가 상당히 낮다.
+       * 따라서 어쩔 수 없이 리플로우를 유발하더라도 사용한다.
+       */
       const { clientX } = e;
 
-      const activedBlockLeft = convertPxStringToNumber(activedBlockGroup.style.position.left);
-
-      const pageLeft = +pageState.left;
-
-      const nowRight = clientX - pageLeft;
-
-      const isReversed = nowRight < activedBlockLeft;
-
-      const nextLeft = isReversed ? nowRight : activedBlockLeft;
-      const nextRight = isReversed ? activedBlockLeft : nowRight;
-
+      const { nextLeft, nextRight } = getNextFromRight(clientX);
       const nextWidth = nextRight - nextLeft;
 
       const nextSize = {

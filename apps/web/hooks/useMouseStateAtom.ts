@@ -2,23 +2,30 @@ import { useEffect } from 'react';
 
 import { useAtom } from 'jotai';
 
-import { mouseStateAtom } from '@atoms/index';
+import { MouseStateAtomInterface, mouseStateAtom } from '@atoms/index';
 
 import { throttle } from '@utils/index';
 
 export const useMouseStateAtom = () => {
   const [mouseState, setMouseState] = useAtom(mouseStateAtom);
 
-  const activeMouseMove = (x: number, y: number) => {
-    setMouseState(() => ({
+  const activeMouseMove = (
+    x: number,
+    y: number,
+    options: Pick<MouseStateAtomInterface, 'throttle'>
+  ) => {
+    setMouseState((state) => ({
+      ...state,
       moveActived: true,
       x,
       y,
+      ...options,
     }));
   };
 
   const inactiveMouseMove = () => {
-    setMouseState(() => ({
+    setMouseState((state) => ({
+      ...state,
       moveActived: false,
       x: 0,
       y: 0,
@@ -26,7 +33,7 @@ export const useMouseStateAtom = () => {
   };
 
   useEffect(() => {
-    const mouseMoveHandler = throttle((e: MouseEvent) => {
+    const mouseMoveHandler = (e: MouseEvent) => {
       const { clientX, clientY } = e;
 
       setMouseState((state) => ({
@@ -34,10 +41,14 @@ export const useMouseStateAtom = () => {
         x: clientX,
         y: clientY,
       }));
-    }, 20);
+    };
 
     if (mouseState.moveActived) {
-      document.body.addEventListener('mousemove', mouseMoveHandler);
+      document.body.addEventListener(
+        'mousemove',
+        mouseState.throttle ? throttle(mouseMoveHandler, 10) : mouseMoveHandler,
+        { passive: true }
+      );
     }
 
     return () => {
