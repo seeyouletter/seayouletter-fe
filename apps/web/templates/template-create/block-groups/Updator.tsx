@@ -222,6 +222,28 @@ export function Updator({ item }: { item: NodeItemPropsInterface['item'] }) {
     setNowUpdate(() => null);
   };
 
+  const getNextFromTop = (y: number): { nextTop: number; nextBottom: number } => {
+    if (activedBlockGroup === null || activedBlockGroup.type !== 'block') {
+      return {
+        nextTop: 0,
+        nextBottom: 0,
+      };
+    }
+
+    const activedBlockTop = convertPxStringToNumber(activedBlockGroup.style.position.top);
+    const activedBlockHeight = convertPxStringToNumber(activedBlockGroup.style.size.height);
+
+    const nextTop = y - +pageState.top + pageState.scrollY;
+    const nextBottom = activedBlockHeight + activedBlockTop;
+
+    const isReversed = nextTop > nextBottom;
+
+    return {
+      nextTop: isReversed ? nextBottom : nextTop,
+      nextBottom: isReversed ? nextTop : nextBottom,
+    };
+  };
+
   useEffect(() => {
     const lineTopMouseMoveHandler = (e: MouseEvent) => {
       if (activedBlockGroup === null || activedBlockGroup.type !== 'block') return;
@@ -229,23 +251,17 @@ export function Updator({ item }: { item: NodeItemPropsInterface['item'] }) {
 
       const { clientY } = e;
 
-      const activedBlockTop = convertPxStringToNumber(activedBlockGroup.style.position.top);
-      const activedBlockHeight = convertPxStringToNumber(activedBlockGroup.style.size.height);
-      const activedBlockBottom = activedBlockTop + activedBlockHeight;
-
-      const nextTop = clientY - +pageState.top + pageState.scrollY;
-      const nextHeight = activedBlockHeight + activedBlockTop - nextTop;
-
-      const isReversed = nextTop > activedBlockBottom;
+      const { nextTop, nextBottom } = getNextFromTop(clientY);
+      const nextHeight = nextBottom - nextTop;
 
       const nextPosition = {
         ...activedBlockGroup.style.position,
-        top: (isReversed ? activedBlockBottom : nextTop) + 'px',
+        top: nextTop + 'px',
       };
 
       const nextSize = {
         ...activedBlockGroup.style.size,
-        height: (isReversed ? nextTop - activedBlockBottom : nextHeight) + 'px',
+        height: nextHeight + 'px',
       };
 
       if (activedBlockGroup.subType !== 'text') {
@@ -405,7 +421,7 @@ export function Updator({ item }: { item: NodeItemPropsInterface['item'] }) {
     /* eslint-disable-next-line */
   }, [isUpdating]);
 
-  const getNextFromRight = (x: number) => {
+  const getNextFromRight = (x: number): { nextLeft: number; nextRight: number } => {
     if (activedBlockGroup === null || activedBlockGroup.type === 'group') {
       return {
         nextLeft: 0,
