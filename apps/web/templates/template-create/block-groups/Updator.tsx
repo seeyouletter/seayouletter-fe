@@ -298,6 +298,25 @@ export function Updator({ item }: { item: NodeItemPropsInterface['item'] }) {
     /* eslint-disable-next-line */
   }, [isUpdating]);
 
+  const getNextFromBottom = (y: number) => {
+    if (activedBlockGroup === null || activedBlockGroup.type !== 'block') {
+      return {
+        nextTop: 0,
+        nextBottom: 0,
+      };
+    }
+    const nextTop = convertPxStringToNumber(activedBlockGroup.style.position.top);
+
+    const nextBottom = y + pageState.scrollY - +pageState.top;
+
+    const isReversed = nextBottom < nextTop;
+
+    return {
+      nextTop: isReversed ? nextBottom : nextTop,
+      nextBottom: isReversed ? nextTop : nextBottom,
+    };
+  };
+
   useEffect(() => {
     const lineBottomMouseMoveHandler = (e: MouseEvent) => {
       if (activedBlockGroup === null || activedBlockGroup.type !== 'block') return;
@@ -305,20 +324,16 @@ export function Updator({ item }: { item: NodeItemPropsInterface['item'] }) {
 
       const { clientY } = e;
 
-      const activedBlockTop = convertPxStringToNumber(activedBlockGroup.style.position.top);
-
-      const nextHeight = clientY + pageState.scrollY - +pageState.top - activedBlockTop;
-
-      const isReversed = nextHeight < 0;
+      const { nextTop, nextBottom } = getNextFromBottom(clientY);
 
       const nextPosition = {
         ...activedBlockGroup.style.position,
-        top: (isReversed ? activedBlockTop + nextHeight : activedBlockTop) + 'px',
+        top: nextTop + 'px',
       };
 
       const nextSize = {
         ...activedBlockGroup.style.size,
-        height: (isReversed ? -1 : 1) * nextHeight + 'px',
+        height: nextBottom - nextTop + 'px',
       };
 
       if (activedBlockGroup.subType !== 'text') {
