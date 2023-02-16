@@ -244,6 +244,71 @@ export function Updator({ item }: { item: NodeItemPropsInterface['item'] }) {
     };
   };
 
+  const getNextFromRight = (x: number): { nextLeft: number; nextRight: number } => {
+    if (activedBlockGroup === null || activedBlockGroup.type === 'group') {
+      return {
+        nextLeft: 0,
+        nextRight: 0,
+      };
+    }
+
+    const activedBlockLeft = convertPxStringToNumber(activedBlockGroup.style.position.left);
+    const nowRight = x - +pageState.left;
+
+    const isReversed = nowRight < activedBlockLeft;
+
+    return {
+      nextLeft: isReversed ? nowRight : activedBlockLeft,
+      nextRight: isReversed ? activedBlockLeft : nowRight,
+    };
+  };
+
+  const getNextFromBottom = (y: number): { nextTop: number; nextBottom: number } => {
+    if (activedBlockGroup === null || activedBlockGroup.type !== 'block') {
+      return {
+        nextTop: 0,
+        nextBottom: 0,
+      };
+    }
+    const nextTop = convertPxStringToNumber(activedBlockGroup.style.position.top);
+
+    const nextBottom = y + pageState.scrollY - +pageState.top;
+
+    const isReversed = nextBottom < nextTop;
+
+    return {
+      nextTop: isReversed ? nextBottom : nextTop,
+      nextBottom: isReversed ? nextTop : nextBottom,
+    };
+  };
+
+  const getNextFromLeft = (x: number): { nextLeft: number; nextRight: number } => {
+    if (activedBlockGroup === null || activedBlockGroup.type !== 'block') {
+      return {
+        nextLeft: 0,
+        nextRight: 0,
+      };
+    }
+
+    const activedBlockLeft = convertPxStringToNumber(activedBlockGroup.style.position.left);
+    const activedBlockWidth = convertPxStringToNumber(activedBlockGroup.style.size.width);
+    const activedRightLineFromLeft = activedBlockWidth + activedBlockLeft;
+
+    const pageLeft = +pageState.left;
+
+    const nowLeft = x - pageLeft;
+
+    const isReversed = nowLeft > activedRightLineFromLeft;
+
+    const nextLeft = isReversed ? activedRightLineFromLeft : nowLeft;
+    const nextRight = isReversed ? nowLeft : activedRightLineFromLeft;
+
+    return {
+      nextLeft,
+      nextRight,
+    };
+  };
+
   useEffect(() => {
     const lineTopMouseMoveHandler = (e: MouseEvent) => {
       if (activedBlockGroup === null || activedBlockGroup.type !== 'block') return;
@@ -297,25 +362,6 @@ export function Updator({ item }: { item: NodeItemPropsInterface['item'] }) {
 
     /* eslint-disable-next-line */
   }, [isUpdating]);
-
-  const getNextFromBottom = (y: number) => {
-    if (activedBlockGroup === null || activedBlockGroup.type !== 'block') {
-      return {
-        nextTop: 0,
-        nextBottom: 0,
-      };
-    }
-    const nextTop = convertPxStringToNumber(activedBlockGroup.style.position.top);
-
-    const nextBottom = y + pageState.scrollY - +pageState.top;
-
-    const isReversed = nextBottom < nextTop;
-
-    return {
-      nextTop: isReversed ? nextBottom : nextTop,
-      nextBottom: isReversed ? nextTop : nextBottom,
-    };
-  };
 
   useEffect(() => {
     const lineBottomMouseMoveHandler = (e: MouseEvent) => {
@@ -377,18 +423,7 @@ export function Updator({ item }: { item: NodeItemPropsInterface['item'] }) {
 
       const { clientX } = e;
 
-      const activedBlockLeft = convertPxStringToNumber(activedBlockGroup.style.position.left);
-      const activedBlockWidth = convertPxStringToNumber(activedBlockGroup.style.size.width);
-      const activedRightLineFromLeft = activedBlockWidth + activedBlockLeft;
-
-      const pageLeft = +pageState.left;
-
-      const nowLeft = clientX - pageLeft;
-
-      const isReversed = nowLeft > activedRightLineFromLeft;
-
-      const nextLeft = isReversed ? activedRightLineFromLeft : nowLeft;
-      const nextRight = isReversed ? nowLeft : activedRightLineFromLeft;
+      const { nextLeft, nextRight } = getNextFromLeft(clientX);
 
       const nextWidth = nextRight - nextLeft;
 
@@ -435,25 +470,6 @@ export function Updator({ item }: { item: NodeItemPropsInterface['item'] }) {
 
     /* eslint-disable-next-line */
   }, [isUpdating]);
-
-  const getNextFromRight = (x: number): { nextLeft: number; nextRight: number } => {
-    if (activedBlockGroup === null || activedBlockGroup.type === 'group') {
-      return {
-        nextLeft: 0,
-        nextRight: 0,
-      };
-    }
-
-    const activedBlockLeft = convertPxStringToNumber(activedBlockGroup.style.position.left);
-    const nowRight = x - +pageState.left;
-
-    const isReversed = nowRight < activedBlockLeft;
-
-    return {
-      nextLeft: isReversed ? nowRight : activedBlockLeft,
-      nextRight: isReversed ? activedBlockLeft : nowRight,
-    };
-  };
 
   useEffect(() => {
     const lineRightMouseMoveHandler = (e: MouseEvent) => {
