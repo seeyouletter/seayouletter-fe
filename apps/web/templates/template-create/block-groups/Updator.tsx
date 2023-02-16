@@ -541,31 +541,11 @@ export function Updator({ item }: { item: NodeItemPropsInterface['item'] }) {
     const edgesBottomLeftMouseMoveHandler = (e: MouseEvent) => {
       const { clientX, clientY } = e;
 
-      const activedBlockTop = convertPxStringToNumber(activedBlockGroup.style.position.top);
-      const activedBlockLeft = convertPxStringToNumber(activedBlockGroup.style.position.left);
-      const activedBlockWidth = convertPxStringToNumber(activedBlockGroup.style.size.width);
-      const activedBlocHeight = convertPxStringToNumber(activedBlockGroup.style.size.height);
-      const activedBlockRightLineFromLeft = activedBlockLeft + activedBlockWidth;
-      const activedBlockBottomLineFromTop = activedBlockTop + activedBlocHeight;
+      const { nextTop, nextBottom } = getNextFromTop(clientY);
+      const { nextLeft, nextRight } = getNextFromLeft(clientX);
 
-      const pageScrollY = pageState.scrollY;
-      const pageTop = +pageState.top;
-      const pageLeft = +pageState.left;
-
-      const nowTop = pageScrollY - pageTop + clientY;
-      const nowLeft = clientX - pageLeft;
-
-      const isTopReversed = activedBlockBottomLineFromTop < nowTop;
-      const isLeftReversed = activedBlockRightLineFromLeft < nowLeft;
-
-      const nextLeft = isLeftReversed ? activedBlockRightLineFromLeft : nowLeft;
-      const nextRightLineFormLeft = isLeftReversed ? nowLeft : activedBlockRightLineFromLeft;
-
-      const nextTop = isTopReversed ? activedBlockBottomLineFromTop : nowTop;
-      const nextBottomLineFromTop = isTopReversed ? nowTop : activedBlockBottomLineFromTop;
-
-      const nextWidth = nextRightLineFormLeft - nextLeft;
-      const nextHeight = nextBottomLineFromTop - nextTop;
+      const nextWidth = nextRight - nextLeft;
+      const nextHeight = nextBottom - nextTop;
 
       const nextSize = {
         ...activedBlockGroup.style.size,
@@ -620,30 +600,11 @@ export function Updator({ item }: { item: NodeItemPropsInterface['item'] }) {
     const edgeTopRightMouseMoveHandler = (e: MouseEvent) => {
       const { clientX, clientY } = e;
 
-      const activedBlockTop = convertPxStringToNumber(activedBlockGroup.style.position.top);
-      const activedBlockLeft = convertPxStringToNumber(activedBlockGroup.style.position.left);
-      const activedBlocHeight = convertPxStringToNumber(activedBlockGroup.style.size.height);
+      const { nextTop, nextBottom } = getNextFromTop(clientY);
+      const { nextLeft, nextRight } = getNextFromRight(clientX);
 
-      const activedBlockBottomLineFromTop = activedBlockTop + activedBlocHeight;
-
-      const pageScrollY = pageState.scrollY;
-      const pageTop = +pageState.top;
-      const pageLeft = +pageState.left;
-
-      const nowTop = pageScrollY - pageTop + clientY;
-      const nowRightFromLeft = clientX - pageLeft;
-
-      const isTopReversed = activedBlockBottomLineFromTop < nowTop;
-      const isRightReversed = nowRightFromLeft < activedBlockLeft;
-
-      const nextLeft = isRightReversed ? nowRightFromLeft : activedBlockLeft;
-      const nextRightLineFormLeft = isRightReversed ? activedBlockLeft : nowRightFromLeft;
-
-      const nextTop = isTopReversed ? activedBlockBottomLineFromTop : nowTop;
-      const nextBottomLineFromTop = isTopReversed ? nowTop : activedBlockBottomLineFromTop;
-
-      const nextWidth = nextRightLineFormLeft - nextLeft;
-      const nextHeight = nextBottomLineFromTop - nextTop;
+      const nextWidth = nextRight - nextLeft;
+      const nextHeight = nextBottom - nextTop;
 
       if (activedBlockGroup.subType !== 'text') {
         const nextState = {
@@ -702,27 +663,11 @@ export function Updator({ item }: { item: NodeItemPropsInterface['item'] }) {
     const edgeBottomRightMouseMoveHandler = (e: MouseEvent) => {
       const { clientX, clientY } = e;
 
-      const activedBlockTop = convertPxStringToNumber(activedBlockGroup.style.position.top);
-      const activedBlockLeft = convertPxStringToNumber(activedBlockGroup.style.position.left);
+      const { nextTop, nextBottom } = getNextFromBottom(clientY);
+      const { nextLeft, nextRight } = getNextFromRight(clientX);
 
-      const pageScrollY = pageState.scrollY;
-      const pageTop = +pageState.top;
-      const pageLeft = +pageState.left;
-
-      const nowBottomFromTop = pageScrollY - pageTop + clientY;
-      const nowRightFromLeft = clientX - pageLeft;
-
-      const isBottomReversed = nowBottomFromTop < activedBlockTop;
-      const isRightReversed = nowRightFromLeft < activedBlockLeft;
-
-      const nextLeft = isRightReversed ? nowRightFromLeft : activedBlockLeft;
-      const nextRightLineFormLeft = isRightReversed ? activedBlockLeft : nowRightFromLeft;
-
-      const nextTop = isBottomReversed ? nowBottomFromTop : activedBlockTop;
-      const nextBottomLineFromTop = isBottomReversed ? activedBlockTop : nowBottomFromTop;
-
-      const nextWidth = nextRightLineFormLeft - nextLeft;
-      const nextHeight = nextBottomLineFromTop - nextTop;
+      const nextWidth = nextRight - nextLeft;
+      const nextHeight = nextBottom - nextTop;
 
       const nextSize = {
         ...activedBlockGroup.style.size,
@@ -777,29 +722,11 @@ export function Updator({ item }: { item: NodeItemPropsInterface['item'] }) {
     const edgesBottomLeftMouseMoveHandler = (e: MouseEvent) => {
       const { clientX, clientY } = e;
 
-      const activedBlockTop = convertPxStringToNumber(activedBlockGroup.style.position.top);
-      const activedBlockLeft = convertPxStringToNumber(activedBlockGroup.style.position.left);
-      const activedBlockWidth = convertPxStringToNumber(activedBlockGroup.style.size.width);
-      const activedBlockRightLineFromLeft = activedBlockLeft + activedBlockWidth;
+      const { nextTop, nextBottom } = getNextFromBottom(clientY);
+      const { nextLeft, nextRight } = getNextFromLeft(clientX);
 
-      const pageScrollY = pageState.scrollY;
-      const pageTop = +pageState.top;
-      const pageLeft = +pageState.left;
-
-      const nowBottomFromTop = pageScrollY - pageTop + clientY;
-      const nowLeft = clientX - pageLeft;
-
-      const isBottomReversed = nowBottomFromTop < activedBlockTop;
-      const isLeftReversed = activedBlockRightLineFromLeft < nowLeft;
-
-      const nextLeft = isLeftReversed ? activedBlockRightLineFromLeft : nowLeft;
-      const nextRightLineFormLeft = isLeftReversed ? nowLeft : activedBlockRightLineFromLeft;
-
-      const nextTop = isBottomReversed ? nowBottomFromTop : activedBlockTop;
-      const nextBottomLineFromTop = isBottomReversed ? activedBlockTop : nowBottomFromTop;
-
-      const nextWidth = nextRightLineFormLeft - nextLeft;
-      const nextHeight = nextBottomLineFromTop - nextTop;
+      const nextWidth = nextRight - nextLeft;
+      const nextHeight = nextBottom - nextTop;
 
       const nextSize = {
         ...activedBlockGroup.style.size,
