@@ -6,7 +6,16 @@ import { useBlockGroupsAtom, useResizablePageAtom, useTemplateTaskHistories } fr
 
 import { convertPxStringToNumber } from '@utils/index';
 
-import { DefaultBox, Directions, EdgeDirections, NonTextBlock, TextBlock } from 'ui';
+import {
+  Blocks,
+  DefaultBox,
+  Directions,
+  EdgeDirections,
+  GroupBlockSize,
+  NonTextBlock,
+  Position,
+  TextBlock,
+} from 'ui';
 
 import { NodeItemPropsInterface } from './types';
 
@@ -204,8 +213,8 @@ export function Updator({ item }: { item: NodeItemPropsInterface['item'] }) {
     if (isMousePressing || isUpdating[direction]) return;
 
     setIsMousePressing(() => true);
-    setNowUpdate(() => direction);
     setIsUpdating((state) => ({ ...state, [direction]: true }));
+    setNowUpdate(() => direction);
   };
 
   const onMouseUp = (direction: EdgeDirections | Directions | null) => {
@@ -220,6 +229,55 @@ export function Updator({ item }: { item: NodeItemPropsInterface['item'] }) {
     setIsMousePressing(() => false);
     setIsUpdating((state) => ({ ...state, [direction]: false }));
     setNowUpdate(() => null);
+  };
+
+  const getActiveBlockNextSize = (props: Partial<GroupBlockSize>): GroupBlockSize => {
+    if (activedBlockGroup === null || activedBlockGroup.type === 'group') {
+      return {
+        width: 'auto',
+        height: 'auto',
+      };
+    }
+
+    return {
+      ...activedBlockGroup.style.size,
+      ...props,
+    };
+  };
+
+  const getActiveBlockNextPosition = (props: Partial<Position>): Position => {
+    if (activedBlockGroup === null || activedBlockGroup.type === 'group') {
+      return {
+        top: 'auto',
+        right: 'auto',
+        bottom: 'auto',
+        left: 'auto',
+      };
+    }
+
+    return {
+      ...activedBlockGroup.style.position,
+      ...props,
+    };
+  };
+
+  const getActiveBlockNextState = ({
+    block,
+    nextSize,
+    nextPosition,
+  }: {
+    block: Blocks;
+    nextSize: GroupBlockSize;
+    nextPosition: Position;
+  }) => {
+    return {
+      ...block,
+      style: {
+        ...block.style,
+        size: nextSize,
+        position: nextPosition,
+      },
+    };
   };
 
   const getNextFromTop = (y: number): { nextTop: number; nextBottom: number } => {
@@ -319,24 +377,14 @@ export function Updator({ item }: { item: NodeItemPropsInterface['item'] }) {
       const { nextTop, nextBottom } = getNextFromTop(clientY);
       const nextHeight = nextBottom - nextTop;
 
-      const nextPosition = {
-        ...activedBlockGroup.style.position,
-        top: nextTop + 'px',
-      };
+      const nextSize = getActiveBlockNextSize({ height: nextHeight + 'px' });
+      const nextPosition = getActiveBlockNextPosition({ top: nextTop + 'px' });
 
-      const nextSize = {
-        ...activedBlockGroup.style.size,
-        height: nextHeight + 'px',
-      };
-
-      const nextState = {
-        ...activedBlockGroup,
-        style: {
-          ...activedBlockGroup.style,
-          size: nextSize,
-          position: nextPosition,
-        },
-      };
+      const nextState = getActiveBlockNextState({
+        block: activedBlockGroup,
+        nextSize,
+        nextPosition,
+      });
 
       if (activedBlockGroup.subType !== 'text') {
         changeBlockState(nextState as TextBlock);
@@ -363,24 +411,14 @@ export function Updator({ item }: { item: NodeItemPropsInterface['item'] }) {
 
       const { nextTop, nextBottom } = getNextFromBottom(clientY);
 
-      const nextPosition = {
-        ...activedBlockGroup.style.position,
-        top: nextTop + 'px',
-      };
+      const nextSize = getActiveBlockNextSize({ height: nextBottom - nextTop + 'px' });
+      const nextPosition = getActiveBlockNextPosition({ top: nextTop + 'px' });
 
-      const nextSize = {
-        ...activedBlockGroup.style.size,
-        height: nextBottom - nextTop + 'px',
-      };
-
-      const nextState = {
-        ...activedBlockGroup,
-        style: {
-          ...activedBlockGroup.style,
-          size: nextSize,
-          position: nextPosition,
-        },
-      };
+      const nextState = getActiveBlockNextState({
+        block: activedBlockGroup,
+        nextSize,
+        nextPosition,
+      });
 
       if (activedBlockGroup.subType !== 'text') {
         changeBlockState(nextState as TextBlock);
@@ -409,24 +447,14 @@ export function Updator({ item }: { item: NodeItemPropsInterface['item'] }) {
 
       const nextWidth = nextRight - nextLeft;
 
-      const nextSize = {
-        ...activedBlockGroup.style.size,
-        width: nextWidth + 'px',
-      };
+      const nextSize = getActiveBlockNextSize({ width: nextWidth + 'px' });
+      const nextPosition = getActiveBlockNextPosition({ left: nextLeft + 'px' });
 
-      const nextPosition = {
-        ...activedBlockGroup.style.position,
-        left: nextLeft + 'px',
-      };
-
-      const nextState = {
-        ...activedBlockGroup,
-        style: {
-          ...activedBlockGroup.style,
-          size: nextSize,
-          position: nextPosition,
-        },
-      };
+      const nextState = getActiveBlockNextState({
+        block: activedBlockGroup,
+        nextSize,
+        nextPosition,
+      });
 
       if (activedBlockGroup.subType !== 'text') {
         changeBlockState(nextState as TextBlock);
@@ -463,24 +491,14 @@ export function Updator({ item }: { item: NodeItemPropsInterface['item'] }) {
       const { nextLeft, nextRight } = getNextFromRight(clientX);
       const nextWidth = nextRight - nextLeft;
 
-      const nextSize = {
-        ...activedBlockGroup.style.size,
-        width: nextWidth + 'px',
-      };
+      const nextSize = getActiveBlockNextSize({ width: nextWidth + 'px' });
+      const nextPosition = getActiveBlockNextPosition({ left: nextLeft + 'px' });
 
-      const nextPosition = {
-        ...activedBlockGroup.style.position,
-        left: nextLeft + 'px',
-      };
-
-      const nextState = {
-        ...activedBlockGroup,
-        style: {
-          ...activedBlockGroup.style,
-          size: nextSize,
-          position: nextPosition,
-        },
-      };
+      const nextState = getActiveBlockNextState({
+        block: activedBlockGroup,
+        nextSize,
+        nextPosition,
+      });
 
       if (activedBlockGroup.subType !== 'text') {
         changeBlockState(nextState as TextBlock);
@@ -502,7 +520,7 @@ export function Updator({ item }: { item: NodeItemPropsInterface['item'] }) {
     if (activedBlockGroup === null || activedBlockGroup.type !== 'block') return;
     if (!isUpdating.topLeft) return;
 
-    const edgesBottomLeftMouseMoveHandler = (e: MouseEvent) => {
+    const edgesTopLeftMouseMoveHandler = (e: MouseEvent) => {
       const { clientX, clientY } = e;
 
       const { nextTop, nextBottom } = getNextFromTop(clientY);
@@ -511,26 +529,20 @@ export function Updator({ item }: { item: NodeItemPropsInterface['item'] }) {
       const nextWidth = nextRight - nextLeft;
       const nextHeight = nextBottom - nextTop;
 
-      const nextSize = {
-        ...activedBlockGroup.style.size,
+      const nextSize = getActiveBlockNextSize({
         width: nextWidth + 'px',
         height: nextHeight + 'px',
-      };
-
-      const nextPosition = {
-        ...activedBlockGroup.style.position,
+      });
+      const nextPosition = getActiveBlockNextPosition({
         left: nextLeft + 'px',
         top: nextTop + 'px',
-      };
+      });
 
-      const nextState = {
-        ...activedBlockGroup,
-        style: {
-          ...activedBlockGroup.style,
-          size: nextSize,
-          position: nextPosition,
-        },
-      };
+      const nextState = getActiveBlockNextState({
+        block: activedBlockGroup,
+        nextSize,
+        nextPosition,
+      });
 
       if (activedBlockGroup.subType !== 'text') {
         changeBlockState(nextState as TextBlock);
@@ -539,10 +551,10 @@ export function Updator({ item }: { item: NodeItemPropsInterface['item'] }) {
       }
     };
 
-    window.addEventListener('mousemove', edgesBottomLeftMouseMoveHandler, { passive: true });
+    window.addEventListener('mousemove', edgesTopLeftMouseMoveHandler, { passive: true });
 
     return () => {
-      window.removeEventListener('mousemove', edgesBottomLeftMouseMoveHandler);
+      window.removeEventListener('mousemove', edgesTopLeftMouseMoveHandler);
     };
 
     /* eslint-disable-next-line */
@@ -561,22 +573,22 @@ export function Updator({ item }: { item: NodeItemPropsInterface['item'] }) {
       const nextWidth = nextRight - nextLeft;
       const nextHeight = nextBottom - nextTop;
 
-      const nextState = {
-        ...activedBlockGroup,
-        style: {
-          ...activedBlockGroup.style,
-          size: {
-            ...activedBlockGroup.style.size,
-            width: nextWidth + 'px',
-            height: nextHeight + 'px',
-          },
-          position: {
-            ...activedBlockGroup.style.position,
-            left: nextLeft + 'px',
-            top: nextTop + 'px',
-          },
-        },
-      };
+      const nextSize = getActiveBlockNextSize({
+        width: nextWidth + 'px',
+        height: nextHeight + 'px',
+      });
+
+      const nextPosition = getActiveBlockNextPosition({
+        left: nextLeft + 'px',
+        top: nextTop + 'px',
+      });
+
+      const nextState = getActiveBlockNextState({
+        block: activedBlockGroup,
+        nextSize,
+        nextPosition,
+      });
+
       if (activedBlockGroup.subType !== 'text') {
         changeBlockState(nextState as TextBlock);
       } else {
@@ -606,26 +618,20 @@ export function Updator({ item }: { item: NodeItemPropsInterface['item'] }) {
       const nextWidth = nextRight - nextLeft;
       const nextHeight = nextBottom - nextTop;
 
-      const nextSize = {
-        ...activedBlockGroup.style.size,
+      const nextSize = getActiveBlockNextSize({
         width: nextWidth + 'px',
         height: nextHeight + 'px',
-      };
-
-      const nextPosition = {
-        ...activedBlockGroup.style.position,
+      });
+      const nextPosition = getActiveBlockNextPosition({
         left: nextLeft + 'px',
         top: nextTop + 'px',
-      };
+      });
 
-      const nextState = {
-        ...activedBlockGroup,
-        style: {
-          ...activedBlockGroup.style,
-          size: nextSize,
-          position: nextPosition,
-        },
-      };
+      const nextState = getActiveBlockNextState({
+        block: activedBlockGroup,
+        nextSize,
+        nextPosition,
+      });
 
       if (activedBlockGroup.subType !== 'text') {
         changeBlockState(nextState as TextBlock);
@@ -656,26 +662,20 @@ export function Updator({ item }: { item: NodeItemPropsInterface['item'] }) {
       const nextWidth = nextRight - nextLeft;
       const nextHeight = nextBottom - nextTop;
 
-      const nextSize = {
-        ...activedBlockGroup.style.size,
+      const nextSize = getActiveBlockNextSize({
         width: nextWidth + 'px',
         height: nextHeight + 'px',
-      };
-
-      const nextPosition = {
-        ...activedBlockGroup.style.position,
+      });
+      const nextPosition = getActiveBlockNextPosition({
         left: nextLeft + 'px',
         top: nextTop + 'px',
-      };
+      });
 
-      const nextState = {
-        ...activedBlockGroup,
-        style: {
-          ...activedBlockGroup.style,
-          size: nextSize,
-          position: nextPosition,
-        },
-      };
+      const nextState = getActiveBlockNextState({
+        block: activedBlockGroup,
+        nextSize,
+        nextPosition,
+      });
 
       if (activedBlockGroup.subType !== 'text') {
         changeBlockState(nextState as TextBlock);
