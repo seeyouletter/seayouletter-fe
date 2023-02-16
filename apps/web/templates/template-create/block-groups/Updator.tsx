@@ -231,51 +231,27 @@ export function Updator({ item }: { item: NodeItemPropsInterface['item'] }) {
     setNowUpdate(() => null);
   };
 
-  const getActiveBlockNextSize = (props: Partial<GroupBlockSize>): GroupBlockSize => {
-    if (activedBlockGroup === null || activedBlockGroup.type === 'group') {
-      return {
-        width: 'auto',
-        height: 'auto',
-      };
-    }
-
-    return {
-      ...activedBlockGroup.style.size,
-      ...props,
-    };
-  };
-
-  const getActiveBlockNextPosition = (props: Partial<Position>): Position => {
-    if (activedBlockGroup === null || activedBlockGroup.type === 'group') {
-      return {
-        top: 'auto',
-        right: 'auto',
-        bottom: 'auto',
-        left: 'auto',
-      };
-    }
-
-    return {
-      ...activedBlockGroup.style.position,
-      ...props,
-    };
-  };
-
   const getActiveBlockNextState = ({
     block,
-    nextSize,
-    nextPosition,
+    nextSize = {},
+    nextPosition = {},
   }: {
     block: Blocks;
-    nextSize: GroupBlockSize;
-    nextPosition: Position;
+    nextSize: Partial<GroupBlockSize>;
+    nextPosition: Partial<Position>;
   }) => {
     return {
       ...block,
       style: {
         ...block.style,
-        size: nextSize,
-        position: nextPosition,
+        size: {
+          ...block.style.size,
+          ...nextSize,
+        },
+        position: {
+          ...block.style.position,
+          ...nextPosition,
+        },
       },
     };
   };
@@ -368,22 +344,19 @@ export function Updator({ item }: { item: NodeItemPropsInterface['item'] }) {
   };
 
   useEffect(() => {
-    const lineTopMouseMoveHandler = (e: MouseEvent) => {
-      if (activedBlockGroup === null || activedBlockGroup.type !== 'block') return;
-      if (!isUpdating.top) return;
+    if (activedBlockGroup === null || activedBlockGroup.type !== 'block') return;
+    if (!isUpdating.top) return;
 
+    const lineTopMouseMoveHandler = (e: MouseEvent) => {
       const { clientY } = e;
 
       const { nextTop, nextBottom } = getNextFromTop(clientY);
       const nextHeight = nextBottom - nextTop;
 
-      const nextSize = getActiveBlockNextSize({ height: nextHeight + 'px' });
-      const nextPosition = getActiveBlockNextPosition({ top: nextTop + 'px' });
-
       const nextState = getActiveBlockNextState({
         block: activedBlockGroup,
-        nextSize,
-        nextPosition,
+        nextSize: { height: nextHeight + 'px' },
+        nextPosition: { top: nextTop + 'px' },
       });
 
       if (activedBlockGroup.subType !== 'text') {
@@ -403,21 +376,18 @@ export function Updator({ item }: { item: NodeItemPropsInterface['item'] }) {
   }, [isUpdating]);
 
   useEffect(() => {
-    const lineBottomMouseMoveHandler = (e: MouseEvent) => {
-      if (activedBlockGroup === null || activedBlockGroup.type !== 'block') return;
-      if (!isUpdating.bottom) return;
+    if (activedBlockGroup === null || activedBlockGroup.type !== 'block') return;
+    if (!isUpdating.bottom) return;
 
+    const lineBottomMouseMoveHandler = (e: MouseEvent) => {
       const { clientY } = e;
 
       const { nextTop, nextBottom } = getNextFromBottom(clientY);
 
-      const nextSize = getActiveBlockNextSize({ height: nextBottom - nextTop + 'px' });
-      const nextPosition = getActiveBlockNextPosition({ top: nextTop + 'px' });
-
       const nextState = getActiveBlockNextState({
         block: activedBlockGroup,
-        nextSize,
-        nextPosition,
+        nextSize: { height: nextBottom - nextTop + 'px' },
+        nextPosition: { top: nextTop + 'px' },
       });
 
       if (activedBlockGroup.subType !== 'text') {
@@ -437,23 +407,20 @@ export function Updator({ item }: { item: NodeItemPropsInterface['item'] }) {
   }, [isUpdating]);
 
   useEffect(() => {
-    const lineLeftMouseMoveHandler = (e: MouseEvent) => {
-      if (activedBlockGroup === null || activedBlockGroup.type !== 'block') return;
-      if (!isUpdating.left) return;
+    if (activedBlockGroup === null || activedBlockGroup.type !== 'block') return;
+    if (!isUpdating.left) return;
 
+    const lineLeftMouseMoveHandler = (e: MouseEvent) => {
       const { clientX } = e;
 
       const { nextLeft, nextRight } = getNextFromLeft(clientX);
 
       const nextWidth = nextRight - nextLeft;
 
-      const nextSize = getActiveBlockNextSize({ width: nextWidth + 'px' });
-      const nextPosition = getActiveBlockNextPosition({ left: nextLeft + 'px' });
-
       const nextState = getActiveBlockNextState({
         block: activedBlockGroup,
-        nextSize,
-        nextPosition,
+        nextSize: { width: nextWidth + 'px' },
+        nextPosition: { left: nextLeft + 'px' },
       });
 
       if (activedBlockGroup.subType !== 'text') {
@@ -473,10 +440,10 @@ export function Updator({ item }: { item: NodeItemPropsInterface['item'] }) {
   }, [isUpdating]);
 
   useEffect(() => {
-    const lineRightMouseMoveHandler = (e: MouseEvent) => {
-      if (activedBlockGroup === null || activedBlockGroup.type === 'group') return;
-      if (!isUpdating.right) return;
+    if (activedBlockGroup === null || activedBlockGroup.type === 'group') return;
+    if (!isUpdating.right) return;
 
+    const lineRightMouseMoveHandler = (e: MouseEvent) => {
       /**
        * @inner
        * useMouseStateAtom으로 하지 않는 이유는, 현재 이벤트에서 가져오는 값이 훨씬 속도가 빠르기 때문이다.
@@ -491,13 +458,10 @@ export function Updator({ item }: { item: NodeItemPropsInterface['item'] }) {
       const { nextLeft, nextRight } = getNextFromRight(clientX);
       const nextWidth = nextRight - nextLeft;
 
-      const nextSize = getActiveBlockNextSize({ width: nextWidth + 'px' });
-      const nextPosition = getActiveBlockNextPosition({ left: nextLeft + 'px' });
-
       const nextState = getActiveBlockNextState({
         block: activedBlockGroup,
-        nextSize,
-        nextPosition,
+        nextSize: { width: nextWidth + 'px' },
+        nextPosition: { left: nextLeft + 'px' },
       });
 
       if (activedBlockGroup.subType !== 'text') {
@@ -529,19 +493,10 @@ export function Updator({ item }: { item: NodeItemPropsInterface['item'] }) {
       const nextWidth = nextRight - nextLeft;
       const nextHeight = nextBottom - nextTop;
 
-      const nextSize = getActiveBlockNextSize({
-        width: nextWidth + 'px',
-        height: nextHeight + 'px',
-      });
-      const nextPosition = getActiveBlockNextPosition({
-        left: nextLeft + 'px',
-        top: nextTop + 'px',
-      });
-
       const nextState = getActiveBlockNextState({
         block: activedBlockGroup,
-        nextSize,
-        nextPosition,
+        nextSize: { width: nextWidth + 'px', height: nextHeight + 'px' },
+        nextPosition: { left: nextLeft + 'px', top: nextTop + 'px' },
       });
 
       if (activedBlockGroup.subType !== 'text') {
@@ -573,20 +528,10 @@ export function Updator({ item }: { item: NodeItemPropsInterface['item'] }) {
       const nextWidth = nextRight - nextLeft;
       const nextHeight = nextBottom - nextTop;
 
-      const nextSize = getActiveBlockNextSize({
-        width: nextWidth + 'px',
-        height: nextHeight + 'px',
-      });
-
-      const nextPosition = getActiveBlockNextPosition({
-        left: nextLeft + 'px',
-        top: nextTop + 'px',
-      });
-
       const nextState = getActiveBlockNextState({
         block: activedBlockGroup,
-        nextSize,
-        nextPosition,
+        nextSize: { width: nextWidth + 'px', height: nextHeight + 'px' },
+        nextPosition: { left: nextLeft + 'px', top: nextTop + 'px' },
       });
 
       if (activedBlockGroup.subType !== 'text') {
@@ -618,19 +563,10 @@ export function Updator({ item }: { item: NodeItemPropsInterface['item'] }) {
       const nextWidth = nextRight - nextLeft;
       const nextHeight = nextBottom - nextTop;
 
-      const nextSize = getActiveBlockNextSize({
-        width: nextWidth + 'px',
-        height: nextHeight + 'px',
-      });
-      const nextPosition = getActiveBlockNextPosition({
-        left: nextLeft + 'px',
-        top: nextTop + 'px',
-      });
-
       const nextState = getActiveBlockNextState({
         block: activedBlockGroup,
-        nextSize,
-        nextPosition,
+        nextSize: { width: nextWidth + 'px', height: nextHeight + 'px' },
+        nextPosition: { left: nextLeft + 'px', top: nextTop + 'px' },
       });
 
       if (activedBlockGroup.subType !== 'text') {
@@ -662,19 +598,10 @@ export function Updator({ item }: { item: NodeItemPropsInterface['item'] }) {
       const nextWidth = nextRight - nextLeft;
       const nextHeight = nextBottom - nextTop;
 
-      const nextSize = getActiveBlockNextSize({
-        width: nextWidth + 'px',
-        height: nextHeight + 'px',
-      });
-      const nextPosition = getActiveBlockNextPosition({
-        left: nextLeft + 'px',
-        top: nextTop + 'px',
-      });
-
       const nextState = getActiveBlockNextState({
         block: activedBlockGroup,
-        nextSize,
-        nextPosition,
+        nextSize: { width: nextWidth + 'px', height: nextHeight + 'px' },
+        nextPosition: { left: nextLeft + 'px', top: nextTop + 'px' },
       });
 
       if (activedBlockGroup.subType !== 'text') {
@@ -719,14 +646,17 @@ export function Updator({ item }: { item: NodeItemPropsInterface['item'] }) {
         onMouseDown={(e) => onMouseDown(e, 'topLeft')}
         onMouseUp={() => onMouseUp(nowUpdate)}
       />
+
       <Updator.TopRightEdge
         onMouseDown={(e) => onMouseDown(e, 'topRight')}
         onMouseUp={() => onMouseUp(nowUpdate)}
       />
+
       <Updator.BottomRightEdge
         onMouseDown={(e) => onMouseDown(e, 'bottomRight')}
         onMouseUp={() => onMouseUp(nowUpdate)}
       />
+
       <Updator.BottomLeftEdge
         onMouseDown={(e) => onMouseDown(e, 'bottomLeft')}
         onMouseUp={() => onMouseUp(nowUpdate)}

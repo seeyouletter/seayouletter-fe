@@ -12,14 +12,14 @@ export const useMouseStateAtom = () => {
   const activeMouseMove = (
     x: number,
     y: number,
-    options: Pick<MouseStateAtomInterface, 'throttle'>
+    options?: Pick<MouseStateAtomInterface, 'throttle'>
   ) => {
     setMouseState((state) => ({
       ...state,
       moveActived: true,
       x,
       y,
-      ...options,
+      ...(options ?? {}),
     }));
   };
 
