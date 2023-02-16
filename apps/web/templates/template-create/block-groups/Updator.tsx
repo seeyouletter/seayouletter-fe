@@ -6,7 +6,7 @@ import { useBlockGroupsAtom, useResizablePageAtom, useTemplateTaskHistories } fr
 
 import { convertPxStringToNumber } from '@utils/index';
 
-import { DefaultBox, Directions, EdgeDirections } from 'ui';
+import { DefaultBox, Directions, EdgeDirections, NonTextBlock, TextBlock } from 'ui';
 
 import { NodeItemPropsInterface } from './types';
 
@@ -329,28 +329,19 @@ export function Updator({ item }: { item: NodeItemPropsInterface['item'] }) {
         height: nextHeight + 'px',
       };
 
+      const nextState = {
+        ...activedBlockGroup,
+        style: {
+          ...activedBlockGroup.style,
+          size: nextSize,
+          position: nextPosition,
+        },
+      };
+
       if (activedBlockGroup.subType !== 'text') {
-        const nextState = {
-          ...activedBlockGroup,
-          style: {
-            ...activedBlockGroup.style,
-            size: nextSize,
-            position: nextPosition,
-          },
-        };
-
-        changeBlockState(nextState);
+        changeBlockState(nextState as TextBlock);
       } else {
-        const nextState = {
-          ...activedBlockGroup,
-          style: {
-            ...activedBlockGroup.style,
-            size: nextSize,
-            position: nextPosition,
-          },
-        };
-
-        changeBlockState(nextState);
+        changeBlockState(nextState as NonTextBlock);
       }
     };
 
@@ -382,28 +373,19 @@ export function Updator({ item }: { item: NodeItemPropsInterface['item'] }) {
         height: nextBottom - nextTop + 'px',
       };
 
+      const nextState = {
+        ...activedBlockGroup,
+        style: {
+          ...activedBlockGroup.style,
+          size: nextSize,
+          position: nextPosition,
+        },
+      };
+
       if (activedBlockGroup.subType !== 'text') {
-        const nextState = {
-          ...activedBlockGroup,
-          style: {
-            ...activedBlockGroup.style,
-            size: nextSize,
-            position: nextPosition,
-          },
-        };
-
-        changeBlockState(nextState);
+        changeBlockState(nextState as TextBlock);
       } else {
-        const nextState = {
-          ...activedBlockGroup,
-          style: {
-            ...activedBlockGroup.style,
-            size: nextSize,
-            position: nextPosition,
-          },
-        };
-
-        changeBlockState(nextState);
+        changeBlockState(nextState as NonTextBlock);
       }
     };
 
@@ -437,28 +419,19 @@ export function Updator({ item }: { item: NodeItemPropsInterface['item'] }) {
         left: nextLeft + 'px',
       };
 
+      const nextState = {
+        ...activedBlockGroup,
+        style: {
+          ...activedBlockGroup.style,
+          size: nextSize,
+          position: nextPosition,
+        },
+      };
+
       if (activedBlockGroup.subType !== 'text') {
-        const nextState = {
-          ...activedBlockGroup,
-          style: {
-            ...activedBlockGroup.style,
-            size: nextSize,
-            position: nextPosition,
-          },
-        };
-
-        changeBlockState(nextState);
+        changeBlockState(nextState as TextBlock);
       } else {
-        const nextState = {
-          ...activedBlockGroup,
-          style: {
-            ...activedBlockGroup.style,
-            size: nextSize,
-            position: nextPosition,
-          },
-        };
-
-        changeBlockState(nextState);
+        changeBlockState(nextState as NonTextBlock);
       }
     };
 
@@ -500,28 +473,19 @@ export function Updator({ item }: { item: NodeItemPropsInterface['item'] }) {
         left: nextLeft + 'px',
       };
 
+      const nextState = {
+        ...activedBlockGroup,
+        style: {
+          ...activedBlockGroup.style,
+          size: nextSize,
+          position: nextPosition,
+        },
+      };
+
       if (activedBlockGroup.subType !== 'text') {
-        const nextState = {
-          ...activedBlockGroup,
-          style: {
-            ...activedBlockGroup.style,
-            size: nextSize,
-            position: nextPosition,
-          },
-        };
-
-        changeBlockState(nextState);
+        changeBlockState(nextState as TextBlock);
       } else {
-        const nextState = {
-          ...activedBlockGroup,
-          style: {
-            ...activedBlockGroup.style,
-            size: nextSize,
-            position: nextPosition,
-          },
-        };
-
-        changeBlockState(nextState);
+        changeBlockState(nextState as NonTextBlock);
       }
     };
 
@@ -559,28 +523,19 @@ export function Updator({ item }: { item: NodeItemPropsInterface['item'] }) {
         top: nextTop + 'px',
       };
 
+      const nextState = {
+        ...activedBlockGroup,
+        style: {
+          ...activedBlockGroup.style,
+          size: nextSize,
+          position: nextPosition,
+        },
+      };
+
       if (activedBlockGroup.subType !== 'text') {
-        const nextState = {
-          ...activedBlockGroup,
-          style: {
-            ...activedBlockGroup.style,
-            size: nextSize,
-            position: nextPosition,
-          },
-        };
-
-        changeBlockState(nextState);
+        changeBlockState(nextState as TextBlock);
       } else {
-        const nextState = {
-          ...activedBlockGroup,
-          style: {
-            ...activedBlockGroup.style,
-            size: nextSize,
-            position: nextPosition,
-          },
-        };
-
-        changeBlockState(nextState);
+        changeBlockState(nextState as NonTextBlock);
       }
     };
 
@@ -606,44 +561,26 @@ export function Updator({ item }: { item: NodeItemPropsInterface['item'] }) {
       const nextWidth = nextRight - nextLeft;
       const nextHeight = nextBottom - nextTop;
 
+      const nextState = {
+        ...activedBlockGroup,
+        style: {
+          ...activedBlockGroup.style,
+          size: {
+            ...activedBlockGroup.style.size,
+            width: nextWidth + 'px',
+            height: nextHeight + 'px',
+          },
+          position: {
+            ...activedBlockGroup.style.position,
+            left: nextLeft + 'px',
+            top: nextTop + 'px',
+          },
+        },
+      };
       if (activedBlockGroup.subType !== 'text') {
-        const nextState = {
-          ...activedBlockGroup,
-          style: {
-            ...activedBlockGroup.style,
-            size: {
-              ...activedBlockGroup.style.size,
-              width: nextWidth + 'px',
-              height: nextHeight + 'px',
-            },
-            position: {
-              ...activedBlockGroup.style.position,
-              left: nextLeft + 'px',
-              top: nextTop + 'px',
-            },
-          },
-        };
-
-        changeBlockState(nextState);
+        changeBlockState(nextState as TextBlock);
       } else {
-        const nextState = {
-          ...activedBlockGroup,
-          style: {
-            ...activedBlockGroup.style,
-            size: {
-              ...activedBlockGroup.style.size,
-              width: nextWidth + 'px',
-              height: nextHeight + 'px',
-            },
-            position: {
-              ...activedBlockGroup.style.position,
-              left: nextLeft + 'px',
-              top: nextTop + 'px',
-            },
-          },
-        };
-
-        changeBlockState(nextState);
+        changeBlockState(nextState as NonTextBlock);
       }
     };
 
@@ -681,28 +618,19 @@ export function Updator({ item }: { item: NodeItemPropsInterface['item'] }) {
         top: nextTop + 'px',
       };
 
+      const nextState = {
+        ...activedBlockGroup,
+        style: {
+          ...activedBlockGroup.style,
+          size: nextSize,
+          position: nextPosition,
+        },
+      };
+
       if (activedBlockGroup.subType !== 'text') {
-        const nextState = {
-          ...activedBlockGroup,
-          style: {
-            ...activedBlockGroup.style,
-            size: nextSize,
-            position: nextPosition,
-          },
-        };
-
-        changeBlockState(nextState);
+        changeBlockState(nextState as TextBlock);
       } else {
-        const nextState = {
-          ...activedBlockGroup,
-          style: {
-            ...activedBlockGroup.style,
-            size: nextSize,
-            position: nextPosition,
-          },
-        };
-
-        changeBlockState(nextState);
+        changeBlockState(nextState as NonTextBlock);
       }
     };
 
@@ -740,28 +668,19 @@ export function Updator({ item }: { item: NodeItemPropsInterface['item'] }) {
         top: nextTop + 'px',
       };
 
+      const nextState = {
+        ...activedBlockGroup,
+        style: {
+          ...activedBlockGroup.style,
+          size: nextSize,
+          position: nextPosition,
+        },
+      };
+
       if (activedBlockGroup.subType !== 'text') {
-        const nextState = {
-          ...activedBlockGroup,
-          style: {
-            ...activedBlockGroup.style,
-            size: nextSize,
-            position: nextPosition,
-          },
-        };
-
-        changeBlockState(nextState);
+        changeBlockState(nextState as TextBlock);
       } else {
-        const nextState = {
-          ...activedBlockGroup,
-          style: {
-            ...activedBlockGroup.style,
-            size: nextSize,
-            position: nextPosition,
-          },
-        };
-
-        changeBlockState(nextState);
+        changeBlockState(nextState as NonTextBlock);
       }
     };
 
