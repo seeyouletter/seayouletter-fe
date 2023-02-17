@@ -10,7 +10,9 @@ import {
   Blocks,
   DefaultBox,
   Directions,
+  DirectionsContstants,
   EdgeDirections,
+  EdgeDirectionsContstants,
   GroupBlockSize,
   NonTextBlock,
   Position,
@@ -348,134 +350,106 @@ export function Updator({ item }: { item: NodeItemPropsInterface['item'] }) {
     };
   };
 
-  useEffect(() => {
-    if (activedBlockGroup === null || activedBlockGroup.type !== 'block') return;
-    if (!isUpdating.top) return;
-
-    const lineTopMouseMoveHandler = (e: MouseEvent) => {
-      const { nextTop, nextBottom } = getNextFromTop(e.clientY);
-      const nextHeight = nextBottom - nextTop;
-
-      const nextState = getActiveBlockNextState({
-        block: activedBlockGroup,
-        nextSize: { height: nextHeight + 'px' },
-        nextPosition: { top: nextTop + 'px' },
-      });
-
-      if (activedBlockGroup.subType !== 'text') {
-        changeBlockState(nextState as TextBlock);
-      } else {
-        changeBlockState(nextState as NonTextBlock);
+  const getNextStateStrategyFactory = (action: { type: Directions }) => {
+    switch (action.type) {
+      case DirectionsContstants.top: {
+        return topLineStrategy;
       }
-    };
+      case DirectionsContstants.right: {
+        return rightLineStrategy;
+      }
+      case DirectionsContstants.bottom: {
+        return bottomLineStrategy;
+      }
+      case DirectionsContstants.left: {
+        return leftLineStrategy;
+      }
 
-    window.addEventListener('mousemove', lineTopMouseMoveHandler);
+      default: {
+        return null;
+      }
+    }
+  };
+
+  const topLineStrategy = (e: MouseEvent, block: Blocks) => {
+    /**
+     * @inner
+     * useMouseStateAtom으로 하지 않는 이유는, 현재 이벤트에서 가져오는 값이 훨씬 속도가 빠르기 때문이다.
+     * throttle을 제거하더라도, mouseMove의 변수를 가져오는 속도는 생각보다 느리다.
+     * 전역 상태의 값을 찾아야 하기 때문이다.
+     *
+     * 반면 해당 작업은 유저가 세밀하게 작업하기 때문에 속도에 대한 역치가 상당히 낮다.
+     * 따라서 어쩔 수 없이 리플로우를 유발하더라도 사용한다.
+     */
+    const { nextTop, nextBottom } = getNextFromTop(e.clientY);
+    const nextHeight = nextBottom - nextTop;
+
+    return getActiveBlockNextState({
+      block,
+      nextSize: { height: nextHeight + 'px' },
+      nextPosition: { top: nextTop + 'px' },
+    });
+  };
+
+  const rightLineStrategy = (e: MouseEvent, block: Blocks) => {
+    const { nextLeft, nextRight } = getNextFromRight(e.clientX);
+    const nextWidth = nextRight - nextLeft;
+
+    return getActiveBlockNextState({
+      block,
+      nextSize: { width: nextWidth + 'px' },
+      nextPosition: { left: nextLeft + 'px' },
+    });
+  };
+
+  const bottomLineStrategy = (e: MouseEvent, block: Blocks) => {
+    const { nextTop, nextBottom } = getNextFromBottom(e.clientY);
+    const nextHeight = nextBottom - nextTop;
+
+    return getActiveBlockNextState({
+      block,
+      nextSize: { height: nextHeight + 'px' },
+      nextPosition: { top: nextTop + 'px' },
+    });
+  };
+
+  const leftLineStrategy = (e: MouseEvent, block: Blocks) => {
+    const { nextLeft, nextRight } = getNextFromLeft(e.clientX);
+    const nextWidth = nextRight - nextLeft;
+
+    return getActiveBlockNextState({
+      block,
+      nextSize: { width: nextWidth + 'px' },
+      nextPosition: { left: nextLeft + 'px' },
+    });
+  };
+
+  const lineMouseMoveHandler = (e: MouseEvent) => {
+    if (activedBlockGroup?.type !== 'block') return;
+    if (!nowUpdate || nowUpdate in EdgeDirectionsContstants || !isUpdating[nowUpdate]) return;
+
+    const getNextState = getNextStateStrategyFactory({
+      type: nowUpdate as Directions,
+    });
+
+    if (getNextState === null) return;
+
+    const nextState = getNextState(e, activedBlockGroup);
+
+    if (activedBlockGroup.subType === 'text') {
+      changeBlockState(nextState as TextBlock);
+    } else {
+      changeBlockState(nextState as NonTextBlock);
+    }
+  };
+
+  useEffect(() => {
+    window.addEventListener('mousemove', lineMouseMoveHandler);
 
     return () => {
-      window.removeEventListener('mousemove', lineTopMouseMoveHandler);
+      window.removeEventListener('mousemove', lineMouseMoveHandler);
     };
-
-    /* eslint-disable-next-line */
-  }, [isUpdating, pageState]);
-
-  useEffect(() => {
-    if (activedBlockGroup === null || activedBlockGroup.type !== 'block') return;
-    if (!isUpdating.bottom) return;
-
-    const lineBottomMouseMoveHandler = (e: MouseEvent) => {
-      const { nextTop, nextBottom } = getNextFromBottom(e.clientY);
-
-      const nextState = getActiveBlockNextState({
-        block: activedBlockGroup,
-        nextSize: { height: nextBottom - nextTop + 'px' },
-        nextPosition: { top: nextTop + 'px' },
-      });
-
-      if (activedBlockGroup.subType !== 'text') {
-        changeBlockState(nextState as TextBlock);
-      } else {
-        changeBlockState(nextState as NonTextBlock);
-      }
-    };
-
-    window.addEventListener('mousemove', lineBottomMouseMoveHandler, { passive: true });
-
-    return () => {
-      window.removeEventListener('mousemove', lineBottomMouseMoveHandler);
-    };
-
-    /* eslint-disable-next-line */
-  }, [isUpdating, pageState]);
-
-  useEffect(() => {
-    if (activedBlockGroup === null || activedBlockGroup.type !== 'block') return;
-    if (!isUpdating.left) return;
-
-    const lineLeftMouseMoveHandler = (e: MouseEvent) => {
-      const { nextLeft, nextRight } = getNextFromLeft(e.clientX);
-
-      const nextWidth = nextRight - nextLeft;
-
-      const nextState = getActiveBlockNextState({
-        block: activedBlockGroup,
-        nextSize: { width: nextWidth + 'px' },
-        nextPosition: { left: nextLeft + 'px' },
-      });
-
-      if (activedBlockGroup.subType !== 'text') {
-        changeBlockState(nextState as TextBlock);
-      } else {
-        changeBlockState(nextState as NonTextBlock);
-      }
-    };
-
-    window.addEventListener('mousemove', lineLeftMouseMoveHandler, { passive: true });
-
-    return () => {
-      window.removeEventListener('mousemove', lineLeftMouseMoveHandler);
-    };
-
-    /* eslint-disable-next-line */
-  }, [isUpdating, pageState]);
-
-  useEffect(() => {
-    if (activedBlockGroup === null || activedBlockGroup.type === 'group') return;
-    if (!isUpdating.right) return;
-
-    const lineRightMouseMoveHandler = (e: MouseEvent) => {
-      /**
-       * @inner
-       * useMouseStateAtom으로 하지 않는 이유는, 현재 이벤트에서 가져오는 값이 훨씬 속도가 빠르기 때문이다.
-       * throttle을 제거하더라도, mouseMove의 변수를 가져오는 속도는 생각보다 느리다.
-       * 전역 상태의 값을 찾아야 하기 때문이다.
-       *
-       * 반면 해당 작업은 유저가 세밀하게 작업하기 때문에 속도에 대한 역치가 상당히 낮다.
-       * 따라서 어쩔 수 없이 리플로우를 유발하더라도 사용한다.
-       */
-      const { nextLeft, nextRight } = getNextFromRight(e.clientX);
-      const nextWidth = nextRight - nextLeft;
-
-      const nextState = getActiveBlockNextState({
-        block: activedBlockGroup,
-        nextSize: { width: nextWidth + 'px' },
-        nextPosition: { left: nextLeft + 'px' },
-      });
-
-      if (activedBlockGroup.subType !== 'text') {
-        changeBlockState(nextState as TextBlock);
-      } else {
-        changeBlockState(nextState as NonTextBlock);
-      }
-    };
-
-    window.addEventListener('mousemove', lineRightMouseMoveHandler, { passive: true });
-
-    return () => {
-      window.removeEventListener('mousemove', lineRightMouseMoveHandler);
-    };
-
-    /* eslint-disable-next-line */
-  }, [isUpdating, pageState]);
+  }, [lineMouseMoveHandler]);
 
   useEffect(() => {
     if (activedBlockGroup === null || activedBlockGroup.type !== 'block') return;
