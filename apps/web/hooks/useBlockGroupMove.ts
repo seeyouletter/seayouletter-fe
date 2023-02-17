@@ -7,7 +7,7 @@ import { MouseEvent as ReactMouseEvent, useEffect, useRef, useState } from 'reac
 
 import { convertPxStringToNumber } from '@utils/index';
 
-import { Position } from 'ui';
+import { NonTextBlock, Position, TextBlock } from 'ui';
 
 import { UseLeafParams } from './types';
 import { useBlockGroupsAtom } from './useBlockGroupsAtom';
@@ -59,60 +59,55 @@ export const useBlockGroupMove = ({ data }: { data: UseLeafParams['data'] }) => 
 
   const boxRef = useRef<HTMLDivElement | null>(null);
 
+  const mouseMoveHandler = (e: MouseEvent) => {
+    if (!isPossibleMove || !mouseState.moveActived) return;
+
+    /**
+     * @inner
+     * 이 역시 mouseState에서 가져오려 했으나, 생각보다 느리다.
+     * 이벤트 관련된 위치 상태값들은 최대한 이벤트 객체에서 가져오는 것이 오히려 더 수월한 듯하다.
+     * (리액트의 전역에서 관리할 때는 항상 필연적으로 리액트에서의 배치로 인한 시간이 추가로 소요되기 때문이다.)
+     */
+    const { clientX, clientY } = e;
+
+    const nowLeft = clientX - +pageState.left - lastOffset.left;
+    const nowTop = pageState.scrollY - +pageState.top + clientY - lastOffset.top;
+
+    updatedPosition.current.left = nowLeft + 'px';
+    updatedPosition.current.top = nowTop + 'px';
+
+    const nextState = {
+      ...data,
+      style: {
+        ...data.style,
+        position: {
+          ...data.style.position,
+          left: nowLeft + 'px',
+          top: nowTop + 'px',
+        },
+      },
+    };
+
+    if (data.subType !== 'text') {
+      changeBlockState(nextState as TextBlock);
+    } else {
+      changeBlockState(nextState as NonTextBlock);
+    }
+  };
+
   useEffect(() => {
     if (!boxRef.current) return;
 
-    const mouseMoveHandler = () => {
-      if (!isPossibleMove || !mouseState.moveActived) return;
-
-      const nowLeft = mouseState.x - +pageState.left - lastOffset.left;
-      const nowTop = pageState.scrollY - +pageState.top + mouseState.y - lastOffset.top;
-
-      updatedPosition.current.left = nowLeft + 'px';
-      updatedPosition.current.top = nowTop + 'px';
-
-      if (data.subType !== 'text') {
-        changeBlockState({
-          ...data,
-          style: {
-            ...data.style,
-            position: {
-              ...data.style.position,
-              left: nowLeft + 'px',
-              top: nowTop + 'px',
-            },
-          },
-        });
-      } else {
-        changeBlockState({
-          ...data,
-          style: {
-            ...data.style,
-            position: {
-              ...data.style.position,
-              left: nowLeft + 'px',
-              top: nowTop + 'px',
-            },
-          },
-        });
-      }
-    };
-
-    window.addEventListener('scroll', mouseMoveHandler, {
-      passive: true,
-    });
-
-    window.addEventListener('mousemove', mouseMoveHandler, {
-      passive: true,
-    });
+    // document.body.addEventListener('scroll', mouseMoveHandler, { passive: true });
+    window.addEventListener('mousemove', mouseMoveHandler, { passive: true });
 
     return () => {
       window.removeEventListener('mousemove', mouseMoveHandler);
-      window.removeEventListener('scroll', mouseMoveHandler);
+      // window.removeEventListener('scroll', mouseMoveHandler);
     };
 
     /* eslint-disable-next-line react-hooks/exhaustive-deps */
-  }, [boxRef, isPossibleMove, pageState.scrollY, mouseState]);
+  }, [mouseMoveHandler, pageState]);
 
   const onMouseUp = () => {
     setIsPossibleMove(() => false);

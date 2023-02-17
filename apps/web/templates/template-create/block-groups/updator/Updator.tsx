@@ -81,7 +81,7 @@ function UpdatorLine({ direction, onMouseDown, onMouseUp }: LineInterface) {
       width={widths[direction]}
       height={heights[direction]}
       background={theme.color.primary[200]}
-      onMouseDownCapture={onMouseDown}
+      onMouseDown={onMouseDown}
       onMouseUp={onMouseUp}
     />
   );
@@ -122,7 +122,7 @@ function UpdatorEdge({ direction, onMouseDown, onMouseUp }: EdgeInterface) {
       height="6px"
       background={theme.color.white}
       border={theme.border.primaryLight}
-      onMouseDownCapture={onMouseDown}
+      onMouseDown={onMouseDown}
       onMouseUp={onMouseUp}
     />
   );
@@ -160,6 +160,12 @@ export function Updator({ item }: { item: NodeItemPropsInterface['item'] }) {
     e: ReactMouseEvent,
     direction: EdgeDirectionsConstants | DirectionsConstants
   ) => {
+    /**
+     * @description
+     * Updator의 Line은 Leaf들 위에 존재한다.
+     * 이때, 전파를 막지 않는다면, onMouseDown을 하는 시점에서 이미 Leaf에서의 onMouseDown과, onMouseMove가 동시에 동작하게 된다.
+     * 따라서 전파를 막아줌으로써 더이상 버블링을 하지 않도록 한다.
+     */
     e.stopPropagation();
 
     if (activedBlockGroup?.type === 'group' || isMousePressing || isUpdating[direction]) return;

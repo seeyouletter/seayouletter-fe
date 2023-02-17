@@ -9,6 +9,12 @@ import { throttle } from '@utils/index';
 export const useMouseStateAtom = () => {
   const [mouseState, setMouseState] = useAtom(mouseStateAtom);
 
+  /**
+   * @param
+   * options: {
+   *  throttle: boolean(default: true)
+   * }
+   */
   const activeMouseMove = (
     x: number,
     y: number,
