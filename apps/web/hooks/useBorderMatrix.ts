@@ -4,7 +4,7 @@ import { blockBorderStateAtom, concurrentlyActivedSections } from '@atoms/index'
 
 import { useBlockGroupsAtom } from '@hooks/useBlockGroupsAtom';
 
-import { BorderName, DirectionsContstants, EdgeDirectionsContstants } from 'ui';
+import { BorderName, DirectionsConstants, EdgeDirectionsConstants } from 'ui';
 
 export const useBorderMatrix = () => {
   const [blockBorderState, setBlockBorderState] = useAtom(blockBorderStateAtom);
@@ -26,8 +26,8 @@ export const useBorderMatrix = () => {
     };
 
     blockBorderState.concurrentlyActivedSection.forEach((concurrentlyActivedDirection) => {
-      if (concurrentlyActivedDirection in EdgeDirectionsContstants) {
-        nextBorderRadius[concurrentlyActivedDirection as EdgeDirectionsContstants] = value;
+      if (concurrentlyActivedDirection in EdgeDirectionsConstants) {
+        nextBorderRadius[concurrentlyActivedDirection as EdgeDirectionsConstants] = value;
       }
     });
 
@@ -42,7 +42,7 @@ export const useBorderMatrix = () => {
   const onClickBorderSection = ({
     key,
   }: {
-    key: EdgeDirectionsContstants | DirectionsContstants | 'all';
+    key: EdgeDirectionsConstants | DirectionsConstants | 'all';
   }) => {
     setBlockBorderState((state) => ({
       ...state,

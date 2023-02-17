@@ -11,17 +11,17 @@ import {
   DefaultHStack,
   DefaultText,
   DefaultVStack,
-  DirectionsContstants,
-  EdgeDirectionsContstants,
+  DirectionsConstants,
+  EdgeDirectionsConstants,
   StrongText,
 } from 'ui';
 
 interface SubMatrixCommonPropsInterface {
-  onMouseOverMatrix: (key: EdgeDirectionsContstants | DirectionsContstants | 'all') => void;
+  onMouseOverMatrix: (key: EdgeDirectionsConstants | DirectionsConstants | 'all') => void;
   onClickBorderSection: ({
     key,
   }: {
-    key: EdgeDirectionsContstants | DirectionsContstants | 'all';
+    key: EdgeDirectionsConstants | DirectionsConstants | 'all';
   }) => void;
   onBlurMatrix: () => void;
 }
@@ -29,12 +29,12 @@ interface SubMatrixCommonPropsInterface {
 interface LineMatrixPropsInterface extends SubMatrixCommonPropsInterface {
   direction: 'vertical' | 'horizontal';
   actived: boolean;
-  position: DirectionsContstants;
+  position: DirectionsConstants;
 }
 
 interface EdgeMatrixPropsInterface extends SubMatrixCommonPropsInterface {
   actived: boolean;
-  position: EdgeDirectionsContstants;
+  position: EdgeDirectionsConstants;
 }
 
 const initialmatrixState = {
@@ -65,9 +65,9 @@ const EdgeMatrix = ({
       backgroundColor={actived ? theme.color.primary[500] : theme.color.transparent}
       transition="all 0.2s"
       cursor="pointer"
-      onMouseOver={() => onMouseOverMatrix(EdgeDirectionsContstants[position])}
+      onMouseOver={() => onMouseOverMatrix(EdgeDirectionsConstants[position])}
       onMouseLeave={onBlurMatrix}
-      onClick={() => onClickBorderSection({ key: EdgeDirectionsContstants[position] })}
+      onClick={() => onClickBorderSection({ key: EdgeDirectionsConstants[position] })}
     />
   );
 };
@@ -100,9 +100,9 @@ const LineMatrix = ({
       backgroundColor={actived ? theme.color.primary[500] : theme.color.transparent}
       transition="all 0.2s"
       cursor="pointer"
-      onMouseOver={() => onMouseOverMatrix(DirectionsContstants[position])}
+      onMouseOver={() => onMouseOverMatrix(DirectionsConstants[position])}
       onMouseLeave={onBlurMatrix}
-      onClick={() => onClickBorderSection({ key: DirectionsContstants[position] })}
+      onClick={() => onClickBorderSection({ key: DirectionsConstants[position] })}
     >
       <DefaultText textAlign="center" size={theme.fontSize.xs} color={theme.color.white}>
         {BorderName[position]}
@@ -135,7 +135,7 @@ export function BorderMatrix() {
     setActiveSections();
   }, [setActiveSections]);
 
-  const onMouseOverMatrix = (key: EdgeDirectionsContstants | DirectionsContstants | 'all') => {
+  const onMouseOverMatrix = (key: EdgeDirectionsConstants | DirectionsConstants | 'all') => {
     const nextState = { ...initialmatrixState };
 
     const concurrencies = concurrentlyActivedSections[key];
@@ -160,8 +160,8 @@ export function BorderMatrix() {
       <DefaultVStack>
         <DefaultHStack>
           <EdgeMatrix
-            actived={activedState[EdgeDirectionsContstants.topLeft]}
-            position={EdgeDirectionsContstants.topLeft}
+            actived={activedState[EdgeDirectionsConstants.topLeft]}
+            position={EdgeDirectionsConstants.topLeft}
             onMouseOverMatrix={onMouseOverMatrix}
             onBlurMatrix={onBlurMatrix}
             onClickBorderSection={onClickBorderSection}
@@ -169,16 +169,16 @@ export function BorderMatrix() {
 
           <LineMatrix
             direction="horizontal"
-            actived={activedState[DirectionsContstants.top]}
-            position={DirectionsContstants.top}
+            actived={activedState[DirectionsConstants.top]}
+            position={DirectionsConstants.top}
             onMouseOverMatrix={onMouseOverMatrix}
             onBlurMatrix={onBlurMatrix}
             onClickBorderSection={onClickBorderSection}
           />
 
           <EdgeMatrix
-            actived={activedState[EdgeDirectionsContstants.topRight]}
-            position={EdgeDirectionsContstants.topRight}
+            actived={activedState[EdgeDirectionsConstants.topRight]}
+            position={EdgeDirectionsConstants.topRight}
             onMouseOverMatrix={onMouseOverMatrix}
             onBlurMatrix={onBlurMatrix}
             onClickBorderSection={onClickBorderSection}
@@ -188,8 +188,8 @@ export function BorderMatrix() {
         <DefaultHStack>
           <LineMatrix
             direction="vertical"
-            actived={activedState[DirectionsContstants.left]}
-            position={DirectionsContstants.left}
+            actived={activedState[DirectionsConstants.left]}
+            position={DirectionsConstants.left}
             onMouseOverMatrix={onMouseOverMatrix}
             onBlurMatrix={onBlurMatrix}
             onClickBorderSection={onClickBorderSection}
@@ -207,8 +207,8 @@ export function BorderMatrix() {
 
           <LineMatrix
             direction="vertical"
-            actived={activedState[DirectionsContstants.right]}
-            position={DirectionsContstants.right}
+            actived={activedState[DirectionsConstants.right]}
+            position={DirectionsConstants.right}
             onMouseOverMatrix={onMouseOverMatrix}
             onBlurMatrix={onBlurMatrix}
             onClickBorderSection={onClickBorderSection}
@@ -217,8 +217,8 @@ export function BorderMatrix() {
 
         <DefaultHStack>
           <EdgeMatrix
-            actived={activedState[EdgeDirectionsContstants.bottomLeft]}
-            position={EdgeDirectionsContstants.bottomLeft}
+            actived={activedState[EdgeDirectionsConstants.bottomLeft]}
+            position={EdgeDirectionsConstants.bottomLeft}
             onMouseOverMatrix={onMouseOverMatrix}
             onBlurMatrix={onBlurMatrix}
             onClickBorderSection={onClickBorderSection}
@@ -226,16 +226,16 @@ export function BorderMatrix() {
 
           <LineMatrix
             direction="horizontal"
-            actived={activedState[DirectionsContstants.bottom]}
-            position={DirectionsContstants.bottom}
+            actived={activedState[DirectionsConstants.bottom]}
+            position={DirectionsConstants.bottom}
             onMouseOverMatrix={onMouseOverMatrix}
             onBlurMatrix={onBlurMatrix}
             onClickBorderSection={onClickBorderSection}
           />
 
           <EdgeMatrix
-            actived={activedState[EdgeDirectionsContstants.bottomRight]}
-            position={EdgeDirectionsContstants.bottomRight}
+            actived={activedState[EdgeDirectionsConstants.bottomRight]}
+            position={EdgeDirectionsConstants.bottomRight}
             onMouseOverMatrix={onMouseOverMatrix}
             onBlurMatrix={onBlurMatrix}
             onClickBorderSection={onClickBorderSection}

@@ -1,6 +1,6 @@
 import { FormEvent } from 'react';
 
-import { Border, DirectionsContstants, EdgeDirectionsContstants } from 'ui';
+import { Border, DirectionsConstants, EdgeDirectionsConstants } from 'ui';
 
 import { useBlockGroupsAtom } from './useBlockGroupsAtom';
 import { useBorderMatrix } from './useBorderMatrix';
@@ -41,13 +41,13 @@ export const useBorderModifier = () => {
     const targetObj = activedBlockGroup.style[key];
 
     const concurrentlyActivedEdges = blockBorderState.concurrentlyActivedSection.filter(
-      (v) => v in EdgeDirectionsContstants
+      (v) => v in EdgeDirectionsConstants
     );
 
-    const nowStandardValue = targetObj[concurrentlyActivedEdges[0] as EdgeDirectionsContstants];
+    const nowStandardValue = targetObj[concurrentlyActivedEdges[0] as EdgeDirectionsConstants];
 
     return {
-      success: (concurrentlyActivedEdges as EdgeDirectionsContstants[]).every(
+      success: (concurrentlyActivedEdges as EdgeDirectionsConstants[]).every(
         (key) => targetObj[key] === nowStandardValue
       ),
       value: nowStandardValue,
@@ -55,7 +55,7 @@ export const useBorderModifier = () => {
   };
 
   const activeSectionBorderWidth = () => {
-    if (blockBorderState.activeBorder in EdgeDirectionsContstants) return '';
+    if (blockBorderState.activeBorder in EdgeDirectionsConstants) return '';
     if (activedBlockGroup === null || activedBlockGroup.type !== 'block') return '';
 
     if (blockBorderState.activeBorder === 'all') {
@@ -65,13 +65,13 @@ export const useBorderModifier = () => {
         return 'mixed';
       }
     } else {
-      return activedBlockGroup.style.border[blockBorderState.activeBorder as DirectionsContstants]
+      return activedBlockGroup.style.border[blockBorderState.activeBorder as DirectionsConstants]
         .width;
     }
   };
 
   const activeSectionBorderColor = () => {
-    if (blockBorderState.activeBorder in EdgeDirectionsContstants) return '';
+    if (blockBorderState.activeBorder in EdgeDirectionsConstants) return '';
     if (activedBlockGroup === null || activedBlockGroup.type !== 'block') return '';
 
     if (blockBorderState.activeBorder === 'all') {
@@ -81,13 +81,13 @@ export const useBorderModifier = () => {
         return 'mixed';
       }
     } else {
-      return activedBlockGroup.style.border[blockBorderState.activeBorder as DirectionsContstants]
+      return activedBlockGroup.style.border[blockBorderState.activeBorder as DirectionsConstants]
         .color;
     }
   };
 
   const activeSectionBorderStyle = () => {
-    if (blockBorderState.activeBorder in EdgeDirectionsContstants) return '';
+    if (blockBorderState.activeBorder in EdgeDirectionsConstants) return '';
     if (activedBlockGroup === null || activedBlockGroup.type !== 'block') return '';
 
     if (blockBorderState.activeBorder === 'all') {
@@ -97,13 +97,13 @@ export const useBorderModifier = () => {
         return 'mixed';
       }
     } else {
-      return activedBlockGroup.style.border[blockBorderState.activeBorder as DirectionsContstants]
+      return activedBlockGroup.style.border[blockBorderState.activeBorder as DirectionsConstants]
         .style;
     }
   };
 
   const activeSectionBorderOpacity = () => {
-    if (blockBorderState.activeBorder in EdgeDirectionsContstants) return '';
+    if (blockBorderState.activeBorder in EdgeDirectionsConstants) return '';
     if (activedBlockGroup === null || activedBlockGroup.type !== 'block') return '';
 
     if (blockBorderState.activeBorder === 'all') {
@@ -113,7 +113,7 @@ export const useBorderModifier = () => {
         return 'mixed';
       }
     } else {
-      return activedBlockGroup.style.border[blockBorderState.activeBorder as DirectionsContstants]
+      return activedBlockGroup.style.border[blockBorderState.activeBorder as DirectionsConstants]
         .opacity;
     }
   };
@@ -128,7 +128,7 @@ export const useBorderModifier = () => {
       } else {
         return 'mixed';
       }
-    } else if (blockBorderState.activeBorder in DirectionsContstants) {
+    } else if (blockBorderState.activeBorder in DirectionsConstants) {
       const { success, value } = checkEdgeValuesConditionalEqual('borderRadius');
 
       if (success) {
@@ -137,7 +137,7 @@ export const useBorderModifier = () => {
         return 'mixed';
       }
     } else {
-      return borderRadius[blockBorderState.activeBorder as EdgeDirectionsContstants];
+      return borderRadius[blockBorderState.activeBorder as EdgeDirectionsConstants];
     }
   };
 
@@ -173,12 +173,12 @@ export const useBorderModifier = () => {
       setBlockAllBorderStyle({ type: 'block', id: activedBlockGroup.id, border: nextBorderState });
     } else {
       if (type === 'width') {
-        if (blockBorderState.activeBorder in DirectionsContstants) {
+        if (blockBorderState.activeBorder in DirectionsConstants) {
           setBlockBorderWidth({
             subType: activedBlockGroup.subType,
             type: activedBlockGroup.type,
             id: activedBlockGroup.id,
-            key: blockBorderState.activeBorder as DirectionsContstants,
+            key: blockBorderState.activeBorder as DirectionsConstants,
             borderWidth: value,
           });
         }
@@ -189,7 +189,7 @@ export const useBorderModifier = () => {
           subType: activedBlockGroup.subType,
           type: activedBlockGroup.type,
           id: activedBlockGroup.id,
-          key: blockBorderState.activeBorder as DirectionsContstants,
+          key: blockBorderState.activeBorder as DirectionsConstants,
           borderColor: value,
         });
       }
@@ -199,7 +199,7 @@ export const useBorderModifier = () => {
           subType: activedBlockGroup.subType,
           type: activedBlockGroup.type,
           id: activedBlockGroup.id,
-          key: blockBorderState.activeBorder as DirectionsContstants,
+          key: blockBorderState.activeBorder as DirectionsConstants,
           borderStyle: value as Border['style'],
         });
       }
@@ -209,7 +209,7 @@ export const useBorderModifier = () => {
           subType: activedBlockGroup.subType,
           type: activedBlockGroup.type,
           id: activedBlockGroup.id,
-          key: blockBorderState.activeBorder as DirectionsContstants,
+          key: blockBorderState.activeBorder as DirectionsConstants,
           borderOpacity: value,
         });
       }
@@ -234,14 +234,14 @@ export const useBorderModifier = () => {
       nextBorderRadius.bottomLeft = value;
       nextBorderRadius.bottomRight = value;
     } else {
-      if (blockBorderState.activeBorder in DirectionsContstants) {
+      if (blockBorderState.activeBorder in DirectionsConstants) {
         blockBorderState.concurrentlyActivedSection.forEach((section) => {
-          if (section in EdgeDirectionsContstants) {
-            nextBorderRadius[section as EdgeDirectionsContstants] = value;
+          if (section in EdgeDirectionsConstants) {
+            nextBorderRadius[section as EdgeDirectionsConstants] = value;
           }
         });
       } else {
-        nextBorderRadius[blockBorderState.activeBorder as EdgeDirectionsContstants] = value;
+        nextBorderRadius[blockBorderState.activeBorder as EdgeDirectionsConstants] = value;
       }
     }
 

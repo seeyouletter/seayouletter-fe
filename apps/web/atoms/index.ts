@@ -14,4 +14,5 @@ export { templateCreateToolbarAtom, initialBlockCreationState } from './template
 
 export { toastAtom } from './toastAtom';
 
+export type { MouseStateAtomInterface } from './mouseStateAtom';
 export { mouseStateAtom } from './mouseStateAtom';
