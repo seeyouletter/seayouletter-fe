@@ -20,66 +20,30 @@ import {
 } from 'ui';
 
 import { NodeItemPropsInterface } from '../types';
-
-interface LineInterface {
-  direction: DirectionsConstants;
-  onMouseDown: (e: ReactMouseEvent) => void;
-  onMouseUp: () => void;
-}
-
-interface EdgeInterface {
-  direction: EdgeDirectionsConstants;
-  onMouseDown: (e: ReactMouseEvent) => void;
-  onMouseUp: () => void;
-}
+import { EdgeInterface, LineInterface } from './types';
+import {
+  edgeCursors,
+  edgeLefts,
+  edgeTops,
+  lineCursors,
+  lineHeights,
+  lineLefts,
+  lineTops,
+  lineWidths,
+} from './utils';
 
 function UpdatorLine({ direction, onMouseDown, onMouseUp }: LineInterface) {
   const theme = useTheme();
 
-  const cursors = {
-    [DirectionsConstants.top]: 'ns-resize',
-    [DirectionsConstants.right]: 'ew-resize',
-    [DirectionsConstants.bottom]: 'ns-resize',
-    [DirectionsConstants.left]: 'ew-resize',
-  };
-
-  const tops = {
-    [DirectionsConstants.top]: '-1px',
-    [DirectionsConstants.right]: '0',
-    [DirectionsConstants.bottom]: '100%',
-    [DirectionsConstants.left]: '0',
-  };
-
-  const lefts = {
-    [DirectionsConstants.top]: '0',
-    [DirectionsConstants.right]: '100%',
-    [DirectionsConstants.bottom]: '-1px',
-    [DirectionsConstants.left]: '-1px',
-  };
-
-  const widths = {
-    [DirectionsConstants.top]: '100%',
-    [DirectionsConstants.right]: '2px',
-    [DirectionsConstants.bottom]: '100%',
-    [DirectionsConstants.left]: '2px',
-  };
-
-  const heights = {
-    [DirectionsConstants.top]: '2px',
-    [DirectionsConstants.right]: '100%',
-    [DirectionsConstants.bottom]: '2px',
-    [DirectionsConstants.left]: '100%',
-  };
-
   return (
     <DefaultBox
-      cursor={cursors[direction]}
+      cursor={lineCursors[direction]}
       position="absolute"
       zIndex={9999}
-      left={lefts[direction]}
-      top={tops[direction]}
-      width={widths[direction]}
-      height={heights[direction]}
+      left={lineLefts[direction]}
+      top={lineTops[direction]}
+      width={lineWidths[direction]}
+      height={lineHeights[direction]}
       background={theme.color.primary[200]}
       onMouseDown={onMouseDown}
       onMouseUp={onMouseUp}
@@ -90,34 +54,13 @@ function UpdatorLine({ direction, onMouseDown, onMouseUp }: LineInterface) {
 function UpdatorEdge({ direction, onMouseDown, onMouseUp }: EdgeInterface) {
   const theme = useTheme();
 
-  const cursors = {
-    [EdgeDirectionsConstants.topLeft]: 'nwse-resize',
-    [EdgeDirectionsConstants.topRight]: 'nesw-resize',
-    [EdgeDirectionsConstants.bottomRight]: 'nwse-resize',
-    [EdgeDirectionsConstants.bottomLeft]: 'nesw-resize',
-  };
-
-  const tops = {
-    [EdgeDirectionsConstants.topLeft]: '-3px',
-    [EdgeDirectionsConstants.topRight]: '-3px',
-    [EdgeDirectionsConstants.bottomRight]: 'calc(100% - 3px)',
-    [EdgeDirectionsConstants.bottomLeft]: 'calc(100% - 3px)',
-  };
-
-  const lefts = {
-    [EdgeDirectionsConstants.topLeft]: '-3px',
-    [EdgeDirectionsConstants.topRight]: 'calc(100% - 3px)',
-    [EdgeDirectionsConstants.bottomRight]: 'calc(100% - 3px)',
-    [EdgeDirectionsConstants.bottomLeft]: '-3px',
-  };
-
   return (
     <DefaultBox
-      cursor={cursors[direction]}
+      cursor={edgeCursors[direction]}
       position="absolute"
       zIndex={10000}
-      left={lefts[direction]}
-      top={tops[direction]}
+      left={edgeLefts[direction]}
+      top={edgeTops[direction]}
       width="6px"
       height="6px"
       background={theme.color.white}
@@ -404,6 +347,7 @@ export function Updator({ item }: { item: NodeItemPropsInterface['item'] }) {
   };
 
   useEffect(() => {
+    if (!nowUpdate || !(nowUpdate in DirectionsConstants)) return;
     window.addEventListener('mousemove', lineMouseMoveHandler);
 
     return () => {
@@ -501,6 +445,7 @@ export function Updator({ item }: { item: NodeItemPropsInterface['item'] }) {
   };
 
   useEffect(() => {
+    if (!nowUpdate || !(nowUpdate in EdgeDirectionsConstants)) return;
     window.addEventListener('mousemove', edgeMouseMoveHandler, { passive: true });
 
     return () => {

@@ -4,7 +4,7 @@ import { useBlockGroupMove, useBlockGroupsAtom, useSearchActiveBlockGroup } from
 
 import { BlockGroupPriorities, DefaultBox, ShapeBlock } from 'ui';
 
-import { Updator } from './updator/Updator';
+import { Updator } from './updator';
 
 interface ShapeLeafPropsInterface extends BlockGroupPriorities {
   data: ShapeBlock;
