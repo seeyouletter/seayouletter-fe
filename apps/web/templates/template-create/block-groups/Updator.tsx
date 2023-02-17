@@ -196,6 +196,9 @@ export function Updator({ item }: { item: NodeItemPropsInterface['item'] }) {
 
   const [isMousePressing, setIsMousePressing] = useState(false);
   const [nowUpdate, setNowUpdate] = useState<EdgeDirections | Directions | null>(null);
+
+  const [blockSnapshot, setBlockSnapshot] = useState<Blocks | null>(null);
+
   const [isUpdating, setIsUpdating] = useState({
     top: false,
     right: false,
@@ -207,12 +210,17 @@ export function Updator({ item }: { item: NodeItemPropsInterface['item'] }) {
     bottomLeft: false,
   });
 
+  const initializeBlockSnapshot = () => {
+    setBlockSnapshot(() => null);
+  };
+
   const onMouseDown = (e: ReactMouseEvent, direction: EdgeDirections | Directions) => {
     e.stopPropagation();
 
-    if (isMousePressing || isUpdating[direction]) return;
+    if (activedBlockGroup?.type === 'group' || isMousePressing || isUpdating[direction]) return;
 
     setIsMousePressing(() => true);
+    setBlockSnapshot(() => activedBlockGroup);
     setIsUpdating((state) => ({ ...state, [direction]: true }));
     setNowUpdate(() => direction);
   };
@@ -227,6 +235,7 @@ export function Updator({ item }: { item: NodeItemPropsInterface['item'] }) {
     });
 
     setIsMousePressing(() => false);
+    initializeBlockSnapshot();
     setIsUpdating((state) => ({ ...state, [direction]: false }));
     setNowUpdate(() => null);
   };
@@ -257,18 +266,18 @@ export function Updator({ item }: { item: NodeItemPropsInterface['item'] }) {
   };
 
   const getNextFromTop = (y: number): { nextTop: number; nextBottom: number } => {
-    if (activedBlockGroup === null || activedBlockGroup.type !== 'block') {
+    if (blockSnapshot?.type !== 'block') {
       return {
         nextTop: 0,
         nextBottom: 0,
       };
     }
 
-    const activedBlockTop = convertPxStringToNumber(activedBlockGroup.style.position.top);
-    const activedBlockHeight = convertPxStringToNumber(activedBlockGroup.style.size.height);
+    const initialBlockTop = convertPxStringToNumber(blockSnapshot.style.position.top);
+    const initialBlockHeight = convertPxStringToNumber(blockSnapshot.style.size.height);
 
     const nextTop = y - +pageState.top + pageState.scrollY;
-    const nextBottom = activedBlockHeight + activedBlockTop;
+    const nextBottom = initialBlockHeight + initialBlockTop;
 
     const isReversed = nextTop > nextBottom;
 
@@ -279,32 +288,33 @@ export function Updator({ item }: { item: NodeItemPropsInterface['item'] }) {
   };
 
   const getNextFromRight = (x: number): { nextLeft: number; nextRight: number } => {
-    if (activedBlockGroup === null || activedBlockGroup.type === 'group') {
+    if (blockSnapshot?.type !== 'block') {
       return {
         nextLeft: 0,
         nextRight: 0,
       };
     }
 
-    const activedBlockLeft = convertPxStringToNumber(activedBlockGroup.style.position.left);
+    const initialBlockLeft = convertPxStringToNumber(blockSnapshot.style.position.left);
     const nowRight = x - +pageState.left;
 
-    const isReversed = nowRight < activedBlockLeft;
+    const isReversed = nowRight < initialBlockLeft;
 
     return {
-      nextLeft: isReversed ? nowRight : activedBlockLeft,
-      nextRight: isReversed ? activedBlockLeft : nowRight,
+      nextLeft: isReversed ? nowRight : initialBlockLeft,
+      nextRight: isReversed ? initialBlockLeft : nowRight,
     };
   };
 
   const getNextFromBottom = (y: number): { nextTop: number; nextBottom: number } => {
-    if (activedBlockGroup === null || activedBlockGroup.type !== 'block') {
+    if (blockSnapshot?.type !== 'block') {
       return {
         nextTop: 0,
         nextBottom: 0,
       };
     }
-    const nextTop = convertPxStringToNumber(activedBlockGroup.style.position.top);
+
+    const nextTop = convertPxStringToNumber(blockSnapshot.style.position.top);
 
     const nextBottom = y + pageState.scrollY - +pageState.top;
 
@@ -317,29 +327,24 @@ export function Updator({ item }: { item: NodeItemPropsInterface['item'] }) {
   };
 
   const getNextFromLeft = (x: number): { nextLeft: number; nextRight: number } => {
-    if (activedBlockGroup === null || activedBlockGroup.type !== 'block') {
+    if (blockSnapshot?.type !== 'block') {
       return {
         nextLeft: 0,
         nextRight: 0,
       };
     }
 
-    const activedBlockLeft = convertPxStringToNumber(activedBlockGroup.style.position.left);
-    const activedBlockWidth = convertPxStringToNumber(activedBlockGroup.style.size.width);
+    const activedBlockLeft = convertPxStringToNumber(blockSnapshot.style.position.left);
+    const activedBlockWidth = convertPxStringToNumber(blockSnapshot.style.size.width);
     const activedRightLineFromLeft = activedBlockWidth + activedBlockLeft;
 
-    const pageLeft = +pageState.left;
-
-    const nowLeft = x - pageLeft;
+    const nowLeft = x - +pageState.left;
 
     const isReversed = nowLeft > activedRightLineFromLeft;
 
-    const nextLeft = isReversed ? activedRightLineFromLeft : nowLeft;
-    const nextRight = isReversed ? nowLeft : activedRightLineFromLeft;
-
     return {
-      nextLeft,
-      nextRight,
+      nextLeft: isReversed ? activedRightLineFromLeft : nowLeft,
+      nextRight: isReversed ? nowLeft : activedRightLineFromLeft,
     };
   };
 
@@ -348,9 +353,7 @@ export function Updator({ item }: { item: NodeItemPropsInterface['item'] }) {
     if (!isUpdating.top) return;
 
     const lineTopMouseMoveHandler = (e: MouseEvent) => {
-      const { clientY } = e;
-
-      const { nextTop, nextBottom } = getNextFromTop(clientY);
+      const { nextTop, nextBottom } = getNextFromTop(e.clientY);
       const nextHeight = nextBottom - nextTop;
 
       const nextState = getActiveBlockNextState({
@@ -373,16 +376,14 @@ export function Updator({ item }: { item: NodeItemPropsInterface['item'] }) {
     };
 
     /* eslint-disable-next-line */
-  }, [isUpdating]);
+  }, [isUpdating, getNextFromRight]);
 
   useEffect(() => {
     if (activedBlockGroup === null || activedBlockGroup.type !== 'block') return;
     if (!isUpdating.bottom) return;
 
     const lineBottomMouseMoveHandler = (e: MouseEvent) => {
-      const { clientY } = e;
-
-      const { nextTop, nextBottom } = getNextFromBottom(clientY);
+      const { nextTop, nextBottom } = getNextFromBottom(e.clientY);
 
       const nextState = getActiveBlockNextState({
         block: activedBlockGroup,
@@ -404,16 +405,14 @@ export function Updator({ item }: { item: NodeItemPropsInterface['item'] }) {
     };
 
     /* eslint-disable-next-line */
-  }, [isUpdating]);
+  }, [isUpdating, getNextFromBottom]);
 
   useEffect(() => {
     if (activedBlockGroup === null || activedBlockGroup.type !== 'block') return;
     if (!isUpdating.left) return;
 
     const lineLeftMouseMoveHandler = (e: MouseEvent) => {
-      const { clientX } = e;
-
-      const { nextLeft, nextRight } = getNextFromLeft(clientX);
+      const { nextLeft, nextRight } = getNextFromLeft(e.clientX);
 
       const nextWidth = nextRight - nextLeft;
 
@@ -437,7 +436,7 @@ export function Updator({ item }: { item: NodeItemPropsInterface['item'] }) {
     };
 
     /* eslint-disable-next-line */
-  }, [isUpdating]);
+  }, [isUpdating, getNextFromLeft]);
 
   useEffect(() => {
     if (activedBlockGroup === null || activedBlockGroup.type === 'group') return;
@@ -453,9 +452,7 @@ export function Updator({ item }: { item: NodeItemPropsInterface['item'] }) {
        * 반면 해당 작업은 유저가 세밀하게 작업하기 때문에 속도에 대한 역치가 상당히 낮다.
        * 따라서 어쩔 수 없이 리플로우를 유발하더라도 사용한다.
        */
-      const { clientX } = e;
-
-      const { nextLeft, nextRight } = getNextFromRight(clientX);
+      const { nextLeft, nextRight } = getNextFromRight(e.clientX);
       const nextWidth = nextRight - nextLeft;
 
       const nextState = getActiveBlockNextState({
@@ -478,7 +475,7 @@ export function Updator({ item }: { item: NodeItemPropsInterface['item'] }) {
     };
 
     /* eslint-disable-next-line */
-  }, [isUpdating]);
+  }, [isUpdating, getNextFromRight]);
 
   useEffect(() => {
     if (activedBlockGroup === null || activedBlockGroup.type !== 'block') return;
