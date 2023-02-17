@@ -376,7 +376,7 @@ export function Updator({ item }: { item: NodeItemPropsInterface['item'] }) {
     };
 
     /* eslint-disable-next-line */
-  }, [isUpdating, getNextFromRight]);
+  }, [isUpdating, pageState]);
 
   useEffect(() => {
     if (activedBlockGroup === null || activedBlockGroup.type !== 'block') return;
@@ -405,7 +405,7 @@ export function Updator({ item }: { item: NodeItemPropsInterface['item'] }) {
     };
 
     /* eslint-disable-next-line */
-  }, [isUpdating, getNextFromBottom]);
+  }, [isUpdating, pageState]);
 
   useEffect(() => {
     if (activedBlockGroup === null || activedBlockGroup.type !== 'block') return;
@@ -436,7 +436,7 @@ export function Updator({ item }: { item: NodeItemPropsInterface['item'] }) {
     };
 
     /* eslint-disable-next-line */
-  }, [isUpdating, getNextFromLeft]);
+  }, [isUpdating, pageState]);
 
   useEffect(() => {
     if (activedBlockGroup === null || activedBlockGroup.type === 'group') return;
@@ -475,7 +475,7 @@ export function Updator({ item }: { item: NodeItemPropsInterface['item'] }) {
     };
 
     /* eslint-disable-next-line */
-  }, [isUpdating, getNextFromRight]);
+  }, [isUpdating, pageState]);
 
   useEffect(() => {
     if (activedBlockGroup === null || activedBlockGroup.type !== 'block') return;
@@ -510,7 +510,7 @@ export function Updator({ item }: { item: NodeItemPropsInterface['item'] }) {
     };
 
     /* eslint-disable-next-line */
-  }, [isUpdating]);
+  }, [isUpdating, pageState.scrollY]);
 
   useEffect(() => {
     if (activedBlockGroup === null || activedBlockGroup.type !== 'block') return;
@@ -545,7 +545,7 @@ export function Updator({ item }: { item: NodeItemPropsInterface['item'] }) {
     };
 
     /* eslint-disable-next-line */
-  }, [isUpdating]);
+  }, [isUpdating, pageState.scrollY]);
 
   useEffect(() => {
     if (activedBlockGroup === null || activedBlockGroup.type !== 'block') return;
@@ -580,7 +580,7 @@ export function Updator({ item }: { item: NodeItemPropsInterface['item'] }) {
     };
 
     /* eslint-disable-next-line */
-  }, [isUpdating]);
+  }, [isUpdating, pageState.scrollY]);
 
   useEffect(() => {
     if (activedBlockGroup === null || activedBlockGroup.type !== 'block') return;
@@ -615,7 +615,7 @@ export function Updator({ item }: { item: NodeItemPropsInterface['item'] }) {
     };
 
     /* eslint-disable-next-line */
-  }, [isUpdating]);
+  }, [isUpdating, pageState.scrollY]);
 
   return (
     <>
