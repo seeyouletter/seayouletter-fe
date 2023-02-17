@@ -19,7 +19,7 @@ import {
   TextBlock,
 } from 'ui';
 
-import { NodeItemPropsInterface } from './types';
+import { NodeItemPropsInterface } from '../types';
 
 interface LineInterface {
   onMouseDown: (e: ReactMouseEvent) => void;
@@ -197,7 +197,9 @@ export function Updator({ item }: { item: NodeItemPropsInterface['item'] }) {
   const { addTask } = useTemplateTaskHistories();
 
   const [isMousePressing, setIsMousePressing] = useState(false);
-  const [nowUpdate, setNowUpdate] = useState<EdgeDirections | Directions | null>(null);
+  const [nowUpdate, setNowUpdate] = useState<
+    EdgeDirectionsContstants | DirectionsContstants | null
+  >(null);
 
   const [blockSnapshot, setBlockSnapshot] = useState<Blocks | null>(null);
 
@@ -216,7 +218,10 @@ export function Updator({ item }: { item: NodeItemPropsInterface['item'] }) {
     setBlockSnapshot(() => null);
   };
 
-  const onMouseDown = (e: ReactMouseEvent, direction: EdgeDirections | Directions) => {
+  const onMouseDown = (
+    e: ReactMouseEvent,
+    direction: EdgeDirectionsContstants | DirectionsContstants
+  ) => {
     e.stopPropagation();
 
     if (activedBlockGroup?.type === 'group' || isMousePressing || isUpdating[direction]) return;
@@ -267,6 +272,13 @@ export function Updator({ item }: { item: NodeItemPropsInterface['item'] }) {
     };
   };
 
+  /**
+   * @description
+   * 각 상/하/좌/우의 값을 구하는 유틸함수입니다.
+   * 계산에 있어 상태값을 계속해서 업데이트해야 하기에 컴포넌트 내부에서 사용하였습니다.
+   *
+   * NOTE: 추후 재사용성의 가능성이 있다면 훅으로 사용할 여지도 검토하고 있습니다.
+   */
   const getNextFromTop = (y: number): { nextTop: number; nextBottom: number } => {
     if (blockSnapshot?.type !== 'block') {
       return {
@@ -350,6 +362,10 @@ export function Updator({ item }: { item: NodeItemPropsInterface['item'] }) {
     };
   };
 
+  /**
+   * INFO: Line Strategies
+   * 각 상/하/좌/우의 라인에서 값을 업데이트하는 것을 담당하는 함수입니다.
+   */
   const getNextStateStrategyFactory = (action: { type: Directions }) => {
     switch (action.type) {
       case DirectionsContstants.top: {
@@ -429,7 +445,7 @@ export function Updator({ item }: { item: NodeItemPropsInterface['item'] }) {
     if (!nowUpdate || nowUpdate in EdgeDirectionsContstants || !isUpdating[nowUpdate]) return;
 
     const getNextState = getNextStateStrategyFactory({
-      type: nowUpdate as Directions,
+      type: nowUpdate as DirectionsContstants,
     });
 
     if (getNextState === null) return;
@@ -451,185 +467,142 @@ export function Updator({ item }: { item: NodeItemPropsInterface['item'] }) {
     };
   }, [lineMouseMoveHandler]);
 
-  useEffect(() => {
-    if (activedBlockGroup === null || activedBlockGroup.type !== 'block') return;
-    if (!isUpdating.topLeft) return;
+  /**
+   * INFO: Edge Strategies
+   * 각 상/하/좌/우의 라인에서 값을 업데이트하는 것을 담당하는 함수입니다.
+   */
+  const topLeftEdgeGetNextStyleStrategy = (e: MouseEvent) => {
+    const { clientX, clientY } = e;
 
-    const edgesTopLeftMouseMoveHandler = (e: MouseEvent) => {
-      const { clientX, clientY } = e;
+    return {
+      ...getNextFromTop(clientY),
+      ...getNextFromLeft(clientX),
+    };
+  };
 
-      const { nextTop, nextBottom } = getNextFromTop(clientY);
-      const { nextLeft, nextRight } = getNextFromLeft(clientX);
+  const topRightEdgeGetNextStyleStrategy = (e: MouseEvent) => {
+    const { clientX, clientY } = e;
 
-      const nextWidth = nextRight - nextLeft;
-      const nextHeight = nextBottom - nextTop;
+    return {
+      ...getNextFromTop(clientY),
+      ...getNextFromRight(clientX),
+    };
+  };
 
-      const nextState = getActiveBlockNextState({
-        block: activedBlockGroup,
-        nextSize: { width: nextWidth + 'px', height: nextHeight + 'px' },
-        nextPosition: { left: nextLeft + 'px', top: nextTop + 'px' },
-      });
+  const bottomRightEdgeGetNextStyleStrategy = (e: MouseEvent) => {
+    const { clientX, clientY } = e;
 
-      if (activedBlockGroup.subType !== 'text') {
-        changeBlockState(nextState as TextBlock);
-      } else {
-        changeBlockState(nextState as NonTextBlock);
+    return {
+      ...getNextFromBottom(clientY),
+      ...getNextFromRight(clientX),
+    };
+  };
+
+  const bottomLeftEdgeGetNextStyleStrategy = (e: MouseEvent) => {
+    const { clientX, clientY } = e;
+
+    return {
+      ...getNextFromBottom(clientY),
+      ...getNextFromLeft(clientX),
+    };
+  };
+
+  const getEdgeNextStyleStrategyFactory = (action: { type: EdgeDirectionsContstants }) => {
+    switch (action.type) {
+      case EdgeDirectionsContstants.topLeft: {
+        return topLeftEdgeGetNextStyleStrategy;
       }
-    };
-
-    window.addEventListener('mousemove', edgesTopLeftMouseMoveHandler, { passive: true });
-
-    return () => {
-      window.removeEventListener('mousemove', edgesTopLeftMouseMoveHandler);
-    };
-
-    /* eslint-disable-next-line */
-  }, [isUpdating, pageState.scrollY]);
-
-  useEffect(() => {
-    if (activedBlockGroup === null || activedBlockGroup.type !== 'block') return;
-    if (!isUpdating.topRight) return;
-
-    const edgeTopRightMouseMoveHandler = (e: MouseEvent) => {
-      const { clientX, clientY } = e;
-
-      const { nextTop, nextBottom } = getNextFromTop(clientY);
-      const { nextLeft, nextRight } = getNextFromRight(clientX);
-
-      const nextWidth = nextRight - nextLeft;
-      const nextHeight = nextBottom - nextTop;
-
-      const nextState = getActiveBlockNextState({
-        block: activedBlockGroup,
-        nextSize: { width: nextWidth + 'px', height: nextHeight + 'px' },
-        nextPosition: { left: nextLeft + 'px', top: nextTop + 'px' },
-      });
-
-      if (activedBlockGroup.subType !== 'text') {
-        changeBlockState(nextState as TextBlock);
-      } else {
-        changeBlockState(nextState as NonTextBlock);
+      case EdgeDirectionsContstants.topRight: {
+        return topRightEdgeGetNextStyleStrategy;
       }
-    };
-
-    window.addEventListener('mousemove', edgeTopRightMouseMoveHandler, { passive: true });
-
-    return () => {
-      window.removeEventListener('mousemove', edgeTopRightMouseMoveHandler);
-    };
-
-    /* eslint-disable-next-line */
-  }, [isUpdating, pageState.scrollY]);
-
-  useEffect(() => {
-    if (activedBlockGroup === null || activedBlockGroup.type !== 'block') return;
-    if (!isUpdating.bottomRight) return;
-
-    const edgeBottomRightMouseMoveHandler = (e: MouseEvent) => {
-      const { clientX, clientY } = e;
-
-      const { nextTop, nextBottom } = getNextFromBottom(clientY);
-      const { nextLeft, nextRight } = getNextFromRight(clientX);
-
-      const nextWidth = nextRight - nextLeft;
-      const nextHeight = nextBottom - nextTop;
-
-      const nextState = getActiveBlockNextState({
-        block: activedBlockGroup,
-        nextSize: { width: nextWidth + 'px', height: nextHeight + 'px' },
-        nextPosition: { left: nextLeft + 'px', top: nextTop + 'px' },
-      });
-
-      if (activedBlockGroup.subType !== 'text') {
-        changeBlockState(nextState as TextBlock);
-      } else {
-        changeBlockState(nextState as NonTextBlock);
+      case EdgeDirectionsContstants.bottomRight: {
+        return bottomRightEdgeGetNextStyleStrategy;
       }
-    };
+      case EdgeDirectionsContstants.bottomLeft: {
+        return bottomLeftEdgeGetNextStyleStrategy;
+      }
 
-    window.addEventListener('mousemove', edgeBottomRightMouseMoveHandler, { passive: true });
+      default: {
+        return null;
+      }
+    }
+  };
 
-    return () => {
-      window.removeEventListener('mousemove', edgeBottomRightMouseMoveHandler);
-    };
+  const edgeMouseMoveHandler = (e: MouseEvent) => {
+    if (activedBlockGroup?.type !== 'block') return;
+    if (!nowUpdate || nowUpdate in DirectionsContstants || !isUpdating[nowUpdate]) return;
 
-    /* eslint-disable-next-line */
-  }, [isUpdating, pageState.scrollY]);
+    const nowStrategy = getEdgeNextStyleStrategyFactory({
+      type: nowUpdate as EdgeDirectionsContstants,
+    });
+
+    if (nowStrategy === null) return;
+
+    const { nextLeft, nextRight, nextTop, nextBottom } = nowStrategy(e);
+
+    const nextWidth = nextRight - nextLeft;
+    const nextHeight = nextBottom - nextTop;
+
+    const nextState = getActiveBlockNextState({
+      block: activedBlockGroup as Blocks,
+      nextSize: { width: nextWidth + 'px', height: nextHeight + 'px' },
+      nextPosition: { left: nextLeft + 'px', top: nextTop + 'px' },
+    });
+
+    if (activedBlockGroup.subType !== 'text') {
+      changeBlockState(nextState as TextBlock);
+    } else {
+      changeBlockState(nextState as NonTextBlock);
+    }
+  };
 
   useEffect(() => {
-    if (activedBlockGroup === null || activedBlockGroup.type !== 'block') return;
-    if (!isUpdating.bottomLeft) return;
-
-    const edgesBottomLeftMouseMoveHandler = (e: MouseEvent) => {
-      const { clientX, clientY } = e;
-
-      const { nextTop, nextBottom } = getNextFromBottom(clientY);
-      const { nextLeft, nextRight } = getNextFromLeft(clientX);
-
-      const nextWidth = nextRight - nextLeft;
-      const nextHeight = nextBottom - nextTop;
-
-      const nextState = getActiveBlockNextState({
-        block: activedBlockGroup,
-        nextSize: { width: nextWidth + 'px', height: nextHeight + 'px' },
-        nextPosition: { left: nextLeft + 'px', top: nextTop + 'px' },
-      });
-
-      if (activedBlockGroup.subType !== 'text') {
-        changeBlockState(nextState as TextBlock);
-      } else {
-        changeBlockState(nextState as NonTextBlock);
-      }
-    };
-
-    window.addEventListener('mousemove', edgesBottomLeftMouseMoveHandler, { passive: true });
+    window.addEventListener('mousemove', edgeMouseMoveHandler, { passive: true });
 
     return () => {
-      window.removeEventListener('mousemove', edgesBottomLeftMouseMoveHandler);
+      window.removeEventListener('mousemove', edgeMouseMoveHandler);
     };
-
-    /* eslint-disable-next-line */
-  }, [isUpdating, pageState.scrollY]);
+  }, [edgeMouseMoveHandler]);
 
   return (
     <>
       <Updator.Top
-        onMouseDown={(e) => onMouseDown(e, 'top')}
+        onMouseDown={(e) => onMouseDown(e, DirectionsContstants.top)}
         onMouseUp={() => onMouseUp(nowUpdate)}
       />
 
       <Updator.Right
-        onMouseDown={(e) => onMouseDown(e, 'right')}
+        onMouseDown={(e) => onMouseDown(e, DirectionsContstants.right)}
         onMouseUp={() => onMouseUp(nowUpdate)}
       />
 
       <Updator.Bottom
-        onMouseDown={(e) => onMouseDown(e, 'bottom')}
+        onMouseDown={(e) => onMouseDown(e, DirectionsContstants.bottom)}
         onMouseUp={() => onMouseUp(nowUpdate)}
       />
 
       <Updator.Left
-        onMouseDown={(e) => onMouseDown(e, 'left')}
+        onMouseDown={(e) => onMouseDown(e, DirectionsContstants.left)}
         onMouseUp={() => onMouseUp(nowUpdate)}
       />
 
       <Updator.TopLeftEdge
-        onMouseDown={(e) => onMouseDown(e, 'topLeft')}
+        onMouseDown={(e) => onMouseDown(e, EdgeDirectionsContstants.topLeft)}
         onMouseUp={() => onMouseUp(nowUpdate)}
       />
 
       <Updator.TopRightEdge
-        onMouseDown={(e) => onMouseDown(e, 'topRight')}
+        onMouseDown={(e) => onMouseDown(e, EdgeDirectionsContstants.topRight)}
         onMouseUp={() => onMouseUp(nowUpdate)}
       />
 
       <Updator.BottomRightEdge
-        onMouseDown={(e) => onMouseDown(e, 'bottomRight')}
+        onMouseDown={(e) => onMouseDown(e, EdgeDirectionsContstants.bottomRight)}
         onMouseUp={() => onMouseUp(nowUpdate)}
       />
 
       <Updator.BottomLeftEdge
-        onMouseDown={(e) => onMouseDown(e, 'bottomLeft')}
+        onMouseDown={(e) => onMouseDown(e, EdgeDirectionsContstants.bottomLeft)}
         onMouseUp={() => onMouseUp(nowUpdate)}
       />
     </>
