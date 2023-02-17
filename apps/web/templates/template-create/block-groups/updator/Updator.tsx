@@ -10,9 +10,9 @@ import {
   Blocks,
   DefaultBox,
   Directions,
-  DirectionsContstants,
+  DirectionsConstants,
   EdgeDirections,
-  EdgeDirectionsContstants,
+  EdgeDirectionsConstants,
   GroupBlockSize,
   NonTextBlock,
   Position,
@@ -22,101 +22,102 @@ import {
 import { NodeItemPropsInterface } from '../types';
 
 interface LineInterface {
+  direction: DirectionsConstants;
   onMouseDown: (e: ReactMouseEvent) => void;
   onMouseUp: () => void;
 }
 
 interface EdgeInterface {
+  direction: EdgeDirectionsConstants;
   onMouseDown: (e: ReactMouseEvent) => void;
   onMouseUp: () => void;
 }
 
-Updator.Top = function UpdatorTopLine({ onMouseDown, onMouseUp }: LineInterface) {
+function UpdatorLine({ direction, onMouseDown, onMouseUp }: LineInterface) {
   const theme = useTheme();
+
+  const cursors = {
+    [DirectionsConstants.top]: 'ns-resize',
+    [DirectionsConstants.right]: 'ew-resize',
+    [DirectionsConstants.bottom]: 'ns-resize',
+    [DirectionsConstants.left]: 'ew-resize',
+  };
+
+  const tops = {
+    [DirectionsConstants.top]: '-1px',
+    [DirectionsConstants.right]: '0',
+    [DirectionsConstants.bottom]: '100%',
+    [DirectionsConstants.left]: '0',
+  };
+
+  const lefts = {
+    [DirectionsConstants.top]: '0',
+    [DirectionsConstants.right]: '100%',
+    [DirectionsConstants.bottom]: '-1px',
+    [DirectionsConstants.left]: '-1px',
+  };
+
+  const widths = {
+    [DirectionsConstants.top]: '100%',
+    [DirectionsConstants.right]: '2px',
+    [DirectionsConstants.bottom]: '100%',
+    [DirectionsConstants.left]: '2px',
+  };
+
+  const heights = {
+    [DirectionsConstants.top]: '2px',
+    [DirectionsConstants.right]: '100%',
+    [DirectionsConstants.bottom]: '2px',
+    [DirectionsConstants.left]: '100%',
+  };
 
   return (
     <DefaultBox
-      cursor="ns-resize"
+      cursor={cursors[direction]}
       position="absolute"
       zIndex={9999}
-      left="0"
-      top="-1px"
-      width="100%"
-      height="2px"
+      left={lefts[direction]}
+      top={tops[direction]}
+      width={widths[direction]}
+      height={heights[direction]}
       background={theme.color.primary[200]}
       onMouseDownCapture={onMouseDown}
       onMouseUp={onMouseUp}
     />
   );
-};
+}
 
-Updator.Right = function UpdatorRightLine({ onMouseDown, onMouseUp }: LineInterface) {
+function UpdatorEdge({ direction, onMouseDown, onMouseUp }: EdgeInterface) {
   const theme = useTheme();
+
+  const cursors = {
+    [EdgeDirectionsConstants.topLeft]: 'nwse-resize',
+    [EdgeDirectionsConstants.topRight]: 'nesw-resize',
+    [EdgeDirectionsConstants.bottomRight]: 'nwse-resize',
+    [EdgeDirectionsConstants.bottomLeft]: 'nesw-resize',
+  };
+
+  const tops = {
+    [EdgeDirectionsConstants.topLeft]: '-3px',
+    [EdgeDirectionsConstants.topRight]: '-3px',
+    [EdgeDirectionsConstants.bottomRight]: 'calc(100% - 3px)',
+    [EdgeDirectionsConstants.bottomLeft]: 'calc(100% - 3px)',
+  };
+
+  const lefts = {
+    [EdgeDirectionsConstants.topLeft]: '-3px',
+    [EdgeDirectionsConstants.topRight]: 'calc(100% - 3px)',
+    [EdgeDirectionsConstants.bottomRight]: 'calc(100% - 3px)',
+    [EdgeDirectionsConstants.bottomLeft]: '-3px',
+  };
 
   return (
     <DefaultBox
-      cursor="ew-resize"
-      position="absolute"
-      zIndex={9999}
-      left="100%"
-      top="0"
-      width="2px"
-      height="100%"
-      background={theme.color.primary[200]}
-      onMouseDownCapture={onMouseDown}
-      onMouseUp={onMouseUp}
-    />
-  );
-};
-
-Updator.Bottom = function UpdatorLeftLine({ onMouseDown, onMouseUp }: LineInterface) {
-  const theme = useTheme();
-
-  return (
-    <DefaultBox
-      cursor="ns-resize"
-      position="absolute"
-      zIndex={9999}
-      left="-1px"
-      top="100%"
-      width="100%"
-      height="2px"
-      background={theme.color.primary[200]}
-      onMouseDownCapture={onMouseDown}
-      onMouseUp={onMouseUp}
-    />
-  );
-};
-
-Updator.Left = function UpdatorBototmLine({ onMouseDown, onMouseUp }: LineInterface) {
-  const theme = useTheme();
-
-  return (
-    <DefaultBox
-      cursor="ew-resize"
-      position="absolute"
-      zIndex={9999}
-      left="-1px"
-      top="0"
-      width="2px"
-      height="100%"
-      background={theme.color.primary[200]}
-      onMouseDownCapture={onMouseDown}
-      onMouseUp={onMouseUp}
-    />
-  );
-};
-
-Updator.TopLeftEdge = function UpdatorLeftTopEdge({ onMouseDown, onMouseUp }: EdgeInterface) {
-  const theme = useTheme();
-
-  return (
-    <DefaultBox
-      cursor="nwse-resize"
+      cursor={cursors[direction]}
       position="absolute"
       zIndex={10000}
-      left="-3px"
-      top="-3px"
+      left={lefts[direction]}
+      top={tops[direction]}
       width="6px"
       height="6px"
       background={theme.color.white}
@@ -125,70 +126,7 @@ Updator.TopLeftEdge = function UpdatorLeftTopEdge({ onMouseDown, onMouseUp }: Ed
       onMouseUp={onMouseUp}
     />
   );
-};
-
-Updator.TopRightEdge = function TopRightEdge({ onMouseDown, onMouseUp }: EdgeInterface) {
-  const theme = useTheme();
-
-  return (
-    <DefaultBox
-      cursor="nesw-resize"
-      position="absolute"
-      zIndex={10000}
-      left="calc(100% - 3px)"
-      top="-3px"
-      width="6px"
-      height="6px"
-      background={theme.color.white}
-      border={theme.border.primaryLight}
-      onMouseDownCapture={onMouseDown}
-      onMouseUp={onMouseUp}
-    />
-  );
-};
-
-Updator.BottomRightEdge = function UpdatorBottomRightEdge({
-  onMouseDown,
-  onMouseUp,
-}: EdgeInterface) {
-  const theme = useTheme();
-
-  return (
-    <DefaultBox
-      cursor="nwse-resize"
-      position="absolute"
-      zIndex={10000}
-      left="calc(100% - 3px)"
-      top="calc(100% - 3px)"
-      width="6px"
-      height="6px"
-      background={theme.color.white}
-      border={theme.border.primaryLight}
-      onMouseDownCapture={onMouseDown}
-      onMouseUp={onMouseUp}
-    />
-  );
-};
-
-Updator.BottomLeftEdge = function UpdatorBottomLeftEdge({ onMouseDown, onMouseUp }: EdgeInterface) {
-  const theme = useTheme();
-
-  return (
-    <DefaultBox
-      cursor="nesw-resize"
-      position="absolute"
-      zIndex={10000}
-      left="-3px"
-      top="calc(100% - 3px)"
-      width="6px"
-      height="6px"
-      background={theme.color.white}
-      border={theme.border.primaryLight}
-      onMouseDownCapture={onMouseDown}
-      onMouseUp={onMouseUp}
-    />
-  );
-};
+}
 
 export function Updator({ item }: { item: NodeItemPropsInterface['item'] }) {
   const { activedBlockGroup, changeBlockState } = useBlockGroupsAtom();
@@ -197,9 +135,9 @@ export function Updator({ item }: { item: NodeItemPropsInterface['item'] }) {
   const { addTask } = useTemplateTaskHistories();
 
   const [isMousePressing, setIsMousePressing] = useState(false);
-  const [nowUpdate, setNowUpdate] = useState<
-    EdgeDirectionsContstants | DirectionsContstants | null
-  >(null);
+  const [nowUpdate, setNowUpdate] = useState<EdgeDirectionsConstants | DirectionsConstants | null>(
+    null
+  );
 
   const [blockSnapshot, setBlockSnapshot] = useState<Blocks | null>(null);
 
@@ -220,7 +158,7 @@ export function Updator({ item }: { item: NodeItemPropsInterface['item'] }) {
 
   const onMouseDown = (
     e: ReactMouseEvent,
-    direction: EdgeDirectionsContstants | DirectionsContstants
+    direction: EdgeDirectionsConstants | DirectionsConstants
   ) => {
     e.stopPropagation();
 
@@ -368,16 +306,16 @@ export function Updator({ item }: { item: NodeItemPropsInterface['item'] }) {
    */
   const getNextStateStrategyFactory = (action: { type: Directions }) => {
     switch (action.type) {
-      case DirectionsContstants.top: {
+      case DirectionsConstants.top: {
         return topLineStrategy;
       }
-      case DirectionsContstants.right: {
+      case DirectionsConstants.right: {
         return rightLineStrategy;
       }
-      case DirectionsContstants.bottom: {
+      case DirectionsConstants.bottom: {
         return bottomLineStrategy;
       }
-      case DirectionsContstants.left: {
+      case DirectionsConstants.left: {
         return leftLineStrategy;
       }
 
@@ -442,10 +380,10 @@ export function Updator({ item }: { item: NodeItemPropsInterface['item'] }) {
 
   const lineMouseMoveHandler = (e: MouseEvent) => {
     if (activedBlockGroup?.type !== 'block') return;
-    if (!nowUpdate || nowUpdate in EdgeDirectionsContstants || !isUpdating[nowUpdate]) return;
+    if (!nowUpdate || nowUpdate in EdgeDirectionsConstants || !isUpdating[nowUpdate]) return;
 
     const getNextState = getNextStateStrategyFactory({
-      type: nowUpdate as DirectionsContstants,
+      type: nowUpdate as DirectionsConstants,
     });
 
     if (getNextState === null) return;
@@ -507,18 +445,18 @@ export function Updator({ item }: { item: NodeItemPropsInterface['item'] }) {
     };
   };
 
-  const getEdgeNextStyleStrategyFactory = (action: { type: EdgeDirectionsContstants }) => {
+  const getEdgeNextStyleStrategyFactory = (action: { type: EdgeDirectionsConstants }) => {
     switch (action.type) {
-      case EdgeDirectionsContstants.topLeft: {
+      case EdgeDirectionsConstants.topLeft: {
         return topLeftEdgeGetNextStyleStrategy;
       }
-      case EdgeDirectionsContstants.topRight: {
+      case EdgeDirectionsConstants.topRight: {
         return topRightEdgeGetNextStyleStrategy;
       }
-      case EdgeDirectionsContstants.bottomRight: {
+      case EdgeDirectionsConstants.bottomRight: {
         return bottomRightEdgeGetNextStyleStrategy;
       }
-      case EdgeDirectionsContstants.bottomLeft: {
+      case EdgeDirectionsConstants.bottomLeft: {
         return bottomLeftEdgeGetNextStyleStrategy;
       }
 
@@ -530,10 +468,10 @@ export function Updator({ item }: { item: NodeItemPropsInterface['item'] }) {
 
   const edgeMouseMoveHandler = (e: MouseEvent) => {
     if (activedBlockGroup?.type !== 'block') return;
-    if (!nowUpdate || nowUpdate in DirectionsContstants || !isUpdating[nowUpdate]) return;
+    if (!nowUpdate || nowUpdate in DirectionsConstants || !isUpdating[nowUpdate]) return;
 
     const nowStrategy = getEdgeNextStyleStrategyFactory({
-      type: nowUpdate as EdgeDirectionsContstants,
+      type: nowUpdate as EdgeDirectionsConstants,
     });
 
     if (nowStrategy === null) return;
@@ -566,45 +504,33 @@ export function Updator({ item }: { item: NodeItemPropsInterface['item'] }) {
 
   return (
     <>
-      <Updator.Top
-        onMouseDown={(e) => onMouseDown(e, DirectionsContstants.top)}
-        onMouseUp={() => onMouseUp(nowUpdate)}
-      />
+      {[
+        DirectionsConstants.top,
+        DirectionsConstants.right,
+        DirectionsConstants.bottom,
+        DirectionsConstants.left,
+      ].map((direction) => (
+        <UpdatorLine
+          key={direction}
+          direction={direction}
+          onMouseDown={(e) => onMouseDown(e, direction)}
+          onMouseUp={() => onMouseUp(nowUpdate)}
+        />
+      ))}
 
-      <Updator.Right
-        onMouseDown={(e) => onMouseDown(e, DirectionsContstants.right)}
-        onMouseUp={() => onMouseUp(nowUpdate)}
-      />
-
-      <Updator.Bottom
-        onMouseDown={(e) => onMouseDown(e, DirectionsContstants.bottom)}
-        onMouseUp={() => onMouseUp(nowUpdate)}
-      />
-
-      <Updator.Left
-        onMouseDown={(e) => onMouseDown(e, DirectionsContstants.left)}
-        onMouseUp={() => onMouseUp(nowUpdate)}
-      />
-
-      <Updator.TopLeftEdge
-        onMouseDown={(e) => onMouseDown(e, EdgeDirectionsContstants.topLeft)}
-        onMouseUp={() => onMouseUp(nowUpdate)}
-      />
-
-      <Updator.TopRightEdge
-        onMouseDown={(e) => onMouseDown(e, EdgeDirectionsContstants.topRight)}
-        onMouseUp={() => onMouseUp(nowUpdate)}
-      />
-
-      <Updator.BottomRightEdge
-        onMouseDown={(e) => onMouseDown(e, EdgeDirectionsContstants.bottomRight)}
-        onMouseUp={() => onMouseUp(nowUpdate)}
-      />
-
-      <Updator.BottomLeftEdge
-        onMouseDown={(e) => onMouseDown(e, EdgeDirectionsContstants.bottomLeft)}
-        onMouseUp={() => onMouseUp(nowUpdate)}
-      />
+      {[
+        EdgeDirectionsConstants.topLeft,
+        EdgeDirectionsConstants.topRight,
+        EdgeDirectionsConstants.bottomRight,
+        EdgeDirectionsConstants.bottomLeft,
+      ].map((direction) => (
+        <UpdatorEdge
+          key={direction}
+          direction={direction}
+          onMouseDown={(e) => onMouseDown(e, direction)}
+          onMouseUp={() => onMouseUp(nowUpdate)}
+        />
+      ))}
     </>
   );
 }

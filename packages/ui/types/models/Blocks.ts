@@ -133,14 +133,14 @@ export interface TextBlock extends BlockInterface {
   textContent: string;
 }
 
-export enum DirectionsContstants {
+export enum DirectionsConstants {
   top = 'top',
   right = 'right',
   bottom = 'bottom',
   left = 'left',
 }
 
-export enum EdgeDirectionsContstants {
+export enum EdgeDirectionsConstants {
   topLeft = 'topLeft',
   topRight = 'topRight',
   bottomLeft = 'bottomLeft',

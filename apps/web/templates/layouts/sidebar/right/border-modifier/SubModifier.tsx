@@ -2,7 +2,7 @@ import React from 'react';
 
 import { useBorderMatrix, useBorderModifier } from '@hooks/index';
 
-import { DefaultHStack, DefaultVStack, EdgeDirectionsContstants } from 'ui';
+import { DefaultHStack, DefaultVStack, EdgeDirectionsConstants } from 'ui';
 
 import { TemplatedColorInputWithTitlePresenter } from '../TemplatedColorInputWithTitle';
 import { TemplatedInputWithTitlePresenter } from '../TemplatedInputWithTitlePresenter';
@@ -15,7 +15,7 @@ import { TemplatedInputWithTitlePresenter } from '../TemplatedInputWithTitlePres
 export function BorderSubModifierFactory() {
   const { blockBorderState } = useBorderMatrix();
 
-  return blockBorderState.activeBorder in EdgeDirectionsContstants ? (
+  return blockBorderState.activeBorder in EdgeDirectionsConstants ? (
     <EdgeModifier />
   ) : (
     <LineModifier />

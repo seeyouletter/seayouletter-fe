@@ -3,54 +3,50 @@ import { atom } from 'jotai';
 import {
   BorderName,
   Directions,
-  DirectionsContstants,
+  DirectionsConstants,
   EdgeDirections,
-  EdgeDirectionsContstants,
+  EdgeDirectionsConstants,
 } from 'ui';
 
 export interface BlockBorderStateAtomInterface {
   activeBorder: Directions | EdgeDirections | 'all';
-  concurrentlyActivedSection: (EdgeDirectionsContstants | DirectionsContstants)[];
+  concurrentlyActivedSection: (EdgeDirectionsConstants | DirectionsConstants)[];
   name: BorderName;
 }
 
 export const concurrentlyActivedSections = {
   all: [
-    DirectionsContstants.top,
-    DirectionsContstants.bottom,
-    DirectionsContstants.left,
-    DirectionsContstants.right,
-    EdgeDirectionsContstants.topLeft,
-    EdgeDirectionsContstants.topRight,
-    EdgeDirectionsContstants.bottomLeft,
-    EdgeDirectionsContstants.bottomRight,
+    DirectionsConstants.top,
+    DirectionsConstants.bottom,
+    DirectionsConstants.left,
+    DirectionsConstants.right,
+    EdgeDirectionsConstants.topLeft,
+    EdgeDirectionsConstants.topRight,
+    EdgeDirectionsConstants.bottomLeft,
+    EdgeDirectionsConstants.bottomRight,
   ],
 
-  top: [
-    DirectionsContstants.top,
-    EdgeDirectionsContstants.topLeft,
-    EdgeDirectionsContstants.topRight,
-  ],
+  top: [DirectionsConstants.top, EdgeDirectionsConstants.topLeft, EdgeDirectionsConstants.topRight],
   bottom: [
-    DirectionsContstants.bottom,
-    EdgeDirectionsContstants.bottomLeft,
-    EdgeDirectionsContstants.bottomRight,
+    DirectionsConstants.bottom,
+    EdgeDirectionsConstants.bottomLeft,
+    EdgeDirectionsConstants.bottomRight,
   ],
   left: [
-    DirectionsContstants.left,
-    EdgeDirectionsContstants.topLeft,
-    EdgeDirectionsContstants.bottomLeft,
+    DirectionsConstants.left,
+    EdgeDirectionsConstants.topLeft,
+    EdgeDirectionsConstants.bottomLeft,
   ],
   right: [
-    DirectionsContstants.right,
-    EdgeDirectionsContstants.topRight,
-    EdgeDirectionsContstants.bottomRight,
+    DirectionsConstants.right,
+    EdgeDirectionsConstants.topRight,
+    EdgeDirectionsConstants.bottomRight,
   ],
 
-  topLeft: [EdgeDirectionsContstants.topLeft],
-  topRight: [EdgeDirectionsContstants.topRight],
-  bottomLeft: [EdgeDirectionsContstants.bottomLeft],
-  bottomRight: [EdgeDirectionsContstants.bottomRight],
+  topLeft: [EdgeDirectionsConstants.topLeft],
+  topRight: [EdgeDirectionsConstants.topRight],
+  bottomLeft: [EdgeDirectionsConstants.bottomLeft],
+  bottomRight: [EdgeDirectionsConstants.bottomRight],
 };
 
 export const blockBorderStateAtom = atom<BlockBorderStateAtomInterface>({
