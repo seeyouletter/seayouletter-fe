@@ -37,6 +37,7 @@ export function Node({ data, depth, order }: NodePropsInterface) {
   return (
     <DefaultBox
       id={data.id}
+      key={data.id}
       data-order={order}
       onClick={onClickNode}
       onDoubleClick={onDoubleClickNode}

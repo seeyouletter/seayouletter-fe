@@ -12,7 +12,6 @@ interface ShapeLeafPropsInterface extends BlockGroupPriorities {
 
 export function ShapeLeaf({ data, depth, order }: ShapeLeafPropsInterface) {
   const { activeId, setHoverId, initializeHoverBlockGroup } = useBlockGroupsAtom();
-
   const { onActiveTarget, onSearchNextTarget } = useSearchActiveBlockGroup<ShapeBlock>({
     data,
     depth,
@@ -24,6 +23,7 @@ export function ShapeLeaf({ data, depth, order }: ShapeLeafPropsInterface) {
   return (
     <DefaultBox
       ref={boxRef}
+      key={data.id}
       position="absolute"
       // INFO: Size
       width={data.style.size.width}
