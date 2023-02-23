@@ -7,8 +7,7 @@ import { useAtom } from 'jotai';
 
 import { templateTasksDBAtom } from '@atoms/templateTasksDBAtom';
 
-import { TemplateCreateDBKeys, TransactionType } from '@models/index';
-import { TaskHistoryInterface } from '@models/task-histories';
+import { TaskHistoryInterface, TemplateCreateDBKeys, TransactionType } from '@models/index';
 
 import { useBlockGroupsAtom } from './useBlockGroupsAtom';
 
