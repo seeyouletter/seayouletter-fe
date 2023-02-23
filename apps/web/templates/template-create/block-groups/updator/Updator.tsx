@@ -353,6 +353,8 @@ export function Updator({ item }: { item: NodeItemPropsInterface['item'] }) {
     return () => {
       window.removeEventListener('mousemove', lineMouseMoveHandler);
     };
+
+    /* eslint-disable-next-line react-hooks/exhaustive-deps */
   }, [lineMouseMoveHandler]);
 
   /**
@@ -451,6 +453,8 @@ export function Updator({ item }: { item: NodeItemPropsInterface['item'] }) {
     return () => {
       window.removeEventListener('mousemove', edgeMouseMoveHandler);
     };
+
+    /* eslint-disable-next-line react-hooks/exhaustive-deps */
   }, [edgeMouseMoveHandler]);
 
   return (

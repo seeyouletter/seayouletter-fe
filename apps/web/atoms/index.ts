@@ -16,3 +16,5 @@ export { toastAtom } from './toastAtom';
 
 export type { MouseStateAtomInterface } from './mouseStateAtom';
 export { mouseStateAtom } from './mouseStateAtom';
+
+export { templateTasksDBAtom } from './templateTasksDBAtom';

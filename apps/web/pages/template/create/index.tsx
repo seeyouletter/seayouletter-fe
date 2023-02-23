@@ -14,12 +14,719 @@ import { assembledBlockGroups } from '@atoms/blockGroupsAtom';
 
 import {
   useBlockGroupsAtom,
+  useCreateBlockGroupsStore,
   useResizablePageAtom,
   useTemplateCreateToolbar,
   useTemplateTaskHistories,
+  useTemplateTasksInit,
 } from '@hooks/index';
 
-import { Blocks, DefaultBox, SizeType, globalTheme } from 'ui';
+import { BlockMembersType, Blocks, DefaultBox, SizeType, globalTheme } from 'ui';
+
+const blockGroups: BlockMembersType = [
+  {
+    type: 'group',
+    subType: 'default',
+    parent: null,
+    id: 'component1',
+    title: '그룹 1',
+    toggled: false,
+    blocks: [
+      {
+        type: 'block',
+        subType: 'shape',
+        parent: 'component1',
+        id: '블록1',
+        title: '블록1',
+        style: {
+          size: {
+            width: '300px',
+            height: '120px',
+          },
+          borderRadius: {
+            topLeft: '8px',
+            topRight: '8px',
+            bottomRight: '8px',
+            bottomLeft: '8px',
+          },
+          position: {
+            top: '123px',
+            right: 'auto',
+            bottom: 'auto',
+            left: '205px',
+          },
+          bg: '#634654',
+          opacity: '1',
+          border: {
+            top: {
+              width: '1px',
+              style: 'solid',
+              color: '#000000',
+              opacity: '1',
+            },
+            right: {
+              width: '1px',
+              style: 'solid',
+              color: '#000000',
+              opacity: '300px',
+            },
+            bottom: {
+              width: '1px',
+              style: 'solid',
+              color: '#000000',
+              opacity: '1',
+            },
+            left: {
+              width: '1px',
+              style: 'solid',
+              color: '#000000',
+              opacity: '1',
+            },
+          },
+        },
+      },
+      {
+        type: 'block',
+        subType: 'shape',
+        parent: 'component1',
+        id: '블록2',
+        title: '블록2',
+        style: {
+          size: {
+            width: '50px',
+            height: '120px',
+          },
+          borderRadius: {
+            topLeft: '8px',
+            topRight: '8px',
+            bottomRight: '8px',
+            bottomLeft: '8px',
+          },
+          position: {
+            top: '400px',
+            right: 'auto',
+            bottom: 'auto',
+            left: '60px',
+          },
+          bg: '#1fe693',
+          opacity: '1',
+          border: {
+            top: {
+              width: '1px',
+              style: 'solid',
+              color: '#000000',
+              opacity: '1',
+            },
+            right: {
+              width: '1px',
+              style: 'solid',
+              color: '#000000',
+              opacity: '1',
+            },
+            bottom: {
+              width: '1px',
+              style: 'solid',
+              color: '#000000',
+              opacity: '1',
+            },
+            left: {
+              width: '1px',
+              style: 'solid',
+              color: '#000000',
+              opacity: '1',
+            },
+          },
+        },
+      },
+      {
+        type: 'block',
+        subType: 'shape',
+        parent: 'component1',
+        id: '블록3',
+        title: '블록3',
+        style: {
+          size: {
+            width: '100px',
+            height: '120px',
+          },
+          borderRadius: {
+            topLeft: '8px',
+            topRight: '8px',
+            bottomRight: '8px',
+            bottomLeft: '8px',
+          },
+          position: {
+            top: '1px',
+            right: 'auto',
+            bottom: 'auto',
+            left: '1px',
+          },
+          bg: '#ffffff',
+          opacity: '1',
+          border: {
+            top: {
+              width: '1px',
+              style: 'solid',
+              color: '#000000',
+              opacity: '1',
+            },
+            right: {
+              width: '1px',
+              style: 'solid',
+              color: '#000000',
+              opacity: '1',
+            },
+            bottom: {
+              width: '1px',
+              style: 'solid',
+              color: '#000000',
+              opacity: '1',
+            },
+            left: {
+              width: '1px',
+              style: 'solid',
+              color: '#000000',
+              opacity: '1',
+            },
+          },
+        },
+      },
+
+      {
+        type: 'group',
+        subType: 'default',
+        parent: 'component1',
+        id: 'subcomponent1',
+        title: '서브그룹 1',
+        toggled: false,
+        blocks: [
+          {
+            type: 'block',
+            subType: 'shape',
+            parent: 'subcomponent1',
+            id: '서브블록1',
+            title: '서브블록1',
+            style: {
+              size: {
+                width: '100px',
+                height: '120px',
+              },
+              borderRadius: {
+                topLeft: '8px',
+                topRight: '8px',
+                bottomRight: '8px',
+                bottomLeft: '8px',
+              },
+              position: {
+                top: '1px',
+                right: 'auto',
+                bottom: 'auto',
+                left: '1px',
+              },
+              bg: '#ffffff',
+              opacity: '1',
+              border: {
+                top: {
+                  width: '1px',
+                  style: 'solid',
+                  color: '#000000',
+                  opacity: '1',
+                },
+                right: {
+                  width: '1px',
+                  style: 'solid',
+                  color: '#000000',
+                  opacity: '1',
+                },
+                bottom: {
+                  width: '1px',
+                  style: 'solid',
+                  color: '#000000',
+                  opacity: '1',
+                },
+                left: {
+                  width: '1px',
+                  style: 'solid',
+                  color: '#000000',
+                  opacity: '1',
+                },
+              },
+            },
+          },
+          {
+            type: 'block',
+            subType: 'shape',
+            parent: 'subcomponent1',
+            id: '서브블록2',
+            title: '서브블록2',
+            style: {
+              size: {
+                width: '100px',
+                height: '120px',
+              },
+              borderRadius: {
+                topLeft: '8px',
+                topRight: '8px',
+                bottomRight: '8px',
+                bottomLeft: '8px',
+              },
+              position: {
+                top: '1px',
+                right: 'auto',
+                bottom: 'auto',
+                left: '1px',
+              },
+              bg: '#ffffff',
+              opacity: '1',
+              border: {
+                top: {
+                  width: '1px',
+                  style: 'solid',
+                  color: '#000000',
+                  opacity: '1',
+                },
+                right: {
+                  width: '1px',
+                  style: 'solid',
+                  color: '#000000',
+                  opacity: '1',
+                },
+                bottom: {
+                  width: '1px',
+                  style: 'solid',
+                  color: '#000000',
+                  opacity: '1',
+                },
+                left: {
+                  width: '1px',
+                  style: 'solid',
+                  color: '#000000',
+                  opacity: '1',
+                },
+              },
+            },
+          },
+          {
+            type: 'block',
+            subType: 'shape',
+            parent: 'subcomponent1',
+            id: '서브블록3',
+            title: '서브블록3',
+            style: {
+              size: {
+                width: '100px',
+                height: '120px',
+              },
+              borderRadius: {
+                topLeft: '8px',
+                topRight: '8px',
+                bottomRight: '8px',
+                bottomLeft: '8px',
+              },
+              position: {
+                top: '1px',
+                right: 'auto',
+                bottom: 'auto',
+                left: '1px',
+              },
+              bg: '#ffffff',
+              opacity: '1',
+              border: {
+                top: {
+                  width: '1px',
+                  style: 'solid',
+                  color: '#000000',
+                  opacity: '1',
+                },
+                right: {
+                  width: '1px',
+                  style: 'solid',
+                  color: '#000000',
+                  opacity: '1',
+                },
+                bottom: {
+                  width: '1px',
+                  style: 'solid',
+                  color: '#000000',
+                  opacity: '1',
+                },
+                left: {
+                  width: '1px',
+                  style: 'solid',
+                  color: '#000000',
+                  opacity: '1',
+                },
+              },
+            },
+          },
+          {
+            type: 'group',
+            subType: 'default',
+            parent: 'subcomponent1',
+            id: 'subsubcomponent1',
+            title: '서브서브그룹 1',
+            toggled: false,
+            blocks: [
+              {
+                type: 'block',
+                subType: 'text',
+                parent: 'subsubcomponent1',
+                id: '서브서브블록텍스트1',
+                title: '서브서브블록텍스트1',
+                style: {
+                  size: {
+                    width: '100px',
+                    height: '120px',
+                  },
+                  borderRadius: {
+                    topLeft: '8px',
+                    topRight: '8px',
+                    bottomRight: '8px',
+                    bottomLeft: '8px',
+                  },
+                  position: {
+                    top: '120px',
+                    right: 'auto',
+                    bottom: 'auto',
+                    left: '170px',
+                  },
+                  opacity: '1',
+                  border: {
+                    top: {
+                      width: '1px',
+                      style: 'solid',
+                      color: '#000000',
+                      opacity: '1',
+                    },
+                    right: {
+                      width: '1px',
+                      style: 'solid',
+                      color: '#000000',
+                      opacity: '1',
+                    },
+                    bottom: {
+                      width: '1px',
+                      style: 'solid',
+                      color: '#000000',
+                      opacity: '1',
+                    },
+                    left: {
+                      width: '1px',
+                      style: 'solid',
+                      color: '#000000',
+                      opacity: '1',
+                    },
+                  },
+                },
+                textStyle: {
+                  color: '#f5ee32',
+                  fontSize: '16px',
+                  textStroke: '0px',
+                  textStrokeColor: '#f5ee32',
+                  letterSpacing: '0px',
+                  fontWeight: 'bold',
+                  lineHeight: '1',
+                  fontFamily: 'Noto Sans KR',
+                  fontStyle: '기본',
+                },
+                textContent:
+                  '안녕하세요안녕하세요안녕하세요안녕하세요안녕하세요안녕하세요안녕하세요안녕하세요안녕하세요',
+              },
+              {
+                type: 'block',
+                subType: 'shape',
+                parent: 'subsubcomponent1',
+                id: '서브서브블록1',
+                title: '서브서브블록1',
+                style: {
+                  size: {
+                    width: '100px',
+                    height: '120px',
+                  },
+                  borderRadius: {
+                    topLeft: '8px',
+                    topRight: '8px',
+                    bottomRight: '8px',
+                    bottomLeft: '8px',
+                  },
+                  position: {
+                    top: '1px',
+                    right: 'auto',
+                    bottom: 'auto',
+                    left: '1px',
+                  },
+                  bg: '#ffffff',
+                  opacity: '1',
+                  border: {
+                    top: {
+                      width: '1px',
+                      style: 'solid',
+                      color: '#000000',
+                      opacity: '1',
+                    },
+                    right: {
+                      width: '1px',
+                      style: 'solid',
+                      color: '#000000',
+                      opacity: '1',
+                    },
+                    bottom: {
+                      width: '1px',
+                      style: 'solid',
+                      color: '#000000',
+                      opacity: '1',
+                    },
+                    left: {
+                      width: '1px',
+                      style: 'solid',
+                      color: '#000000',
+                      opacity: '1',
+                    },
+                  },
+                },
+              },
+              {
+                type: 'block',
+                subType: 'image',
+                parent: 'subsubcomponent1',
+                id: '서브서브블록2',
+                title: '서브서브블록2',
+                style: {
+                  size: {
+                    width: '100px',
+                    height: '120px',
+                  },
+                  borderRadius: {
+                    topLeft: '8px',
+                    topRight: '8px',
+                    bottomRight: '8px',
+                    bottomLeft: '8px',
+                  },
+                  position: {
+                    top: '1px',
+                    right: 'auto',
+                    bottom: 'auto',
+                    left: '1px',
+                  },
+                  bg: '#ffffff',
+                  opacity: '1',
+                  border: {
+                    top: {
+                      width: '1px',
+                      style: 'solid',
+                      color: '#000000',
+                      opacity: '1',
+                    },
+                    right: {
+                      width: '1px',
+                      style: 'solid',
+                      color: '#000000',
+                      opacity: '1',
+                    },
+                    bottom: {
+                      width: '1px',
+                      style: 'solid',
+                      color: '#000000',
+                      opacity: '1',
+                    },
+                    left: {
+                      width: '1px',
+                      style: 'solid',
+                      color: '#000000',
+                      opacity: '1',
+                    },
+                  },
+                },
+                image: {
+                  imageUrl: '재영이의 우당탕탕 시유레터.jpg',
+                  imageName: '재영이의 우당탕탕 시유레터',
+                },
+                imageStyle: {
+                  opacity: '1',
+                  objectFit: 'contains',
+                  position: {
+                    top: '50%',
+                    left: '50%',
+                  },
+                },
+              },
+            ],
+          },
+        ],
+      },
+    ],
+  },
+  {
+    type: 'group',
+    subType: 'default',
+    parent: null,
+    id: 'component2',
+    title: '그룹 2',
+    toggled: false,
+    blocks: [
+      {
+        type: 'block',
+        subType: 'shape',
+        parent: 'component2',
+        id: '블록4',
+        title: '블록4',
+        style: {
+          size: {
+            width: '100px',
+            height: '120px',
+          },
+          borderRadius: {
+            topLeft: '8px',
+            topRight: '8px',
+            bottomRight: '8px',
+            bottomLeft: '8px',
+          },
+          position: {
+            top: '1px',
+            right: 'auto',
+            bottom: 'auto',
+            left: '1px',
+          },
+          bg: '#ffffff',
+          opacity: '1',
+          border: {
+            top: {
+              width: '1px',
+              style: 'solid',
+              color: '#000000',
+              opacity: '1',
+            },
+            right: {
+              width: '1px',
+              style: 'solid',
+              color: '#000000',
+              opacity: '1',
+            },
+            bottom: {
+              width: '1px',
+              style: 'solid',
+              color: '#000000',
+              opacity: '1',
+            },
+            left: {
+              width: '1px',
+              style: 'solid',
+              color: '#000000',
+              opacity: '1',
+            },
+          },
+        },
+      },
+      {
+        type: 'block',
+        subType: 'shape',
+        parent: 'component2',
+        id: '블록5',
+        title: '블록5',
+        style: {
+          size: {
+            width: '100px',
+            height: '120px',
+          },
+          borderRadius: {
+            topLeft: '8px',
+            topRight: '8px',
+            bottomRight: '8px',
+            bottomLeft: '8px',
+          },
+          position: {
+            top: '1px',
+            right: 'auto',
+            bottom: 'auto',
+            left: '1px',
+          },
+          bg: '#ffffff',
+          opacity: '1',
+          border: {
+            top: {
+              width: '1px',
+              style: 'solid',
+              color: '#000000',
+              opacity: '1',
+            },
+            right: {
+              width: '1px',
+              style: 'solid',
+              color: '#000000',
+              opacity: '1',
+            },
+            bottom: {
+              width: '1px',
+              style: 'solid',
+              color: '#000000',
+              opacity: '1',
+            },
+            left: {
+              width: '1px',
+              style: 'solid',
+              color: '#000000',
+              opacity: '1',
+            },
+          },
+        },
+      },
+    ],
+  },
+
+  {
+    type: 'block',
+    subType: 'shape',
+    parent: null,
+    id: '루트블록',
+    title: '루트블록',
+    style: {
+      size: {
+        width: '100px',
+        height: '120px',
+      },
+      borderRadius: {
+        topLeft: '8px',
+        topRight: '8px',
+        bottomRight: '8px',
+        bottomLeft: '8px',
+      },
+      position: {
+        top: '1px',
+        right: 'auto',
+        bottom: 'auto',
+        left: '1px',
+      },
+      bg: '#ffffff',
+      opacity: '1',
+      border: {
+        top: {
+          width: '1px',
+          style: 'solid',
+          color: '#000000',
+          opacity: '1',
+        },
+        right: {
+          width: '1px',
+          style: 'solid',
+          color: '#000000',
+          opacity: '1',
+        },
+        bottom: {
+          width: '1px',
+          style: 'solid',
+          color: '#000000',
+          opacity: '1',
+        },
+        left: {
+          width: '1px',
+          style: 'solid',
+          color: '#000000',
+          opacity: '1',
+        },
+      },
+    },
+  },
+];
 
 const getInitialBlockState = ({
   parent,
@@ -93,9 +800,9 @@ export default function TemplateCreatePage() {
   const pageRef = useRef<HTMLDivElement | null>(null);
 
   const theme = useTheme();
+
   const { activedBlockGroup, initializeActiveId, addBlock, deleteBlock } = useBlockGroupsAtom();
   const { pageState, setPageWidth, setPageHeight, setPageScale } = useResizablePageAtom();
-
   const { addTask } = useTemplateTaskHistories();
 
   const {
@@ -109,6 +816,8 @@ export default function TemplateCreatePage() {
     setBlockCreationHeight,
   } = useTemplateCreateToolbar();
 
+  useCreateBlockGroupsStore(blockGroups);
+
   const [isMousePressing, setIsMousePressing] = useState(false);
 
   const blockGroupsTree = useAtomValue(assembledBlockGroups);
@@ -120,6 +829,8 @@ export default function TemplateCreatePage() {
       return 'auto';
     }
   }, [blockCreationState.type]);
+
+  useTemplateTasksInit();
 
   /**
    * @todo
@@ -148,8 +859,8 @@ export default function TemplateCreatePage() {
 
     setIsMousePressing(() => false);
 
-    // TODO: 추후 태스크큐가 생성되면 이를 등록해야 한다.
-    /* eslint-disable-next-line @typescript-eslint/no-unused-vars */
+    //   // TODO: 추후 태스크큐가 생성되면 이를 등록해야 한다.
+    //   /* eslint-disable-next-line @typescript-eslint/no-unused-vars */
     const nextBlock: Blocks = getInitialBlockState({
       parent:
         activedBlockGroup === null
@@ -179,6 +890,8 @@ export default function TemplateCreatePage() {
     const nowRef = pageRef.current;
 
     const mouseMoveHandler = (e: MouseEvent) => {
+      if (!isMousePressing) return;
+
       const { clientY, clientX } = e;
 
       const defaultWidth = clientX - blockCreationState.left;
@@ -201,7 +914,7 @@ export default function TemplateCreatePage() {
       setBlockCreationHeight(height);
     };
 
-    if (nowRef && isMousePressing) {
+    if (nowRef) {
       nowRef.addEventListener('mousemove', mouseMoveHandler, { passive: true });
     }
 
@@ -281,7 +994,8 @@ export default function TemplateCreatePage() {
             left={blockCreationState.left - +pageState.left + 'px'}
           />
         )}
-        {blockGroupsTree && <NodeList depth={0} listItems={blockGroupsTree}></NodeList>}
+
+        {blockGroupsTree && <NodeList depth={0} listItems={blockGroupsTree} />}
       </ResizablePage>
     </DefaultBox>
   );

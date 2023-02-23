@@ -1,39 +1,17 @@
-import { IDBPDatabase, IDBPObjectStore } from 'idb';
-import type {} from 'node_modules/@types/react';
+import { IDBPDatabase } from 'idb';
 
-import { useEffect, useState } from 'react';
+import { useAtom } from 'jotai';
 
-import { CursorDirection, TransactionType } from '@models/index';
+import { templateTasksDBAtom } from '@atoms/index';
 
-import { BlockMemberType } from 'ui';
-
-import { useBlockGroupsAtom } from './useBlockGroupsAtom';
-import { getTaskHistories, usePageDB } from './usePageDB';
-
-export const KEY_TASKS = 'tasks';
-export const KEY_GARBAGE_TASKS = 'taskGarbages';
-
-type GarbageTasksDBStoreType = IDBPObjectStore<
-  unknown,
-  string[],
-  typeof KEY_GARBAGE_TASKS,
-  TransactionType.readwrite
->;
-
-type TasksDBStoreType = IDBPObjectStore<
-  unknown,
-  string[],
-  typeof KEY_TASKS,
-  TransactionType.readwrite
->;
-
-type TaskType = 'create' | 'update' | 'delete';
-
-export interface TaskHistoryInterface {
-  taskType: TaskType;
-  before: BlockMemberType | null;
-  after: BlockMemberType | null;
-}
+import {
+  CursorDirection,
+  GarbageTasksDBStoreType,
+  TaskHistoryInterface,
+  TasksDBStoreType,
+  TemplateCreateDBKeys,
+  TransactionType,
+} from '@models/index';
 
 const initializeGarbageTasks = async (store: GarbageTasksDBStoreType) => {
   store.clear();
@@ -41,12 +19,12 @@ const initializeGarbageTasks = async (store: GarbageTasksDBStoreType) => {
 
 const pushTaskHistories = async (db: IDBPDatabase, task: TaskHistoryInterface) => {
   const tasksTransaction = (db as IDBPDatabase).transaction(
-    [KEY_TASKS, KEY_GARBAGE_TASKS],
+    [TemplateCreateDBKeys.tasks, TemplateCreateDBKeys.taskGarbages],
     TransactionType.readwrite
   );
 
-  const tasksStore = tasksTransaction.objectStore(KEY_TASKS);
-  const garbageTasksStore = tasksTransaction.objectStore(KEY_GARBAGE_TASKS);
+  const tasksStore = tasksTransaction.objectStore(TemplateCreateDBKeys.tasks);
+  const garbageTasksStore = tasksTransaction.objectStore(TemplateCreateDBKeys.taskGarbages);
 
   await Promise.all([
     tasksStore.add(task),
@@ -56,7 +34,7 @@ const pushTaskHistories = async (db: IDBPDatabase, task: TaskHistoryInterface) =
 };
 
 const getAllTasks = async (db: IDBPDatabase) => {
-  const transaction = db.transaction(KEY_TASKS, TransactionType.readonly);
+  const transaction = db.transaction(TemplateCreateDBKeys.tasks, TransactionType.readonly);
 
   const res = await transaction.store.getAll();
 
@@ -81,13 +59,13 @@ const deleteGarbageTaskHistories = (
 };
 
 const popTaskHistories = async (db: IDBPDatabase) => {
-  const tasksTransaction = (db as IDBPDatabase).transaction(
-    [KEY_TASKS, KEY_GARBAGE_TASKS],
+  const tasksTransaction = db.transaction(
+    [TemplateCreateDBKeys.tasks, TemplateCreateDBKeys.taskGarbages],
     TransactionType.readwrite
   );
 
-  const tasksStore = tasksTransaction.objectStore(KEY_TASKS);
-  const garbageTasksStore = tasksTransaction.objectStore(KEY_GARBAGE_TASKS);
+  const tasksStore = tasksTransaction.objectStore(TemplateCreateDBKeys.tasks);
+  const garbageTasksStore = tasksTransaction.objectStore(TemplateCreateDBKeys.taskGarbages);
 
   const lastTask = await tasksStore.openCursor(null, CursorDirection.prevunique);
   if (lastTask === null) return null;
@@ -104,13 +82,13 @@ const popTaskHistories = async (db: IDBPDatabase) => {
 const restoreTaskHistories = async (
   db: IDBPDatabase
 ): Promise<{ key: IDBValidKey; value: TaskHistoryInterface } | null> => {
-  const tasksTransaction = (db as IDBPDatabase).transaction(
-    [KEY_TASKS, KEY_GARBAGE_TASKS],
+  const tasksTransaction = db.transaction(
+    [TemplateCreateDBKeys.tasks, TemplateCreateDBKeys.taskGarbages],
     TransactionType.readwrite
   );
 
-  const tasksStore = tasksTransaction.objectStore(KEY_TASKS);
-  const garbageTasksStore = tasksTransaction.objectStore(KEY_GARBAGE_TASKS);
+  const tasksStore = tasksTransaction.objectStore(TemplateCreateDBKeys.tasks);
+  const garbageTasksStore = tasksTransaction.objectStore(TemplateCreateDBKeys.taskGarbages);
 
   const lastGarbageTask = await garbageTasksStore.openCursor(null, CursorDirection.prevunique);
   if (lastGarbageTask === null) return null;
@@ -125,123 +103,62 @@ const restoreTaskHistories = async (
 };
 
 export const useTemplateTaskHistories = () => {
-  const { pageDB, pageDBMessage } = usePageDB();
-  const [tasks, setTasks] = useState<TaskHistoryInterface[] | null>(null);
-  const [isTaskInitialized, setIsTaskInitialized] = useState(false);
-  const {
-    addBlock,
-    addGroup,
-    updateBlock,
-    updateGroup,
-    deleteBlock,
-    deleteGroup,
-    blockGroupState,
-  } = useBlockGroupsAtom();
-
-  useEffect(() => {
-    if (pageDB.current !== null) {
-      (async () => {
-        const taskHistories = await getTaskHistories(pageDB.current as IDBPDatabase);
-
-        setTasks(() => taskHistories ?? []);
-        setIsTaskInitialized(() => true);
-      })();
-
-      return;
-    }
-
-    /* eslint-disable-next-line react-hooks/exhaustive-deps */
-  }, [pageDB.current]);
-
-  useEffect(() => {
-    if (!blockGroupState.isMount || !isTaskInitialized || !tasks?.length) return;
-
-    const reflectTasksIntoBlockGroupStore = () => {
-      tasks.forEach((task) => {
-        const afterTask = task.after;
-        const beforeTask = task.before;
-
-        /**
-         * 삭제하는 로직
-         */
-        if (afterTask === null) {
-          if (beforeTask === null) return;
-
-          if (beforeTask.type === 'block') {
-            deleteBlock(beforeTask);
-          } else {
-            deleteGroup(beforeTask);
-          }
-          return;
-        }
-
-        if (afterTask.type === 'block') {
-          if (task.taskType === 'create') {
-            addBlock(afterTask);
-          } else if (task.taskType === 'update') {
-            updateBlock(afterTask);
-          }
-        } else {
-          if (task.taskType === 'create') {
-            addGroup(afterTask);
-          } else if (task.taskType === 'update') {
-            updateGroup(afterTask);
-          }
-        }
-      });
-    };
-
-    reflectTasksIntoBlockGroupStore();
-
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [isTaskInitialized, tasks, blockGroupState.isMount]);
+  const [dbState, setDBState] = useAtom(templateTasksDBAtom);
 
   const addTask = async (task: TaskHistoryInterface) => {
-    if (pageDB.current === null) return;
+    if (dbState.db === null) return;
 
-    await pushTaskHistories(pageDB.current, task);
-    setTasks((state) => [...(state ?? []), task]);
+    await pushTaskHistories(dbState.db, task);
+    setDBState((state) => {
+      return {
+        ...state,
+        tasks: [...(state.tasks ?? []), task],
+      };
+    });
   };
 
   const getTasksNotUpdatedInWAS = async () => {
-    if (pageDB.current === null) return;
+    if (dbState.db === null) return;
 
-    const res = await getAllTasks(pageDB.current);
+    const res = await getAllTasks(dbState.db);
     return res;
   };
 
   const cancelTask = async () => {
-    if (pageDB.current === null) return;
+    if (dbState.db === null) return;
 
-    const res = await popTaskHistories(pageDB.current);
+    const res = await popTaskHistories(dbState.db);
     if (res === null) return;
 
-    setTasks((state) => {
-      const nextState = [...(state ?? [])];
+    setDBState((state) => {
+      const nextState = [...(state.tasks ?? [])];
       nextState.pop();
 
-      return nextState;
+      return {
+        ...state,
+        tasks: nextState,
+      };
     });
   };
 
   const restoreTask = async () => {
-    if (pageDB.current === null) {
+    if (dbState.db === null) {
       return;
     }
 
-    const res = await restoreTaskHistories(pageDB.current);
+    const res = await restoreTaskHistories(dbState.db);
     if (res === null) return;
 
-    setTasks((state) => [...(state ?? []), res.value]);
+    setDBState((state) => {
+      return {
+        ...state,
+        tasks: [...(state.tasks ?? []), res.value],
+      };
+    });
   };
 
   return {
-    KEY_TASKS,
-    KEY_GARBAGE_TASKS,
-
-    pageDB,
-    pageDBMessage,
-    tasks,
+    dbState,
 
     addTask,
     cancelTask,
