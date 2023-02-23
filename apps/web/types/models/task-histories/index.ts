@@ -2,22 +2,19 @@ import { IDBPObjectStore } from 'idb';
 
 import { BlockMemberType } from 'ui';
 
-import { TransactionType } from '../IndexedDB';
-
-export const KEY_TASKS = 'tasks';
-export const KEY_GARBAGE_TASKS = 'taskGarbages';
+import { TemplateCreateDBKeys, TransactionType } from '../IndexedDB';
 
 export type GarbageTasksDBStoreType = IDBPObjectStore<
   unknown,
-  string[],
-  typeof KEY_GARBAGE_TASKS,
+  TemplateCreateDBKeys[],
+  TemplateCreateDBKeys.taskGarbages,
   TransactionType.readwrite
 >;
 
 export type TasksDBStoreType = IDBPObjectStore<
   unknown,
-  string[],
-  typeof KEY_TASKS,
+  TemplateCreateDBKeys[],
+  TemplateCreateDBKeys.tasks,
   TransactionType.readwrite
 >;
 

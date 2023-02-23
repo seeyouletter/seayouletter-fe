@@ -1,5 +1,4 @@
 import { IDBPDatabase } from 'idb';
-import type {} from 'node_modules/@types/react';
 
 import { useAtom } from 'jotai';
 
@@ -10,11 +9,9 @@ import {
   GarbageTasksDBStoreType,
   TaskHistoryInterface,
   TasksDBStoreType,
+  TemplateCreateDBKeys,
   TransactionType,
 } from '@models/index';
-
-export const KEY_TASKS = 'tasks';
-export const KEY_GARBAGE_TASKS = 'taskGarbages';
 
 const initializeGarbageTasks = async (store: GarbageTasksDBStoreType) => {
   store.clear();
@@ -22,12 +19,12 @@ const initializeGarbageTasks = async (store: GarbageTasksDBStoreType) => {
 
 const pushTaskHistories = async (db: IDBPDatabase, task: TaskHistoryInterface) => {
   const tasksTransaction = (db as IDBPDatabase).transaction(
-    [KEY_TASKS, KEY_GARBAGE_TASKS],
+    [TemplateCreateDBKeys.tasks, TemplateCreateDBKeys.taskGarbages],
     TransactionType.readwrite
   );
 
-  const tasksStore = tasksTransaction.objectStore(KEY_TASKS);
-  const garbageTasksStore = tasksTransaction.objectStore(KEY_GARBAGE_TASKS);
+  const tasksStore = tasksTransaction.objectStore(TemplateCreateDBKeys.tasks);
+  const garbageTasksStore = tasksTransaction.objectStore(TemplateCreateDBKeys.taskGarbages);
 
   await Promise.all([
     tasksStore.add(task),
@@ -37,7 +34,7 @@ const pushTaskHistories = async (db: IDBPDatabase, task: TaskHistoryInterface) =
 };
 
 const getAllTasks = async (db: IDBPDatabase) => {
-  const transaction = db.transaction(KEY_TASKS, TransactionType.readonly);
+  const transaction = db.transaction(TemplateCreateDBKeys.tasks, TransactionType.readonly);
 
   const res = await transaction.store.getAll();
 
@@ -62,13 +59,13 @@ const deleteGarbageTaskHistories = (
 };
 
 const popTaskHistories = async (db: IDBPDatabase) => {
-  const tasksTransaction = (db as IDBPDatabase).transaction(
-    [KEY_TASKS, KEY_GARBAGE_TASKS],
+  const tasksTransaction = db.transaction(
+    [TemplateCreateDBKeys.tasks, TemplateCreateDBKeys.taskGarbages],
     TransactionType.readwrite
   );
 
-  const tasksStore = tasksTransaction.objectStore(KEY_TASKS);
-  const garbageTasksStore = tasksTransaction.objectStore(KEY_GARBAGE_TASKS);
+  const tasksStore = tasksTransaction.objectStore(TemplateCreateDBKeys.tasks);
+  const garbageTasksStore = tasksTransaction.objectStore(TemplateCreateDBKeys.taskGarbages);
 
   const lastTask = await tasksStore.openCursor(null, CursorDirection.prevunique);
   if (lastTask === null) return null;
@@ -85,13 +82,13 @@ const popTaskHistories = async (db: IDBPDatabase) => {
 const restoreTaskHistories = async (
   db: IDBPDatabase
 ): Promise<{ key: IDBValidKey; value: TaskHistoryInterface } | null> => {
-  const tasksTransaction = (db as IDBPDatabase).transaction(
-    [KEY_TASKS, KEY_GARBAGE_TASKS],
+  const tasksTransaction = db.transaction(
+    [TemplateCreateDBKeys.tasks, TemplateCreateDBKeys.taskGarbages],
     TransactionType.readwrite
   );
 
-  const tasksStore = tasksTransaction.objectStore(KEY_TASKS);
-  const garbageTasksStore = tasksTransaction.objectStore(KEY_GARBAGE_TASKS);
+  const tasksStore = tasksTransaction.objectStore(TemplateCreateDBKeys.tasks);
+  const garbageTasksStore = tasksTransaction.objectStore(TemplateCreateDBKeys.taskGarbages);
 
   const lastGarbageTask = await garbageTasksStore.openCursor(null, CursorDirection.prevunique);
   if (lastGarbageTask === null) return null;
@@ -152,15 +149,16 @@ export const useTemplateTaskHistories = () => {
     const res = await restoreTaskHistories(dbState.db);
     if (res === null) return;
 
-    // setTasks((state) => [...(state ?? []), res.value]);
+    setDBState((state) => {
+      return {
+        ...state,
+        tasks: [...(state.tasks ?? []), res.value],
+      };
+    });
   };
 
   return {
-    KEY_TASKS,
-    KEY_GARBAGE_TASKS,
-
     dbState,
-    // tasks,
 
     addTask,
     cancelTask,
