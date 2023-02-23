@@ -17,3 +17,5 @@ export { useMouseStateAtom } from './useMouseStateAtom';
 
 /* eslint-disable-next-line import/no-cycle */
 export { useSearchActiveBlockGroup } from './useSearchActiveBlockGroup';
+
+export { useTemplateTasksInit } from './useTemplateTasksInit';
