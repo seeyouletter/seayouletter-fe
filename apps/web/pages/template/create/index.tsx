@@ -17,6 +17,7 @@ import {
   useResizablePageAtom,
   useTemplateCreateToolbar,
   useTemplateTaskHistories,
+  useTemplateTasksInit,
 } from '@hooks/index';
 
 import { Blocks, DefaultBox, SizeType, globalTheme } from 'ui';
@@ -95,7 +96,6 @@ export default function TemplateCreatePage() {
   const theme = useTheme();
   const { activedBlockGroup, initializeActiveId, addBlock, deleteBlock } = useBlockGroupsAtom();
   const { pageState, setPageWidth, setPageHeight, setPageScale } = useResizablePageAtom();
-
   const { addTask } = useTemplateTaskHistories();
 
   const {
@@ -120,6 +120,8 @@ export default function TemplateCreatePage() {
       return 'auto';
     }
   }, [blockCreationState.type]);
+
+  useTemplateTasksInit();
 
   /**
    * @todo
@@ -179,6 +181,8 @@ export default function TemplateCreatePage() {
     const nowRef = pageRef.current;
 
     const mouseMoveHandler = (e: MouseEvent) => {
+      if (!isMousePressing) return;
+
       const { clientY, clientX } = e;
 
       const defaultWidth = clientX - blockCreationState.left;
@@ -201,7 +205,7 @@ export default function TemplateCreatePage() {
       setBlockCreationHeight(height);
     };
 
-    if (nowRef && isMousePressing) {
+    if (nowRef) {
       nowRef.addEventListener('mousemove', mouseMoveHandler, { passive: true });
     }
 
@@ -281,7 +285,8 @@ export default function TemplateCreatePage() {
             left={blockCreationState.left - +pageState.left + 'px'}
           />
         )}
-        {blockGroupsTree && <NodeList depth={0} listItems={blockGroupsTree}></NodeList>}
+
+        {blockGroupsTree && <NodeList depth={0} listItems={blockGroupsTree} />}
       </ResizablePage>
     </DefaultBox>
   );

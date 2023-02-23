@@ -11,7 +11,6 @@ export { useBorderModifier } from './useBorderModifier';
 export { useBlockGroupMove } from './useBlockGroupMove';
 
 export { useTemplateTaskHistories } from './useTemplateTaskHistories';
-export { usePageDB, getTaskHistories } from './usePageDB';
 
 export { useMouseStateAtom } from './useMouseStateAtom';
 

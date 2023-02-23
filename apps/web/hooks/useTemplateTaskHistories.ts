@@ -1,38 +1,20 @@
-import { IDBPDatabase, IDBPObjectStore } from 'idb';
+import { IDBPDatabase } from 'idb';
 import type {} from 'node_modules/@types/react';
 
 import { useAtom } from 'jotai';
 
 import { templateTasksDBAtom } from '@atoms/index';
 
-import { CursorDirection, TransactionType } from '@models/index';
-
-import { BlockMemberType } from 'ui';
+import {
+  CursorDirection,
+  GarbageTasksDBStoreType,
+  TaskHistoryInterface,
+  TasksDBStoreType,
+  TransactionType,
+} from '@models/index';
 
 export const KEY_TASKS = 'tasks';
 export const KEY_GARBAGE_TASKS = 'taskGarbages';
-
-type GarbageTasksDBStoreType = IDBPObjectStore<
-  unknown,
-  string[],
-  typeof KEY_GARBAGE_TASKS,
-  TransactionType.readwrite
->;
-
-type TasksDBStoreType = IDBPObjectStore<
-  unknown,
-  string[],
-  typeof KEY_TASKS,
-  TransactionType.readwrite
->;
-
-type TaskType = 'create' | 'update' | 'delete';
-
-export interface TaskHistoryInterface {
-  taskType: TaskType;
-  before: BlockMemberType | null;
-  after: BlockMemberType | null;
-}
 
 const initializeGarbageTasks = async (store: GarbageTasksDBStoreType) => {
   store.clear();
