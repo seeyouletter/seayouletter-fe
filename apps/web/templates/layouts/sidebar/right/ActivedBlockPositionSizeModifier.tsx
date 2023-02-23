@@ -1,8 +1,10 @@
+import { TaskHistoryInterface, TaskTypeEnum } from 'types';
+
 import React, { FormEvent } from 'react';
 
 import { useTheme } from '@emotion/react';
 
-import { useBlockGroupsAtom } from '@hooks/useBlockGroupsAtom';
+import { useBlockGroupsAtom, useTemplateTaskHistories } from '@hooks/index';
 
 import { DEFAULT_NONE } from '@utils/index';
 
@@ -20,6 +22,7 @@ import { TemplatedInputWithTitlePresenter } from './TemplatedInputWithTitlePrese
 /* eslint-disable no-console */
 export function ActivedBlockPositionSizeModifier() {
   const { activedBlockGroup, setPositionStyle, setSizeStyle } = useBlockGroupsAtom();
+  const { addTask } = useTemplateTaskHistories();
 
   const theme = useTheme();
 
@@ -30,8 +33,10 @@ export function ActivedBlockPositionSizeModifier() {
       activedBlockGroup === null ||
       activedBlockGroup.type !== 'block' ||
       activedBlockGroup.id === null
-    )
+    ) {
       return;
+    }
+
     setPositionStyle({
       type: 'block',
       id: activedBlockGroup.id,
@@ -47,8 +52,9 @@ export function ActivedBlockPositionSizeModifier() {
       activedBlockGroup === null ||
       activedBlockGroup.type !== 'block' ||
       activedBlockGroup.id === null
-    )
+    ) {
       return;
+    }
 
     setSizeStyle({
       type: 'block',
@@ -58,6 +64,68 @@ export function ActivedBlockPositionSizeModifier() {
         [key]: (e.target as HTMLInputElement).value,
       },
     });
+  };
+
+  const onBlurPosition = (e: FormEvent, key: keyof Position) => {
+    if (
+      activedBlockGroup === null ||
+      activedBlockGroup.type !== 'block' ||
+      activedBlockGroup.id === null
+    ) {
+      return;
+    }
+
+    const nowTask = {
+      taskType: TaskTypeEnum.update,
+      before: activedBlockGroup,
+      after: {
+        ...activedBlockGroup,
+        style: {
+          ...activedBlockGroup.style,
+          position: {
+            ...activedBlockGroup.style.position,
+            [key]: (e.target as HTMLInputElement).value,
+          },
+        },
+      },
+    };
+
+    if (activedBlockGroup.subType !== 'text') {
+      addTask(nowTask as TaskHistoryInterface);
+    } else {
+      addTask(nowTask as TaskHistoryInterface);
+    }
+  };
+
+  const onBlurSize = (e: FormEvent, key: keyof GroupBlockSize) => {
+    if (
+      activedBlockGroup === null ||
+      activedBlockGroup.type !== 'block' ||
+      activedBlockGroup.id === null
+    ) {
+      return;
+    }
+
+    const nowTask = {
+      taskType: TaskTypeEnum.update,
+      before: activedBlockGroup,
+      after: {
+        ...activedBlockGroup,
+        style: {
+          ...activedBlockGroup.style,
+          size: {
+            ...activedBlockGroup.style.size,
+            [key]: (e.target as HTMLInputElement).value,
+          },
+        },
+      },
+    };
+
+    if (activedBlockGroup.subType !== 'text') {
+      addTask(nowTask as TaskHistoryInterface);
+    } else {
+      addTask(nowTask as TaskHistoryInterface);
+    }
   };
 
   return (
@@ -80,6 +148,7 @@ export function ActivedBlockPositionSizeModifier() {
             placeholder="입력"
             value={activedBlockGroup?.style?.position.top ?? DEFAULT_NONE}
             onChange={(e) => onInputPosition(e, 'top')}
+            onBlur={(e) => onBlurPosition(e, 'top')}
           />
 
           <TemplatedInputWithTitlePresenter
@@ -88,6 +157,7 @@ export function ActivedBlockPositionSizeModifier() {
             placeholder="입력"
             value={activedBlockGroup?.style?.position.left ?? DEFAULT_NONE}
             onChange={(e) => onInputPosition(e, 'left')}
+            onBlur={(e) => onBlurPosition(e, 'left')}
           />
         </DefaultHStack>
 
@@ -98,6 +168,7 @@ export function ActivedBlockPositionSizeModifier() {
             placeholder="입력"
             value={activedBlockGroup?.style?.size.width ?? DEFAULT_NONE}
             onChange={(e) => onInputSize(e, 'width')}
+            onBlur={(e) => onBlurSize(e, 'width')}
           />
 
           <TemplatedInputWithTitlePresenter
@@ -106,6 +177,7 @@ export function ActivedBlockPositionSizeModifier() {
             placeholder="입력"
             value={activedBlockGroup?.style?.size.height ?? DEFAULT_NONE}
             onChange={(e) => onInputSize(e, 'height')}
+            onBlur={(e) => onBlurSize(e, 'height')}
           />
         </DefaultHStack>
       </DefaultVStack>

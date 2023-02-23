@@ -2,7 +2,7 @@ import { useAtom } from 'jotai';
 
 import { blockBorderStateAtom, concurrentlyActivedSections } from '@atoms/index';
 
-import { useBlockGroupsAtom } from '@hooks/useBlockGroupsAtom';
+import { useBlockGroupsAtom } from '@hooks/index';
 
 import { BorderName, DirectionsConstants, EdgeDirectionsConstants } from 'ui';
 

@@ -18,10 +18,16 @@ export type TasksDBStoreType = IDBPObjectStore<
   TransactionType.readwrite
 >;
 
-export type TaskType = 'create' | 'update' | 'delete';
+export enum TaskTypeEnum {
+  'create' = 'create',
+  'update' = 'update',
+  'delete' = 'delete',
+}
+
+// export type TaskType = 'create' | 'update' | 'delete';
 
 export interface TaskHistoryInterface {
-  taskType: TaskType;
+  taskType: TaskTypeEnum;
   before: BlockMemberType | null;
   after: BlockMemberType | null;
 }
