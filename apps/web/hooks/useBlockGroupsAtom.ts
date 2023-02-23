@@ -191,16 +191,6 @@ export const useBlockGroupsAtom = () => {
     }));
   };
 
-  // const setBlocksStore = (willUpdatedBlocks: Record<string, Blocks>) => {
-  //   setBlockGroupState((state) => ({
-  //     ...state,
-  //     blocksStore: {
-  //       ...state.blocksStore,
-  //       ...willUpdatedBlocks,
-  //     },
-  //   }));
-  // };
-
   const addGroup = (group: Groups) => {
     setBlockGroupState((state) => ({
       ...state,
@@ -925,7 +915,5 @@ export const useBlockGroupsAtom = () => {
     updateGroup,
     deleteBlock,
     deleteGroup,
-
-    // setBlocksStore,
   };
 };

@@ -8,6 +8,7 @@ import { useAtom } from 'jotai';
 import { templateTasksDBAtom } from '@atoms/templateTasksDBAtom';
 
 import { TemplateCreateDBKeys, TransactionType } from '@models/index';
+import { TaskHistoryInterface } from '@models/task-histories';
 
 import { useBlockGroupsAtom } from './useBlockGroupsAtom';
 
@@ -33,6 +34,16 @@ const openTaskQueueStore = async () => {
 
 export const useTemplateTasksInit = () => {
   const [dbState, setDBState] = useAtom(templateTasksDBAtom);
+  const {
+    addBlock,
+    addGroup,
+    updateBlock,
+    updateGroup,
+    deleteBlock,
+    deleteGroup,
+    blockGroupState,
+  } = useBlockGroupsAtom();
+
   /**
    * @todo
    * 추후 해당 제네릭이 무엇을 의미하는지에 대해 알아야 한다.
@@ -44,7 +55,7 @@ export const useTemplateTasksInit = () => {
     try {
       const tasksTransaction = db.transaction(TemplateCreateDBKeys.tasks, TransactionType.readonly);
 
-      const res = await tasksTransaction.store.getAll();
+      const res: TaskHistoryInterface[] = await tasksTransaction.store.getAll();
 
       return res;
     } catch (e) {
@@ -53,44 +64,12 @@ export const useTemplateTasksInit = () => {
   };
 
   useEffect(() => {
-    const fetchTasksDB = async () => {
-      if (dbState.db) return;
-
-      const { db, message } = await openTaskQueueStore();
-      const tasks = await getTaskHistories(db);
-
-      setDBState((state) => ({
-        ...state,
-        db,
-        tasks,
-        message,
-        dbMounted: true,
-      }));
-    };
-
-    fetchTasksDB();
-
-    /* eslint-disable-next-line react-hooks/exhaustive-deps */
-  }, []);
-
-  const {
-    addBlock,
-    addGroup,
-    updateBlock,
-    updateGroup,
-    deleteBlock,
-    deleteGroup,
-    blockGroupState,
-  } = useBlockGroupsAtom();
-
-  useEffect(() => {
-    const reflectTasksIntoBlockGroupStore = () => {
-      if (!dbState.tasks) return;
-
+    const reflectTasksIntoBlockGroupStore = (tasks: TaskHistoryInterface[]) => {
+      if (!tasks) return;
       const nowBlocksStore = blockGroupState.blocksStore;
       const nowGroupsStore = blockGroupState.groupsStore;
 
-      dbState.tasks.forEach((task) => {
+      tasks.forEach((task) => {
         const afterTask = task.after;
         const beforeTask = task.before;
 
@@ -131,10 +110,29 @@ export const useTemplateTasksInit = () => {
       });
     };
 
-    reflectTasksIntoBlockGroupStore();
+    const fetchTasksDB = async () => {
+      if (dbState.db) return;
 
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [dbState]);
+      const { db, message } = await openTaskQueueStore();
+      const tasks = await getTaskHistories(db);
+
+      setDBState((state) => ({
+        ...state,
+        db,
+        tasks,
+        message,
+        dbMounted: true,
+      }));
+
+      if (tasks) {
+        reflectTasksIntoBlockGroupStore(tasks);
+      }
+    };
+
+    fetchTasksDB();
+
+    /* eslint-disable-next-line react-hooks/exhaustive-deps */
+  }, []);
 
   return {
     dbState,
