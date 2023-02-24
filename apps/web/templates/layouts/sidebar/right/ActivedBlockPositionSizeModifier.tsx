@@ -21,12 +21,17 @@ import { TemplatedInputWithTitlePresenter } from './TemplatedInputWithTitlePrese
 
 /* eslint-disable no-console */
 export function ActivedBlockPositionSizeModifier() {
-  const { activedBlockGroup, setPositionStyle, setSizeStyle } = useBlockGroupsAtom();
+  const { activedBlockGroup, setPositionStyle, setSizeStyle, setRemovableByBackspace } =
+    useBlockGroupsAtom();
   const { addTask } = useTemplateTaskHistories();
 
   const theme = useTheme();
 
   if (activedBlockGroup === null || activedBlockGroup.type !== 'block') return <div></div>;
+
+  const onFocusInput = () => {
+    setRemovableByBackspace(false);
+  };
 
   const onInputPosition = (e: FormEvent, key: keyof Position) => {
     if (
@@ -95,6 +100,8 @@ export function ActivedBlockPositionSizeModifier() {
     } else {
       addTask(nowTask as TaskHistoryInterface);
     }
+
+    setRemovableByBackspace(true);
   };
 
   const onBlurSize = (e: FormEvent, key: keyof GroupBlockSize) => {
@@ -148,6 +155,7 @@ export function ActivedBlockPositionSizeModifier() {
             placeholder="입력"
             value={activedBlockGroup?.style?.position.top ?? DEFAULT_NONE}
             onChange={(e) => onInputPosition(e, 'top')}
+            onFocus={onFocusInput}
             onBlur={(e) => onBlurPosition(e, 'top')}
           />
 
@@ -157,6 +165,7 @@ export function ActivedBlockPositionSizeModifier() {
             placeholder="입력"
             value={activedBlockGroup?.style?.position.left ?? DEFAULT_NONE}
             onChange={(e) => onInputPosition(e, 'left')}
+            onFocus={onFocusInput}
             onBlur={(e) => onBlurPosition(e, 'left')}
           />
         </DefaultHStack>
@@ -168,6 +177,7 @@ export function ActivedBlockPositionSizeModifier() {
             placeholder="입력"
             value={activedBlockGroup?.style?.size.width ?? DEFAULT_NONE}
             onChange={(e) => onInputSize(e, 'width')}
+            onFocus={onFocusInput}
             onBlur={(e) => onBlurSize(e, 'width')}
           />
 
@@ -177,6 +187,7 @@ export function ActivedBlockPositionSizeModifier() {
             placeholder="입력"
             value={activedBlockGroup?.style?.size.height ?? DEFAULT_NONE}
             onChange={(e) => onInputSize(e, 'height')}
+            onFocus={onFocusInput}
             onBlur={(e) => onBlurSize(e, 'height')}
           />
         </DefaultHStack>

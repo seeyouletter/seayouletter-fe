@@ -1,6 +1,6 @@
 import { atom } from 'jotai';
 
-import { BlockMemberType, BlockMembersType, Blocks, Groups, IdType } from 'ui';
+import { BlockGroupOptions, BlockMemberType, BlockMembersType, Blocks, Groups, IdType } from 'ui';
 
 export interface BlockGroupToggleStoreInterface {
   [id: string]: boolean;
@@ -10,7 +10,7 @@ export interface BlockGroupsStore {
   groupsStore: Record<string, Groups>;
   blocksStore: Record<string, Blocks>;
 }
-export interface BlockGroupsAtomInterface extends BlockGroupsStore {
+export interface BlockGroupsAtomInterface extends BlockGroupsStore, BlockGroupOptions {
   activeId: IdType;
   activedBlockGroupDepth: number | null;
   detail: BlockMemberType | null;
@@ -44,6 +44,7 @@ export const getInitialBlockState = () => ({
   },
 
   isMount: false,
+  isRemovableByBackspace: true,
 });
 
 export const blocksStateAtom = atom<BlockGroupsAtomInterface>(getInitialBlockState());

@@ -15,9 +15,19 @@ interface BlockHoverEventParams extends BlockGroupPriorities {
 
 export type BlockHoverEvent = (e: MouseEvent, param: BlockHoverEventParams) => void;
 
+export type BlockGroupOptions = {
+  isRemovableByBackspace: boolean;
+};
+
 export type ClickEventWithType = (
   e: MouseEvent,
-  { type, id, depth, order }: { type: BlockGroupType; id: string } & BlockGroupPriorities
+  {
+    type,
+    id,
+    depth,
+    order,
+    options,
+  }: { type: BlockGroupType; id: string; options: BlockGroupOptions } & BlockGroupPriorities
 ) => void;
 
 export type BlockGroupType = 'block' | 'group';

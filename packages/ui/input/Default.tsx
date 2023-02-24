@@ -16,6 +16,7 @@ export const DefaultInput = ({
   value,
   onChange,
   onInput,
+  onFocus,
   onBlur,
 }: InputPropsInterface) => {
   return (
@@ -37,6 +38,7 @@ export const DefaultInput = ({
       value={value}
       onChange={onChange}
       onInput={onInput}
+      onFocus={onFocus}
       onBlur={onBlur}
     />
   );

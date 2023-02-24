@@ -855,6 +855,13 @@ export const useBlockGroupsAtom = () => {
     }
   };
 
+  const setRemovableByBackspace = (isRemovableByBackspace: boolean) => {
+    setBlockGroupState((state) => ({
+      ...state,
+      isRemovableByBackspace,
+    }));
+  };
+
   return {
     blockGroupState,
     activedBlockGroup,
@@ -915,5 +922,7 @@ export const useBlockGroupsAtom = () => {
     updateGroup,
     deleteBlock,
     deleteGroup,
+
+    setRemovableByBackspace,
   };
 };
