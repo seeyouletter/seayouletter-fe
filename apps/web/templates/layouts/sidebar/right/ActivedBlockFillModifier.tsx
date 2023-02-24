@@ -1,10 +1,12 @@
-import React, { FormEvent } from 'react';
+import { TaskTypeEnum } from 'types';
+
+import React, { FormEvent, useState } from 'react';
 
 import { useTheme } from '@emotion/react';
 
-import { useBlockGroupsAtom } from '@hooks/index';
+import { useBlockGroupsAtom, useTemplateTaskHistories } from '@hooks/index';
 
-import { DefaultDivider, DefaultHStack, DefaultVStack, StrongText } from 'ui';
+import { Blocks, DefaultDivider, DefaultHStack, DefaultVStack, StrongText } from 'ui';
 
 import { TemplatedColorInputWithTitlePresenter } from './TemplatedColorInputWithTitle';
 import { TemplatedInputWithTitlePresenter } from './TemplatedInputWithTitlePresenter';
@@ -14,7 +16,16 @@ import { TemplatedInputWithTitlePresenter } from './TemplatedInputWithTitlePrese
 export function ActivedBlockFillModifier() {
   const theme = useTheme();
 
-  const { activedBlockGroup, setFillBgStyle, setBgOpacity } = useBlockGroupsAtom();
+  const { activedBlockGroup, setFillBgStyle, setBgOpacity, setRemovableByBackspace } =
+    useBlockGroupsAtom();
+
+  const [blockBeforeSnapshot, setBlockBeforeSnapshot] = useState<Blocks | null>(null);
+
+  const initializeBlockBeforeSnapshot = () => {
+    setBlockBeforeSnapshot(() => null);
+  };
+
+  const { addTask } = useTemplateTaskHistories();
 
   if (
     activedBlockGroup === null ||
@@ -23,6 +34,12 @@ export function ActivedBlockFillModifier() {
   ) {
     return <div></div>;
   }
+
+  const onFocusInput = () => {
+    console.log('activedBlockGroup', activedBlockGroup);
+    setRemovableByBackspace(false);
+    setBlockBeforeSnapshot(() => activedBlockGroup);
+  };
 
   const onChangeBg = (e: FormEvent) => {
     setFillBgStyle({
@@ -42,6 +59,18 @@ export function ActivedBlockFillModifier() {
       id: activedBlockGroup?.id,
       opacity: (e.target as HTMLInputElement).value,
     });
+  };
+
+  const onBlur = () => {
+    setRemovableByBackspace(true);
+
+    addTask({
+      taskType: TaskTypeEnum.update,
+      before: blockBeforeSnapshot,
+      after: activedBlockGroup,
+    });
+
+    initializeBlockBeforeSnapshot();
   };
 
   return (
@@ -66,6 +95,8 @@ export function ActivedBlockFillModifier() {
             placeholder="입력"
             value={activedBlockGroup.style.bg}
             onChange={onChangeBg}
+            onFocus={onFocusInput}
+            onBlur={onBlur}
           />
 
           <TemplatedInputWithTitlePresenter
@@ -75,6 +106,8 @@ export function ActivedBlockFillModifier() {
             placeholder="입력"
             value={activedBlockGroup.style.opacity}
             onChange={onChangeBgOpacity}
+            onFocus={onFocusInput}
+            onBlur={onBlur}
           />
         </DefaultHStack>
       </DefaultVStack>
