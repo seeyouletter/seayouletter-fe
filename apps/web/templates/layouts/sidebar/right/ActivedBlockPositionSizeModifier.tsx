@@ -1,6 +1,6 @@
 import { TaskHistoryInterface, TaskTypeEnum } from 'types';
 
-import React, { FormEvent } from 'react';
+import React, { FormEvent, useState } from 'react';
 
 import { useTheme } from '@emotion/react';
 
@@ -9,6 +9,7 @@ import { useBlockGroupsAtom, useTemplateTaskHistories } from '@hooks/index';
 import { DEFAULT_NONE } from '@utils/index';
 
 import {
+  Blocks,
   DefaultDivider,
   DefaultHStack,
   DefaultVStack,
@@ -23,6 +24,13 @@ import { TemplatedInputWithTitlePresenter } from './TemplatedInputWithTitlePrese
 export function ActivedBlockPositionSizeModifier() {
   const { activedBlockGroup, setPositionStyle, setSizeStyle, setRemovableByBackspace } =
     useBlockGroupsAtom();
+
+  const [blockBeforeSnapshot, setBlockBeforeSnapshot] = useState<Blocks | null>(null);
+
+  const initializeBlockBeforeSnapshot = () => {
+    setBlockBeforeSnapshot(() => null);
+  };
+
   const { addTask } = useTemplateTaskHistories();
 
   const theme = useTheme();
@@ -31,6 +39,7 @@ export function ActivedBlockPositionSizeModifier() {
 
   const onFocusInput = () => {
     setRemovableByBackspace(false);
+    setBlockBeforeSnapshot(() => activedBlockGroup);
   };
 
   const onInputPosition = (e: FormEvent, key: keyof Position) => {
@@ -82,7 +91,7 @@ export function ActivedBlockPositionSizeModifier() {
 
     const nowTask = {
       taskType: TaskTypeEnum.update,
-      before: activedBlockGroup,
+      before: blockBeforeSnapshot,
       after: {
         ...activedBlockGroup,
         style: {
@@ -102,6 +111,7 @@ export function ActivedBlockPositionSizeModifier() {
     }
 
     setRemovableByBackspace(true);
+    initializeBlockBeforeSnapshot();
   };
 
   const onBlurSize = (e: FormEvent, key: keyof GroupBlockSize) => {
@@ -115,7 +125,7 @@ export function ActivedBlockPositionSizeModifier() {
 
     const nowTask = {
       taskType: TaskTypeEnum.update,
-      before: activedBlockGroup,
+      before: blockBeforeSnapshot,
       after: {
         ...activedBlockGroup,
         style: {
@@ -133,6 +143,9 @@ export function ActivedBlockPositionSizeModifier() {
     } else {
       addTask(nowTask as TaskHistoryInterface);
     }
+
+    setRemovableByBackspace(true);
+    initializeBlockBeforeSnapshot();
   };
 
   return (
