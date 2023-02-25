@@ -1,15 +1,14 @@
 import { TaskHistoryInterface, TaskTypeEnum } from 'types';
 
-import React, { FormEvent, useState } from 'react';
+import React, { FormEvent } from 'react';
 
 import { useTheme } from '@emotion/react';
 
-import { useBlockGroupsAtom, useTemplateTaskHistories } from '@hooks/index';
+import { useBlockBeforeSnapshot, useBlockGroupsAtom, useTemplateTaskHistories } from '@hooks/index';
 
 import { DEFAULT_NONE } from '@utils/index';
 
 import {
-  Blocks,
   DefaultDivider,
   DefaultHStack,
   DefaultVStack,
@@ -25,11 +24,8 @@ export function ActivedBlockPositionSizeModifier() {
   const { activedBlockGroup, setPositionStyle, setSizeStyle, setRemovableByBackspace } =
     useBlockGroupsAtom();
 
-  const [blockBeforeSnapshot, setBlockBeforeSnapshot] = useState<Blocks | null>(null);
-
-  const initializeBlockBeforeSnapshot = () => {
-    setBlockBeforeSnapshot(() => null);
-  };
+  const { blockBeforeSnapshot, setBlockBeforeSnapshot, initializeBlockBeforeSnapshot } =
+    useBlockBeforeSnapshot();
 
   const { addTask } = useTemplateTaskHistories();
 

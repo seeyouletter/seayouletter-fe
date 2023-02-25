@@ -39,6 +39,7 @@ export function ActivedGroupPositionSizeModifier() {
           </StrongText>
         </DefaultVStack>
 
+        {/* TODO: 추후 group에 대한 사이즈 조절을 구현하고, focus, blur 이벤트 처리를 해야한다. */}
         <DefaultHStack paddingBottom="8px" justifyContent="space-between">
           <TemplatedInputWithTitlePresenter
             direction="horizontal"
@@ -48,6 +49,12 @@ export function ActivedGroupPositionSizeModifier() {
             onChange={() => {
               // eslint-disable-next-line
               console.log(TBD);
+            }}
+            onFocus={() => {
+              return;
+            }}
+            onBlur={() => {
+              return;
             }}
           />
 
@@ -59,6 +66,12 @@ export function ActivedGroupPositionSizeModifier() {
             onChange={() => {
               // eslint-disable-next-line
               console.log(TBD);
+            }}
+            onFocus={() => {
+              return;
+            }}
+            onBlur={() => {
+              return;
             }}
           />
         </DefaultHStack>
@@ -73,6 +86,12 @@ export function ActivedGroupPositionSizeModifier() {
               // eslint-disable-next-line
               console.log(TBD);
             }}
+            onFocus={() => {
+              return;
+            }}
+            onBlur={() => {
+              return;
+            }}
           />
 
           <TemplatedInputWithTitlePresenter
@@ -83,6 +102,12 @@ export function ActivedGroupPositionSizeModifier() {
             onChange={() => {
               // eslint-disable-next-line
               console.log(TBD);
+            }}
+            onFocus={() => {
+              return;
+            }}
+            onBlur={() => {
+              return;
             }}
           />
         </DefaultHStack>

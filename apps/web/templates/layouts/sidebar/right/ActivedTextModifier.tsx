@@ -4,8 +4,7 @@ import React from 'react';
 
 import { useTheme } from '@emotion/react';
 
-import { useBlockBeforeSnapshot, useTemplateTaskHistories } from '@hooks/index';
-import { useBlockGroupsAtom } from '@hooks/useBlockGroupsAtom';
+import { useBlockBeforeSnapshot, useBlockGroupsAtom, useTemplateTaskHistories } from '@hooks/index';
 
 import { DefaultDivider, DefaultHStack, DefaultVStack, StrongText } from 'ui';
 

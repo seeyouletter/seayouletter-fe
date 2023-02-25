@@ -1,12 +1,12 @@
 import { TaskTypeEnum } from 'types';
 
-import React, { FormEvent, useState } from 'react';
+import React, { FormEvent } from 'react';
 
 import { useTheme } from '@emotion/react';
 
-import { useBlockGroupsAtom, useTemplateTaskHistories } from '@hooks/index';
+import { useBlockBeforeSnapshot, useBlockGroupsAtom, useTemplateTaskHistories } from '@hooks/index';
 
-import { Blocks, DefaultDivider, DefaultHStack, DefaultVStack, StrongText } from 'ui';
+import { DefaultDivider, DefaultHStack, DefaultVStack, StrongText } from 'ui';
 
 import { TemplatedColorInputWithTitlePresenter } from './TemplatedColorInputWithTitle';
 import { TemplatedInputWithTitlePresenter } from './TemplatedInputWithTitlePresenter';
@@ -19,11 +19,8 @@ export function ActivedBlockFillModifier() {
   const { activedBlockGroup, setFillBgStyle, setBgOpacity, setRemovableByBackspace } =
     useBlockGroupsAtom();
 
-  const [blockBeforeSnapshot, setBlockBeforeSnapshot] = useState<Blocks | null>(null);
-
-  const initializeBlockBeforeSnapshot = () => {
-    setBlockBeforeSnapshot(() => null);
-  };
+  const { blockBeforeSnapshot, setBlockBeforeSnapshot, initializeBlockBeforeSnapshot } =
+    useBlockBeforeSnapshot();
 
   const { addTask } = useTemplateTaskHistories();
 
