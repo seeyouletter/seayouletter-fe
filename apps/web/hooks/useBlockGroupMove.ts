@@ -2,10 +2,11 @@
  * NOTE: 추후 pnpm이 모노레포를 원활히 지원한다면 제거한다.
  */
 import type {} from 'node_modules/@types/react';
-import { TaskTypeEnum } from 'types';
 
 import { useCallback } from 'react';
 import { MouseEvent as ReactMouseEvent, useEffect, useRef, useState } from 'react';
+
+import { TaskTypeEnum } from '@models/index';
 
 import { convertPxStringToNumber } from '@utils/index';
 

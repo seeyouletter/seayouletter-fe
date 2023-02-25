@@ -1,5 +1,3 @@
-import { TaskTypeEnum } from 'types';
-
 import React, { MouseEvent as ReactMouseEvent, useEffect, useMemo, useRef, useState } from 'react';
 
 import { useAtomValue } from 'jotai';
@@ -13,6 +11,8 @@ import TemplateCreateLayout from '@layouts/TemplateCreateLayout';
 import { BlockPreviewer, NodeList, ResizablePage } from '@templates/template-create';
 
 import { assembledBlockGroups } from '@atoms/blockGroupsAtom';
+
+import { TaskTypeEnum } from '@models/index';
 
 import {
   useBlockGroupsAtom,

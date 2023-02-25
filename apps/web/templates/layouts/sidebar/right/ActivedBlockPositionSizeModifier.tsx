@@ -1,8 +1,8 @@
-import { TaskHistoryInterface, TaskTypeEnum } from 'types';
-
 import React, { FormEvent } from 'react';
 
 import { useTheme } from '@emotion/react';
+
+import { TaskHistoryInterface, TaskTypeEnum } from '@models/index';
 
 import { useBlockBeforeSnapshot, useBlockGroupsAtom, useTemplateTaskHistories } from '@hooks/index';
 
