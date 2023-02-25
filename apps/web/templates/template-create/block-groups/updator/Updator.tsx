@@ -2,6 +2,8 @@ import React, { MouseEvent as ReactMouseEvent, useEffect, useState } from 'react
 
 import { useTheme } from '@emotion/react';
 
+import { TaskTypeEnum } from '@models/index';
+
 import { useBlockGroupsAtom, useResizablePageAtom, useTemplateTaskHistories } from '@hooks/index';
 
 import { convertPxStringToNumber } from '@utils/index';
@@ -123,7 +125,7 @@ export function Updator({ item }: { item: NodeItemPropsInterface['item'] }) {
     if (!isMousePressing || !direction || !isUpdating[direction]) return;
 
     addTask({
-      taskType: 'update',
+      taskType: TaskTypeEnum.update,
       before: item,
       after: activedBlockGroup,
     });

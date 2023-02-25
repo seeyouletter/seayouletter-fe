@@ -16,6 +16,8 @@ interface TemplatedColorInputWithTitlePresenterInterface {
   width?: string;
   value: string;
   onChange: InputWithTitlePropsInterface['input']['onInput'];
+  onFocus?: InputWithTitlePropsInterface['input']['onFocus'];
+  onBlur?: InputWithTitlePropsInterface['input']['onBlur'];
 }
 
 /**
@@ -28,6 +30,8 @@ export function TemplatedColorInputWithTitlePresenter({
   width = '48px',
   value,
   onChange,
+  onFocus,
+  onBlur,
 }: TemplatedColorInputWithTitlePresenterInterface) {
   const theme = useTheme();
 
@@ -43,7 +47,14 @@ export function TemplatedColorInputWithTitlePresenter({
         {title}
       </StrongText>
 
-      <ColorInput width="100%" value={value} size="xs" onChange={onChange} />
+      <ColorInput
+        width="100%"
+        value={value}
+        size="xs"
+        onChange={onChange}
+        onFocus={onFocus}
+        onBlur={onBlur}
+      />
     </StackFactory>
   );
 }

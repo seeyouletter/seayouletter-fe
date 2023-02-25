@@ -27,7 +27,7 @@ export type ClickEventWithType = (
     depth,
     order,
     options,
-  }: { type: BlockGroupType; id: string; options: BlockGroupOptions } & BlockGroupPriorities
+  }: { type: BlockGroupType; id: string; options?: BlockGroupOptions } & BlockGroupPriorities
 ) => void;
 
 export type BlockGroupType = 'block' | 'group';

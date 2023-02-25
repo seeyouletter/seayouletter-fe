@@ -13,6 +13,8 @@ export const ColorInput = ({
   width,
   value,
   onChange,
+  onFocus,
+  onBlur,
 }: ColorPropsInterface) => {
   const theme = useTheme();
 
@@ -31,6 +33,8 @@ export const ColorInput = ({
       isInvalid={isInvalid}
       value={value}
       onChange={onChange}
+      onFocus={onFocus}
+      onBlur={onBlur}
     />
   );
 };
