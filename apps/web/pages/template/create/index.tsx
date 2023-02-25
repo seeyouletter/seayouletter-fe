@@ -12,6 +12,8 @@ import { BlockPreviewer, NodeList, ResizablePage } from '@templates/template-cre
 
 import { assembledBlockGroups } from '@atoms/blockGroupsAtom';
 
+import { TaskTypeEnum } from '@models/index';
+
 import {
   useBlockGroupsAtom,
   useCreateBlockGroupsStore,
@@ -801,7 +803,8 @@ export default function TemplateCreatePage() {
 
   const theme = useTheme();
 
-  const { activedBlockGroup, initializeActiveId, addBlock, deleteBlock } = useBlockGroupsAtom();
+  const { blockGroupState, activedBlockGroup, initializeActiveId, addBlock, deleteBlock } =
+    useBlockGroupsAtom();
   const { pageState, setPageWidth, setPageHeight, setPageScale } = useResizablePageAtom();
   const { addTask } = useTemplateTaskHistories();
 
@@ -877,7 +880,7 @@ export default function TemplateCreatePage() {
     addBlock(nextBlock);
 
     addTask({
-      taskType: 'create',
+      taskType: TaskTypeEnum.create,
       before: null,
       after: nextBlock,
     });
@@ -949,9 +952,9 @@ export default function TemplateCreatePage() {
      */
     const deleteBlockGroupHandler = (e: KeyboardEvent) => {
       if (activedBlockGroup !== null && activedBlockGroup.type === 'block') {
-        if (e.key === 'Backspace') {
+        if (e.key === 'Backspace' && blockGroupState.isRemovableByBackspace) {
           addTask({
-            taskType: 'delete',
+            taskType: TaskTypeEnum.delete,
             before: activedBlockGroup,
             after: null,
           });
@@ -969,7 +972,7 @@ export default function TemplateCreatePage() {
       document.body.removeEventListener('keydown', deleteBlockGroupHandler);
     };
     /* eslint-disable-next-line react-hooks/exhaustive-deps */
-  }, [activedBlockGroup]);
+  }, [activedBlockGroup, blockGroupState.isRemovableByBackspace]);
 
   return (
     <DefaultBox

@@ -2,7 +2,9 @@ import React, { FormEvent } from 'react';
 
 import { useTheme } from '@emotion/react';
 
-import { useBlockGroupsAtom } from '@hooks/useBlockGroupsAtom';
+import { TaskTypeEnum } from '@models/index';
+
+import { useBlockBeforeSnapshot, useBlockGroupsAtom, useTemplateTaskHistories } from '@hooks/index';
 
 import {
   DefaultButton,
@@ -19,9 +21,32 @@ export function ActivedImageModifier() {
   const theme = useTheme();
 
   // TODO: updateImageResource, deleteImageResource를 추후 넣어야 한다. (이는 모달에서 제어를 할 것 같다. 업로드와 같이.)
-  const { activedBlockGroup, setImageStyle } = useBlockGroupsAtom();
+  const { activedBlockGroup, setImageStyle, setRemovableByBackspace } = useBlockGroupsAtom();
+
+  const { blockBeforeSnapshot, setBlockBeforeSnapshot, initializeBlockBeforeSnapshot } =
+    useBlockBeforeSnapshot();
+
+  const { addTask } = useTemplateTaskHistories();
 
   if (activedBlockGroup === null || activedBlockGroup.subType !== 'image') return <div></div>;
+
+  const onFocusInput = () => {
+    if (activedBlockGroup === null) return;
+
+    setRemovableByBackspace(false);
+    setBlockBeforeSnapshot(activedBlockGroup);
+  };
+
+  const onBlurInput = () => {
+    addTask({
+      taskType: TaskTypeEnum.update,
+      before: blockBeforeSnapshot,
+      after: activedBlockGroup,
+    });
+
+    initializeBlockBeforeSnapshot();
+    setRemovableByBackspace(true);
+  };
 
   const onChangeImagePosition = (e: FormEvent, position: 'top' | 'left') => {
     setImageStyle({
@@ -96,6 +121,8 @@ export function ActivedImageModifier() {
           inputWidth="42px"
           value={activedBlockGroup.imageStyle.position.top}
           onChange={(e) => onChangeImagePosition(e, 'top')}
+          onFocus={onFocusInput}
+          onBlur={onBlurInput}
         />
 
         <TemplatedInputWithTitlePresenter
@@ -105,6 +132,8 @@ export function ActivedImageModifier() {
           inputWidth="42px"
           value={activedBlockGroup.imageStyle.position.left}
           onChange={(e) => onChangeImagePosition(e, 'left')}
+          onFocus={onFocusInput}
+          onBlur={onBlurInput}
         />
 
         <TemplatedInputWithTitlePresenter
@@ -114,6 +143,8 @@ export function ActivedImageModifier() {
           inputWidth="42px"
           value={activedBlockGroup.imageStyle.opacity}
           onChange={onChangeImageOpacity}
+          onFocus={onFocusInput}
+          onBlur={onBlurInput}
         />
       </DefaultHStack>
     </DefaultVStack>

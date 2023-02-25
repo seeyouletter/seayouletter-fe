@@ -2,7 +2,9 @@ import React, { FormEvent } from 'react';
 
 import { useTheme } from '@emotion/react';
 
-import { useBlockGroupsAtom } from '@hooks/index';
+import { TaskTypeEnum } from '@models/index';
+
+import { useBlockBeforeSnapshot, useBlockGroupsAtom, useTemplateTaskHistories } from '@hooks/index';
 
 import { DefaultDivider, DefaultHStack, DefaultVStack, StrongText } from 'ui';
 
@@ -14,7 +16,13 @@ import { TemplatedInputWithTitlePresenter } from './TemplatedInputWithTitlePrese
 export function ActivedBlockFillModifier() {
   const theme = useTheme();
 
-  const { activedBlockGroup, setFillBgStyle, setBgOpacity } = useBlockGroupsAtom();
+  const { activedBlockGroup, setFillBgStyle, setBgOpacity, setRemovableByBackspace } =
+    useBlockGroupsAtom();
+
+  const { blockBeforeSnapshot, setBlockBeforeSnapshot, initializeBlockBeforeSnapshot } =
+    useBlockBeforeSnapshot();
+
+  const { addTask } = useTemplateTaskHistories();
 
   if (
     activedBlockGroup === null ||
@@ -23,6 +31,12 @@ export function ActivedBlockFillModifier() {
   ) {
     return <div></div>;
   }
+
+  const onFocusInput = () => {
+    console.log('activedBlockGroup', activedBlockGroup);
+    setRemovableByBackspace(false);
+    setBlockBeforeSnapshot(() => activedBlockGroup);
+  };
 
   const onChangeBg = (e: FormEvent) => {
     setFillBgStyle({
@@ -42,6 +56,18 @@ export function ActivedBlockFillModifier() {
       id: activedBlockGroup?.id,
       opacity: (e.target as HTMLInputElement).value,
     });
+  };
+
+  const onBlur = () => {
+    setRemovableByBackspace(true);
+
+    addTask({
+      taskType: TaskTypeEnum.update,
+      before: blockBeforeSnapshot,
+      after: activedBlockGroup,
+    });
+
+    initializeBlockBeforeSnapshot();
   };
 
   return (
@@ -66,6 +92,8 @@ export function ActivedBlockFillModifier() {
             placeholder="입력"
             value={activedBlockGroup.style.bg}
             onChange={onChangeBg}
+            onFocus={onFocusInput}
+            onBlur={onBlur}
           />
 
           <TemplatedInputWithTitlePresenter
@@ -75,6 +103,8 @@ export function ActivedBlockFillModifier() {
             placeholder="입력"
             value={activedBlockGroup.style.opacity}
             onChange={onChangeBgOpacity}
+            onFocus={onFocusInput}
+            onBlur={onBlur}
           />
         </DefaultHStack>
       </DefaultVStack>

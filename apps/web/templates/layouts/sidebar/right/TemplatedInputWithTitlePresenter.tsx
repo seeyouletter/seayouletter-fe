@@ -11,6 +11,8 @@ interface TemplatedInputWithTitlePresenterPropsInterface {
   inputWidth?: string;
   value?: string;
   onChange: InputWithTitlePropsInterface['input']['onInput'];
+  onFocus: InputWithTitlePropsInterface['input']['onFocus'];
+  onBlur: InputWithTitlePropsInterface['input']['onBlur'];
 }
 
 /**
@@ -25,6 +27,8 @@ export function TemplatedInputWithTitlePresenter({
   placeholder,
   value,
   onChange,
+  onFocus,
+  onBlur,
 }: TemplatedInputWithTitlePresenterPropsInterface) {
   const theme = useTheme();
 
@@ -60,6 +64,8 @@ export function TemplatedInputWithTitlePresenter({
         size: 'xs',
         placeholder,
         onChange,
+        onFocus,
+        onBlur,
         value,
         bgColor: theme.color.darkGray,
         borderColor: theme.color.darkGray,

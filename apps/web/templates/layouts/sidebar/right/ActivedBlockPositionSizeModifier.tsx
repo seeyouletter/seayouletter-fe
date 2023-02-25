@@ -2,7 +2,9 @@ import React, { FormEvent } from 'react';
 
 import { useTheme } from '@emotion/react';
 
-import { useBlockGroupsAtom } from '@hooks/useBlockGroupsAtom';
+import { TaskHistoryInterface, TaskTypeEnum } from '@models/index';
+
+import { useBlockBeforeSnapshot, useBlockGroupsAtom, useTemplateTaskHistories } from '@hooks/index';
 
 import { DEFAULT_NONE } from '@utils/index';
 
@@ -19,19 +21,32 @@ import { TemplatedInputWithTitlePresenter } from './TemplatedInputWithTitlePrese
 
 /* eslint-disable no-console */
 export function ActivedBlockPositionSizeModifier() {
-  const { activedBlockGroup, setPositionStyle, setSizeStyle } = useBlockGroupsAtom();
+  const { activedBlockGroup, setPositionStyle, setSizeStyle, setRemovableByBackspace } =
+    useBlockGroupsAtom();
+
+  const { blockBeforeSnapshot, setBlockBeforeSnapshot, initializeBlockBeforeSnapshot } =
+    useBlockBeforeSnapshot();
+
+  const { addTask } = useTemplateTaskHistories();
 
   const theme = useTheme();
 
   if (activedBlockGroup === null || activedBlockGroup.type !== 'block') return <div></div>;
+
+  const onFocusInput = () => {
+    setRemovableByBackspace(false);
+    setBlockBeforeSnapshot(() => activedBlockGroup);
+  };
 
   const onInputPosition = (e: FormEvent, key: keyof Position) => {
     if (
       activedBlockGroup === null ||
       activedBlockGroup.type !== 'block' ||
       activedBlockGroup.id === null
-    )
+    ) {
       return;
+    }
+
     setPositionStyle({
       type: 'block',
       id: activedBlockGroup.id,
@@ -47,8 +62,9 @@ export function ActivedBlockPositionSizeModifier() {
       activedBlockGroup === null ||
       activedBlockGroup.type !== 'block' ||
       activedBlockGroup.id === null
-    )
+    ) {
       return;
+    }
 
     setSizeStyle({
       type: 'block',
@@ -58,6 +74,74 @@ export function ActivedBlockPositionSizeModifier() {
         [key]: (e.target as HTMLInputElement).value,
       },
     });
+  };
+
+  const onBlurPosition = (e: FormEvent, key: keyof Position) => {
+    if (
+      activedBlockGroup === null ||
+      activedBlockGroup.type !== 'block' ||
+      activedBlockGroup.id === null
+    ) {
+      return;
+    }
+
+    const nowTask = {
+      taskType: TaskTypeEnum.update,
+      before: blockBeforeSnapshot,
+      after: {
+        ...activedBlockGroup,
+        style: {
+          ...activedBlockGroup.style,
+          position: {
+            ...activedBlockGroup.style.position,
+            [key]: (e.target as HTMLInputElement).value,
+          },
+        },
+      },
+    };
+
+    if (activedBlockGroup.subType !== 'text') {
+      addTask(nowTask as TaskHistoryInterface);
+    } else {
+      addTask(nowTask as TaskHistoryInterface);
+    }
+
+    setRemovableByBackspace(true);
+    initializeBlockBeforeSnapshot();
+  };
+
+  const onBlurSize = (e: FormEvent, key: keyof GroupBlockSize) => {
+    if (
+      activedBlockGroup === null ||
+      activedBlockGroup.type !== 'block' ||
+      activedBlockGroup.id === null
+    ) {
+      return;
+    }
+
+    const nowTask = {
+      taskType: TaskTypeEnum.update,
+      before: blockBeforeSnapshot,
+      after: {
+        ...activedBlockGroup,
+        style: {
+          ...activedBlockGroup.style,
+          size: {
+            ...activedBlockGroup.style.size,
+            [key]: (e.target as HTMLInputElement).value,
+          },
+        },
+      },
+    };
+
+    if (activedBlockGroup.subType !== 'text') {
+      addTask(nowTask as TaskHistoryInterface);
+    } else {
+      addTask(nowTask as TaskHistoryInterface);
+    }
+
+    setRemovableByBackspace(true);
+    initializeBlockBeforeSnapshot();
   };
 
   return (
@@ -80,6 +164,8 @@ export function ActivedBlockPositionSizeModifier() {
             placeholder="입력"
             value={activedBlockGroup?.style?.position.top ?? DEFAULT_NONE}
             onChange={(e) => onInputPosition(e, 'top')}
+            onFocus={onFocusInput}
+            onBlur={(e) => onBlurPosition(e, 'top')}
           />
 
           <TemplatedInputWithTitlePresenter
@@ -88,6 +174,8 @@ export function ActivedBlockPositionSizeModifier() {
             placeholder="입력"
             value={activedBlockGroup?.style?.position.left ?? DEFAULT_NONE}
             onChange={(e) => onInputPosition(e, 'left')}
+            onFocus={onFocusInput}
+            onBlur={(e) => onBlurPosition(e, 'left')}
           />
         </DefaultHStack>
 
@@ -98,6 +186,8 @@ export function ActivedBlockPositionSizeModifier() {
             placeholder="입력"
             value={activedBlockGroup?.style?.size.width ?? DEFAULT_NONE}
             onChange={(e) => onInputSize(e, 'width')}
+            onFocus={onFocusInput}
+            onBlur={(e) => onBlurSize(e, 'width')}
           />
 
           <TemplatedInputWithTitlePresenter
@@ -106,6 +196,8 @@ export function ActivedBlockPositionSizeModifier() {
             placeholder="입력"
             value={activedBlockGroup?.style?.size.height ?? DEFAULT_NONE}
             onChange={(e) => onInputSize(e, 'height')}
+            onFocus={onFocusInput}
+            onBlur={(e) => onBlurSize(e, 'height')}
           />
         </DefaultHStack>
       </DefaultVStack>

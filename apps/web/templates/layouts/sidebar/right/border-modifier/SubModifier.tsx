@@ -1,6 +1,14 @@
 import React from 'react';
 
-import { useBorderMatrix, useBorderModifier } from '@hooks/index';
+import { TaskTypeEnum } from '@models/index';
+
+import {
+  useBlockBeforeSnapshot,
+  useBlockGroupsAtom,
+  useBorderMatrix,
+  useBorderModifier,
+  useTemplateTaskHistories,
+} from '@hooks/index';
 
 import { DefaultHStack, DefaultVStack, EdgeDirectionsConstants } from 'ui';
 
@@ -23,7 +31,32 @@ export function BorderSubModifierFactory() {
 }
 
 function BorderRadiusInput() {
+  const { activedBlockGroup, setRemovableByBackspace } = useBlockGroupsAtom();
   const { activeSectionBorderRadius, setBorderRadiusMiddleWare } = useBorderModifier();
+
+  const { blockBeforeSnapshot, setBlockBeforeSnapshot, initializeBlockBeforeSnapshot } =
+    useBlockBeforeSnapshot();
+  const { addTask } = useTemplateTaskHistories();
+
+  const onFocusInput = () => {
+    if (activedBlockGroup === null || activedBlockGroup.type === 'group') return;
+    setBlockBeforeSnapshot(activedBlockGroup);
+    setRemovableByBackspace(false);
+  };
+
+  const onBlurInput = () => {
+    if (activedBlockGroup === null || activedBlockGroup.type === 'group') return;
+
+    addTask({
+      taskType: TaskTypeEnum.update,
+      before: blockBeforeSnapshot,
+      after: activedBlockGroup,
+    });
+
+    setRemovableByBackspace(true);
+    initializeBlockBeforeSnapshot();
+  };
+
   return (
     <DefaultVStack spacing={2} paddingTop="4px">
       <DefaultHStack spacing={2}>
@@ -34,6 +67,8 @@ function BorderRadiusInput() {
           placeholder="입력"
           value={activeSectionBorderRadius()}
           onChange={setBorderRadiusMiddleWare}
+          onFocus={onFocusInput}
+          onBlur={onBlurInput}
         />
       </DefaultHStack>
     </DefaultVStack>
@@ -45,6 +80,30 @@ export function EdgeModifier() {
 }
 
 export function LineModifier() {
+  const { activedBlockGroup, setRemovableByBackspace } = useBlockGroupsAtom();
+  const { blockBeforeSnapshot, setBlockBeforeSnapshot, initializeBlockBeforeSnapshot } =
+    useBlockBeforeSnapshot();
+  const { addTask } = useTemplateTaskHistories();
+
+  const onFocusInput = () => {
+    if (activedBlockGroup === null || activedBlockGroup.type === 'group') return;
+    setBlockBeforeSnapshot(activedBlockGroup);
+    setRemovableByBackspace(false);
+  };
+
+  const onBlurInput = () => {
+    if (activedBlockGroup === null || activedBlockGroup.type === 'group') return;
+
+    addTask({
+      taskType: TaskTypeEnum.update,
+      before: blockBeforeSnapshot,
+      after: activedBlockGroup,
+    });
+
+    setRemovableByBackspace(true);
+    initializeBlockBeforeSnapshot();
+  };
+
   const {
     activeSectionBorderColor,
     activeSectionBorderOpacity,
@@ -63,6 +122,8 @@ export function LineModifier() {
           placeholder="입력"
           value={activeSectionBorderWidth()}
           onChange={(e) => setBorderMiddleware(e, 'width')}
+          onFocus={onFocusInput}
+          onBlur={onBlurInput}
         />
 
         <BorderRadiusInput />
@@ -74,6 +135,8 @@ export function LineModifier() {
           placeholder="입력"
           value={activeSectionBorderStyle()}
           onChange={(e) => setBorderMiddleware(e, 'style')}
+          onFocus={onFocusInput}
+          onBlur={onBlurInput}
         />
       </DefaultHStack>
 
@@ -84,6 +147,8 @@ export function LineModifier() {
           title="색상"
           value={activeSectionBorderColor()}
           onChange={(e) => setBorderMiddleware(e, 'color')}
+          onFocus={onFocusInput}
+          onBlur={onBlurInput}
         />
 
         <TemplatedInputWithTitlePresenter
@@ -93,6 +158,8 @@ export function LineModifier() {
           placeholder="입력"
           value={activeSectionBorderColor()}
           onChange={(e) => setBorderMiddleware(e, 'color')}
+          onFocus={onFocusInput}
+          onBlur={onBlurInput}
         />
 
         <TemplatedInputWithTitlePresenter
@@ -102,6 +169,8 @@ export function LineModifier() {
           placeholder="입력"
           value={activeSectionBorderOpacity()}
           onChange={(e) => setBorderMiddleware(e, 'opacity')}
+          onFocus={onFocusInput}
+          onBlur={onBlurInput}
         />
       </DefaultHStack>
     </DefaultVStack>
