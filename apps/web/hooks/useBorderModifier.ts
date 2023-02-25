@@ -1,9 +1,14 @@
 import { FormEvent } from 'react';
 
-import { Border, DirectionsConstants, EdgeDirectionsConstants } from 'ui';
+import { useBlockGroupsAtom } from '@hooks/useBlockGroupsAtom';
 
-import { useBlockGroupsAtom } from './useBlockGroupsAtom';
-import { useBorderMatrix } from './useBorderMatrix';
+/**
+ * @package
+ * import/no-cycle eslint error을 피하기 위해 사용했다.
+ */
+import { useBorderMatrix } from '@hooks/useBorderMatrix';
+
+import { Border, DirectionsConstants, EdgeDirectionsConstants } from 'ui';
 
 export const useBorderModifier = () => {
   const { blockBorderState } = useBorderMatrix();

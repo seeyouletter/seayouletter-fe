@@ -9,6 +9,7 @@ export { useBlockGroupsAtom } from './useBlockGroupsAtom';
 export { useBorderMatrix } from './useBorderMatrix';
 export { useBorderModifier } from './useBorderModifier';
 export { useBlockGroupMove } from './useBlockGroupMove';
+export { useBlockBeforeSnapshot } from './useBlockBeforeSnapshot';
 
 export { useTemplateTaskHistories } from './useTemplateTaskHistories';
 

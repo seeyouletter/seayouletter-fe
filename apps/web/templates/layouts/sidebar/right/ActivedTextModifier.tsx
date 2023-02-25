@@ -1,7 +1,10 @@
+import { TaskTypeEnum } from 'types';
+
 import React from 'react';
 
 import { useTheme } from '@emotion/react';
 
+import { useBlockBeforeSnapshot, useTemplateTaskHistories } from '@hooks/index';
 import { useBlockGroupsAtom } from '@hooks/useBlockGroupsAtom';
 
 import { DefaultDivider, DefaultHStack, DefaultVStack, StrongText } from 'ui';
@@ -22,8 +25,36 @@ export function ActivedTextModifier() {
     setTextStrokeColor,
     setTextFontFamily,
     setTextFontStyle,
+    setRemovableByBackspace,
   } = useBlockGroupsAtom();
 
+  const { blockBeforeSnapshot, setBlockBeforeSnapshot, initializeBlockBeforeSnapshot } =
+    useBlockBeforeSnapshot();
+
+  const onFocusInput = () => {
+    if (activedBlockGroup === null || activedBlockGroup.type === 'group') return;
+
+    setRemovableByBackspace(false);
+    setBlockBeforeSnapshot(activedBlockGroup);
+  };
+
+  const { addTask } = useTemplateTaskHistories();
+
+  const onBlurInput = () => {
+    addTask({
+      taskType: TaskTypeEnum.update,
+      before: blockBeforeSnapshot,
+      after: activedBlockGroup,
+    });
+
+    initializeBlockBeforeSnapshot();
+    setRemovableByBackspace(true);
+  };
+
+  /**
+   * @returns
+   * 사실 의미 없기는 하다. 이를 불러오는 부모 컴포넌트에서, activedBlockGroup이 있어야 나오기 때문이다.
+   */
   if (activedBlockGroup === null || activedBlockGroup.subType !== 'text') return <div></div>;
 
   return (
@@ -47,6 +78,8 @@ export function ActivedTextModifier() {
                   value: (e.target as HTMLInputElement).value,
                 });
               }}
+              onFocus={onFocusInput}
+              onBlur={onBlurInput}
             />
 
             <TemplatedInputWithTitlePresenter
@@ -61,6 +94,8 @@ export function ActivedTextModifier() {
                   value: (e.target as HTMLInputElement).value,
                 });
               }}
+              onFocus={onFocusInput}
+              onBlur={onBlurInput}
             />
           </DefaultHStack>
 
@@ -77,6 +112,8 @@ export function ActivedTextModifier() {
                   value: (e.target as HTMLInputElement).value,
                 });
               }}
+              onFocus={onFocusInput}
+              onBlur={onBlurInput}
             />
 
             <TemplatedInputWithTitlePresenter
@@ -91,6 +128,8 @@ export function ActivedTextModifier() {
                   value: (e.target as HTMLInputElement).value,
                 });
               }}
+              onFocus={onFocusInput}
+              onBlur={onBlurInput}
             />
           </DefaultHStack>
 
@@ -107,6 +146,8 @@ export function ActivedTextModifier() {
                   value: (e.target as HTMLInputElement).value,
                 });
               }}
+              onFocus={onFocusInput}
+              onBlur={onBlurInput}
             />
 
             <TemplatedInputWithTitlePresenter
@@ -121,6 +162,8 @@ export function ActivedTextModifier() {
                   value: (e.target as HTMLInputElement).value,
                 });
               }}
+              onFocus={onFocusInput}
+              onBlur={onBlurInput}
             />
           </DefaultHStack>
 
@@ -137,6 +180,8 @@ export function ActivedTextModifier() {
                   value: (e.target as HTMLInputElement).value,
                 });
               }}
+              onFocus={onFocusInput}
+              onBlur={onBlurInput}
             />
 
             <TemplatedInputWithTitlePresenter
@@ -151,6 +196,8 @@ export function ActivedTextModifier() {
                   value: (e.target as HTMLInputElement).value,
                 });
               }}
+              onFocus={onFocusInput}
+              onBlur={onBlurInput}
             />
           </DefaultHStack>
 
@@ -168,6 +215,8 @@ export function ActivedTextModifier() {
                   value: (e.target as HTMLInputElement).value,
                 });
               }}
+              onFocus={onFocusInput}
+              onBlur={onBlurInput}
             />
           </DefaultHStack>
         </DefaultVStack>
