@@ -1,3 +1,5 @@
+import { QueryClient, QueryClientProvider } from 'react-query';
+
 import { NextPage } from 'next';
 import { AppProps } from 'next/app';
 
@@ -13,11 +15,14 @@ export type AppPropsWithLayout = AppProps & {
 
 function MyApp({ Component, pageProps }: AppPropsWithLayout) {
   const getLayout = Component.getLayout ?? ((page) => page);
+  const queryClient = new QueryClient();
 
   return (
-    <CustomThemeProvider>
-      {getLayout(<Component key={Component.prototype.constructor.name} {...pageProps} />)}
-    </CustomThemeProvider>
+    <QueryClientProvider client={queryClient}>
+      <CustomThemeProvider>
+        {getLayout(<Component key={Component.prototype.constructor.name} {...pageProps} />)}
+      </CustomThemeProvider>
+    </QueryClientProvider>
   );
 }
 

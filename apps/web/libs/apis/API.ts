@@ -122,4 +122,4 @@ export class API implements APIInterface {
   }
 }
 
-export const request = new API({ instance: 'base' });
+export const baseRequest = new API({ instance: 'base' });
