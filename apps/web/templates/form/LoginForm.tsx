@@ -113,7 +113,7 @@ export function LoginForm({ ...props }: FormPropsInterface) {
 
   const onSubmit = async () => {
     try {
-      await login();
+      await login({ username: formState.id, password: formState.pw });
       router.push('/');
     } catch (e) {
       setErrors((state) => ({
