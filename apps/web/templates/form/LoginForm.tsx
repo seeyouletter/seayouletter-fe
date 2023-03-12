@@ -13,7 +13,7 @@ import { useForm } from '@common-hooks/useForm';
 
 import { ValidateReturnType, emailSchema, validate } from '@utils/index';
 
-import { login } from '@apis/login';
+import { login, loginKakao, loginNaver } from '@apis/login';
 
 import {
   DefaultButtonPropsInterface,
@@ -97,10 +97,12 @@ export function LoginForm({ ...props }: FormPropsInterface) {
     updateFormState(type, value);
   };
 
-  const onClickKakao = () => {
-    // TODO: 아직 명세가 확정되지 않았다. 추후 3rd party 인증 API가 추가되면 적용한다.
-    /* eslint-disable-next-line */
-    console.log('추후 3rd party 인증 API가 추가되면 적용한다.');
+  const onClickKakao = async () => {
+    await loginKakao();
+  };
+
+  const onClickNaver = async () => {
+    await loginNaver();
   };
 
   const [errors, setErrors] = useState<{
@@ -200,7 +202,7 @@ export function LoginForm({ ...props }: FormPropsInterface) {
 
       <DefaultHStack spacing={4} justify="center">
         <Kakao onClick={onClickKakao} />
-        <Naver onClick={() => router.push('/')} />
+        <Naver onClick={onClickNaver} />
       </DefaultHStack>
     </Form>
   );

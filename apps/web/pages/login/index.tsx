@@ -22,7 +22,7 @@ const StyledPage = styled.section`
 export default function LoginPage() {
   return (
     <StyledPage data-testid="page">
-      <DefaultVStack css={loginTextFormContainerCSS} justifyContent="center">
+      <DefaultVStack css={loginTextFormContainerCSS} justifyContent="center" minHeight="600px">
         <IconHeaderText
           level="h5"
           Icon={<Logo size={'32px'} />}

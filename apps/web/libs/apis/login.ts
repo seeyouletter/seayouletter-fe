@@ -11,7 +11,20 @@ export const login = async ({ username, password }: LoginParamsInterface) => {
       username,
       password,
     },
+    withCredentials: true,
   });
+
+  return res;
+};
+
+export const loginKakao = async () => {
+  const res = await baseRequest.get('/oauth2/authorization/kakao');
+
+  return res;
+};
+
+export const loginNaver = async () => {
+  const res = await baseRequest.get('/oauth2/authorization/kakao');
 
   return res;
 };
