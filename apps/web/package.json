@@ -53,5 +53,8 @@
   },
   "peerDependencies": {
     "eslint": "^8.29.0"
+  },
+  "msw": {
+    "workerDirectory": "public"
   }
 }
