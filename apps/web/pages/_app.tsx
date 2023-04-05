@@ -1,3 +1,5 @@
+import 'mocks/index.cjs';
+
 import { QueryClient, QueryClientProvider } from 'react-query';
 
 import { NextPage } from 'next';
