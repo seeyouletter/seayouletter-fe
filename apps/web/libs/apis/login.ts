@@ -7,7 +7,7 @@ interface LoginParamsInterface {
 
 export const login = async ({ username, password }: LoginParamsInterface) => {
   const res = await baseRequest.post('/login', {
-    params: {
+    data: {
       username,
       password,
     },
